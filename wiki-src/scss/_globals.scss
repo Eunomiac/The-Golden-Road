@@ -31,10 +31,10 @@
   // min-width: calc(var(--dotline-size) * 7 + var(--dotline-gap) * 4); // Commented out to allow shrinking
   --dotline-size: 1rem;
   --dotline-gap: 0;
-  --dotline-dot-full: url("../../assets/images/dots/dot-full.webp");
-  --dotline-dot-empty: url("../../assets/images/dots/dot-empty.webp");
-  --dotline-dot-bonus: url("../../assets/images/dots/dot-bonus.webp");
-  --dotline-dot-broken: url("../../assets/images/dots/dot-broken.webp");
+  --dotline-dot-full: url("../assets/images/dots/dot-full.webp");
+  --dotline-dot-empty: url("../assets/images/dots/dot-empty.webp");
+  --dotline-dot-bonus: url("../assets/images/dots/dot-bonus.webp");
+  --dotline-dot-broken: url("../assets/images/dots/dot-broken.webp");
 
   &.attribute-dotline,
   &.skill-dotline {
