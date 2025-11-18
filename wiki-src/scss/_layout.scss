@@ -4,7 +4,7 @@
 
 .layout {
   overflow: hidden;
-  padding-bottom: 1rem;
+  padding-bottom: 16px;
   display: flex;
   justify-content: center;
   align-items: stretch;
@@ -24,8 +24,8 @@
     .paper-stack {
       position: relative;
       z-index: 2;
-      padding: 0rem 4rem 1.5rem 3rem;
-      // margin: 1rem 0 0 0;
+      padding: 0 64px 24px 48px;
+      // margin: 16px 0 0 0;
       // place-items: start stretch;
       background-image: url("../assets/images/bg-paper-stack.webp");
       background-position: top center;
@@ -51,7 +51,7 @@
 
           // Use gap to create even spacing between items
           // This approximates space-evenly but starts from the first item
-          gap: 1rem; // Adjust this value to control spacing between blocks
+          gap: 16px; // Adjust this value to control spacing between blocks
 
           // First block naturally at top with flex-start
           // Remaining blocks will have equal gap spacing between them
@@ -65,37 +65,37 @@
   .master-navigation {
 
     position: absolute;
-    left: calc(50% + (100vh * 8.5 / 11) / 2 + 2rem);
-    top: 2rem;
-    padding: 0 1.5rem;
+    left: calc(50% + (100vh * 8.5 / 11) / 2 + 32px);
+    top: 32px;
+    padding: 0 24px;
     background: $color-parchment;
     line-height: 1.5;
 
     .nav-header {
       margin: 0;
-      margin-top: 0.5rem;
-      text-indent: -1rem;
+      margin-top: 8px;
+      text-indent: -16px;
 
 
     }
 
     .nav-list {
 
-      $nav-link-font-size: 1rem;
+      $nav-link-font-size: 16px;
 
       &.nav-list-pc {
-        $nav-link-font-size: 1.25rem;
+        $nav-link-font-size: 20px;
       }
 
       padding: 0;
-      margin-top: 0rem;
+      margin-top: 0;
 
       list-style: none;
 
       .nav-item {
-        padding: 0 1rem;
+        padding: 0 16px;
         background: $color-parchment;
-        // margin: 0.25rem 0;
+        // margin: 4px 0;
 
         &.nav-item-current {
           pointer-events: none;
@@ -114,7 +114,7 @@
           font-size: $nav-link-font-size;
           color: $color-ink;
           position: relative;
-          // padding-left: 1.5rem; // Reserve space for current page indicator
+          // padding-left: 24px; // Reserve space for current page indicator
 
           &.nav-link-current {
             color: $color-grey;
@@ -123,7 +123,7 @@
             &::before {
               content: "▶ ";
               position: absolute;
-              left: -1.5rem;
+              left: -24px;
             }
           }
         }

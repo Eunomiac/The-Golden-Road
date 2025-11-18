@@ -8,16 +8,16 @@
   .overview-block {
     display: flex;
     flex-direction: column;
-    margin: 0rem 0rem;
-    padding: 0.5rem;
+    margin: 0 0;
+    padding: 8px;
     background: $color-ink;
 
     .overview-text {
       @include body-text-general;
 
-      font-size: 0.8rem;
+      font-size: 13px;
       color: $color-parchment;
-      letter-spacing: 0.03rem;
+      letter-spacing: 0.5px;
       display: block;
       text-wrap: pretty;
       text-align: justify;
@@ -26,7 +26,7 @@
       strong {
         background: $color-parchment;
         color: $color-ink;
-        padding: 0 0.25rem;
+        padding: 0 4px;
       }
     }
   }

@@ -10,10 +10,10 @@
 @mixin label-specialty($tags:[]) {
   @include caption-text-uppercase;
   // @include body-text-all-caps();
-  // font-size: 0.75rem;
+  // font-size: 12px;
   // color: $color-ink;
   white-space: nowrap;
-  // margin-top: -0.15rem;
+  // margin-top: -2.5px;
 
   &:first-of-type::before {
     display: inline-block;
@@ -34,7 +34,7 @@
   @if (list.index($tags, "interdisciplinary") != null) {
     // "Interdisciplinary" chosen
     background: color.adjust($color-ink, $alpha: -0.75);
-    padding: 0 0.1rem 0 0.25rem;
+    padding: 0 1.5px 0 4px;
 
     $contentTags: list.append($contentTags, "⁂");
   }
@@ -68,7 +68,7 @@
 @mixin label-skill($value: null, $tags:[]) {
 
   &, & + .dotline {
-    // font-size: 0.9rem;
+    // font-size: 14px;
   @if ($value == 0) {
     --opacity: 0.3;
     // font-size: 0.75em;
@@ -87,9 +87,9 @@
     // font-weight: bold;
     @include body-text-all-caps();
     // text-shadow:
-      // 0 0 0.015rem rgba(0, 0, 0, 1),
-      // 0 0 0.015rem rgba(0, 0, 0, 1),
-      // 0 0 0.015rem rgba(0, 0, 0, 1);
+      // 0 0 0.25px rgba(0, 0, 0, 1),
+      // 0 0 0.25px rgba(0, 0, 0, 1),
+      // 0 0 0.25px rgba(0, 0, 0, 1);
     // letter-spacing: 0em;
 
     &::before {
@@ -101,16 +101,16 @@
       filter: invert(1);
 
       &.stat-label {
-        // padding-left: 0.25rem;
-        padding-right: 0.25rem;
-        margin-left: 0.25rem;
-        margin-right: 0.25rem;;
+        // padding-left: 4px;
+        padding-right: 4px;
+        margin-left: 4px;
+        margin-right: 4px;;
       }
       & + .dotline {
-        padding-right: 0.25rem;
-        margin-left: -0.25rem;
-        padding-left: 0.25rem;
-        min-width: calc(var(--dotline-size) * 5 + var(--dotline-gap) * 4 + 0.5rem);
+        padding-right: 4px;
+        margin-left: -4px;
+        padding-left: 4px;
+        min-width: calc(var(--dotline-size) * 5 + var(--dotline-gap) * 4 + 8px);
       }
     }
 
@@ -135,18 +135,18 @@
       &.stat-label::before {
         display: inline-block;
         content: $beforeContent;
-        margin: 0rem -0.25rem 0 0.25rem;
-        // font-size: 0.75rem;
-        // line-height: 0.75rem;
-        height: 0.75rem;
-        width: 0.75rem;
+        margin: 0 -4px 0 4px;
+        // font-size: 12px;
+        // line-height: 12px;
+        height: 12px;
+        width: 12px;
         text-align: left;
         vertical-align: middle;
         filter: brightness(0);
         // border: 1px solid black;
         box-sizing: border-box;
         transform-origin: center center;
-        // text-indent: -0.125rem;
+        // text-indent: -2px;
 
         // Opacity controlled by GSAP via CSS custom property
         opacity: var(--icon-opacity, 1);
@@ -158,10 +158,10 @@
 }
 }
 
-@mixin stat-row($gap: 0.3rem) {
+@mixin stat-row($gap: 5px) {
   display: grid;
   grid-template-columns: 1fr auto; // Use 1fr for second column to allow shrinking
-  gap: $gap 0.5rem;
+  gap: $gap 8px;
   white-space: nowrap;
   min-width: 0; // Allow grid to shrink below content size
   max-width: 100%; // Prevent expansion beyond container
@@ -194,7 +194,7 @@
 
       // &.asset-tag { @include label-skill(null, ["asset"]); }
       @include label-skill(2);
-      // // font-size: 0.9rem;
+      // // font-size: 14px;
       &.stat-row-0 { @include label-skill(0); }
       // &.stat-row-1 { @include label-skill(1); }
       // &.stat-row-2 { @include label-skill(2); }
@@ -224,7 +224,7 @@
     // GSAP will animate this value, which controls ::before opacity
     --icon-opacity: 0.6;
     --icon-scale: 1;
-    --shadow-blur: 0rem;
+    --shadow-blur: 0;
     --shadow-alpha: 1;
 
     max-height: 14px;
@@ -243,7 +243,7 @@
     gap: var(--dotline-gap);
     // font-size: 0;
     // min-width: calc(var(--dotline-size) * 7 + var(--dotline-gap) * 4); // Commented out to allow shrinking
-    --dotline-size: 1rem;
+    --dotline-size: 16px;
     --dotline-gap: 0;
     --dotline-dot-full: url("../assets/images/dots/dot-full.webp");
     --dotline-dot-empty: url("../assets/images/dots/dot-empty.webp");
@@ -252,8 +252,8 @@
 
     &.attribute-dotline,
     &.skill-dotline {
-      --dotline-size: 0.75rem;
-      --dotline-gap: 0.05rem;
+      --dotline-size: 12px;
+      --dotline-gap: 0.75px;
     }
 
     .dot {
@@ -290,7 +290,7 @@
       }
 
       &:nth-child(5n) {
-        margin-right: calc(var(--dotline-size) * 2 + 0.15rem);
+        margin-right: calc(var(--dotline-size) * 2 + 2.5px);
       }
       &:nth-child(6n) {
         margin-left: calc(-1 * (var(--dotline-size) * 2));
@@ -301,7 +301,7 @@
   .skill-specs {
     // span two grid cells horizontally
     grid-column: span 2;
-    margin-top: -0.25rem;
+    margin-top: -4px;
     display: flex;
     flex-wrap: nowrap;
     justify-content: center;

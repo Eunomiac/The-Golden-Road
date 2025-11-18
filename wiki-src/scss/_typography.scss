@@ -39,27 +39,27 @@ $font-body-condensed: "Typewriter Condensed", serif;
 %body-text-uppercase {
   @extend %body-text-general;
   text-transform: uppercase;
-  letter-spacing: 0.035rem;
+  letter-spacing: 0.5px;
 }
 
 // Mixin version for use in other mixins
 @mixin body-text-uppercase {
   @include body-text-general;
   text-transform: uppercase;
-  letter-spacing: 0.035rem;
+  letter-spacing: 0.5px;
 }
 
 %body-text-small-caps {
   @extend %body-text-general;
   font-variant: small-caps;
-  letter-spacing: 0.035rem;
+  letter-spacing: 0.5px;
 }
 
 // Mixin version for use in other mixins (avoids @extend issues with @use)
 @mixin body-text-small-caps {
   @include body-text-general;
   font-variant: small-caps;
-  letter-spacing: 0.035rem;
+  letter-spacing: 0.5px;
 }
 
 .body-text-light {
@@ -79,31 +79,31 @@ $font-body-condensed: "Typewriter Condensed", serif;
 
 %caption-text-general {
   @extend %body-text-general;
-  font-size: 0.65rem;
+  font-size: 10px;
 }
 
 // Mixin version for use in other mixins
 @mixin caption-text-general {
   @include body-text-general;
-  font-size: 0.65rem;
+  font-size: 10px;
 }
 
 %caption-text-uppercase {
   @extend %caption-text-general;
   text-transform: uppercase;
-  letter-spacing: 0.035rem;
+  letter-spacing: 0.5px;
 }
 
 // Mixin version for use in other mixins
 @mixin caption-text-uppercase {
   @include caption-text-general;
   text-transform: uppercase;
-  letter-spacing: 0.035rem;
+  letter-spacing: 0.5px;
 }
 
 .header-text-general {
   @extend %body-text-general;
-  font-size: 1.5rem;
+  font-size: 24px;
   font-family: $font-heading;
   // font-weight: 1000;
 }
@@ -111,34 +111,34 @@ $font-body-condensed: "Typewriter Condensed", serif;
 // Mixin version for use in other mixins and across module boundaries
 @mixin header-text-general {
   @include body-text-general;
-  font-size: 1.5rem;
+  font-size: 24px;
   font-family: $font-heading;
 }
 
 .header-text-title {
   @extend .header-text-general;
-  font-size: 3rem;
+  font-size: 48px;
 }
 
 // Mixin version for use in other mixins and across module boundaries
 @mixin header-text-title {
   @include header-text-general;
-  font-size: 3rem;
+  font-size: 48px;
 }
 
 
 .form-label {
   @extend .header-text-general;
   flex: 0 0 min-content;
-  min-height: 1.75rem;
-  height: 1.75rem;
-  line-height: 1.75rem;
+  min-height: 28px;
+  height: 28px;
+  line-height: 28px;
   display: inline-block;
-  margin: 0.25rem 0.5rem 0.25rem 0;
+  margin: 4px 8px 4px 0;
 
   &.form-label-title {
-    font-size: 3rem;
-    margin-top: 1rem;
+    font-size: 48px;
+    margin-top: 16px;
   }
 }
 
@@ -146,20 +146,20 @@ $font-body-condensed: "Typewriter Condensed", serif;
 @mixin form-label {
   @include header-text-general;
   flex: 0 0 min-content;
-  min-height: 1.75rem;
-  height: 1.75rem;
-  line-height: 1.75rem;
+  min-height: 28px;
+  height: 28px;
+  line-height: 28px;
   display: inline-block;
-  margin: 0.25rem 0.5rem 0.25rem 0;
+  margin: 4px 8px 4px 0;
 }
 
 .form-field {
   // border: 2px solid $color-ink;
   background: rgba(0, 0, 0, 0.15);
-  min-height: 1.75rem;
-  line-height: 1.75rem;
-  font-size: 1.5rem;
-  text-indent: 0.25rem;
+  min-height: 28px;
+  line-height: 28px;
+  font-size: 24px;
+  text-indent: 4px;
   font-family: $font-marker;
   // letter-spacing: 0;
 }

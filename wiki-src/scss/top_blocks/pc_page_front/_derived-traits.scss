@@ -8,7 +8,7 @@
   .derived-traits-block {
     display: flex;
     flex-direction: row;
-    gap: 1rem;
+    gap: 16px;
     width: 100%;
     min-width: 0; // Allow flex container to shrink below content size
     max-width: 100%; // Prevent expansion beyond container
@@ -16,7 +16,7 @@
     margin: 0;
 
     > .sub-block {
-      @include stat-row(0rem);
+      @include stat-row(0);
       min-width: 0; // Allow flex items to shrink
 
       .stat-label {
@@ -41,7 +41,7 @@
       }
 
       > .dotline {
-          --dotline-size: 1.5rem;
+          --dotline-size: 24px;
           justify-content: center;
           width: min-content;
           place-self: center;
@@ -78,11 +78,11 @@
         .form-field {
           display: block;
           aspect-ratio: 1 / 1;
-          font-size: 1.25rem;
-          height: 1.75rem;
-          width: 1.75rem;
+          font-size: 20px;
+          height: 28px;
+          width: 28px;
           text-align: center;
-          text-indent: 0rem;
+          text-indent: 0;
         }
 
       }

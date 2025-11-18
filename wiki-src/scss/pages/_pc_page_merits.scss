@@ -2,7 +2,7 @@
 @use "../_typography" as *;
 
 .page.pc-page[name='merits'] {
-  padding-top: 1rem;
+  padding-top: 16px;
 
   .top-block.merits-block {
     overflow: hidden;
@@ -16,46 +16,46 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
-          gap: 0.5rem;
+          gap: 8px;
 
           background: url("../assets/images/backgrounds/red-header.webp") no-repeat center center;
           background-size: 100% 100%;
-          font-size: 1.15rem;
-          line-height: 1.25rem;
+          font-size: 18px;
+          line-height: 20px;
           font-family: $font-tab;
           text-transform: uppercase;
           color: $color-parchment;
-          padding: 0.25rem 1.5rem;
-          margin: 0.5rem 0rem 0.25rem 0rem;
-          border-radius: 0rem;
+          padding: 4px 24px;
+          margin: 8px 0 4px 0;
+          border-radius: 0;
 
           .merit-value.dotline {
 
             min-width: unset;
             flex-basis: unset;
-            gap: 0.05rem;
+            gap: 0.75px;
 
             .dot {
-              min-width: 1rem;
-              min-height: 1rem;
+              min-width: 16px;
+              min-height: 16px;
               filter: invert(1);
               margin: 0;
             }
 
             // display: flex;
-            // gap: 0.25rem;
+            // gap: 4px;
           }
         }
 
         .merit-narrative {
           @include body-text-general;
 
-          font-size: 0.8rem;
+          font-size: 13px;
           background: $color-ink;
-          padding: 0.5rem;
-          margin: 0 1.5rem;
+          padding: 8px;
+          margin: 0 24px;
           color: $color-parchment;
-          letter-spacing: 0.03rem;
+          letter-spacing: 0.5px;
           display: block;
           text-wrap: pretty;
           text-align: justify;
@@ -66,7 +66,7 @@
           strong {
             background: $color-parchment;
             color: $color-ink;
-            padding: 0 0.25rem;
+            padding: 0 4px;
           }
         }
       }
@@ -85,15 +85,15 @@
 
         .merit-effect,
         .merit-drawback {
-          margin: 0.5rem 0rem;
+          margin: 8px 0;
 
           .sub-block {
-            margin: 0.5rem 1rem 0.5rem 1rem;
-            font-size: 0.8rem;
+            margin: 8px 16px 8px 16px;
+            font-size: 13px;
             text-wrap: pretty;
             text-align: justify;
             background: rgba(0, 0, 0, 0.1);
-            padding: 0.5rem;
+            padding: 8px;
 
             h3, h4 {
               margin: 0;
@@ -116,13 +116,13 @@
             }
 
             .source-citation {
-              margin-left: 0.5rem;
+              margin-left: 8px;
             }
           }
         }
 
         .merit-drawback {
-          // margin-left: 1rem;
+          // margin-left: 16px;
 
           em {
             font-weight: bold;
@@ -131,7 +131,7 @@
 
         .merit-levels {
           .merit-level {
-            margin: 0.5rem 0rem;
+            margin: 8px 0;
           }
 
           .merit-level-drawback {
@@ -142,14 +142,14 @@
         }
 
         .merit-source {
-          margin-top: -0.5rem;
+          margin-top: -8px;
           text-align: right;
         }
       }
 
       &.sub-merit {
-        margin-left: 2rem;
-        width: calc(100% - 2rem);
+        margin-left: 32px;
+        width: calc(100% - 32px);
 
         .merit-header {
           .merit-name-row {

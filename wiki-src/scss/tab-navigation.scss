@@ -36,7 +36,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  padding: 1rem 0 0 0; // Top padding to align with paper content
+  padding: 16px 0 0 0; // Top padding to align with paper content
   margin: 0;
   pointer-events: none; // Allow clicks to pass through to tabs
 
@@ -62,8 +62,8 @@
       text-orientation: mixed;
       transform: rotate(180deg);
       white-space: nowrap;
-      padding: 0.75rem 0.25rem 0.75rem 1.25rem;
-      font-size: 1rem;
+      padding: 12px 4px 12px 20px;
+      font-size: 16px;
       font-family: $font-tab;
       text-transform: uppercase;
       font-weight: normal;
@@ -122,7 +122,7 @@
 
     // Spacing between tabs
     & + .tab-button {
-      margin-top: 0.5rem;
+      margin-top: 8px;
     }
   }
 }
@@ -132,7 +132,7 @@
 .paper-stack {
   position: relative;
   // Keep original padding but tabs will overlap from the left
-  padding-left: 3rem;
+  padding-left: 48px;
   pointer-events: none;
 }
 

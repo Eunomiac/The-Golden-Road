@@ -75,10 +75,10 @@ function initStatLabelAnimations(): void {
     effect: (targets: Element[], config: { index: number}) => {
       return gsap.timeline({repeat: -1, yoyo: false, delay: config.index * staggerDelay})
       .fromTo(targets, {
-        "--shadow-blur": "0rem",
+        "--shadow-blur": "0",
         "--shadow-alpha": 1
       }, {
-        "--shadow-blur": "0.75rem",
+        "--shadow-blur": "12px",
         "--shadow-alpha": 1,
         delay: 0.1 * duration,
         duration: 0.15 * duration,
@@ -90,13 +90,13 @@ function initStatLabelAnimations(): void {
         ease: "power3.out"
       })
       .to(targets, {
-        "--shadow-blur": "0rem",
+        "--shadow-blur": "0",
         "--shadow-alpha": 1,
         duration: 0,
         ease: "none"
       })
       .set(targets, {
-        "--shadow-blur": "0rem",
+        "--shadow-blur": "0",
         "--shadow-alpha": 1
       }, 12 * duration);
     },
