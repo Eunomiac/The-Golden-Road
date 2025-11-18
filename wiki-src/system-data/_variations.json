@@ -1,4 +1,43 @@
 {
+  "carapace": {
+    "key": "carapace",
+    "name": "Carapace",
+    "clade": "universal",
+    "keywords": ["subtle, discrete, perpetual"],
+    "value": {
+      "min": 1,
+      "max": 5
+    },
+    "effect": {
+      "1": "{{NAME}} possesses a defensive shell or protective shield that protects {{him}} from harm. When this Variation is active, {{NAME}} has an armor rating of <strong>{{SWITCH:vars.armorChoice,kevlar,1/3,leathery,2/0}}</strong>.",
+      "2": "{{NAME}} possesses a defensive shell or protective shield that protects {{him}} from harm. When this Variation is active, {{NAME}} has an armor rating of <strong>{{SWITCH:vars.armorChoice,flak,2/4,steel,3/0}}</strong>.",
+      "3": "{{NAME}} possesses a defensive shell or protective shield that protects {{him}} from harm. When this Variation is active, {{NAME}} has an armor rating of <strong>{{SWITCH:vars.armorChoice,flak,{{SWITCH:vars.armorChoiceB,bulletproof,2/6,dense,3/4}},steel,{{SWITCH:vars.armorChoiceB,bulletproof,3/2,dense,4/0}}}}</strong>. Additionally, {{SWITCH:vars.armorChoiceB,bulletproof,{{NAME}} never takes damage from firearms that lack the armor-piercing quality,dense,{{NAME}} doesn't suffer the automatic point of bashing damage if this Variation reduces damage from a source to zero}}.",
+      "4": "{{NAME}} possesses a defensive shell or protective shield that protects {{him}} from harm. When this Variation is active, {{NAME}} has an armor rating of <strong>{{SWITCH:vars.armorChoice,flak,3/6,steel,4/2}}</strong>. Additionally, {{NAME}} never takes damage from firearms that lack the armor-piercing quality, and doesn't suffer the automatic point of bashing damage if this Variation reduces damage from a source to zero.",
+      "5": "{{NAME}} possesses a defensive shell or protective shield that protects {{him}} from harm. When this Variation is active, {{NAME}} has an armor rating of <strong>{{SWITCH:vars.armorChoice,flak,3/6,steel,4/2}}</strong>. Additionally, {{NAME}} never takes damage from firearms that lack the armor-piercing quality; doesn't suffer the automatic point of bashing damage if this Variation reduces damage from a source to zero; and, after applying armor against a source against which armor provides protection, reduce any remaining damage to one (if a source would inflict multiple types of damage (bashing, lethal, or aggravated), it inflicts one point of the worst type of damage."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 115
+    }
+  },
+  "electrokinesis": {
+    "key": "electrokinesis",
+    "name": "Electrokinesis",
+    "clade": "universal",
+    "keywords": ["overt", "direct", "tiered", "toggled"],
+    "value": {
+      "min": 1,
+      "max": 5
+    },
+    "effect": "{{NAME}} has influence over electronics and electricity. While this Variation is active, {{NAME}} can affect objects in range with a Size no greater than the Variation's Magnitude times Scar Power <strong>({{CALC:this.value * scarPower}})</strong>. Additionally:{{OPTIONLIST:vars.options}}",
+    "options": {
+      "conductivity": "{{NAME}} increases or decreases the conductivity of the air surrounding a target. This can shield electronic and non-electronic targets (including people) from electricity and EMPs, reducing electrocution damage by twice Scar Power <strong>({{CALC:2 * scarPower}})</strong>. Alternatively, {{he}} can direct an existing source of electricity at a nearby target, potentially damaging a device (by overloading it or exposing it to a localized EMP) or inflicting damage no greater than twice Scar Power <strong>({{CALC:2 * scarPower}})</strong> (dependent on a viable source within range).",
+      "input": "{{NAME}} can spoof passwords and other access credentials, bypassing local security protocols. This cannot grant network access (including via VPN) unless the server where the target data is stored is also within range, although if the device has passwords to remote servers stored locally (including ones unlocked with a fingerprint or by facial recognition), these still function normally.",
+      "output": "{{NAME}} can alter the output of an electronic device, causing it to display whatever {{he}} wishes, within the device’s limits. {{He}} can alter the images and sound coming from a TV, cause a phone to ring and produce the sound of a voice when answered, or any number of other tasks. Particularly complex feats, such as fabricating a convincing news broadcast out of whole cloth, may demand Scar Finesse rolls and/or relevant Skill rolls to make believable, at the Storyteller’s discretion.",
+      "power": "{{NAME}} can feed or starve an electronic device, powering it on or off even in the absence of a viable power source. This can “hotwire” a device that usually requires a physical component, such as a switch, button, lever, or ignition. If the device controls other devices (such as a control terminal that directs an entire assembly line of robots, or the ignition of a car that is otherwise in operational condition), it is possible to control much larger machinery, as long as the subordinate devices have an existing power source.",
+      "research": "{{NAME}} can rapidly analyze an electronic device to which {{he}} has gained access (or which lacks security), locating any data on it that {{he}} is seeking as long as it is stored on the target device. This reduces the interval of relevant extended actions by a full step — from hours to minutes or from minutes to turns."
+    }
+  },
   "hyper-competence": {
     "key": "hyper-competence",
     "name": "Hyper-Competence",

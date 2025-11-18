@@ -1,0 +1,44 @@
+{
+  "involuntaryStimulus": {
+    "key": "involuntaryStimulus",
+    "type": "any",
+    "keywords": ["any", "subtle", "repeatable"],
+    "value": {
+      "min": 1,
+      "max": 5
+    },
+    "effect": {
+      "1": "All entangled Variations may activate involuntarily <strong>{{vars.stimulus}}</strong>, possibly at highly inconvenient moments for {{NAME}}. For Directed Variations, the Storyteller may offer a Beat to take direction of the Variation for a single turn on which {{NAME}} does not do so (or select its target and effect at random). Once activated, {{NAME}} can deactivate an entangled Variation as an instant action, even if the stimulus persists, but it might reactivate a short while later (turns in action scenes, minutes in other scenes) if the stimulus is still present.{{BR}}{{NAME}} may activate any entangled Variations voluntarily with a successful Scar Finesse roll.",
+      "2": "{{INLINEOPTION:vars.option}}{{BR}}Any Variations activated in this manner are considered Overt for this scene.{{BR}}{{NAME}} may activate any entangled Variations voluntarily with a successful Scar Finesse roll.",
+      "3": "All entangled Variations activate involuntarily <strong>{{vars.stimulus}} unless {{NAME}} makes a successful Scar Resistance roll. If exposure continues, the Storyteller may call for more Scar Resistance rolls — no more often than once per turn in action scenes, once every several minutes in non-action scenes — with a penalty equal to the number of consecutive successful Scar Resistance rolls {{NAME}} has made this scene.{{BR}}Any Variations activated in this manner are considered Overt for this scene.{{BR}}Once the Variations are active, {{NAME}} cannot deactivate them while in the presence of the stimulus. Getting clear of the stimulus often involves an instant action and a roll of some kind, depending on the circumstances.{{BR}}{{NAME}} may activate any entangled Variations voluntarily with a successful Scar Finesse roll."
+    },
+    "deviations": {
+      "rare": {
+        "key": "rare",
+        "name": "Rare",
+        "magMod": -1,
+        "tooltip": "The stimulus is very specific."
+      },
+      "common": {
+        "key": "common",
+        "name": "Common",
+        "magMod": 1,
+        "tooltip": "The stimulus is commonplace."
+      },
+      "uncontrollable": {
+        "key": "uncontrollable",
+        "name": "Uncontrollable",
+        "magMod": 1,
+        "tooltip": "{{NAME}} cannot activate the entangled Variations <em>except</em> involuntarily.",
+        "replace": {
+          "effect": {
+            "1": "All entangled Variations may activate involuntarily <strong>{{vars.stimulus}}</strong>, possibly at highly inconvenient moments for {{NAME}}, and they cannot be activated <em>except</em> involuntarily.{{BR}}For Directed Variations, the Storyteller may offer a Beat to take direction of the Variation for a single turn on which {{NAME}} does not do so (or select its target and effect at random). Once activated, {{NAME}} can deactivate an entangled Variation as an instant action, even if the stimulus persists, but it might reactivate a short while later (turns in action scenes, minutes in other scenes) if the stimulus is still present.",
+            "2": "{{INLINEOPTION:vars.option}}. Entangled Variations may not be activated <em>except</em> involuntarily.{{BR}}Any Variations activated in this manner are considered Overt for this scene.",
+            "3": "All entangled Variations activate involuntarily <strong>{{vars.stimulus}} unless {{NAME}} makes a successful Scar Resistance roll. If exposure continues, the Storyteller may call for more Scar Resistance rolls — no more often than once per turn in action scenes, once every several minutes in non-action scenes — with a penalty equal to the number of consecutive successful Scar Resistance rolls {{NAME}} has made this scene.{{BR}}Entangled Variations may not be activated <em>except</em> involuntarily.{{BR}}Any Variations activated in this manner are considered Overt for this scene.{{BR}}Once the Variations are active, {{NAME}} cannot deactivate them while in the presence of the stimulus. Getting clear of the stimulus often involves an instant action and a roll of some kind, depending on the circumstances."
+          }
+        }
+      }
+    }
+
+  }
+}
