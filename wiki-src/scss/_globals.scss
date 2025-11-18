@@ -3,6 +3,12 @@
 @use "./_typography" as *;
 @use "./_mixins" as *;
 
+:root {
+  // Fixed dimensions keep the faux paper consistent across resolutions.
+  --paper-height: 1080px;
+  --paper-width: calc(var(--paper-height) * 8.5 / 11);
+}
+
 .block {
   // // font-size: 0;
 

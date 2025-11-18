@@ -198,9 +198,8 @@ html {
   display: flex;
   justify-content: stretch;
   align-items: stretch;
-  --paper-height: 100vh;
   height: var(--paper-height);
-  width: calc(var(--paper-height) * 8.5 / 11);
+  width: var(--paper-width);
 }
 .layout .paper-container .paper-stack .page.pc-page {
   flex-direction: column;
@@ -211,7 +210,7 @@ html {
 }
 .layout .master-navigation {
   position: absolute;
-  left: calc(50% + 38.6363636364vh + 32px);
+  left: calc(50% + var(--paper-width) / 2 + 32px);
   top: 32px;
   padding: 0 24px;
   background: #F3EFE6;
@@ -255,6 +254,11 @@ html {
   content: "▶ ";
   position: absolute;
   left: -24px;
+}
+
+:root {
+  --paper-height: 1080px;
+  --paper-width: calc(var(--paper-height) * 8.5 / 11);
 }
 
 .block > *:not(.sub-block) {
@@ -420,7 +424,7 @@ html {
  */
 .sidebar.tab-navigation {
   position: absolute;
-  left: calc(50% - 38.6363636364vh);
+  left: calc(50% - var(--paper-width) / 2);
   top: 0;
   bottom: 0;
   display: flex;
@@ -523,7 +527,7 @@ html {
   justify-content: space-between;
   align-items: stretch;
   position: relative;
-  min-height: 250px;
+  min-height: 275px;
   padding-top: 8px;
 }
 .page.pc-page[name=front] .top-block.pc-header > .sub-block {
@@ -574,9 +578,9 @@ html {
   z-index: 1;
 }
 .page.pc-page[name=front] .top-block.pc-header > .absolute-block.pc-polaroid-container {
-  width: 28vh;
-  right: -4.5vh;
-  top: -2vh;
+  width: calc(var(--paper-height) * 0.28);
+  right: calc(var(--paper-height) * -0.045);
+  top: calc(var(--paper-height) * -0.02);
   transform: rotate(-5deg);
 }
 .page.pc-page[name=front] .top-block.pc-header > .absolute-block.pc-polaroid-container .pc-polaroid-frame {
@@ -1473,7 +1477,7 @@ html {
 .page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-effect .sub-block,
 .page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-drawback .sub-block {
   margin: 8px 16px 8px 16px;
-  font-size: 13px;
+  font-size: 12px;
   text-wrap: pretty;
   text-align: justify;
   background: rgba(0, 0, 0, 0.1);

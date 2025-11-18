@@ -35,9 +35,8 @@
       display: flex;
       justify-content: stretch;
       align-items: stretch;
-      --paper-height: 100vh;
       height: var(--paper-height);
-      width: calc(var(--paper-height) * 8.5 / 11);
+      width: var(--paper-width);
 
       .page {
         &.pc-page {
@@ -65,7 +64,7 @@
   .master-navigation {
 
     position: absolute;
-    left: calc(50% + (100vh * 8.5 / 11) / 2 + 32px);
+    left: calc(50% + var(--paper-width) / 2 + 32px);
     top: 32px;
     padding: 0 24px;
     background: $color-parchment;

@@ -12,7 +12,7 @@
     justify-content: space-between;
     align-items: stretch;
     position: relative;
-    min-height: 250px;
+    min-height: 275px;
     padding-top: 8px;
 
     > .sub-block {
@@ -54,9 +54,9 @@
       z-index: 1;
 
       &.pc-polaroid-container {
-        width: 28vh;
-        right: -4.5vh;
-        top: -2vh;
+        width: calc(var(--paper-height) * 0.28);
+        right: calc(var(--paper-height) * -0.045);
+        top: calc(var(--paper-height) * -0.02);
         transform: rotate(-5deg);
 
         .pc-polaroid-frame {
