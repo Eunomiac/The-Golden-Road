@@ -3,30 +3,27 @@
     "key": "hyper-competence",
     "name": "Hyper-Competence",
     "clade": "universal",
-    "tags": ["subtle"],
     "keywords": ["subtle", "perpetual", "reflexive", "tiered"],
     "value": {
       "min": 1,
       "max": 4
     },
     "effect": {
-      "1": "{{NAME}} uses the {{vars.skill}} Skill with superhuman adroitness. {{He}} is always treated as having an applicable Specialty when using {{vars.skill}}, does not suffer untrained penalties with it, and achieves an exceptional success on three successes instead of five.",
-      "2": "",
-      "3": "",
-      "4": ""
+      "1": "{{NAME}} uses the {{DISPLAY:vars.skill,proper}} Skill with superhuman adroitness. {{He}} is always treated as having an applicable Specialty when using {{DISPLAY:vars.skill,proper}}, does not suffer untrained penalties with it, and achieves an exceptional success on three successes instead of five.",
+      "2": "{{NAME}} uses the {{DISPLAY:vars.skill,proper}} Skill with superhuman adroitness. {{He}} enjoys a <strong>half Scar Power (+{{ROUNDUP:{{CALC:scarPower * 0.5}}}})</strong> bonus to {{DISPLAY:vars.skill,proper}} rolls; is always treated as having an applicable Specialty when using {{DISPLAY:vars.skill,proper}}; does not suffer untrained penalties with it; and achieves an exceptional success on three successes instead of five.",
+      "3": "{{NAME}} uses the {{DISPLAY:vars.skill,proper}} Skill with superhuman adroitness. {{He}} enjoys the <strong>rote quality</strong> and a <strong>half Scar Power (+{{ROUNDUP:{{CALC:scarPower * 0.5}}}})</strong> bonus to {{DISPLAY:vars.skill,proper}} rolls; is always treated as having an applicable Specialty when using {{DISPLAY:vars.skill,proper}}; does not suffer untrained penalties with it; and achieves an exceptional success on three successes instead of five."
     },
     "deviations": {
       "multicompetence": {
         "key": "multicompetence",
         "name": "Multicompetence",
         "magMod": 1,
-        "tooltip": "{{NAMEVALUE:scarPower}} additional Skills are affected by this Variation: {{INLINELIST:vars.multiSkills}}",
+        "tooltip": "{{NAMEVALUE:scarPower}} additional Skills are affected by this Variation: {{DISPLAY:{{INLINELIST:vars.multiSkills}},proper}}.",
         "replace": {
           "effect": {
-            "1": "{{NAME}} uses the {{INLINELIST:vars.skill,vars.multiSkills}} Skills with superhuman adroitness. {{He}} is always treated as having an applicable Specialty when using those Skills, does not suffer untrained penalties with them, and achieves an exceptional success on three successes instead of five.",
-            "2": "",
-            "3": "",
-            "4": ""
+            "1": "{{NAME}} uses the {{DISPLAY:{{INLINELIST:vars.skill,vars.multiSkills}},proper}} Skills with superhuman adroitness. {{He}} is always treated as having an applicable Specialty when using those Skills, does not suffer untrained penalties with them, and achieves an exceptional success on three successes instead of five.",
+            "2": "{{NAME}} uses the {{DISPLAY:{{INLINELIST:vars.skill,vars.multiSkills}},proper}} Skills with superhuman adroitness. {{He}} enjoys a <strong>half Scar Power (+{{ROUNDUP:{{CALC:scarPower * 0.5}}}})</strong> bonus to rolls with those Skills; is always treated as having an applicable Specialty when using them; does not suffer untrained penalties with them; and achieves an exceptional success on three successes instead of five.",
+            "3": "{{NAME}} uses the {{DISPLAY:{{INLINELIST:vars.skill,vars.multiSkills}},proper}} Skills with superhuman adroitness. {{He}} enjoys the <strong>rote quality</strong> and a <strong>half Scar Power (+{{ROUNDUP:{{CALC:scarPower * 0.5}}}})</strong> bonus on rolls with those Skills; is always treated as having an applicable Specialty when using them; does not suffer untrained penalties with them; and achieves an exceptional success on three successes instead of five."
           }
         }
       },
@@ -34,16 +31,19 @@
         "key": "naturalTalent",
         "name": "Natural Talent",
         "magMod": 2,
-        "tooltip": "The number of Skills affected by this Variation increases to all {{vars.skillCategory}} Skills.",
+        "tooltip": "The number of Skills affected by this Variation increases to all {{DISPLAY:vars.skillCategory,proper}} Skills.",
         "replace": {
           "effect": {
-            "1": "{{NAME}} uses all {{vars.skillCategory}} Skills with superhuman adroitness. {{He}} is always treated as having an applicable Specialty when using {{vars.skillCategory}} Skills, does not suffer untrained penalties with them, and achieves an exceptional success on three successes instead of five.",
-            "2": "",
-            "3": "",
-            "4": ""
+            "1": "{{NAME}} uses all {{DISPLAY:vars.skillCategory,proper}} Skills with superhuman adroitness. {{He}} is always treated as having an applicable Specialty when using {{DISPLAY:vars.skillCategory,proper}} Skills, does not suffer untrained penalties with them, and achieves an exceptional success on three successes instead of five.",
+            "2": "{{NAME}} uses all {{DISPLAY:vars.skillCategory,proper}} Skills with superhuman adroitness. {{He}} enjoys a <strong>half Scar Power (+{{ROUNDUP:{{CALC:scarPower * 0.5}}}})</strong> bonus to {{DISPLAY:vars.skillCategory,proper}} Skill rolls; is always treated as having an applicable Specialty when using them; does not suffer untrained penalties with them; and achieves an exceptional success on three successes instead of five.",
+            "3": "{{NAME}} uses the {{DISPLAY:vars.skillCategory,proper}} Skills with superhuman adroitness. {{He}} enjoys the <strong>rote quality</strong> and a <strong>half Scar Power (+{{ROUNDUP:{{CALC:scarPower * 0.5}}}})</strong> bonus to {{DISPLAY:vars.skillCategory,proper}} Skill rolls; is always treated as having an applicable Specialty when using them; does not suffer untrained penalties with them; and achieves an exceptional success on three successes instead of five."
           }
         }
       }
+    },
+    "source": {
+      "book": "DtR",
+      "page": 122
     }
   }
 }

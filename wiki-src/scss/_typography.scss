@@ -165,6 +165,8 @@ $font-body-condensed: "Typewriter Condensed", serif;
 }
 
 html {
+  font-size: 16px;
+
   body {
     @extend %body-text-general;
   }
