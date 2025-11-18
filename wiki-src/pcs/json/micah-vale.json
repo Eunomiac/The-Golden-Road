@@ -210,8 +210,6 @@
           "value": 3,
           "display": "Liquid Movement (Brachiation)",
           "narrative": "",
-          "entangledScar": "",
-          "activation": "byPrimary",
           "tags": ["secondary"],
           "source": {
             "book": "DtR",
@@ -227,8 +225,6 @@
           },
           "display": "Lashing Tendrils (Cutting Lash)",
           "narrative": "",
-          "entangledScar": "",
-          "activation": "byPrimary",
           "tags": ["secondary"],
           "source": {
             "book": "DtR",
@@ -240,8 +236,6 @@
           "value": 3,
           "display": "Grasping Strands (Telekinesis)",
           "narrative": "Not a psychic phenomena at all, 'Telekinesis' merely provides convenient mechanical effects for Vein's ability to extend multiple strong tendrils of coagulated blood, capable of ensnaring, grappling, and even throwing heavy objects.",
-          "entangledScar": "",
-          "activation": "byPrimary",
           "tags": ["secondary"],
           "source": {
             "book": "DtR",
@@ -269,9 +263,8 @@
       "narrative": "Micah does not possess a hardened 'carapace', per se. Rather, even when Vein is safely contained, he is able to quickly staunch internal bleeding and effectively heal bullet wounds (and even melee wounds, albeit to a lesser extent). The armor provided by Carapace does not represent reflecting or absorbing bullets, but rather the bullets passing through Micah (painfully, and dangerously as bullets tend to cause Micah to bleed) but being healed by Vein from within almost instantly.",
       "entangledScar": "thin-skin",
       "activation": "persistent",
-      "source": {
-        "book": "DtR",
-        "page": 115
+      "vars": {
+        "armorChoice": "kevlar"
       }
     },
     {
@@ -283,10 +276,6 @@
       "activation": "persistent",
       "vars": {
         "skill": "athletics"
-      },
-      "source": {
-        "book": "DtR",
-        "page": 122
       }
     }
   ],
