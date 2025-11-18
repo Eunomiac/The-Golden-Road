@@ -169,8 +169,22 @@ html {
 }
 /* === SPECIFIC COMPONENT STYLES === */
 /* --- TRAIT LABELS --- */
-.layout {
+.layout-viewport {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
   overflow: hidden;
+}
+
+.layout {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-right: calc(-1 * var(--scrollbar-width));
+  padding-right: var(--scrollbar-width);
   padding-bottom: 16px;
   display: flex;
   justify-content: center;
@@ -259,6 +273,7 @@ html {
 :root {
   --paper-height: 1080px;
   --paper-width: calc(var(--paper-height) * 8.5 / 11);
+  --scrollbar-width: 30px;
 }
 
 .block > *:not(.sub-block) {

@@ -55,8 +55,9 @@ Attributes (nested by category):
       <script type="module" src="../scripts/tab-navigation.js"></script>
     </head>
 
-    <body class="layout">
-      <div class="paper-container">
+    <body class="layout-viewport">
+      <div class="layout">
+        <div class="paper-container">
         <section class="sidebar right-sidebar tab-navigation">
           {{> _partials/tab-navigation-pc }}
         </section>
@@ -124,9 +125,10 @@ Attributes (nested by category):
           </section>
           <section class="page pc-page" name="deviation"></section>
         </main>
-      </div>
+        </div>
 
-      {{> _partials/master-navigation}}
+        {{> _partials/master-navigation}}
+      </div>
     </body>
 
     </html>

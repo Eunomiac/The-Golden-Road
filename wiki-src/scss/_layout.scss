@@ -2,8 +2,22 @@
 @use "./_typography" as *;
 @use "./_mixins" as *;
 
-.layout {
+.layout-viewport {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
   overflow: hidden;
+}
+
+.layout {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-right: calc(-1 * var(--scrollbar-width));
+  padding-right: var(--scrollbar-width);
   padding-bottom: 16px;
   display: flex;
   justify-content: center;
