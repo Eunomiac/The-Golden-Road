@@ -1,0 +1,482 @@
+{
+  "academics": {
+    "key": "academics",
+    "name": "Academics",
+    "value": {
+      "min": 0,
+      "max": 10
+    },
+    "description": "Academics represents general higher education and knowledge of the arts and humanities, including topics like history, language, literature, law, and economics. Often represents the amount of schooling {{NAME}} has.",
+    "levels": {
+      "1": "{{NAME}} has a basic knowledge of history, roughly equivalent to a high school graduate or college student. {{He}} knows how to conduct effective research and probably did well in school.",
+      "2": "{{NAME}} is likely a PhD student or a teacher, and is well-read enough to have a solid grasp on a number of academic fields. {{He}} can recall details about many different topics, and understands how to find more information on subjects that {{he}} does not immediately recall.",
+      "3": "{{NAME}} has excellent general education, and high expertise in the areas {{he}} specializes in. {{He}} is likely a college professor or PhD, or someone who is a voracious reader.",
+      "4": "{{NAME}} is likely a PhD at a prestigious school or an acknowledged expert. {{He}} has extensive knowledge and experience with conducting research, perhaps a self-taught polymath or genius. {{He}} can probably teach master classes on a number of different topics, and is up-to-date on the latest ideas within many different fields.",
+      "5": "{{NAME}} is one of the top minds in academia, <em>the</em> acknowledged expert in {{his}} field. {{He}} is a walking Wikipedia, with a fact for just about any occasion. {{His}} memory and breadth of knowledge are astounding."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 182
+    }
+  },
+  "computer": {
+    "key": "computer",
+    "name": "Computer",
+    "value": {
+      "min": 0,
+      "max": 10
+    },
+    "description": "Computer describes skill beyond basic internet use: programming, diagnosing and repairing major software/hardware issues, focused data searches, filesystem digging, encryption cracking, hacking, and network sabotage.",
+    "levels": {
+      "1": "{{NAME}} has used computers more extensively than most. {{He}} has a basic grasp of programming, runs complicated searches, and can find and interpret files hidden or encrypted by an average user.",
+      "2": "{{NAME}} could work as an entry-level programmer or IT tech. {{He}} has a solid grasp of programming principles, performs elaborate tasks easily, and can hack relatively unsecure networks and personal computers.",
+      "3": "{{NAME}} has excellent training or long experience. {{He}} is extremely adept at finding the information {{he}} needs even when someone skilled tried to hide it, and {{he}} can break into files of companies with solid security.",
+      "4": "{{NAME}} is an expert in computer theory. {{He}} correlates data from many sources to find extremely obscure information and can track irregularities in a system; as a hacker {{he}} has the knowledge and patience to get into government and even military systems.",
+      "5": "{{NAME}} is among the best in the world, versed in absolute cutting edge tech, and can break into almost any system. No information is safe from {{him}}."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 183
+    }
+  },
+  "crafts": {
+    "key": "crafts",
+    "name": "Crafts",
+    "value": {
+      "min": 0,
+      "max": 10
+    },
+    "description": "Crafts governs repairing, designing, and creating useful or accurate things: engines, foundations, clothing, scale models, eyewitness sketches, reconstructions. Usually requires proper tools and materials.",
+    "levels": {
+      "1": "{{NAME}} handles basic auto maintenance and household fixes, and {{he}} can read and create simple blueprints or design diagrams.",
+      "2": "{{NAME}} produces high-quality, professional designs. {{He}} performs extensive vehicle repairs, works as a handyman, or serves on construction crews from houses to high-rises.",
+      "3": "{{NAME}} is a very talented builder or architect. {{He}} designs and builds a house from the ground up, rebuilds a car, and handles industrial electrical and plumbing for complexes.",
+      "4": "{{NAME}} can build almost any design {{he}} imagines. {{He}} welds nearly anything, machines precision parts, or even builds a new car from scratch.",
+      "5": "{{NAME}} can repair anything or build working devices from scraps. {{He's}} a da Vinci type, drawing stunningly realistic diagrams and designing fantastic devices."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 183
+    }
+  },
+  "investigation": {
+    "key": "investigation",
+    "name": "Investigation",
+    "value": {
+      "min": 0,
+      "max": 10
+    },
+    "description": "Investigation governs actively finding and assembling clues: lateral thinking, intuitive leaps, pattern-spotting, and drawing conclusions to form a concrete picture of events.",
+    "levels": {
+      "1": "{{NAME}} is a strong armchair detective who excels at puzzles, riddles, and brainteasers.",
+      "2": "{{NAME}} is very good at fitting details into a larger picture; coroner or crime lab attendants often work at this level.",
+      "3": "{{NAME}} has an excellent eye for details others miss, impressing even seasoned detectives; crosswords in pen, riddles without a sweat.",
+      "4": "{{NAME}} makes connections that seem impossible, with amazing intuitive leaps and effortless patterning in massive data.",
+      "5": "{{NAME}} is Sherlock Holmes: {{his}} investigative instincts are precise, and no clue escapes {{him}}."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 183
+    }
+  },
+  "medicine": {
+    "key": "medicine",
+    "name": "Medicine",
+    "value": {
+      "min": 0,
+      "max": 10
+    },
+    "description": "Medicine is the practical knowledge of biology, anatomy, and chemistry used to diagnose, treat, stabilize, and even operate on injuries and disease.",
+    "levels": {
+      "1": "{{NAME}} has basic medical training. {{He}} performs first aid, stabilizes the injured, identifies common diseases, and cares for serious but non-critical injuries.",
+      "2": "{{NAME}} works as an EMT, nurse, or similar practitioner. {{He}} handles emergencies, administers medication, manages patient care, and identifies most conditions.",
+      "3": "{{NAME}} serves as a doctor, specialist, or surgeon. {{He}} treats most illnesses and injuries and manages obscure or serious problems.",
+      "4": "{{NAME}} is among the best in the region, diagnosing and treating obscure conditions and handling nearly any emergency.",
+      "5": "{{NAME}} ranks with top doctors or surgeons worldwide, performing near miracles and recognizing almost any illness or injury."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 183
+    }
+  },
+  "occult": {
+    "key": "occult",
+    "name": "Occult",
+    "value": {
+      "min": 0,
+      "max": 10
+    },
+    "description": "Occult represents knowledge of myths, folktales, and urban legends about the strange; separating rumor from plausible truth and building on others' encounters and theories.",
+    "levels": {
+      "1": "{{NAME}} has scratched the surface of strange stories, knows many phenomena, spots obvious fakes, and notes a few plausible tales.",
+      "2": "{{NAME}} has researched folklore and urban legends deeply, finds slivers of truth, understands major stories, and discards many false claims.",
+      "3": "{{NAME}} has worked with weirdness for a while, sifting facts from rumors; {{he}} may have seen oddities {{himself}} or recognizes recurring patterns.",
+      "4": "{{NAME}} is tuned to the strange, recalling obscure, useful details about almost any odd occurrence and piecing together truths about creatures.",
+      "5": "{{NAME}} almost unfailingly identifies real supernatural events and beings; even the new feels instantly, impeccably categorized."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 183
+    }
+  },
+  "politics": {
+    "key": "politics",
+    "name": "Politics",
+    "value": {
+      "min": 0,
+      "max": 10
+    },
+    "description": "Politics governs knowledge of political bodies, figures, and issues; navigating bureaucracy, following money, and playing rivals to get results.",
+    "levels": {
+      "1": "{{NAME}} knows the issues and follows key players, from candidates to backers; {{he}} could be an insightful amateur or tuned-in voter.",
+      "2": "{{NAME}} works within the system and understands official organization well; low-level bureaucrats and lobbyists operate at this level.",
+      "3": "{{NAME}} knows figures, allies, and priorities in depth and can be a behind-the-scenes mover shaping agendas.",
+      "4": "{{NAME}} handles all sorts of political structures, knowing who's truly in charge and where to apply pressure, often without notice.",
+      "5": "{{NAME}} knows every player, what they really want, and where the bodies are buried."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 183
+    }
+  },
+  "science": {
+    "key": "science",
+    "name": "Science",
+    "value": {
+      "min": 0,
+      "max": 10
+    },
+    "description": "Science is the understanding of natural and physical phenomena like biology, physics, chemistry, geology, and meteorology, used to explain phenomena and inform practical designs.",
+    "levels": {
+      "1": "{{NAME}} is a hobbyist or knowledgeable student with a basic grasp of principles, performing simple experiments and practical applications.",
+      "2": "{{NAME}} could work as a researcher or teacher, with excellent concepts, sound experimentation, and novel applications.",
+      "3": "{{NAME}} keeps up with up-to-date theories and explores advanced new concepts.",
+      "4": "{{NAME}} is top of {{his}} field, researching cutting-edge ideas with world-class scientists.",
+      "5": "{{NAME}} stands with Einsteins and Curies: on the verge of revolutionary concepts, at the apex of {{his}} field."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 183
+    }
+  },
+  "athletics": {
+    "key": "athletics",
+    "name": "Athletics",
+    "value": {
+      "min": 0,
+      "max": 10
+    },
+    "description": "Athletics describes general physical ability across sports and movement: running, jumping, climbing, dodging, and throwing, adding to defense in fights.",
+    "levels": {
+      "1": "{{NAME}} stays fit: regular runs, frequent games, backpacking, or steady conditioning.",
+      "2": "{{NAME}} trains seriously with sports or a rigorous regimen and could likely compete at minor-league or low professional levels.",
+      "3": "{{NAME}} has clearly above-average fitness; {{he}} could certainly play professionally and may have a name.",
+      "4": "{{NAME}} performs at an Olympic caliber, competing nationally and contending with the best.",
+      "5": "{{NAME}} stands among gold medalists and record holders: the absolute best and fittest."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 184
+    }
+  },
+  "brawl": {
+    "key": "brawl",
+    "name": "Brawl",
+    "value": {
+      "min": 0,
+      "max": 10
+    },
+    "description": "Brawl governs unarmed combat with the body: punches, kicks, grappling, throws, headbutts, and blocks, often paired with Strength.",
+    "levels": {
+      "1": "{{NAME}} knows self-defense, reads situations well, and has enough experience or attitude to get through many violent encounters.",
+      "2": "{{NAME}} has fought often or trained for years and knows how to handle {{himself}}.",
+      "3": "{{NAME}} is extremely well-trained or a veteran of dozens of fights, capable of teaching, competing, and handling nearly anyone at the local bar.",
+      "4": "{{NAME}} matches special forces or champion MMA caliber and can handle {{himself}} in almost any situation.",
+      "5": "{{NAME}} is among the best in the world: unstoppable brawler, renowned teacher, or one of the deadliest hand-to-hand fighters alive."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 184
+    }
+  },
+  "drive": {
+    "key": "drive",
+    "name": "Drive",
+    "value": {
+      "min": 0,
+      "max": 10
+    },
+    "description": "Drive governs the operation of motorized vehicles under stress: chases, evasions, high-speed maneuvers; Piloting Specialty covers aircraft.",
+    "levels": {
+      "1": "{{NAME}} keeps {{his}} head in dangerous weather or treacherous conditions, and is hard to run off the road; with Piloting {{he}} handles small private aircraft.",
+      "2": "{{NAME}} could drive trucks or cabs, seasoned in all conditions; as a pilot {{he}} flies most private aircraft and could manage a commercial jet in a pinch.",
+      "3": "{{NAME}} matches skilled race drivers or stuntmen; as a pilot {{he}} might work professionally on commercial jetliners.",
+      "4": "{{NAME}} can run a high-speed chase through downtown or a war zone; as a pilot {{he}} handles fighter jets.",
+      "5": "{{NAME}} can drive any vehicle on earth."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 184
+    }
+  },
+  "firearms": {
+    "key": "firearms",
+    "name": "Firearms",
+    "value": {
+      "min": 0,
+      "max": 10
+    },
+    "description": "Firearms represents familiarity with shooting, maintaining, and identifying personal firearms and similar weapons like bows and crossbows, including practical laws and sourcing.",
+    "levels": {
+      "1": "{{NAME}} spends time at the range and understands basic maintenance and safety; {{he}} may shoot well on the range but lacks combat experience.",
+      "2": "{{NAME}} is a decent, regular shot, perhaps a hunter or officer who practices often but has rarely fired in the line of duty.",
+      "3": "{{NAME}} knows guns deeply and shoots excellently; {{he}} has almost certainly shot someone in an actual fight, likely more than once.",
+      "4": "{{NAME}} matches snipers and sharpshooters, uncannily accurate on the range or in the field.",
+      "5": "{{NAME}} ranks with the world's elite marksmen, handling any gun under nearly any condition and hitting {{his}} target."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 185
+    }
+  },
+  "larceny": {
+    "key": "larceny",
+    "name": "Larceny",
+    "value": {
+      "min": 0,
+      "max": 10
+    },
+    "description": "Larceny governs the illicit skills of breaking and entering, lock picking, pickpocketing, safecracking, and sleight of hand; defeating physical security and palming items.",
+    "levels": {
+      "1": "{{NAME}} knows sleight of hand and the basics of opening consumer-grade locks and security.",
+      "2": "{{NAME}} bypasses electronic security and alarms and can run confidence games; {{he}} breaks into most houses or offices easily.",
+      "3": "{{NAME}} likely works as a criminal: {{he}} cracks safes, defeats high-end systems, and gains entrance to buildings with active security.",
+      "4": "{{NAME}} can pickpocket other thieves unnoticed and break into high-end vaults and secure facilities.",
+      "5": "{{NAME}} is Houdini-grade: {{he}} escapes any lock, enters secure sections of the Pentagon, and could lift a man's glasses without notice."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 185
+    }
+  },
+  "stealth": {
+    "key": "stealth",
+    "name": "Stealth",
+    "value": {
+      "min": 0,
+      "max": 10
+    },
+    "description": "Stealth is remaining hidden, unseen, and unheard: sneaking, blending, disguises, and exploiting distractions to avoid detection.",
+    "levels": {
+      "1": "{{NAME}} finds shadowy corners and blends into crowds.",
+      "2": "{{NAME}} follows targets without tipping them off and slips past sentries.",
+      "3": "{{NAME}} is rarely seen unless {{he}} chooses; {{he}} evades active searches and loses a tail in seconds.",
+      "4": "{{NAME}} avoids notice even on dense security coverage and can vanish from sight in moments.",
+      "5": "{{NAME}} is a ghost: almost impossible to find or follow unless {{he}} allows it, hiding even in the open or walking up behind alert guards unseen."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 185
+    }
+  },
+  "survival": {
+    "key": "survival",
+    "name": "Survival",
+    "value": {
+      "min": 0,
+      "max": 10
+    },
+    "description": "Survival is living off the land or the city: shelter, food, water, fire, simple structures, and enduring harsh environments; tracking without deeper animal behavior.",
+    "levels": {
+      "1": "{{NAME}} is a regular camper or hiker who can care for {{himself}} for a few days when lost.",
+      "2": "{{NAME}} has spent extensive time in the elements, from Alaskan excursions to park work or fending for {{himself}} on the streets for weeks.",
+      "3": "{{NAME}} can keep a small group fed, healthy, and safe in the wilderness until rescue or return.",
+      "4": "{{NAME}} can live off the land indefinitely barring disaster; comfort is optional, necessities are not.",
+      "5": "{{NAME}} could be dropped into a desert with no gear and walk out; {{he}} survives the harshest environments on earth."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 185
+    }
+  },
+  "weaponry": {
+    "key": "weaponry",
+    "name": "Weaponry",
+    "value": {
+      "min": 0,
+      "max": 10
+    },
+    "description": "Weaponry is fighting with hand-to-hand weapons and improvised tools: knives, swords, clubs, chainsaws, or any non-firearm used for violence.",
+    "levels": {
+      "1": "{{NAME}} holds and swings a weapon properly, understands defensive fundamentals, and can hold {{his}} own sparring.",
+      "2": "{{NAME}} has excellent training or experience and ensures an assailant is taken out efficiently.",
+      "3": "{{NAME}} can make a weapon from almost anything, compete in tournaments, or teach {{his}} favored weapon.",
+      "4": "{{NAME}} is extremely dangerous with almost any melee weapon, reading fights and handling single or multiple opponents.",
+      "5": "{{NAME}} performs feats action stars only pretend to manage."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 185
+    }
+  },
+  "animalKen": {
+    "key": "animalKen",
+    "name": "Animal Ken",
+    "value": {
+      "min": 0,
+      "max": 10
+    },
+    "description": "Animal Ken represents the understanding of animal behavior to train, soothe, or cow creatures through intuition or observation.",
+    "levels": {
+      "1": "{{NAME}} has a knack with animals, befriending domesticated creatures and building rapport with most nonaggressive wildlife.",
+      "2": "{{NAME}} works with animals professionally, handling and training common domestics and having ideas for training difficult wild species.",
+      "3": "{{NAME}} easily trains any domesticated animal and seems to have a sixth sense for what animals feel.",
+      "4": "{{NAME}} trains beyond normal behaviors: war or movie horses, even wild predators like tigers.",
+      "5": "{{NAME}} all but speaks to animals, soothing or cowing even angry bears or hunting cougars."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 185
+    }
+  },
+  "empathy": {
+    "key": "empathy",
+    "name": "Empathy",
+    "value": {
+      "min": 0,
+      "max": 10
+    },
+    "description": "Empathy governs reading and understanding others' feelings and motives through cues or instinct to detect deception, moods, and uncertainty.",
+    "levels": {
+      "1": "{{NAME}} regularly gets a strong vibe from people and often steadies or advises {{his}} friends.",
+      "2": "{{NAME}} could be a therapist or social worker, always sensing secrets or worries and pinpointing what's wrong.",
+      "3": "{{NAME}} gains profound insights into others' feelings and behavior, even strangers.",
+      "4": "{{NAME}} draws out the most guarded; tiny behavioral details reveal what someone wants.",
+      "5": "{{NAME}} reads human behavior like an open book; people accuse {{him}} of mind reading."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 185
+    }
+  },
+  "expression": {
+    "key": "expression",
+    "name": "Expression",
+    "value": {
+      "min": 0,
+      "max": 10
+    },
+    "description": "Expression represents communicating thoughts and emotions in writing, speech, art, or performance: from songs and books to persuasive oratory.",
+    "levels": {
+      "1": "{{NAME}} has a knack for phrasing, an excellent ear, or undeniable artistic talent to convey emotion.",
+      "2": "{{NAME}} works as a session musician or local reporter, using careful, effective language.",
+      "3": "{{NAME}} conveys feeling with astonishing power; {{his}} performances and speeches impress and inspire.",
+      "4": "{{NAME}} could be a best-selling author, top-20 composer, or presidential speechwriter.",
+      "5": "{{NAME}} creates work that could go down in history, swaying nearly everyone who experiences it."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 186
+    }
+  },
+  "intimidation": {
+    "key": "intimidation",
+    "name": "Intimidation",
+    "value": {
+      "min": 0,
+      "max": 10
+    },
+    "description": "Intimidation governs using fear through threats, interrogation, implication, or direct force to change behavior, if not beliefs.",
+    "levels": {
+      "1": "{{NAME}} never loses a stare-down, and the right words from {{him}} rattle people into mistakes.",
+      "2": "{{NAME}} knows when to bluster and when to let silence work; people back off and do as {{he}} wants.",
+      "3": "{{NAME}} ends more fights with a look than with violence.",
+      "4": "{{NAME}} cracks the toughest criminals in minutes and clears rooms with a glance.",
+      "5": "{{NAME}} can make drill sergeants or hitmen retreat with a word and a look."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 186
+    }
+  },
+  "persuasion": {
+    "key": "persuasion",
+    "name": "Persuasion",
+    "value": {
+      "min": 0,
+      "max": 10
+    },
+    "description": "Persuasion is changing minds and influencing behavior through logic, charm, fast talk, or emotional appeals to reshape what people want.",
+    "levels": {
+      "1": "{{NAME}} finds the right words, a solid argument, and pursues it to get what {{he}} wants.",
+      "2": "{{NAME}} could be a salesman or trial lawyer; given time {{he}} finds a tack that gets people to {{his}} side.",
+      "3": "{{NAME}} regularly wins awards or decisive debates, getting people to question strongly held beliefs.",
+      "4": "{{NAME}} makes people want what {{he's}} selling, slipping past defenses to persuade what they'd normally reject.",
+      "5": "{{NAME}} can convince almost anyone of almost anything for a time, shaking even identity-defining beliefs."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 186
+    }
+  },
+  "socialize": {
+    "key": "socialize",
+    "name": "Socialize",
+    "value": {
+      "min": 0,
+      "max": 10
+    },
+    "description": "Socialize governs small talk, etiquette, and fitting in across settings from dive bars to state dinners; managing groups with sensitivity and poise.",
+    "levels": {
+      "1": "{{NAME}} knows which fork to use or when not to, avoids offense, and handles settings from formal dinners to wild parties.",
+      "2": "{{NAME}} blends gracefully into almost any social situation.",
+      "3": "{{NAME}} is on every guest list and keeps the party humming.",
+      "4": "{{NAME}} fits in anywhere; it isn't a party without {{him}}, and {{he}} makes any group feel at ease.",
+      "5": "{{NAME}} could pass as a spy or high diplomat, always knowing exactly what the situation expects, including when breaking norms fits best."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 186
+    }
+  },
+  "streetwise": {
+    "key": "streetwise",
+    "name": "Streetwise",
+    "value": {
+      "min": 0,
+      "max": 10
+    },
+    "description": "Streetwise represents knowing how the streets work: safe routes, who to ask, black markets, secrets, and avoiding the law in the city's underbelly.",
+    "levels": {
+      "1": "{{NAME}} knows {{his}} neighborhood deeply and who to approach for what {{he}} needs.",
+      "2": "{{NAME}} knows where to ditch a hot car and who can handle specific minor favors.",
+      "3": "{{NAME}} is a true insider, knowing who makes introductions and who gets things done.",
+      "4": "{{NAME}} never gets lost in {{his}} town; it's {{his}} town, and everyone knows {{him}}.",
+      "5": "{{NAME}} can access any secret in town; people come to {{him}} to make things happen."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 186
+    }
+  },
+  "subterfuge": {
+    "key": "subterfuge",
+    "name": "Subterfuge",
+    "value": {
+      "min": 0,
+      "max": 10
+    },
+    "description": "Subterfuge is the art of deception: lying convincingly, spotting lies, hiding emotions and motives, and conveying hidden meanings.",
+    "levels": {
+      "1": "{{NAME}} keeps an excellent poker face and rarely reveals what {{he's}} thinking.",
+      "2": "{{NAME}} pulls off good bluffs and short cons, often leaving victims unaware they were had.",
+      "3": "{{NAME}} maintains complex webs of lies and even the suspicious can't tell when {{he's}} lying.",
+      "4": "{{NAME}} executes complex cons with style, lying to your face without a flicker of doubt.",
+      "5": "{{NAME}} is universally liked and trusted. Everyone."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 186
+    }
+  }
+}

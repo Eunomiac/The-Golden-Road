@@ -1,0 +1,171 @@
+@use "../_colors" as *;
+@use "../_typography" as *;
+
+.page.pc-page[name='merits'] {
+  padding-top: 1rem;
+
+  .top-block.merits-block {
+    overflow: hidden;
+
+    >.merit-item {
+
+      .merit-header {
+        cursor: pointer;
+
+        .merit-name-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 0.5rem;
+
+          background: url("../assets/images/backgrounds/red-header.webp") no-repeat center center;
+          background-size: 100% 100%;
+          font-size: 1.15rem;
+          line-height: 1.25rem;
+          font-family: $font-tab;
+          text-transform: uppercase;
+          color: $color-parchment;
+          padding: 0.25rem 1.5rem;
+          margin: 0.5rem 0rem 0.25rem 0rem;
+          border-radius: 0rem;
+
+          .merit-value.dotline {
+
+            min-width: unset;
+            flex-basis: unset;
+            gap: 0.05rem;
+
+            .dot {
+              min-width: 1rem;
+              min-height: 1rem;
+              filter: invert(1);
+              margin: 0;
+            }
+
+            // display: flex;
+            // gap: 0.25rem;
+          }
+        }
+
+        .merit-narrative {
+          @include body-text-general;
+
+          font-size: 0.8rem;
+          background: $color-ink;
+          padding: 0.5rem;
+          margin: 0 1.5rem;
+          color: $color-parchment;
+          letter-spacing: 0.03rem;
+          display: block;
+          text-wrap: pretty;
+          text-align: justify;
+          hyphens: auto;
+          opacity: 1;
+          transition: opacity 0.2s ease;
+
+          strong {
+            background: $color-parchment;
+            color: $color-ink;
+            padding: 0 0.25rem;
+          }
+        }
+      }
+
+      .merit-content {
+
+        &,
+        & * {
+          hyphens: auto;
+          text-wrap: pretty;
+          text-align: justify;
+        }
+
+        opacity: 0;
+        transition: opacity 0.3s ease;
+
+        .merit-effect,
+        .merit-drawback {
+          margin: 0.5rem 0rem;
+
+          .sub-block {
+            margin: 0.5rem 1rem 0.5rem 1rem;
+            font-size: 0.8rem;
+            text-wrap: pretty;
+            text-align: justify;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 0.5rem;
+
+            h3, h4 {
+              margin: 0;
+
+              +p {
+                margin-top: 0;
+              }
+            }
+
+            ul {
+              margin: 0;
+
+              li {
+                text-align: left;
+              }
+            }
+
+            p:last-of-type {
+              margin-bottom: 0;
+            }
+
+            .source-citation {
+              margin-left: 0.5rem;
+            }
+          }
+        }
+
+        .merit-drawback {
+          // margin-left: 1rem;
+
+          em {
+            font-weight: bold;
+          }
+        }
+
+        .merit-levels {
+          .merit-level {
+            margin: 0.5rem 0rem;
+          }
+
+          .merit-level-drawback {
+            em {
+              font-weight: bold;
+            }
+          }
+        }
+
+        .merit-source {
+          margin-top: -0.5rem;
+          text-align: right;
+        }
+      }
+
+      &.sub-merit {
+        margin-left: 2rem;
+        width: calc(100% - 2rem);
+
+        .merit-header {
+          .merit-name-row {
+            padding-left: 0;
+            background: transparent;
+            color: $color-blood;
+
+            .merit-value.dotline {
+
+              .dot {
+                filter: none;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

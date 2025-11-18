@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The Golden Road — Redirecting…</title>
+    <meta http-equiv="refresh" content="0; url=pcs/andres-gutierrez.html" />
+    <link rel="canonical" href="pcs/andres-gutierrez.html" />
+    <style>
+      body {
+        font-family: "Cardo", "IM Fell English SC", serif;
+        background-color: #f4efe7;
+        color: #1f130a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        text-align: center;
+      }
+
+      main {
+        max-width: 40rem;
+        padding: 2rem;
+      }
+
+      a {
+        color: #6c2c1c;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>The Golden Road</h1>
+      <p>Taking you directly to Andres Gutiérrez.</p>
+      <p>
+        If you are not redirected automatically,
+        <a href="pcs/andres-gutierrez.html">continue to his dossier</a>.
+      </p>
+    </main>
+    <script>
+      // Provide a JS redirect as a fallback for older browsers
+      window.addEventListener("load", () => {
+        const target = "pcs/andres-gutierrez.html";
+        if (window.location.pathname.endsWith("index.html")) {
+          window.location.replace(target);
+        } else {
+          window.location.href = target;
+        }
+      });
+    </script>
+  </body>
+</html>

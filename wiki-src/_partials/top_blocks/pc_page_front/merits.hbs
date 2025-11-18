@@ -1,0 +1,213 @@
+{{!-- Variables to Pass (from PCSheetData):
+- `merits`: ProcessedMerit[] array, each containing:
+  - `key`: string
+  - `name`: string
+  - `value`: number (purchased level/dots)
+  - `narrative`: string (HTML content)
+  - `effect`: string (HTML content - processed)
+  - `levels`: Record<number, LevelData> (for style-type merits)
+  - `tags`: string[] (includes "style" for style-type merits)
+  - `source`: { book: string, page: number }
+  - Other properties...
+ --}}
+
+<div class="block top-block merits-block">
+  <div class="form-label form-label-title">Merits:</div>
+  {{#each merits}}
+    <div class="merit-item{{#if cssClasses}} {{cssClasses}}{{/if}}" data-merit-key="{{key}}">
+      <div class="merit-header" role="button" tabindex="0" aria-expanded="false">
+        <div class="merit-name-row">
+          <span class="merit-name">{{name}}</span>
+          {{#if value}}
+            <span class="merit-value dotline">
+              {{#each (range 1 value)}}
+                <span class="dot full-dot"></span>
+              {{/each}}
+            </span>
+          {{/if}}
+        </div>
+        {{#if narrative}}
+          <div class="merit-narrative">
+            {{{narrative}}}
+          </div>
+        {{/if}}
+      </div>
+      <div class="merit-content" style="display: none;">
+        {{#if effect}}
+          <div class="merit-effect">
+            <strong>Effect:</strong> {{{effect}}}
+          </div>
+        {{/if}}
+        {{#if drawback}}
+          <div class="merit-drawback">
+            <strong>Drawback:</strong> {{{drawback}}}
+          </div>
+        {{/if}}
+        {{#if levels}}
+          <ul class="merit-levels">
+            {{#each (range 1 value)}}
+              {{#with (lookup ../levels (toString this))}}
+                <li class="merit-level">
+                  <strong class="merit-level-name">{{name}} ({{repeat "●" ("+" 1 @index)}}):</strong>
+                  <span class="merit-level-effect">{{{effect}}}</span>
+                  {{#if drawback}}
+                    <div class="merit-level-drawback">
+                      <em>Drawback:</em> {{{drawback}}}
+                    </div>
+                  {{/if}}
+                </li>
+              {{/with}}
+            {{/each}}
+          </ul>
+        {{/if}}
+        {{#if source}}
+          <div class="merit-source">
+            {{> _partials/source-citation source=source}}
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  {{/each}}
+</div>
+
+<script type="module">
+  import { gsap } from "gsap";
+
+  // Handle merit expansion/collapse with GSAP animations
+  const meritItems = document.querySelectorAll('.merit-item');
+  let currentlyOpenItem = null;
+
+  meritItems.forEach(meritItem => {
+    const header = meritItem.querySelector('.merit-header');
+    const content = meritItem.querySelector('.merit-content');
+    const narrative = meritItem.querySelector('.merit-narrative');
+
+    if (!header || !content) return;
+
+    const openPanel = () => {
+      // Close any currently open panel
+      if (currentlyOpenItem && currentlyOpenItem !== meritItem) {
+        closePanel(currentlyOpenItem);
+      }
+
+      // Set as currently open
+      currentlyOpenItem = meritItem;
+      header.setAttribute('aria-expanded', 'true');
+
+      // Show content (hidden by default) and set initial state
+      content.style.display = 'block';
+      content.style.opacity = '0';
+      content.style.height = '0';
+      content.style.overflow = 'hidden';
+
+      // Create timeline for opening animation
+      const tl = gsap.timeline();
+
+      // Animate narrative out (fade + height collapse) if it exists
+      if (narrative) {
+        const narrativeHeight = narrative.offsetHeight;
+        narrative.style.height = narrativeHeight + 'px';
+        narrative.style.overflow = 'hidden';
+
+        tl.to(narrative, {
+          opacity: 0,
+          height: 0,
+          duration: 0.3,
+          ease: 'power2.in',
+          onComplete: () => {
+            narrative.style.display = 'none';
+            narrative.style.height = '';
+            narrative.style.overflow = '';
+          }
+        });
+      }
+
+      // Animate content in (height expand + fade)
+      const contentHeight = content.scrollHeight;
+      tl.to(content, {
+        opacity: 1,
+        height: contentHeight,
+        duration: 0.4,
+        ease: 'power2.out',
+        onComplete: () => {
+          content.style.height = 'auto';
+          content.style.overflow = '';
+        }
+      }, narrative ? '-=0.1' : 0);
+    };
+
+    const closePanel = (item) => {
+      const itemHeader = item.querySelector('.merit-header');
+      const itemContent = item.querySelector('.merit-content');
+      const itemNarrative = item.querySelector('.merit-narrative');
+
+      if (!itemHeader || !itemContent) return;
+
+      itemHeader.setAttribute('aria-expanded', 'false');
+
+      // Set up content for height animation
+      const contentHeight = itemContent.offsetHeight;
+      itemContent.style.height = contentHeight + 'px';
+      itemContent.style.overflow = 'hidden';
+
+      // Create timeline for closing animation
+      const tl = gsap.timeline({
+        onComplete: () => {
+          itemContent.style.display = 'none';
+          itemContent.style.height = '';
+          itemContent.style.overflow = '';
+        }
+      });
+
+      // Animate content out (height collapse + fade)
+      tl.to(itemContent, {
+        opacity: 0,
+        height: 0,
+        duration: 0.3,
+        ease: 'power2.in'
+      });
+
+      // Animate narrative in (height expand + fade) if it exists
+      if (itemNarrative) {
+        itemNarrative.style.display = 'block';
+        itemNarrative.style.opacity = '0';
+        itemNarrative.style.height = '0';
+        itemNarrative.style.overflow = 'hidden';
+
+        const narrativeHeight = itemNarrative.scrollHeight;
+        tl.to(itemNarrative, {
+          opacity: 1,
+          height: narrativeHeight,
+          duration: 0.4,
+          ease: 'power2.out',
+          onComplete: () => {
+            itemNarrative.style.height = 'auto';
+            itemNarrative.style.overflow = '';
+          }
+        }, '-=0.1');
+      }
+
+      // Clear currently open if this was it
+      if (currentlyOpenItem === item) {
+        currentlyOpenItem = null;
+      }
+    };
+
+    const toggleExpanded = () => {
+      const isExpanded = header.getAttribute('aria-expanded') === 'true';
+      if (isExpanded) {
+        closePanel(meritItem);
+      } else {
+        openPanel();
+      }
+    };
+
+    header.addEventListener('click', toggleExpanded);
+    header.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleExpanded();
+      }
+    });
+  });
+</script>

@@ -1,0 +1,335 @@
+{
+  "player": "Eunomiac",
+  "name": "Micah Vale",
+  "type": "pc",
+  "sex": "m",
+  "dob": "12 / 15 / 96",
+  "imageUrl": "assets/images/pc/micah.webp",
+  "concept": "the HOST",
+  "origin": "Exomorph",
+  "clade": "Chimeric",
+  "forms": ["Symbiote (Vein)"],
+  "overview": "<strong>FIELD SYNOPSIS:</strong> Unhoused adolescent recovered from gang activity, now permanently bonded to parasitic entity codename <strong>VEIN</strong>. Symbiote enables full-body mass conversion and multiple secondary combat adaptations; entity displays independent cognition and overt predatory affect while remaining highly protective of host. Subject favors vertical terrain, ambush, and rapid exfiltration, using the symbiote as both shock weapon and intimidation tool. Threat assessment: <strong class='threat-assessment'>EMBER</strong> in dense urban environments; control vectors likely limited to emotional leverage on host.",
+  "health": 6,
+  "willpower": 5,
+  "acclimation": 0,
+  "stability": 5,
+  "size": 4,
+  "defense": 7,
+  "initiative": 6,
+  "speed": 11,
+  "attributePriorities": {
+    "mental": "secondary",
+    "physical": "primary",
+    "social": "tertiary"
+  },
+  "attributes": {
+    "int": 2,
+    "wit": 3,
+    "res": 2,
+    "str": 3,
+    "dex": 3,
+    "sta": 2,
+    "pre": 1,
+    "man": 2,
+    "com": 3
+  },
+  "skillPriorities": {
+    "mental": "secondary",
+    "physical": "primary",
+    "social": "tertiary"
+  },
+  "skills": {
+    "academics": 0,
+    "computer": 0,
+    "crafts": 1,
+    "investigation": 1,
+    "medicine": 1,
+    "occult": 0,
+    "politics": 0,
+    "science": 1,
+    "athletics": {
+      "value": 4,
+      "tags": ["hypercompetent"]
+    },
+    "brawl": 0,
+    "drive": 0,
+    "firearms": 0,
+    "larceny": {
+      "value": 3,
+      "specs": ["Pickpocketing"]
+    },
+    "stealth": {
+      "value": 2,
+      "specs": ["Shadows"]
+    },
+    "survival": 2,
+    "weaponry": 0,
+    "animalKen": 0,
+    "empathy": 0,
+    "expression": 0,
+    "intimidation": 1,
+    "persuasion": 0,
+    "socialize": 0,
+    "streetwise": 3,
+    "subterfuge": {
+      "value": 3,
+      "specs": ["Innocence"]
+    }
+  },
+  "adaptations": [
+    {
+      "key": "talented",
+      "display": "Talented",
+      "narrative": "",
+      "clade": "universal",
+      "limit": "none",
+      "source": {
+        "book": "SG",
+        "page": 50
+      }
+    },
+    {
+      "key": "untamed",
+      "display": "Untamed",
+      "narrative": "",
+      "clade": "chimeric",
+      "limit": "perChapter",
+      "source": {
+        "book": "DtR",
+        "page": 112
+      }
+    },
+    {
+      "key": "ferocious",
+      "display": "Ferocious",
+      "narrative": "",
+      "clade": "chimeric",
+      "limit": "perChapter",
+      "source": {
+        "book": "SG",
+        "page": 51
+      }
+    }
+  ],
+  "merits": [
+    {
+      "key": "small-framed",
+      "narrative": "Micah looks like an underfed runaway, so guards forget he's in the room until he slips through vents or cluttered rafters."
+    },
+    {
+      "key": "parkour",
+      "value": 5,
+      "narrative": "Years of rooftop squatting left Micah with feral parkour instincts, so apartment blocks become ladders for hit-and-run ambushes."
+    },
+    {
+      "key": "sleightOfHand",
+      "narrative": "Constant hustle trained Micah to watch wrists and wallets, lifting credentials before marks realize he's even brushed past them."
+    },
+    {
+      "key": "masteredTechnique",
+      "narrative": "When Vein surfaces, Micah melts into pipes and rafters, hanging motionless above targets until they're convinced the room is clear.",
+      "vars": {
+        "techniqueName": "Ninja",
+        "techniqueVariation": "brachiation",
+        "techniqueRules": "Micah is especially stealthy when wielding the impossible maneuverability of Brachiation: He can maneuver into places where ordinary people could not hide — such as crouching against a ceiling or lurking in a pond — then contort himself into something that is almost invisible, gaining a <strong>+3</strong> bonus to all relevant Stealth rolls.{{BR}}Having mastered this Technique, this bonus derives from the <em>higher</em> of Scar Power or Variation Magnitude.",
+        "techniquePage": 203
+      }
+    }
+  ],
+  "scars": [
+    {
+      "key": "involuntaryStimulus",
+      "value": {
+        "base": 3,
+        "deviation": 1,
+        "total": 4
+      },
+      "type": "physical",
+      "display": "Unleashing Vein (Involuntary Stimulus: Micah's Blood)",
+      "narrative": "Vein _is_ Micah's blood, and Micah's body is all that contains the symbiote. When Micah bleeds, whether willingly (by cutting himself to voluntarily transform into Vein) or unwillingly (by suffering an injury), the transformation into Vein is governed entirely by whether Vein has escaped the containment of Micah's body.",
+      "entangledVariations": [
+        "monstrousTransformation"
+      ],
+      "source": {
+        "book": "DtR",
+        "page": 156
+      }
+    },
+    {
+      "key": "thinSkin",
+      "type": "physical",
+      "value": 1,
+      "display": "Fear of Losing Containment (Thin Skin)",
+      "narrative": "Given how easily Vein can escape, and how unpredictable Vein is when he does, Micah is understandably wary of suffering even mild wounds -- wounds that might release the symbiote whether Micah wants it or not.",
+      "entangledVariations": [
+        "carapace"
+      ],
+      "source": {
+        "book": "DtR",
+        "page": 170
+      }
+    },
+    {
+      "key": "alternatePersona",
+      "type": "mental",
+      "value": 2,
+      "display": "Vein's Growing Influence (Alternate Persona: Vein)",
+      "narrative": "As Micah's innate (i.e. permanent/perpetual) abilities grow, they come at a cost: Vein's _lessons_ come with increasing _influence,_ and recently Vein has managed to seize control of Micah's body entirely, relegating Micah to backseat driver in his own body. Fortunately, these events are rare and short-lived, but Vein is always offering more power if Micah will cede just a little more of his control...",
+      "entangledVariations": [
+        "predatorsCunning",
+        "hyper-competence"
+      ],
+      "source": {
+        "book": "DtR",
+        "page": 158
+      }
+    }
+  ],
+  "variations": [
+    {
+      "key": "monstrousTransformation",
+      "value": {
+        "base": 4,
+        "free": 1,
+        "total": 5
+      },
+      "display": "Monstrous Transformation: Vein",
+      "narrative": "",
+      "entangledScar": "involuntaryStimulus",
+      "activation": "involuntary",
+      "tags": ["overt"],
+      "keywords": ["overt", "discrete", "toggled"],
+      "source": {
+        "book": "DtR",
+        "page": 139
+      },
+      "secondaryVariations": [
+        {
+          "key": "brachiation",
+          "value": 3,
+          "display": "Liquid Movement (Brachiation)",
+          "narrative": "",
+          "entangledScar": "",
+          "activation": "byPrimary",
+          "tags": ["secondary"],
+          "source": {
+            "book": "DtR",
+            "page": 114
+          }
+        },
+        {
+          "key": "cuttingLash",
+          "value": {
+            "base": 2,
+            "deviation": 1,
+            "total": 3
+          },
+          "display": "Lashing Tendrils (Cutting Lash)",
+          "narrative": "",
+          "entangledScar": "",
+          "activation": "byPrimary",
+          "tags": ["secondary"],
+          "source": {
+            "book": "DtR",
+            "page": 122
+          }
+        },
+        {
+          "key": "telekinesis",
+          "value": 3,
+          "display": "Grasping Strands (Telekinesis)",
+          "narrative": "Not a psychic phenomena at all, 'Telekinesis' merely provides convenient mechanical effects for Vein's ability to extend multiple strong tendrils of coagulated blood, capable of ensnaring, grappling, and even throwing heavy objects.",
+          "entangledScar": "",
+          "activation": "byPrimary",
+          "tags": ["secondary"],
+          "source": {
+            "book": "DtR",
+            "page": 132
+          }
+        }
+      ]
+    },
+    {
+      "key": "predatorsCunning",
+      "display": "Vein's Psychology (Predator's Cunning)",
+      "value": 1,
+      "narrative": "",
+      "entangledScar": "alternatePersona",
+      "activation": "persistent",
+      "source": {
+        "book": "DtR",
+        "page": 141
+      }
+    },
+    {
+      "key": "carapace",
+      "value": 1,
+      "display": "Vein's Physiology (Carapace)",
+      "narrative": "Micah does not possess a hardened 'carapace', per se. Rather, even when Vein is safely contained, he is able to quickly staunch internal bleeding and effectively heal bullet wounds (and even melee wounds, albeit to a lesser extent). The armor provided by Carapace does not represent reflecting or absorbing bullets, but rather the bullets passing through Micah (painfully, and dangerously as bullets tend to cause Micah to bleed) but being healed by Vein from within almost instantly.",
+      "entangledScar": "thin-skin",
+      "activation": "persistent",
+      "source": {
+        "book": "DtR",
+        "page": 115
+      }
+    },
+    {
+      "key": "hyper-competence",
+      "value": 1,
+      "display": "Vein's Physicality (Hyper-Competence: Athletics)",
+      "narrative": "",
+      "entangledScar": "alternatePersona",
+      "activation": "persistent",
+      "vars": {
+        "skill": "athletics"
+      },
+      "source": {
+        "book": "DtR",
+        "page": 122
+      }
+    }
+  ],
+  "touchstones": {
+    "1": {
+      "type": "conviction",
+      "display": "Ms. Anderson",
+      "crossLinks": [
+        "msAnderson"
+      ]
+    },
+    "2": {
+      "type": "conviction",
+      "display": "Experimental Notes from Vein's Captivity",
+      "crossLinks": [
+        "msAnderson",
+        "lamplighters",
+        "mirrorCell"
+      ]
+    },
+    "3": {
+      "type": "conviction",
+      "display": "Agent Gael Castañeda",
+      "crossLinks": [
+        "agentGaelCastaneda",
+        "pcJoshuaSanz"
+      ]
+    },
+    "4": {
+      "type": "conviction",
+      "display": "Footage of Vein's Rampage",
+      "crossLinks": [
+        "group33",
+        "lamplighters",
+        "mirrorCell",
+        "msAnderson"
+      ]
+    },
+    "5": {
+      "type": "loyalty",
+      "display": "Caroline Vale (Aunt)",
+      "crossLinks": []
+    }
+  },
+  "bio": ""
+}

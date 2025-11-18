@@ -1,0 +1,106 @@
+{{!-- Variables to Pass (from PCSheetData):
+- `type`: "pc" / "npc" (for CSS/styling)
+- `attributes`: Record<TraitCategory, Record<Attribute, TraitData<Attribute>>>
+  Nested structure organized by category:
+  - `attributes.mental`: Record containing:
+    - `int`: TraitData<Attribute> (Intelligence)
+    - `wit`: TraitData<Attribute> (Wits)
+    - `res`: TraitData<Attribute> (Resolve)
+  - `attributes.physical`: Record containing:
+    - `str`: TraitData<Attribute> (Strength)
+    - `dex`: TraitData<Attribute> (Dexterity)
+    - `sta`: TraitData<Attribute> (Stamina)
+  - `attributes.social`: Record containing:
+    - `pre`: TraitData<Attribute> (Presence)
+    - `man`: TraitData<Attribute> (Manipulation)
+    - `com`: TraitData<Attribute> (Composure)
+  Each TraitData<Attribute> contains:
+    - `key`: Attribute (the attribute identifier)
+    - `value`: TraitValueData (base, bonus, broken, total, max)
+    - `dotline`: DotlineData (array of dot types)
+    - `tags`: TraitTag[] (trait tags)
+    - `specs`: SpecializationData[] (specializations, if any)
+    - `cssClasses`: string[] (includes priority class like "priority-primary")
+    - `tooltip`?: string (optional tooltip)
+- `attributePriorities`: Record<TraitCategory, TraitPriority> (for CSS classes)
+  Can access via: `attributes.mental.int.cssClasses` or iterate categories
+ --}}
+
+<div class="block top-block attribute-block">
+  <div class="block sub-block attribute-header-block">
+    <span class="form-label">Attributes & Skills:</span>
+  </div>
+  <div class="block sub-block attributes-block">
+
+    <div class="block sub-block attributes-block attributes-{{type}} sub-block-{{attributePriorities.mental}}">
+      {{#if attributes.mental.int}}
+        {{> _partials/stat-row
+          name="Intelligence"
+          type="attribute"
+          trait=attributes.mental.int
+        }}
+      {{/if}}
+      {{#if attributes.mental.wit}}
+        {{> _partials/stat-row
+          name="Wits"
+          type="attribute"
+          trait=attributes.mental.wit
+        }}
+      {{/if}}
+      {{#if attributes.mental.res}}
+        {{> _partials/stat-row
+          name="Resolve"
+          type="attribute"
+          trait=attributes.mental.res
+        }}
+      {{/if}}
+    </div>
+    <div class="block sub-block attributes-block attributes-{{type}} sub-block-{{attributePriorities.physical}}">
+      {{#if attributes.physical.str}}
+        {{> _partials/stat-row
+          name="Strength"
+          type="attribute"
+          trait=attributes.physical.str
+        }}
+      {{/if}}
+      {{#if attributes.physical.dex}}
+        {{> _partials/stat-row
+          name="Dexterity"
+          type="attribute"
+          trait=attributes.physical.dex
+        }}
+      {{/if}}
+      {{#if attributes.physical.sta}}
+        {{> _partials/stat-row
+          name="Stamina"
+          type="attribute"
+          trait=attributes.physical.sta
+        }}
+      {{/if}}
+    </div>
+    <div class="block sub-block attributes-block attributes-{{type}} sub-block-{{attributePriorities.social}}">
+      {{#if attributes.social.pre}}
+        {{> _partials/stat-row
+          name="Presence"
+          type="attribute"
+          trait=attributes.social.pre
+        }}
+      {{/if}}
+      {{#if attributes.social.man}}
+        {{> _partials/stat-row
+          name="Manipulation"
+          type="attribute"
+          trait=attributes.social.man
+        }}
+      {{/if}}
+      {{#if attributes.social.com}}
+        {{> _partials/stat-row
+          name="Composure"
+          type="attribute"
+          trait=attributes.social.com
+        }}
+      {{/if}}
+    </div>
+
+  </div>
+</div>

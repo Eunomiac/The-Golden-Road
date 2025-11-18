@@ -1,0 +1,134 @@
+{
+  "player": "J.Rook",
+  "type": "pc",
+  "name": "Andres Gutierrez",
+  "sex": "m",
+  "dob": "??/??/??",
+  "imageUrl": "assets/images/pc/andres.webp",
+  "concept": "the SEEKER",
+  "origin": "Exomorph",
+  "clade": "Cephalist",
+  "forms": [],
+  "overview": "<strong>FIELD SYNOPSIS:</strong> Journalist whose investigative work intersected with restricted operations prior to abduction. Post-alteration, subject exhibits enhanced pattern recognition, intrusive cognitive probing capability, and compulsive information-gathering behavior. Functions as de facto analyst and interrogator for associated Renegade cluster, with growing awareness of Conspiracy methodology and infrastructure. Threat assessment: <strong class='threat-assessment'>AMBER</strong>; primary risk lies in subject's ability to correlate disparate data streams and expose assets rather than in direct physical confrontation.",
+  "health": 7,
+  "willpower": 5,
+  "acclimation": 0,
+  "stability": 5,
+  "size": 5,
+  "defense": 3,
+  "initiative": 5,
+  "speed": 9,
+  "attributePriorities": {
+    "mental": "secondary",
+    "physical": "tertiary",
+    "social": "primary"
+  },
+  "attributes": {
+    "int": {
+      "value": {
+        "base": 2,
+        "bonus": 2,
+        "total": 4
+      }
+    },
+    "wit": 3,
+    "res": 2,
+    "str": 2,
+    "dex": 2,
+    "sta": 2,
+    "pre": 2,
+    "man": 3,
+    "com": 3
+  },
+  "skillPriorities": {
+    "mental": "secondary",
+    "physical": "tertiary",
+    "social": "primary"
+  },
+  "skills": {
+    "academics": 1,
+    "investigation": {
+      "value": 4,
+      "tags": ["asset"],
+      "specs": ["Records"]
+    },
+    "politics": 2,
+    "athletics": 1,
+    "firearms": {
+      "value": 2,
+      "tags": ["asset"],
+      "specs": ["Pistols"]
+    },
+    "stealth": 1,
+    "empathy": 3,
+    "expression": {
+      "value": 3,
+      "specs": ["News Articles"]
+    },
+    "persuasion": {
+      "value": 3,
+      "tags": ["asset"],
+      "specs": ["Testimony"]
+    },
+    "socialize": {
+      "value": 3,
+      "specs": ["Upper Class"]
+    }
+  },
+  "adaptations": {},
+  "merits": [
+    {
+      "key": "professionalTraining",
+      "narrative": "Years on Mexico City's investigative desk drilled Andres in Investigation, Firearms, and Persuasion, so he juggles sources, forensics, and pressure interviews like a newsroom veteran.",
+      "value": 4,
+      "vars": {
+        "profession": "Journalist",
+        "assetSkills": ["Investigation", "Firearms", "Persuasion"]
+      }
+    },
+    {
+      "key": "contacts",
+      "vars": {
+        "subtype": "prestigious journalists"
+      },
+      "narrative": "Andres still trades embargoed drafts and camera-ready favors with prestigious journalists who remember the awards his exposes delivered.",
+      "cssClasses": "sub-merit"
+    },
+    {
+      "key": "contacts",
+      "vars": {
+        "subtype": "the FMP"
+      },
+      "narrative": "He can still tap the FMP officers he once embedded with, swapping intel for quiet warnings before raids close in.",
+      "cssClasses": "sub-merit"
+    },
+    {
+      "key": "anonymity",
+      "narrative": "Whistleblower shells, prepaid phones, and cash couriers keep Andres' legal identity off registries when a story goes live.",
+      "value": 1
+    },
+    {
+      "key": "resources",
+      "narrative": "Syndicated columns and danger-pay retainers fund a comfortable freelancer lifestyle with enough left for burner safehouses.",
+      "value": 2
+    },
+    {
+      "key": "strikingLooks",
+      "narrative": "Model-tier poise makes sources drop their guard; Andres weaponizes that camera-ready charm whenever negotiations sour.",
+      "value": 2
+    },
+    {
+      "key": "multilingual",
+      "narrative": "He slips between English and Spanish mid-sentence to mirror sources and coax nervous witnesses into talking.",
+      "vars": {
+        "lang1": "English",
+        "lang2": "Spanish"
+      }
+    }
+  ],
+  "scars": {},
+  "variations": {},
+  "touchstones": {},
+  "ambitions": {},
+  "bio": "<p>HTML content with <strong>formatting</strong> and 🎭 emojis</p>"
+}

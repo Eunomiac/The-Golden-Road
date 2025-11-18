@@ -1,0 +1,108 @@
+{
+  "player": "Roarshack",
+  "name": "Gigi Iakobashvili",
+  "type": "pc",
+  "sex": "f",
+  "dob": "10 / 31 / 89",
+  "imageUrl": "assets/images/pc/gigi.webp",
+  "concept": "the REALITY HACKER",
+  "origin": "Autourgic",
+  "clade": "Invasive",
+  "forms": ["Amalgam"],
+  "overview": "<strong>FIELD SYNOPSIS:</strong> Leverages dual access to academia and narcotics distribution networks. Demonstrated capacity to manipulate digital systems, perception, and low-level probability, often under the cover of “hacker” subculture and student status. Known or suspected ties to think-tank/front organization <strong>GROUP 3³</strong>, with indications of shared research into altered cognition and consensus fragility. Threat assessment: <strong class='threat-assessment'>AMBER</strong> for information security and memetic stability; subject's improvisational behavior complicates prediction models.",
+  "health": 6,
+  "willpower": 5,
+  "acclimation": 1,
+  "stability": 6,
+  "size": 5,
+  "defense": 3,
+  "initiative": 5,
+  "speed": 10,
+  "attributePriorities": {
+    "mental": "secondary",
+    "physical": "tertiary",
+    "social": "primary"
+  },
+  "attributes": {
+    "int": 3,
+    "wit": 2,
+    "res": 2,
+    "str": 2,
+    "dex": 3,
+    "sta": 1,
+    "pre": {
+      "value": {
+        "base": 1,
+        "bonus": 5,
+        "total": 6
+      }
+    },
+    "man": 4,
+    "com": 3
+  },
+  "skillPriorities": {
+    "mental": "tertiary",
+    "physical": "secondary",
+    "social": "primary"
+  },
+  "skills": {
+    "academics": {
+      "value": 3,
+      "tags": ["asset"],
+      "specs": ["History", "Math"]
+    },
+    "occult": {
+      "value": 1,
+      "tags": ["asset"]
+    },
+    "athletics": 1,
+    "brawl": {
+      "value": 3,
+      "specs": ["Grappling"]
+    },
+    "stealth": 2,
+    "empathy": {
+      "value": 3,
+      "specs": ["Motives"]
+    },
+    "persuasion": {
+      "value": 1,
+      "specs": ["Logic"]
+    },
+    "streetwise": 3,
+    "subterfuge": {
+      "value": 2,
+      "tags": ["asset"]
+    }
+  },
+  "adaptations": {},
+  "merits": [
+    {
+      "key": "professionalTraining",
+      "value": 3,
+      "narrative": "",
+      "vars": {
+        "profession": "Student",
+        "assetSkills": ["Academics", "Occult", "Subterfuge"]
+      }
+    },
+    {
+      "key": "fast-talking",
+      "narrative": "",
+      "value": 1
+    },
+    {
+      "key": "prototype",
+      "value": 1,
+      "narrative": "",
+      "vars": {
+        "prototypeName": "the Red Phone"
+      }
+    }
+  ],
+  "scars": {},
+  "variations": {},
+  "touchstones": {},
+  "ambitions": {},
+  "bio": "<p>HTML content with <strong>formatting</strong> and 🎭 emojis</p>"
+}

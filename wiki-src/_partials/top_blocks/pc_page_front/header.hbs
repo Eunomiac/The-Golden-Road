@@ -1,0 +1,107 @@
+{{!-- Variables to Pass (from PCSheetData):
+- `name`: string (character name)
+- `player`: string (player name)
+- `sex`: "m" | "f" | "nb" | "v" | "x" | "a" | "c" | "u" (sex/gender identifier)
+- `dob`: string (date of birth)
+- `imageUrl`: string (path to character image)
+- `concept`: string (character concept)
+- `origin`: string (deviant origin)
+- `clade`: string (deviant clade)
+- `forms`: string[] (array of form names)
+- `acclimation`: TraitDataDerived object (acclimation trait data)
+- `stability`: TraitDataDerived object (stability trait data)
+ --}}
+
+
+<div class="block top-block pc-header">
+
+  <div class="block sub-block character-name">
+    <span class="character-name">{{name}}</span>
+  </div>
+  <div class="block sub-block sex-row">
+    <span class="form-label">Sex:</span>
+    <span class="form-options">
+      <span class="form-option form-option-m">
+        <span class="form-option-text">M</span>
+        {{#if (eq sex "m")}}
+          <img src="../assets/images/marker-circle.webp" alt="Circled Option" class="form-option-circle">
+        {{/if}}
+      </span>
+      <span class="form-option form-option-f">
+        <span class="form-option-text">F</span>
+        {{#if (eq sex "f")}}
+          <img src="../assets/images/marker-circle.webp" alt="Circled Option" class="form-option-circle">
+        {{/if}}
+      </span>
+      <span class="form-option form-option-nb">
+        <span class="form-option-text">NB</span>
+        {{#if (eq sex "nb")}}
+          <img src="../assets/images/marker-circle.webp" alt="Circled Option" class="form-option-circle">
+        {{/if}}
+      </span>
+      <span class="form-option form-option-v">
+        <span class="form-option-text">V</span>
+        {{#if (eq sex "v")}}
+          <img src="../assets/images/marker-circle.webp" alt="Circled Option" class="form-option-circle">
+        {{/if}}
+      </span>
+      <span class="form-option form-option-x">
+        <span class="form-option-text">X</span>
+        {{#if (eq sex "x")}}
+          <img src="../assets/images/marker-circle.webp" alt="Circled Option" class="form-option-circle">
+        {{/if}}
+      </span>
+      <span class="form-option form-option-a">
+        <span class="form-option-text">A</span>
+        {{#if (eq sex "a")}}
+          <img src="../assets/images/marker-circle.webp" alt="Circled Option" class="form-option-circle">
+        {{/if}}
+      </span>
+      <span class="form-option form-option-c">
+        <span class="form-option-text">C</span>
+        {{#if (eq sex "c")}}
+          <img src="../assets/images/marker-circle.webp" alt="Circled Option" class="form-option-circle">
+        {{/if}}
+      </span>
+      <span class="form-option form-option-u">
+        <span class="form-option-text">U</span>
+        {{#if (eq sex "u")}}
+          <img src="../assets/images/marker-circle.webp" alt="Circled Option" class="form-option-circle">
+        {{/if}}
+      </span>
+    </span>
+  </div>
+  <div class="block sub-block dob-row">
+    <span class="form-label">DOB:</span>
+    <span class="form-field">
+      <span class="form-value">{{dob}}</span>
+    </span>
+  </div>
+  <div class="block sub-block origin-row">
+    <span class="form-label">Origin:</span>
+    <span class="form-field">
+      <span class="form-value">{{origin}}</span>
+    </span>
+  </div>
+  <div class="block sub-block clade-row">
+    <span class="form-label">Clade:</span>
+    <span class="form-field">
+      <span class="form-value">{{clade}}</span>
+    </span>
+  </div>
+  <div class="block sub-block forms-row">
+    <span class="form-label">Form(s):</span>
+    <span class="form-field">
+      <span class="form-value">{{#each forms}}<span class="form-value-item">{{this}}</span>{{/each}}</span>
+    </span>
+  </div>
+
+  {{#if imageUrl}}
+  <div class="block absolute-block pc-polaroid-container">
+    <img src="../{{imageUrl}}" alt="{{name}}" class="pc-polaroid-image">
+    <img src="../assets/images/polaroid-frame.webp" alt="Polaroid Frame" class="pc-polaroid-frame">
+    <img src="../assets/images/paper-clip.webp" alt="Paper Clip" class="pc-polaroid-paper-clip">
+    <span class="pc-polaroid-caption">{{concept}}</span>
+  </div>
+  {{/if}}
+</div>

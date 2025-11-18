@@ -1,0 +1,20 @@
+# Dependency directories
+node_modules/
+
+# Editor and tool artifacts
+.cursor/
+.idea/
+*.log
+
+# Build outputs and caches
+dist/
+*.cache
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Project assets not needed in repo
+data/
+resources/
+node_modules

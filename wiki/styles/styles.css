@@ -1,0 +1,1541 @@
+@charset "UTF-8";
+/*
+  Global stylesheet entry for the wiki.
+  Compiles to wiki/styles/styles.css via Dart Sass.
+*/
+/* Repent - Header Font */
+@font-face {
+  font-family: "Repent";
+  src: url("../assets/fonts/Repent.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+/* Typewriter - Body Font Family */
+@font-face {
+  font-family: "Typewriter";
+  src: url("../assets/fonts/Typewriter Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Typewriter";
+  src: url("../assets/fonts/Typewriter Light Italic.otf") format("opentype");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Typewriter";
+  src: url("../assets/fonts/Typewriter Med.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Typewriter";
+  src: url("../assets/fonts/Typewriter Med Italic.otf") format("opentype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Typewriter";
+  src: url("../assets/fonts/Typewriter Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Typewriter";
+  src: url("../assets/fonts/Typewriter Bold Italic.otf") format("opentype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+/* Typewriter Condensed - Separate Family for Condensed Versions */
+@font-face {
+  font-family: "Typewriter Condensed";
+  src: url("../assets/fonts/Typewriter Cond Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Typewriter Condensed";
+  src: url("../assets/fonts/Typewriter Cond.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Typewriter Condensed";
+  src: url("../assets/fonts/Typewriter Cond Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+/* VTypewriter & BadTypewriter - More Distressed Typewritten Look */
+@font-face {
+  font-family: "VTypewriter";
+  src: url("../assets/fonts/VTypewriter Bold.otf") format("opentype");
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "VTypewriter";
+  src: url("../assets/fonts/VTypewriter Med.otf") format("opentype");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "BadTypewriter";
+  src: url("../assets/fonts/BadTypewriter.ttf") format("truetype");
+  font-display: swap;
+}
+/* Handwritten Fonts */
+@font-face {
+  font-family: "PermanentMarker";
+  src: url("../assets/fonts/PermanentMarker.ttf") format("truetype");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Scribble";
+  src: url("../assets/fonts/Scribble Med.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Scribble";
+  src: url("../assets/fonts/Scribble Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-display: swap;
+}
+html body, .header-text-general, .form-label, .header-text-title, .body-text-bold, .body-text-black, .body-text-light {
+  font-size: 14px;
+  font-family: "Typewriter", serif;
+  font-kerning: normal;
+  color: #1B1A17;
+  line-height: 1.2;
+  text-rendering: optimizeLegibility;
+}
+
+.body-text-light {
+  opacity: 0.6;
+}
+
+.body-text-bold, .body-text-black {
+  font-weight: 700;
+}
+
+.body-text-black {
+  text-transform: uppercase;
+}
+
+.header-text-general, .form-label, .header-text-title {
+  font-size: 1.5rem;
+  font-family: "BadTypewriter", serif;
+}
+
+.header-text-title {
+  font-size: 3rem;
+}
+
+.form-label {
+  flex: 0 0 min-content;
+  min-height: 1.75rem;
+  height: 1.75rem;
+  line-height: 1.75rem;
+  display: inline-block;
+  margin: 0.25rem 0.5rem 0.25rem 0;
+}
+.form-label.form-label-title {
+  font-size: 3rem;
+  margin-top: 1rem;
+}
+
+.form-field {
+  background: rgba(0, 0, 0, 0.15);
+  min-height: 1.75rem;
+  line-height: 1.75rem;
+  font-size: 1.5rem;
+  text-indent: 0.25rem;
+  font-family: "PermanentMarker", serif;
+}
+
+/* === SPECIFIC COMPONENT STYLES === */
+/* --- TRAIT LABELS --- */
+.layout {
+  overflow: hidden;
+  padding-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  background-image: url("../assets/images/bg-red.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: repeat-y;
+}
+.layout .paper-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+}
+.layout .paper-container .paper-stack {
+  position: relative;
+  z-index: 2;
+  padding: 0rem 4rem 1.5rem 3rem;
+  background-image: url("../assets/images/bg-paper-stack.webp");
+  background-position: top center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  aspect-ratio: 8.5/11;
+  display: flex;
+  justify-content: stretch;
+  align-items: stretch;
+  --paper-height: 100vh;
+  height: var(--paper-height);
+  width: calc(var(--paper-height) * 8.5 / 11);
+}
+.layout .paper-container .paper-stack .page.pc-page {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex: 1;
+  gap: 1rem;
+}
+.layout .master-navigation {
+  position: absolute;
+  left: calc(50% + 38.6363636364vh + 2rem);
+  top: 2rem;
+  padding: 0 1.5rem;
+  background: #F3EFE6;
+  line-height: 1.5;
+}
+.layout .master-navigation .nav-header {
+  margin: 0;
+  margin-top: 0.5rem;
+  text-indent: -1rem;
+}
+.layout .master-navigation .nav-list {
+  padding: 0;
+  margin-top: 0rem;
+  list-style: none;
+}
+.layout .master-navigation .nav-list .nav-item {
+  padding: 0 1rem;
+  background: #F3EFE6;
+}
+.layout .master-navigation .nav-list .nav-item.nav-item-current {
+  pointer-events: none;
+}
+.layout .master-navigation .nav-list .nav-item:hover {
+  background: #1B1A17;
+}
+.layout .master-navigation .nav-list .nav-item:hover .nav-link {
+  color: #F3EFE6;
+}
+.layout .master-navigation .nav-list .nav-item .nav-link {
+  text-decoration: none;
+  font-family: "BadTypewriter", serif;
+  font-size: 1.25rem;
+  color: #1B1A17;
+  position: relative;
+}
+.layout .master-navigation .nav-list .nav-item .nav-link.nav-link-current {
+  color: #666666;
+  pointer-events: none;
+}
+.layout .master-navigation .nav-list .nav-item .nav-link.nav-link-current::before {
+  content: "▶ ";
+  position: absolute;
+  left: -1.5rem;
+}
+
+.block > *:not(.sub-block) {
+  width: 100%;
+}
+.dotline {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex-basis: 40%;
+  min-width: calc(var(--dotline-size) * 7 + var(--dotline-gap) * 4);
+  max-width: 100%;
+  gap: var(--dotline-gap);
+  --dotline-size: 1rem;
+  --dotline-gap: 0;
+  --dotline-dot-full: url("../../assets/images/dots/dot-full.webp");
+  --dotline-dot-empty: url("../../assets/images/dots/dot-empty.webp");
+  --dotline-dot-bonus: url("../../assets/images/dots/dot-bonus.webp");
+  --dotline-dot-broken: url("../../assets/images/dots/dot-broken.webp");
+}
+.dotline.attribute-dotline, .dotline.skill-dotline {
+  --dotline-size: 0.75rem;
+  --dotline-gap: 0.05rem;
+}
+.dotline .dot {
+  display: inline-block;
+  flex-basis: var(--dotline-size);
+  height: var(--dotline-size);
+  vertical-align: middle;
+  box-sizing: border-box;
+  flex-shrink: 1;
+  flex-grow: 1;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform-origin: center center;
+  transform: scale(1.1);
+}
+.dotline .dot.full-dot {
+  background-image: var(--dotline-dot-full);
+  opacity: var(--opacity, 1);
+}
+.dotline .dot.bonus-dot {
+  background-image: var(--dotline-dot-bonus);
+}
+.dotline .dot.broken-dot {
+  background-image: var(--dotline-dot-broken);
+  opacity: var(--opacity, 1);
+}
+.dotline .dot.empty-dot {
+  background-image: var(--dotline-dot-empty);
+}
+.dotline .dot.blank-dot {
+  opacity: 0;
+}
+.dotline .dot:nth-child(5n) {
+  margin-right: calc(var(--dotline-size) * 2 + 0.15rem);
+}
+.dotline .dot:nth-child(6n) {
+  margin-left: calc(-1 * var(--dotline-size) * 2);
+}
+
+.source-citation {
+  display: inline-flex;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+}
+.source-citation::before {
+  content: "(";
+  margin-right: -0.5rem;
+}
+.source-citation::after {
+  content: ")";
+  margin-left: -0.5rem;
+}
+.source-citation .source-title {
+  font-style: italic;
+}
+.source-citation .source-title::after {
+  content: ",";
+}
+
+/**
+* Versatile tooltips styles using anchor & target features.
+*    - Target: element with the "tooltip" class.
+*    - Anchor:
+*    - Target:
+*
+*/
+.has-tooltip {
+  cursor: pointer;
+}
+.has-tooltip:hover + .tooltip, .has-tooltip:focus-visible + .tooltip {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition-property: opacity, transform, visibility;
+  transition-duration: 200ms, 200ms, 0s;
+  transition-timing-function: ease, ease, step-start;
+  transition-delay: 1s, 1s, 0s;
+}
+
+.tooltip {
+  position: absolute;
+  position-area: top center;
+  background: url("../assets/images/backgrounds/ink-block.webp") no-repeat center center;
+  background-size: 100% 100%;
+  min-height: 1rem;
+  min-width: 75ch;
+  height: fit-content;
+  width: fit-content;
+  white-space: normal;
+  pointer-events: none;
+  z-index: 10;
+  margin-bottom: 1rem;
+  padding: 1.5rem 2.5rem;
+  color: #F3EFE6;
+  filter: drop-shadow(0.5rem 0.5rem 0.25rem rgb(0, 0, 0));
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(0.5rem) scale(0.98);
+  pointer-events: none;
+  user-select: none;
+  font-size: 16px;
+  transition-property: opacity, transform, visibility;
+  transition-duration: 150ms, 150ms, 0s;
+  transition-timing-function: ease-out, ease-out, step-end;
+  transition-delay: 0s, 0s, 150ms;
+}
+.tooltip:hover {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition-property: opacity, transform, visibility;
+  transition-duration: 200ms, 200ms, 0s;
+  transition-timing-function: ease, ease, step-start;
+  transition-delay: 0s, 0s, 0s;
+}
+.tooltip.tiny-tooltip {
+  padding: 0.5rem;
+  min-height: unset;
+  min-width: unset;
+}
+.tooltip h1 {
+  margin: 0;
+}
+.tooltip > span {
+  display: block;
+  margin: 1rem 0;
+  letter-spacing: 0.05em;
+}
+.tooltip .trait-desc-general {
+  margin: 1rem 1rem;
+  font-style: italic;
+}
+
+/**
+ * Tab Navigation Component
+ *
+ * Sticky tab-style navigation aligned to the left of the paper stack container.
+ * Tabs are rotated 90 degrees and styled to resemble sticky tabs on paper.
+ */
+.sidebar.tab-navigation {
+  position: absolute;
+  left: calc(50% - 38.6363636364vh);
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  padding: 0;
+  margin: 0;
+  width: auto;
+  pointer-events: none;
+}
+
+.tab-navigation {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 1rem 0 0 0;
+  margin: 0;
+  pointer-events: none;
+}
+.tab-navigation .tab-button {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: all 0.2s ease;
+  min-width: fit-content;
+  width: auto;
+  z-index: 1;
+}
+.tab-navigation .tab-button .tab-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  white-space: nowrap;
+  padding: 0.75rem 0.25rem 0.75rem 1.25rem;
+  font-size: 1rem;
+  font-family: "Repent", sans-serif;
+  text-transform: uppercase;
+  font-weight: normal;
+  color: #1B1A17;
+  background-color: rgba(243, 239, 230, 0.9);
+  border: 1px solid rgba(27, 26, 23, 0.2);
+  box-shadow: 0 -2px 4px rgba(27, 26, 23, 0.1), inset 0 1px 2px rgba(27, 26, 23, 0.05);
+  user-select: none;
+  display: inline-block;
+}
+.tab-navigation .tab-button:not(.active):hover .tab-text {
+  background-color: #f3efe6;
+  border-color: rgba(27, 26, 23, 0.4);
+  box-shadow: 0 -2px 6px rgba(27, 26, 23, 0.15), inset 0 1px 2px rgba(27, 26, 23, 0.08);
+  transform: rotate(180deg) translateX(2px);
+}
+.tab-navigation .tab-button.active {
+  pointer-events: none;
+  cursor: default;
+  z-index: 3;
+}
+.tab-navigation .tab-button.active .tab-text {
+  background: linear-gradient(to left, #1B1A17 0%, #1B1A17 90%, rgba(27, 26, 23, 0.1) 90%, rgba(27, 26, 23, 0.05) 100%);
+  border-color: rgba(27, 26, 23, 0.3);
+  border-width: 2px 2px 1px 1px;
+  border-left: none;
+  box-shadow: none;
+  font-weight: normal;
+  color: #F3EFE6;
+}
+.tab-navigation .tab-button + .tab-button {
+  margin-top: 0.5rem;
+}
+
+.paper-stack {
+  position: relative;
+  padding-left: 3rem;
+  pointer-events: none;
+}
+
+.pc-page {
+  display: none;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+.pc-page.active {
+  display: flex;
+  flex-direction: column;
+  pointer-events: auto;
+}
+
+.page.pc-page[name=front] .top-block.pc-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  position: relative;
+  min-height: 250px;
+  padding-top: 0.5rem;
+}
+.page.pc-page[name=front] .top-block.pc-header > .sub-block {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.page.pc-page[name=front] .top-block.pc-header > .sub-block .form-options {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 34% 0 10px;
+}
+.page.pc-page[name=front] .top-block.pc-header > .sub-block .form-options .form-option {
+  font-size: 14px;
+  font-family: "Typewriter", serif;
+  font-kerning: normal;
+  color: #1B1A17;
+  line-height: 1.2;
+  text-rendering: optimizeLegibility;
+  font-size: 1.5rem;
+  font-family: "BadTypewriter", serif;
+  position: relative;
+}
+.page.pc-page[name=front] .top-block.pc-header > .sub-block .form-options .form-option .form-option-circle {
+  inset: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  width: 2rem;
+  height: 2rem;
+}
+.page.pc-page[name=front] .top-block.pc-header > .sub-block.character-name {
+  font-size: 14px;
+  font-family: "Typewriter", serif;
+  font-kerning: normal;
+  color: #1B1A17;
+  line-height: 1.2;
+  text-rendering: optimizeLegibility;
+  font-size: 1.5rem;
+  font-family: "BadTypewriter", serif;
+  font-size: 3rem;
+}
+.page.pc-page[name=front] .top-block.pc-header > .absolute-block {
+  position: absolute;
+  z-index: 1;
+}
+.page.pc-page[name=front] .top-block.pc-header > .absolute-block.pc-polaroid-container {
+  width: 28vh;
+  right: -4.5vh;
+  top: -2vh;
+  transform: rotate(-5deg);
+}
+.page.pc-page[name=front] .top-block.pc-header > .absolute-block.pc-polaroid-container .pc-polaroid-frame {
+  position: relative;
+  margin-left: 0rem;
+  margin-right: 4rem;
+  z-index: 3;
+}
+.page.pc-page[name=front] .top-block.pc-header > .absolute-block.pc-polaroid-container .pc-polaroid-image {
+  position: absolute;
+  margin: 1rem 2rem 1rem 1rem;
+  width: calc(100% - 2.05rem);
+}
+.page.pc-page[name=front] .top-block.pc-header > .absolute-block.pc-polaroid-container .pc-polaroid-paper-clip {
+  position: absolute;
+  width: 20%;
+  z-index: 4;
+  left: 10%;
+  top: -15%;
+  transform: rotate(-10deg);
+}
+.page.pc-page[name=front] .top-block.pc-header > .absolute-block.pc-polaroid-container .pc-polaroid-caption {
+  font-family: "PermanentMarker", serif;
+  font-weight: normal;
+  font-size: 1.5rem;
+  text-align: center;
+  width: 100%;
+  position: absolute;
+  bottom: 2.25rem;
+  z-index: 5;
+  white-space: nowrap;
+  transform-origin: center center;
+  transform: translateX(-50%) scaleX(0.85);
+  left: 50%;
+  text-indent: -0.5rem;
+}
+
+.page.pc-page[name=front] .overview-block {
+  display: flex;
+  flex-direction: column;
+  margin: 0rem 0rem;
+  padding: 0.5rem;
+  background: #1B1A17;
+}
+.page.pc-page[name=front] .overview-block .overview-text {
+  font-size: 14px;
+  font-family: "Typewriter", serif;
+  font-kerning: normal;
+  color: #1B1A17;
+  line-height: 1.2;
+  text-rendering: optimizeLegibility;
+  font-size: 0.8rem;
+  color: #F3EFE6;
+  letter-spacing: 0.03rem;
+  display: block;
+  text-wrap: pretty;
+  text-align: justify;
+  hyphens: auto;
+}
+.page.pc-page[name=front] .overview-block .overview-text strong {
+  background: #F3EFE6;
+  color: #1B1A17;
+  padding: 0 0.25rem;
+}
+
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 0rem 0.25rem;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0rem 0.5rem;
+  white-space: nowrap;
+  min-width: 0;
+  max-width: 100%;
+  --primary-color: #1B1A17;
+  place-content: stretch center;
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .stat-label {
+  align-items: center;
+  place-self: center start;
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .stat-label.attribute-row {
+  font-size: 14px;
+  font-family: "Typewriter", serif;
+  font-kerning: normal;
+  color: #1B1A17;
+  line-height: 1.2;
+  text-rendering: optimizeLegibility;
+  font-variant: small-caps;
+  letter-spacing: 0.035rem;
+  font-size: 18px;
+  max-height: unset;
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .stat-label.skill-row.stat-row-0, .page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .stat-label.skill-row.stat-row-0 + .dotline {
+  --opacity: 0.3;
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .stat-label.hypercompetent-tag:not(.asset-tag).stat-label::before, .page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .stat-label.hypercompetent-tag:not(.asset-tag) + .dotline.stat-label::before {
+  display: inline-block;
+  content: "♠️";
+  margin: 0rem -0.25rem 0 0.25rem;
+  height: 0.75rem;
+  width: 0.75rem;
+  text-align: left;
+  vertical-align: middle;
+  filter: brightness(0);
+  box-sizing: border-box;
+  transform-origin: center center;
+  opacity: var(--icon-opacity, 1);
+  transform: scale(var(--icon-scale, 1));
+  filter: brightness(0) drop-shadow(0 0 var(--shadow-blur) rgba(0, 0, 0, var(--shadow-alpha))) !important;
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .stat-label.asset-tag:not(.hypercompetent-tag).stat-label::before, .page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .stat-label.asset-tag:not(.hypercompetent-tag) + .dotline.stat-label::before {
+  display: inline-block;
+  content: "⭐";
+  margin: 0rem -0.25rem 0 0.25rem;
+  height: 0.75rem;
+  width: 0.75rem;
+  text-align: left;
+  vertical-align: middle;
+  filter: brightness(0);
+  box-sizing: border-box;
+  transform-origin: center center;
+  opacity: var(--icon-opacity, 1);
+  transform: scale(var(--icon-scale, 1));
+  filter: brightness(0) drop-shadow(0 0 var(--shadow-blur) rgba(0, 0, 0, var(--shadow-alpha))) !important;
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .stat-label.hypercompetent-tag.asset-tag.stat-label::before, .page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .stat-label.hypercompetent-tag.asset-tag + .dotline.stat-label::before {
+  display: inline-block;
+  content: "⭐♠️";
+  margin: 0rem -0.25rem 0 0.25rem;
+  height: 0.75rem;
+  width: 0.75rem;
+  text-align: left;
+  vertical-align: middle;
+  filter: brightness(0);
+  box-sizing: border-box;
+  transform-origin: center center;
+  opacity: var(--icon-opacity, 1);
+  transform: scale(var(--icon-scale, 1));
+  filter: brightness(0) drop-shadow(0 0 var(--shadow-blur) rgba(0, 0, 0, var(--shadow-alpha))) !important;
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .stat-label {
+  text-align: right;
+  color: var(--primary-color);
+  opacity: var(--opacity, 1);
+  --icon-opacity: 0.6;
+  --icon-scale: 1;
+  --shadow-blur: 0rem;
+  --shadow-alpha: 1;
+  max-height: 14px;
+  min-height: 14px;
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .dotline {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex-basis: 40%;
+  min-width: calc(var(--dotline-size) * 7 + var(--dotline-gap) * 4);
+  max-width: 100%;
+  gap: var(--dotline-gap);
+  --dotline-size: 1rem;
+  --dotline-gap: 0;
+  --dotline-dot-full: url("../../assets/images/dots/dot-full.webp");
+  --dotline-dot-empty: url("../../assets/images/dots/dot-empty.webp");
+  --dotline-dot-bonus: url("../../assets/images/dots/dot-bonus.webp");
+  --dotline-dot-broken: url("../../assets/images/dots/dot-broken.webp");
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .dotline.attribute-dotline, .page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .dotline.skill-dotline {
+  --dotline-size: 0.75rem;
+  --dotline-gap: 0.05rem;
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .dotline .dot {
+  display: inline-block;
+  flex-basis: var(--dotline-size);
+  height: var(--dotline-size);
+  vertical-align: middle;
+  box-sizing: border-box;
+  flex-shrink: 1;
+  flex-grow: 1;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform-origin: center center;
+  transform: scale(1.1);
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .dotline .dot.full-dot {
+  background-image: var(--dotline-dot-full);
+  opacity: var(--opacity, 1);
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .dotline .dot.bonus-dot {
+  background-image: var(--dotline-dot-bonus);
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .dotline .dot.broken-dot {
+  background-image: var(--dotline-dot-broken);
+  opacity: var(--opacity, 1);
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .dotline .dot.empty-dot {
+  background-image: var(--dotline-dot-empty);
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .dotline .dot.blank-dot {
+  opacity: 0;
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .dotline .dot:nth-child(5n) {
+  margin-right: calc(var(--dotline-size) * 2 + 0.15rem);
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .dotline .dot:nth-child(6n) {
+  margin-left: calc(-1 * var(--dotline-size) * 2);
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .skill-specs {
+  grid-column: span 2;
+  margin-top: -0.25rem;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: top;
+  padding-left: 20%;
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .skill-specs .skill-spec {
+  font-size: 14px;
+  font-family: "Typewriter", serif;
+  font-kerning: normal;
+  color: #1B1A17;
+  line-height: 1.2;
+  text-rendering: optimizeLegibility;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.035rem;
+  white-space: nowrap;
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .skill-specs .skill-spec:first-of-type::before {
+  display: inline-block;
+  content: "↪";
+  margin-left: -2.25ch;
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .skill-specs .skill-spec + .skill-spec::before {
+  content: "|";
+  color: #666666;
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .skill-specs .skill-spec .super-spec {
+  font-size: 14px;
+  font-family: "Typewriter", serif;
+  font-kerning: normal;
+  color: #1B1A17;
+  line-height: 1.2;
+  text-rendering: optimizeLegibility;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.035rem;
+  white-space: nowrap;
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .skill-specs .skill-spec .super-spec:first-of-type::before {
+  display: inline-block;
+  content: "↪";
+  margin-left: -2.25ch;
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .skill-specs .skill-spec .super-spec + .skill-spec::before {
+  content: "|";
+  color: #666666;
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .skill-specs .skill-spec .super-spec {
+  background: rgba(27, 26, 23, 0.25);
+  padding: 0 0.1rem 0 0.25rem;
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .skill-specs .skill-spec .super-spec::after {
+  content: " (⁂, +2)";
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block {
+  min-width: 0;
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .dotline .dot {
+  flex-grow: 0;
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block {
+  font-size: 14px;
+}
+
+.page.pc-page[name=front] .top-block.skill-block {
+  margin-top: 0.5rem;
+  border-top: 1px solid #2E2A27;
+  padding-top: 0.5rem;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 0rem 0.25rem;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.3rem 0.5rem;
+  white-space: nowrap;
+  min-width: 0;
+  max-width: 100%;
+  --primary-color: #1B1A17;
+  place-content: stretch center;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .stat-label {
+  align-items: center;
+  place-self: center start;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .stat-label.attribute-row {
+  font-size: 14px;
+  font-family: "Typewriter", serif;
+  font-kerning: normal;
+  color: #1B1A17;
+  line-height: 1.2;
+  text-rendering: optimizeLegibility;
+  font-variant: small-caps;
+  letter-spacing: 0.035rem;
+  font-size: 18px;
+  max-height: unset;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .stat-label.skill-row.stat-row-0, .page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .stat-label.skill-row.stat-row-0 + .dotline {
+  --opacity: 0.3;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .stat-label.hypercompetent-tag:not(.asset-tag).stat-label::before, .page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .stat-label.hypercompetent-tag:not(.asset-tag) + .dotline.stat-label::before {
+  display: inline-block;
+  content: "♠️";
+  margin: 0rem -0.25rem 0 0.25rem;
+  height: 0.75rem;
+  width: 0.75rem;
+  text-align: left;
+  vertical-align: middle;
+  filter: brightness(0);
+  box-sizing: border-box;
+  transform-origin: center center;
+  opacity: var(--icon-opacity, 1);
+  transform: scale(var(--icon-scale, 1));
+  filter: brightness(0) drop-shadow(0 0 var(--shadow-blur) rgba(0, 0, 0, var(--shadow-alpha))) !important;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .stat-label.asset-tag:not(.hypercompetent-tag).stat-label::before, .page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .stat-label.asset-tag:not(.hypercompetent-tag) + .dotline.stat-label::before {
+  display: inline-block;
+  content: "⭐";
+  margin: 0rem -0.25rem 0 0.25rem;
+  height: 0.75rem;
+  width: 0.75rem;
+  text-align: left;
+  vertical-align: middle;
+  filter: brightness(0);
+  box-sizing: border-box;
+  transform-origin: center center;
+  opacity: var(--icon-opacity, 1);
+  transform: scale(var(--icon-scale, 1));
+  filter: brightness(0) drop-shadow(0 0 var(--shadow-blur) rgba(0, 0, 0, var(--shadow-alpha))) !important;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .stat-label.hypercompetent-tag.asset-tag.stat-label::before, .page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .stat-label.hypercompetent-tag.asset-tag + .dotline.stat-label::before {
+  display: inline-block;
+  content: "⭐♠️";
+  margin: 0rem -0.25rem 0 0.25rem;
+  height: 0.75rem;
+  width: 0.75rem;
+  text-align: left;
+  vertical-align: middle;
+  filter: brightness(0);
+  box-sizing: border-box;
+  transform-origin: center center;
+  opacity: var(--icon-opacity, 1);
+  transform: scale(var(--icon-scale, 1));
+  filter: brightness(0) drop-shadow(0 0 var(--shadow-blur) rgba(0, 0, 0, var(--shadow-alpha))) !important;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .stat-label {
+  text-align: right;
+  color: var(--primary-color);
+  opacity: var(--opacity, 1);
+  --icon-opacity: 0.6;
+  --icon-scale: 1;
+  --shadow-blur: 0rem;
+  --shadow-alpha: 1;
+  max-height: 14px;
+  min-height: 14px;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .dotline {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex-basis: 40%;
+  min-width: calc(var(--dotline-size) * 7 + var(--dotline-gap) * 4);
+  max-width: 100%;
+  gap: var(--dotline-gap);
+  --dotline-size: 1rem;
+  --dotline-gap: 0;
+  --dotline-dot-full: url("../../assets/images/dots/dot-full.webp");
+  --dotline-dot-empty: url("../../assets/images/dots/dot-empty.webp");
+  --dotline-dot-bonus: url("../../assets/images/dots/dot-bonus.webp");
+  --dotline-dot-broken: url("../../assets/images/dots/dot-broken.webp");
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .dotline.attribute-dotline, .page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .dotline.skill-dotline {
+  --dotline-size: 0.75rem;
+  --dotline-gap: 0.05rem;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .dotline .dot {
+  display: inline-block;
+  flex-basis: var(--dotline-size);
+  height: var(--dotline-size);
+  vertical-align: middle;
+  box-sizing: border-box;
+  flex-shrink: 1;
+  flex-grow: 1;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform-origin: center center;
+  transform: scale(1.1);
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .dotline .dot.full-dot {
+  background-image: var(--dotline-dot-full);
+  opacity: var(--opacity, 1);
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .dotline .dot.bonus-dot {
+  background-image: var(--dotline-dot-bonus);
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .dotline .dot.broken-dot {
+  background-image: var(--dotline-dot-broken);
+  opacity: var(--opacity, 1);
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .dotline .dot.empty-dot {
+  background-image: var(--dotline-dot-empty);
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .dotline .dot.blank-dot {
+  opacity: 0;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .dotline .dot:nth-child(5n) {
+  margin-right: calc(var(--dotline-size) * 2 + 0.15rem);
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .dotline .dot:nth-child(6n) {
+  margin-left: calc(-1 * var(--dotline-size) * 2);
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .skill-specs {
+  grid-column: span 2;
+  margin-top: -0.25rem;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: top;
+  padding-left: 20%;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .skill-specs .skill-spec {
+  font-size: 14px;
+  font-family: "Typewriter", serif;
+  font-kerning: normal;
+  color: #1B1A17;
+  line-height: 1.2;
+  text-rendering: optimizeLegibility;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.035rem;
+  white-space: nowrap;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .skill-specs .skill-spec:first-of-type::before {
+  display: inline-block;
+  content: "↪";
+  margin-left: -2.25ch;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .skill-specs .skill-spec + .skill-spec::before {
+  content: "|";
+  color: #666666;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .skill-specs .skill-spec .super-spec {
+  font-size: 14px;
+  font-family: "Typewriter", serif;
+  font-kerning: normal;
+  color: #1B1A17;
+  line-height: 1.2;
+  text-rendering: optimizeLegibility;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.035rem;
+  white-space: nowrap;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .skill-specs .skill-spec .super-spec:first-of-type::before {
+  display: inline-block;
+  content: "↪";
+  margin-left: -2.25ch;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .skill-specs .skill-spec .super-spec + .skill-spec::before {
+  content: "|";
+  color: #666666;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .skill-specs .skill-spec .super-spec {
+  background: rgba(27, 26, 23, 0.25);
+  padding: 0 0.1rem 0 0.25rem;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .skill-specs .skill-spec .super-spec::after {
+  content: " (⁂, +2)";
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block {
+  min-width: 0;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .skill-row.trait-asset {
+  font-weight: bold;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .skill-row.trait-asset::before {
+  content: "";
+  background: url("../../assets/images/icons/asset.webp") no-repeat center center;
+  width: 1rem;
+  height: 1rem;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0rem;
+  background-size: contain;
+  margin-top: -0.1rem;
+  position: relative;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .skill-row.trait-hypercompetent {
+  font-weight: bold;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .skill-row.trait-hypercompetent::before {
+  content: "";
+  background: url("../../assets/images/icons/hypercompetence.webp") no-repeat center center;
+  width: 1rem;
+  height: 1rem;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0rem;
+  background-size: contain;
+  margin-top: -0.1rem;
+  position: relative;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .dotline .dot {
+  flex-grow: 0;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block {
+  font-size: 14px;
+}
+
+.page.pc-page[name=front] .derived-traits-block {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0rem 0.5rem;
+  white-space: nowrap;
+  min-width: 0;
+  max-width: 100%;
+  --primary-color: #1B1A17;
+  place-content: stretch center;
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .stat-label {
+  align-items: center;
+  place-self: center start;
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .stat-label.attribute-row {
+  font-size: 14px;
+  font-family: "Typewriter", serif;
+  font-kerning: normal;
+  color: #1B1A17;
+  line-height: 1.2;
+  text-rendering: optimizeLegibility;
+  font-variant: small-caps;
+  letter-spacing: 0.035rem;
+  font-size: 18px;
+  max-height: unset;
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .stat-label.skill-row.stat-row-0, .page.pc-page[name=front] .derived-traits-block > .sub-block .stat-label.skill-row.stat-row-0 + .dotline {
+  --opacity: 0.3;
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .stat-label.hypercompetent-tag:not(.asset-tag).stat-label::before, .page.pc-page[name=front] .derived-traits-block > .sub-block .stat-label.hypercompetent-tag:not(.asset-tag) + .dotline.stat-label::before {
+  display: inline-block;
+  content: "♠️";
+  margin: 0rem -0.25rem 0 0.25rem;
+  height: 0.75rem;
+  width: 0.75rem;
+  text-align: left;
+  vertical-align: middle;
+  filter: brightness(0);
+  box-sizing: border-box;
+  transform-origin: center center;
+  opacity: var(--icon-opacity, 1);
+  transform: scale(var(--icon-scale, 1));
+  filter: brightness(0) drop-shadow(0 0 var(--shadow-blur) rgba(0, 0, 0, var(--shadow-alpha))) !important;
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .stat-label.asset-tag:not(.hypercompetent-tag).stat-label::before, .page.pc-page[name=front] .derived-traits-block > .sub-block .stat-label.asset-tag:not(.hypercompetent-tag) + .dotline.stat-label::before {
+  display: inline-block;
+  content: "⭐";
+  margin: 0rem -0.25rem 0 0.25rem;
+  height: 0.75rem;
+  width: 0.75rem;
+  text-align: left;
+  vertical-align: middle;
+  filter: brightness(0);
+  box-sizing: border-box;
+  transform-origin: center center;
+  opacity: var(--icon-opacity, 1);
+  transform: scale(var(--icon-scale, 1));
+  filter: brightness(0) drop-shadow(0 0 var(--shadow-blur) rgba(0, 0, 0, var(--shadow-alpha))) !important;
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .stat-label.hypercompetent-tag.asset-tag.stat-label::before, .page.pc-page[name=front] .derived-traits-block > .sub-block .stat-label.hypercompetent-tag.asset-tag + .dotline.stat-label::before {
+  display: inline-block;
+  content: "⭐♠️";
+  margin: 0rem -0.25rem 0 0.25rem;
+  height: 0.75rem;
+  width: 0.75rem;
+  text-align: left;
+  vertical-align: middle;
+  filter: brightness(0);
+  box-sizing: border-box;
+  transform-origin: center center;
+  opacity: var(--icon-opacity, 1);
+  transform: scale(var(--icon-scale, 1));
+  filter: brightness(0) drop-shadow(0 0 var(--shadow-blur) rgba(0, 0, 0, var(--shadow-alpha))) !important;
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .stat-label {
+  text-align: right;
+  color: var(--primary-color);
+  opacity: var(--opacity, 1);
+  --icon-opacity: 0.6;
+  --icon-scale: 1;
+  --shadow-blur: 0rem;
+  --shadow-alpha: 1;
+  max-height: 14px;
+  min-height: 14px;
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .dotline {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex-basis: 40%;
+  min-width: calc(var(--dotline-size) * 7 + var(--dotline-gap) * 4);
+  max-width: 100%;
+  gap: var(--dotline-gap);
+  --dotline-size: 1rem;
+  --dotline-gap: 0;
+  --dotline-dot-full: url("../../assets/images/dots/dot-full.webp");
+  --dotline-dot-empty: url("../../assets/images/dots/dot-empty.webp");
+  --dotline-dot-bonus: url("../../assets/images/dots/dot-bonus.webp");
+  --dotline-dot-broken: url("../../assets/images/dots/dot-broken.webp");
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .dotline.attribute-dotline, .page.pc-page[name=front] .derived-traits-block > .sub-block .dotline.skill-dotline {
+  --dotline-size: 0.75rem;
+  --dotline-gap: 0.05rem;
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .dotline .dot {
+  display: inline-block;
+  flex-basis: var(--dotline-size);
+  height: var(--dotline-size);
+  vertical-align: middle;
+  box-sizing: border-box;
+  flex-shrink: 1;
+  flex-grow: 1;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform-origin: center center;
+  transform: scale(1.1);
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .dotline .dot.full-dot {
+  background-image: var(--dotline-dot-full);
+  opacity: var(--opacity, 1);
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .dotline .dot.bonus-dot {
+  background-image: var(--dotline-dot-bonus);
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .dotline .dot.broken-dot {
+  background-image: var(--dotline-dot-broken);
+  opacity: var(--opacity, 1);
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .dotline .dot.empty-dot {
+  background-image: var(--dotline-dot-empty);
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .dotline .dot.blank-dot {
+  opacity: 0;
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .dotline .dot:nth-child(5n) {
+  margin-right: calc(var(--dotline-size) * 2 + 0.15rem);
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .dotline .dot:nth-child(6n) {
+  margin-left: calc(-1 * var(--dotline-size) * 2);
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .skill-specs {
+  grid-column: span 2;
+  margin-top: -0.25rem;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: top;
+  padding-left: 20%;
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .skill-specs .skill-spec {
+  font-size: 14px;
+  font-family: "Typewriter", serif;
+  font-kerning: normal;
+  color: #1B1A17;
+  line-height: 1.2;
+  text-rendering: optimizeLegibility;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.035rem;
+  white-space: nowrap;
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .skill-specs .skill-spec:first-of-type::before {
+  display: inline-block;
+  content: "↪";
+  margin-left: -2.25ch;
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .skill-specs .skill-spec + .skill-spec::before {
+  content: "|";
+  color: #666666;
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .skill-specs .skill-spec .super-spec {
+  font-size: 14px;
+  font-family: "Typewriter", serif;
+  font-kerning: normal;
+  color: #1B1A17;
+  line-height: 1.2;
+  text-rendering: optimizeLegibility;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.035rem;
+  white-space: nowrap;
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .skill-specs .skill-spec .super-spec:first-of-type::before {
+  display: inline-block;
+  content: "↪";
+  margin-left: -2.25ch;
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .skill-specs .skill-spec .super-spec + .skill-spec::before {
+  content: "|";
+  color: #666666;
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .skill-specs .skill-spec .super-spec {
+  background: rgba(27, 26, 23, 0.25);
+  padding: 0 0.1rem 0 0.25rem;
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .skill-specs .skill-spec .super-spec::after {
+  content: " (⁂, +2)";
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block {
+  min-width: 0;
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .stat-label {
+  text-align: left;
+}
+.page.pc-page[name=front] .derived-traits-block > .left-column {
+  flex: 1 1 60%;
+  min-width: 0;
+  grid-template-columns: min-content auto;
+  place-content: stretch stretch;
+}
+.page.pc-page[name=front] .derived-traits-block > .left-column .stat-label {
+  font-size: 14px;
+  font-family: "Typewriter", serif;
+  font-kerning: normal;
+  color: #1B1A17;
+  line-height: 1.2;
+  text-rendering: optimizeLegibility;
+  font-size: 1.5rem;
+  font-family: "BadTypewriter", serif;
+  flex: 0 0 min-content;
+  min-height: 1.75rem;
+  height: 1.75rem;
+  line-height: 1.75rem;
+  display: inline-block;
+  margin: 0.25rem 0.5rem 0.25rem 0;
+}
+.page.pc-page[name=front] .derived-traits-block > .left-column > .sub-block {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.page.pc-page[name=front] .derived-traits-block > .left-column > .dotline {
+  --dotline-size: 1.5rem;
+  justify-content: center;
+  width: min-content;
+  place-self: center;
+}
+.page.pc-page[name=front] .derived-traits-block > .left-column > .dotline .dot {
+  width: var(--dotline-size);
+  flex-grow: 0;
+}
+.page.pc-page[name=front] .derived-traits-block > .left-column > .dotline .dot:nth-child(5n) {
+  margin-right: 10px;
+}
+.page.pc-page[name=front] .derived-traits-block > .left-column > .dotline .dot:nth-child(6n) {
+  margin-left: -5px;
+}
+.page.pc-page[name=front] .derived-traits-block .right-column {
+  flex: 1 1 20%;
+  min-width: 0;
+  grid-template-columns: auto;
+}
+.page.pc-page[name=front] .derived-traits-block .right-column > .sub-block {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+.page.pc-page[name=front] .derived-traits-block .right-column > .sub-block .form-label {
+  width: unset;
+}
+.page.pc-page[name=front] .derived-traits-block .right-column > .sub-block .form-field {
+  display: block;
+  aspect-ratio: 1/1;
+  font-size: 1.25rem;
+  height: 1.75rem;
+  width: 1.75rem;
+  text-align: center;
+  text-indent: 0rem;
+}
+
+.page.pc-page[name=merits] {
+  padding-top: 1rem;
+}
+.page.pc-page[name=merits] .top-block.merits-block {
+  overflow: hidden;
+}
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-header {
+  cursor: pointer;
+}
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-header .merit-name-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  background: url("../assets/images/backgrounds/red-header.webp") no-repeat center center;
+  background-size: 100% 100%;
+  font-size: 1.15rem;
+  line-height: 1.25rem;
+  font-family: "Repent", sans-serif;
+  text-transform: uppercase;
+  color: #F3EFE6;
+  padding: 0.25rem 1.5rem;
+  margin: 0.5rem 0rem 0.25rem 0rem;
+  border-radius: 0rem;
+}
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-header .merit-name-row .merit-value.dotline {
+  min-width: unset;
+  flex-basis: unset;
+  gap: 0.05rem;
+}
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-header .merit-name-row .merit-value.dotline .dot {
+  min-width: 1rem;
+  min-height: 1rem;
+  filter: invert(1);
+  margin: 0;
+}
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-header .merit-narrative {
+  font-size: 14px;
+  font-family: "Typewriter", serif;
+  font-kerning: normal;
+  color: #1B1A17;
+  line-height: 1.2;
+  text-rendering: optimizeLegibility;
+  font-size: 0.8rem;
+  background: #1B1A17;
+  padding: 0.5rem;
+  margin: 0 1.5rem;
+  color: #F3EFE6;
+  letter-spacing: 0.03rem;
+  display: block;
+  text-wrap: pretty;
+  text-align: justify;
+  hyphens: auto;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-header .merit-narrative strong {
+  background: #F3EFE6;
+  color: #1B1A17;
+  padding: 0 0.25rem;
+}
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content, .page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content * {
+  hyphens: auto;
+  text-wrap: pretty;
+  text-align: justify;
+}
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-effect,
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-drawback {
+  margin: 0.5rem 0rem;
+}
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-effect .sub-block,
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-drawback .sub-block {
+  margin: 0.5rem 1rem 0.5rem 1rem;
+  font-size: 0.8rem;
+  text-wrap: pretty;
+  text-align: justify;
+  background: rgba(0, 0, 0, 0.1);
+  padding: 0.5rem;
+}
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-effect .sub-block h3, .page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-effect .sub-block h4,
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-drawback .sub-block h3,
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-drawback .sub-block h4 {
+  margin: 0;
+}
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-effect .sub-block h3 + p, .page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-effect .sub-block h4 + p,
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-drawback .sub-block h3 + p,
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-drawback .sub-block h4 + p {
+  margin-top: 0;
+}
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-effect .sub-block ul,
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-drawback .sub-block ul {
+  margin: 0;
+}
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-effect .sub-block ul li,
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-drawback .sub-block ul li {
+  text-align: left;
+}
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-effect .sub-block p:last-of-type,
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-drawback .sub-block p:last-of-type {
+  margin-bottom: 0;
+}
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-effect .sub-block .source-citation,
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-drawback .sub-block .source-citation {
+  margin-left: 0.5rem;
+}
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-drawback em {
+  font-weight: bold;
+}
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-levels .merit-level {
+  margin: 0.5rem 0rem;
+}
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-levels .merit-level-drawback em {
+  font-weight: bold;
+}
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-source {
+  margin-top: -0.5rem;
+  text-align: right;
+}
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item.sub-merit {
+  margin-left: 2rem;
+  width: calc(100% - 2rem);
+}
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item.sub-merit .merit-header .merit-name-row {
+  padding-left: 0;
+  background: transparent;
+  color: #6B0F1A;
+}
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item.sub-merit .merit-header .merit-name-row .merit-value.dotline .dot {
+  filter: none;
+}
+
+/* Base element resets kept minimal to preserve readability */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+/*# sourceMappingURL=styles.css.map */

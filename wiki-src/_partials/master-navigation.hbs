@@ -1,0 +1,27 @@
+<nav class="master-navigation" role="navigation" aria-label="Wiki Navigation">
+  {{#each (getNavigationData)}}
+    {{!-- Each iteration has: type (string) and items (array) --}}
+    <h2 class="nav-header nav-header-{{type}}">{{getTypeHeader type}}</h2>
+    <ul class="nav-list nav-list-{{type}}">
+      {{#each items}}
+        {{!-- Each item has its own type property --}}
+        {{!-- Determine if this is the current page by comparing path or name --}}
+        {{#if (eq path ../../currentPagePath)}}
+          <li class="nav-item nav-item-{{this.type}} nav-item-current">
+            <span class="nav-link nav-link-{{this.type}} nav-link-current" aria-current="page">{{name}}</span>
+          </li>
+        {{else if (eq ../../currentPage name)}}
+          {{!-- Fallback: check by name for backward compatibility --}}
+          <li class="nav-item nav-item-{{this.type}} nav-item-current">
+            <span class="nav-link nav-link-{{this.type}} nav-link-current" aria-current="page">{{name}}</span>
+          </li>
+        {{else}}
+          {{!-- Generate relative path from current page to target --}}
+          <li class="nav-item nav-item-{{this.type}}">
+            <a href="{{getNavPath path ../../currentPagePath}}" class="nav-link nav-link-{{this.type}}">{{name}}</a>
+          </li>
+        {{/if}}
+      {{/each}}
+    </ul>
+  {{/each}}
+</nav>

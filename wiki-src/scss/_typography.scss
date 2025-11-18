@@ -1,0 +1,171 @@
+@use "./_colors";
+
+// $font-heading: "Repent", sans-serif;
+$font-heading: "BadTypewriter", serif;
+$font-body: "VTypewriter", serif;
+$font-body-condensed: "VTypewriter", serif;
+$font-marker: "PermanentMarker", serif;
+$font-scribble: "Scribble", serif;
+$font-tab: "Repent", sans-serif;
+$font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+$font-body: "Typewriter", serif;
+// $font-body: "BadTypewriter", serif;
+$font-body-condensed: "Typewriter Condensed", serif;
+
+%body-text-general {
+  font: {
+    size: 14px;
+    family: $font-body;
+    kerning: normal;
+  }
+  color: colors.$color-ink;
+  line-height: 1.2;
+  text-rendering: optimizeLegibility;
+}
+
+// Mixin version for use in other mixins (avoids @extend issues with @use)
+@mixin body-text-general {
+  font: {
+    size: 14px;
+    family: $font-body;
+    kerning: normal;
+  }
+  color: colors.$color-ink;
+  line-height: 1.2;
+  text-rendering: optimizeLegibility;
+}
+
+%body-text-uppercase {
+  @extend %body-text-general;
+  text-transform: uppercase;
+  letter-spacing: 0.035rem;
+}
+
+// Mixin version for use in other mixins
+@mixin body-text-uppercase {
+  @include body-text-general;
+  text-transform: uppercase;
+  letter-spacing: 0.035rem;
+}
+
+%body-text-small-caps {
+  @extend %body-text-general;
+  font-variant: small-caps;
+  letter-spacing: 0.035rem;
+}
+
+// Mixin version for use in other mixins (avoids @extend issues with @use)
+@mixin body-text-small-caps {
+  @include body-text-general;
+  font-variant: small-caps;
+  letter-spacing: 0.035rem;
+}
+
+.body-text-light {
+  @extend %body-text-general;
+  opacity: 0.6;
+}
+
+.body-text-bold {
+  @extend %body-text-general;
+  font-weight: 700;
+}
+
+.body-text-black {
+  @extend .body-text-bold;
+  text-transform: uppercase;
+}
+
+%caption-text-general {
+  @extend %body-text-general;
+  font-size: 0.65rem;
+}
+
+// Mixin version for use in other mixins
+@mixin caption-text-general {
+  @include body-text-general;
+  font-size: 0.65rem;
+}
+
+%caption-text-uppercase {
+  @extend %caption-text-general;
+  text-transform: uppercase;
+  letter-spacing: 0.035rem;
+}
+
+// Mixin version for use in other mixins
+@mixin caption-text-uppercase {
+  @include caption-text-general;
+  text-transform: uppercase;
+  letter-spacing: 0.035rem;
+}
+
+.header-text-general {
+  @extend %body-text-general;
+  font-size: 1.5rem;
+  font-family: $font-heading;
+  // font-weight: 1000;
+}
+
+// Mixin version for use in other mixins and across module boundaries
+@mixin header-text-general {
+  @include body-text-general;
+  font-size: 1.5rem;
+  font-family: $font-heading;
+}
+
+.header-text-title {
+  @extend .header-text-general;
+  font-size: 3rem;
+}
+
+// Mixin version for use in other mixins and across module boundaries
+@mixin header-text-title {
+  @include header-text-general;
+  font-size: 3rem;
+}
+
+
+.form-label {
+  @extend .header-text-general;
+  flex: 0 0 min-content;
+  min-height: 1.75rem;
+  height: 1.75rem;
+  line-height: 1.75rem;
+  display: inline-block;
+  margin: 0.25rem 0.5rem 0.25rem 0;
+
+  &.form-label-title {
+    font-size: 3rem;
+    margin-top: 1rem;
+  }
+}
+
+// Mixin version for use in other mixins and across module boundaries
+@mixin form-label {
+  @include header-text-general;
+  flex: 0 0 min-content;
+  min-height: 1.75rem;
+  height: 1.75rem;
+  line-height: 1.75rem;
+  display: inline-block;
+  margin: 0.25rem 0.5rem 0.25rem 0;
+}
+
+.form-field {
+  // border: 2px solid $color-ink;
+  background: rgba(0, 0, 0, 0.15);
+  min-height: 1.75rem;
+  line-height: 1.75rem;
+  font-size: 1.5rem;
+  text-indent: 0.25rem;
+  font-family: $font-marker;
+  // letter-spacing: 0;
+}
+
+html {
+  body {
+    @extend %body-text-general;
+  }
+}

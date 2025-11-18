@@ -1,0 +1,62 @@
+{{!-- Variables to Pass (from PCSheetData):
+- `type`: "pc" / "npc" (for CSS/styling)
+- `health`: TraitDataDerived
+- `willpower`: TraitDataDerived
+- `acclimation`: TraitDataDerived
+- `stability`: TraitDataDerived
+- `speed`: number
+- `defense`: number
+- `initiative`: number
+- `size`: number
+ --}}
+
+<div class="block top-block derived-traits-block">
+  <div class="block sub-block left-column">
+      {{> _partials/stat-row
+      name="Health:"
+      type="derived"
+      trait=health
+      }}
+      {{> _partials/stat-row
+      name="Willpower:"
+      type="derived"
+      trait=willpower
+      }}
+      {{> _partials/stat-row
+      name="Acclimation:"
+      type="derived"
+      trait=acclimation
+      }}
+      {{> _partials/stat-row
+      name="Stability:"
+      type="derived"
+      trait=stability
+      }}
+  </div>
+  <div class="block sub-block right-column">
+    <div class="block sub-block speed-row">
+      <span class="form-label">Speed:</span>
+      <span class="form-field">
+        <span class="form-value">{{speed}}</span>
+      </span>
+    </div>
+    <div class="block sub-block defense-row">
+      <span class="form-label">Defense:</span>
+      <span class="form-field">
+        <span class="form-value">{{defense}}</span>
+      </span>
+    </div>
+    <div class="block sub-block initiative-row">
+      <span class="form-label">Initiative:</span>
+      <span class="form-field">
+        <span class="form-value">{{signed initiative}}</span>
+      </span>
+    </div>
+    <div class="block sub-block size-row">
+      <span class="form-label">Size:</span>
+      <span class="form-field">
+        <span class="form-value">{{size}}</span>
+      </span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+/*
+  Global stylesheet entry for the wiki.
+  Compiles to wiki/styles/styles.css via Dart Sass.
+*/
+@use "./_colors";
+@use "./_font_defs";
+@use "./_typography" as *; // Import with * so placeholders are available globally
+@use "./_layout";
+@use "./_globals";
+@use "./_tooltips";
+@use "./tab-navigation";
+
+@use "./pages/_pc_page_front";
+@use "./pages/_pc_page_merits";
+
+/* Base element resets kept minimal to preserve readability */
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  padding: 0;
+}

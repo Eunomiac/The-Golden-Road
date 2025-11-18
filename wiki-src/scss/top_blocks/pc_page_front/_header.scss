@@ -1,0 +1,105 @@
+@use "../../_colors" as *;
+@use "../../_typography" as *;
+@use "../../_mixins" as *;
+// @use "../../stat_blocks" as *;
+
+.page.pc-page[name='front'] {
+
+  .top-block.pc-header {
+    display: flex;
+    flex-direction: column;
+    // gap: 0.25rem;
+    justify-content: space-between;
+    align-items: stretch;
+    position: relative;
+    min-height: 250px;
+    padding-top: 0.5rem;
+
+    > .sub-block {
+      display: flex;
+      flex-direction: row;
+      // gap: 0.25rem;
+      justify-content: space-between;
+      align-items: center;
+
+      .form-options {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 34% 0 10px;
+
+        .form-option {
+          @include header-text-general;
+
+          position: relative;
+          .form-option-circle {
+            inset: 50%;
+            transform: translate(-50%, -50%);
+            position: absolute;
+            width: 2rem;
+            height: 2rem;
+          }
+        }
+      }
+
+      &.character-name {
+        @include header-text-title;
+      }
+  }
+
+    > .absolute-block {
+      position: absolute;
+      z-index: 1;
+
+      &.pc-polaroid-container {
+        width: 28vh;
+        right: -4.5vh;
+        top: -2vh;
+        transform: rotate(-5deg);
+
+        .pc-polaroid-frame {
+          position: relative;
+          margin-left: 0rem;
+          margin-right: 4rem;
+          z-index: 3;
+        }
+
+        .pc-polaroid-image {
+          position: absolute;
+          margin: 1rem 2rem 1rem 1rem;
+          width: calc(100% - 2.05rem);
+        }
+
+        .pc-polaroid-paper-clip {
+          position: absolute;
+          width: 20%;
+          z-index: 4;
+          left: 10%;
+          top: -15%;
+          transform: rotate(-10deg);
+        }
+
+        .pc-polaroid-caption {
+          font-family: $font-marker;
+          font-weight: normal;
+          font-size: 1.5rem;
+          text-align: center;
+          width: 100%;
+          position: absolute;
+          bottom: 2.25rem;
+          z-index: 5;
+          white-space: nowrap;
+          transform-origin: center center;
+          transform: translateX(-50%) scaleX(0.85) ;
+          left: 50%;
+          text-indent: -0.5rem;
+        }
+      }
+
+
+    }
+  }
+
+}

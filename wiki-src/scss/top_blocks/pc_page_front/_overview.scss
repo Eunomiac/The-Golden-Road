@@ -1,0 +1,33 @@
+@use "../../_colors" as *;
+@use "../../_typography" as *;
+@use "../../_mixins" as *;
+// @use "../../stat_blocks" as *;
+
+.page.pc-page[name='front'] {
+
+  .overview-block {
+    display: flex;
+    flex-direction: column;
+    margin: 0rem 0rem;
+    padding: 0.5rem;
+    background: $color-ink;
+
+    .overview-text {
+      @include body-text-general;
+
+      font-size: 0.8rem;
+      color: $color-parchment;
+      letter-spacing: 0.03rem;
+      display: block;
+      text-wrap: pretty;
+      text-align: justify;
+      hyphens: auto;
+
+      strong {
+        background: $color-parchment;
+        color: $color-ink;
+        padding: 0 0.25rem;
+      }
+    }
+  }
+}

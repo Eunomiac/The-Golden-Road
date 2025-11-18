@@ -1,0 +1,101 @@
+@use "./_colors";
+
+/**
+* Versatile tooltips styles using anchor & target features.
+*    - Target: element with the "tooltip" class.
+*    - Anchor:
+*    - Target:
+*
+*/
+
+.has-tooltip {
+  cursor: pointer;
+
+  // Show tooltip on hover with delay, or when hovering the tooltip itself
+  &:hover + .tooltip,
+  &:focus-visible + .tooltip {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    // Apply 1s delay when showing, with slightly longer animation
+    // Visibility becomes visible immediately (no delay) so the fade can be seen
+    transition-property: opacity, transform, visibility;
+    transition-duration: 200ms, 200ms, 0s;
+    transition-timing-function: ease, ease, step-start;
+    transition-delay: 1s, 1s, 0s; // Delay opacity/transform, but visibility is immediate
+  }
+}
+
+.tooltip {
+  position: absolute;
+  position-area: top center;
+
+  background: url("../assets/images/backgrounds/ink-block.webp") no-repeat center center;
+  background-size: 100% 100%;
+
+  // min-height: 2rem;
+  min-height: 1rem;
+  min-width: 75ch;
+  height: fit-content;
+  width: fit-content;
+  // aspect-ratio: 16/9;
+  white-space: normal;
+  pointer-events: none;
+  z-index: 10;
+
+  margin-bottom: 1rem;
+  padding: 1.5rem 2.5rem;
+
+  color: colors.$color-parchment;
+
+  filter: drop-shadow(0.5rem 0.5rem 0.25rem rgba(0, 0, 0, 1));
+
+  // Initial hidden state
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(0.5rem) scale(0.98);
+  pointer-events: none;
+  user-select: none;
+  font-size: 16px;
+
+  // Smooth animation with 1s delay on show, quick hide animation
+  // Transition opacity and transform immediately, but delay visibility change
+  transition-property: opacity, transform, visibility;
+  transition-duration: 150ms, 150ms, 0s; // Quick hide animation for opacity/transform, instant for visibility
+  transition-timing-function: ease-out, ease-out, step-end; // Snappier feel for hiding
+  transition-delay: 0s, 0s, 150ms; // Delay visibility until after fade completes
+
+  // Keep tooltip visible when hovering it directly
+  &:hover {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    // pointer-events: auto;
+    // No delay when hovering tooltip directly, but keep same transition setup
+    transition-property: opacity, transform, visibility;
+    transition-duration: 200ms, 200ms, 0s;
+    transition-timing-function: ease, ease, step-start;
+    transition-delay: 0s, 0s, 0s;
+  }
+
+  &.tiny-tooltip {
+    padding: 0.5rem;
+    min-height: unset;
+    min-width: unset;
+  }
+
+  h1 {
+    margin: 0;
+  }
+
+  > span {
+    display: block;
+    margin: 1rem 0;
+    letter-spacing: 0.05em;
+  }
+
+  .trait-desc-general {
+    margin: 1rem 1rem;
+    font-style: italic;
+  }
+}

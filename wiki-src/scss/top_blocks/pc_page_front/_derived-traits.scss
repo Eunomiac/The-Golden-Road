@@ -1,0 +1,92 @@
+@use "../../_colors" as *;
+@use "../../_typography" as *;
+@use "../../_mixins" as *;
+// @use "../../stat_blocks" as *;
+
+.page.pc-page[name='front'] {
+
+  .derived-traits-block {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    width: 100%;
+    min-width: 0; // Allow flex container to shrink below content size
+    max-width: 100%; // Prevent expansion beyond container
+
+    margin: 0;
+
+    > .sub-block {
+      @include stat-row(0rem);
+      min-width: 0; // Allow flex items to shrink
+
+      .stat-label {
+        text-align: left;
+      }
+    }
+
+    > .left-column {
+      flex: 1 1 60%;
+      min-width: 0; // Allow flex item to shrink below content size
+      grid-template-columns: min-content auto;
+      place-content: stretch stretch;
+
+      .stat-label {
+        @include form-label;
+      }
+
+      > .sub-block {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+
+      > .dotline {
+          --dotline-size: 1.5rem;
+          justify-content: center;
+          width: min-content;
+          place-self: center;
+
+          .dot {
+            width: var(--dotline-size);
+            flex-grow: 0;
+            // margin: 0 !important;
+
+            &:nth-child(5n) {
+              margin-right: 10px;
+            }
+            &:nth-child(6n) {
+              margin-left: -5px;
+            }
+          }
+
+      }
+    }
+    .right-column {
+      flex: 1 1 20%;
+      min-width: 0; // Allow flex item to shrink below content size
+      grid-template-columns: auto;
+
+      > .sub-block {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+
+        .form-label {
+          width: unset;
+        }
+
+        .form-field {
+          display: block;
+          aspect-ratio: 1 / 1;
+          font-size: 1.25rem;
+          height: 1.75rem;
+          width: 1.75rem;
+          text-align: center;
+          text-indent: 0rem;
+        }
+
+      }
+    }
+  }
+
+}

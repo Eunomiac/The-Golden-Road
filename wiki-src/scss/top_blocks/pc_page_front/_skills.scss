@@ -1,0 +1,75 @@
+@use "../../_colors" as *;
+@use "../../_typography" as *;
+@use "../../_mixins" as *;
+// @use "../../stat_blocks" as *;
+
+.page.pc-page[name='front'] {
+
+  .top-block.skill-block {
+
+    margin-top: 0.5rem;
+    border-top: 1px solid $color-soot;
+    padding-top: 0.5rem;
+
+    .skills-block {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr); // Use 1fr instead of auto to respect container width
+      grid-template-rows: repeat(2, auto);
+      gap: 0rem 0.25rem;
+      width: 100%;
+      min-width: 0; // Allow grid to shrink below content size
+      max-width: 100%; // Prevent expansion beyond container
+
+      >.sub-block {
+        @include stat-row(0.3rem);
+        min-width: 0; // Allow grid items to shrink
+
+        .skill-row {
+
+          &.trait-asset {
+
+            font-weight: bold;
+            &::before {
+              content: "";
+              background: url("../../assets/images/icons/asset.webp") no-repeat center center;
+              width: 1rem;
+              height: 1rem;
+              display: inline-block;
+              vertical-align: middle;
+              margin-right: 0rem;
+              background-size: contain;
+              margin-top: -0.1rem;
+              position: relative;
+            }
+          }
+
+          &.trait-hypercompetent {
+
+            font-weight: bold;
+            &::before {
+              content: "";
+              background: url("../../assets/images/icons/hypercompetence.webp") no-repeat center center;
+              width: 1rem;
+              height: 1rem;
+              display: inline-block;
+              vertical-align: middle;
+              margin-right: 0rem;
+              background-size: contain;
+              margin-top: -0.1rem;
+              position: relative;
+            }
+          }
+        }
+
+        .dotline {
+          .dot {
+            flex-grow: 0;
+          }
+        }
+      }
+
+      font-size: 14px;
+    }
+  }
+
+}

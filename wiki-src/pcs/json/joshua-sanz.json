@@ -1,0 +1,97 @@
+{
+  "player": "Alterna",
+  "name": "Joshua Sanz",
+  "type": "pc",
+  "sex": "m",
+  "dob": "01 / 07 / 93",
+  "imageUrl": "assets/images/pc/joshua.webp",
+  "concept": "the WITCHWARPED",
+  "origin": "Exomorph",
+  "clade": "Coactive",
+  "forms": ["Transmissible"],
+  "overview": "<strong>FIELD SYNOPSIS:</strong> Unhoused confidence artist exposed to undocumented thaumaturgic protocol in Yucatán facility. Current state includes transmissible, identity-altering Form and Variation set allowing facial theft and covert contamination of bystanders. Subject maintains strong social aptitude and flexible criminal skillset; primary companion is anomalous avian predator “<strong>RAÚL</strong>” (manticore-type pigeon) acting as mobile weapon and psychological anchor. Threat assessment: <strong class='threat-assessment'>UMBER</strong> for infiltration and escalation in civilian populations; any capture protocol must assume multiple false identities in active rotation.",
+  "health": 7,
+  "willpower": 5,
+  "acclimation": 0,
+  "stability": 5,
+  "size": 5,
+  "defense": 2,
+  "initiative": 6,
+  "speed": 9,
+  "attributePriorities": {
+    "mental": "primary",
+    "physical": "tertiary",
+    "social": "secondary"
+  },
+  "attributes": {
+    "int": 3,
+    "wit": 2,
+    "res": 2,
+    "str": 1,
+    "dex": 3,
+    "sta": 2,
+    "pre": 1,
+    "man": 4,
+    "com": 3
+  },
+  "skillPriorities": {
+    "mental": "tertiary",
+    "physical": "secondary",
+    "social": "primary"
+  },
+  "skills": {
+    "academics": 1,
+    "computer": 1,
+    "investigation": 1,
+    "occult": 1,
+    "drive": 1,
+    "firearms": 2,
+    "larceny": 2,
+    "stealth": {
+      "value": 2,
+      "specs": ["In Plain Sight"]
+    },
+    "empathy": 2,
+    "persuasion": {
+      "value": 3,
+      "specs": ["Fast-Talking"]
+    },
+    "socialize": 2,
+    "streetwise": 1,
+    "subterfuge": {
+      "value": 3,
+      "specs": ["Misdirection"]
+    }
+  },
+  "adaptations": {},
+  "merits": [
+    {
+      "key": "flashback",
+      "narrative": ""
+    },
+    {
+      "key": "hypervigilance",
+      "narrative": ""
+    },
+    {
+      "key": "manticoreCompanion",
+      "value": 5,
+      "narrative": "",
+      "vars": {
+        "manticoreName": "Raúl",
+        "manticoreSpecies": "pigeon",
+        "manticoreVariations": "<div class='sub-block'> <h3>Variation: Camouflage ••••</h3> <h4><strong>Keywords:</strong> Subtle, Tiered, Toggled</h4> <p>Raúl can hide from the human eye, becoming invisible. His invisibility extends to the full electromagnetic spectrum, including infrared, ultraviolet, and radar.</p> <ul> <li>Casual observers are reduced to a chance die on Perception rolls to detect him.</li> <li>Even those who suspect an unseen presence suffer a <strong>–5</strong> penalty to all rolls that rely on being able to see Raúl.</li> <li>If it’s possible to locate Raúl by indirect means, this penalty is instead <strong>–3</strong>, <strong>–2</strong> (if engaged in close combat or making a lot of noise), or <strong>–1</strong> (when “outlined” by a fire extinguisher, sprinkler system, or similar).</li> <li>This affords no protection against alternate means of detection: He can still be tracked by scent, and enjoys no special protection from supernatural senses. He can also run afoul of low-tech physical security like trip wires or covered pit traps.{{SOURCE:DtR/115}}</li> </ul> </div> <div class='sub-block'> <h3>Variation: Out of Phase ••••</h3> <h4><strong>Keywords:</strong> Overt, Tiered, Toggled</h4> <p> Raúl's body does not interact with matter in the ordinary way. Raúl may render his body insubstantial, in part or as a whole, including any clothing or equipment, as long as they consist entirely of materials whose Durability is less than <strong>3</strong>. His insubstantial body parts can pass through material up to a Durability of <strong>3</strong>: Only rare, super-hard or mystical substances are beyond his ability to penetrate.</p> <ul> <li>This can likewise afford him the benefits of partial concealment against weapons of a Durability low enough to not interact with his body.</li> <li>His entire body remains insubstantial until the end of the scene or until he ends the Variation as an instant action. He therefore can’t reach into an enemy’s chest and crush her heart in a fist, for example. However, by limiting his insubstantiality to a lesser Durability, he could reach through a wooden door to unlock it from the other side using the metal doorknob, since it would still be solid to his hand.</li> <li>He must decide how insubstantial to make himself at the time he activates the Variation (i.e. whether <strong>1</strong>, <strong>2</strong>, or <strong>3</strong>), but he can change this density as an instant action during its duration.</li> <li>He can leave behind immaterial objects, which become material again when he does.</li> <li>Insubstantial items that intersect with other objects when the Variation ends are ejected from them into the nearest empty space large enough to accommodate them, inflicting a minor Instability on Raúl.</li><li>If this Variation ends while Raúl still intersects a solid object, he is ejected from it and suffers a medium Instability.{{SOURCE:DtR/126}}</li> </ul> </div>"
+      }
+    },
+    {
+      "key": "fast-talking",
+      "value": 3,
+      "narrative": ""
+    }
+  ],
+  "scars": {},
+  "variations": {},
+  "touchstones": {},
+  "ambitions": {},
+  "bio": "<p>HTML content with <strong>formatting</strong> and 🎭 emojis</p>"
+}

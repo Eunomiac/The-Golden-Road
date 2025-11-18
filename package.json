@@ -1,0 +1,34 @@
+{
+  "name": "cod-deviant-wiki",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Plain HTML + SCSS wiki with live reload for Chronicles of Darkness: Deviant",
+  "type": "commonjs",
+  "scripts": {
+    "dev:sass": "sass --watch wiki-src/scss/styles.scss wiki/styles/styles.css --style=expanded --source-map",
+    "dev:ts": "tsc --watch --project tsconfig.browser.json",
+    "dev:ts:watch": "tsx scripts/watch-ts.ts",
+    "dev:hbs": "tsx scripts/watch-hbs.ts",
+    "dev:serve": "browser-sync start --server wiki --files \"wiki/**/*.html\" \"wiki/styles/*.css\" \"wiki/scripts/**/*.js\" \"wiki/.bs-trigger\" --watch --no-open --no-ui --port 5173",
+    "dev": "concurrently -n SASS,TS,TSW,HBS,WEB -c yellow,blue,green,magenta,cyan \"npm:dev:sass\" \"npm:dev:ts\" \"npm:dev:ts:watch\" \"npm:dev:hbs\" \"npm:dev:serve\"",
+    "build:sass": "sass wiki-src/scss/styles.scss wiki/styles/styles.css --style=compressed --no-source-map",
+    "build:ts": "tsc --project tsconfig.browser.json",
+    "build:hbs": "tsx scripts/compile-hbs.ts",
+    "build": "npm run build:sass && npm run build:ts && npm run build:hbs"
+  },
+  "dependencies": {
+    "gsap": "^3.12.5"
+  },
+  "devDependencies": {
+    "@types/chokidar": "^2.1.3",
+    "@types/handlebars": "^4.1.0",
+    "@types/node": "^22.19.0",
+    "browser-sync": "^2.29.3",
+    "chokidar": "^3.6.0",
+    "concurrently": "^8.2.2",
+    "handlebars": "^4.7.8",
+    "sass": "^1.80.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.9.3"
+  }
+}

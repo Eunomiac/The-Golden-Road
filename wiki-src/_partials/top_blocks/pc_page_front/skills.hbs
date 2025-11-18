@@ -1,0 +1,272 @@
+{{!-- Variables to Pass (from PCSheetData):
+- `type`: "pc" / "npc" (for CSS/styling)
+- `skills`: Record<TraitCategory, Record<Skill, TraitData<Skill>>>
+  Nested structure organized by category:
+  - `skills.mental`: Record containing:
+    - `academics`: TraitData<Skill>
+    - `computer`: TraitData<Skill>
+    - `crafts`: TraitData<Skill>
+    - `investigation`: TraitData<Skill>
+    - `medicine`: TraitData<Skill>
+    - `occult`: TraitData<Skill>
+    - `politics`: TraitData<Skill>
+    - `science`: TraitData<Skill>
+  - `skills.physical`: Record containing:
+    - `athletics`: TraitData<Skill>
+    - `brawl`: TraitData<Skill>
+    - `drive`: TraitData<Skill>
+    - `firearms`: TraitData<Skill>
+    - `larceny`: TraitData<Skill>
+    - `stealth`: TraitData<Skill>
+    - `survival`: TraitData<Skill>
+    - `weaponry`: TraitData<Skill>
+  - `skills.social`: Record containing:
+    - `animalKen`: TraitData<Skill>
+    - `empathy`: TraitData<Skill>
+    - `expression`: TraitData<Skill>
+    - `intimidation`: TraitData<Skill>
+    - `persuasion`: TraitData<Skill>
+    - `socialize`: TraitData<Skill>
+    - `streetwise`: TraitData<Skill>
+    - `subterfuge`: TraitData<Skill>
+  Each TraitData<Skill> contains:
+    - `key`: Skill (the skill identifier)
+    - `value`: TraitValueData (base, bonus, broken, total, max)
+    - `dotline`: DotlineData (array of dot types)
+    - `tags`: TraitTag[] ("asset", "hypercompetent", "overt")
+    - `specs`: SpecializationData[] array, each with:
+      - `text`: string (specialization name)
+      - `tags`: SpecializationTag[] ("interdisciplinary", "expert")
+    - `cssClasses`: string[] (includes priority class like "priority-primary")
+    - `tooltip`?: string (optional tooltip with narrative and specializations)
+- `skillPriorities`: Record<TraitCategory, TraitPriority> (for CSS classes)
+  Can access via: `skills.mental.academics.cssClasses` or iterate categories
+ --}}
+
+<div class="block top-block skill-block">
+  <div class="block sub-block skills-block">
+
+  <div class="block sub-block skills-block skills-{{type}} sub-block-{{skillPriorities.mental}}">
+
+    {{#if skills.mental.academics}}
+      {{> _partials/stat-row
+        name="Academics"
+        type="skill"
+        trait=skills.mental.academics
+      }}
+    {{/if}}
+
+
+    {{#if skills.mental.computer}}
+      {{> _partials/stat-row
+        name="Computer"
+        type="skill"
+        trait=skills.mental.computer
+      }}
+    {{/if}}
+
+
+    {{#if skills.mental.crafts}}
+      {{> _partials/stat-row
+        name="Crafts"
+        type="skill"
+        trait=skills.mental.crafts
+      }}
+    {{/if}}
+
+
+    {{#if skills.mental.investigation}}
+      {{> _partials/stat-row
+        name="Investigation"
+        type="skill"
+        trait=skills.mental.investigation
+      }}
+    {{/if}}
+
+
+    {{#if skills.mental.medicine}}
+      {{> _partials/stat-row
+        name="Medicine"
+        type="skill"
+        trait=skills.mental.medicine
+      }}
+    {{/if}}
+
+
+    {{#if skills.mental.occult}}
+      {{> _partials/stat-row
+        name="Occult"
+        type="skill"
+        trait=skills.mental.occult
+      }}
+    {{/if}}
+
+
+    {{#if skills.mental.politics}}
+      {{> _partials/stat-row
+        name="Politics"
+        type="skill"
+        trait=skills.mental.politics
+      }}
+    {{/if}}
+
+
+    {{#if skills.mental.science}}
+      {{> _partials/stat-row
+        name="Science"
+        type="skill"
+        trait=skills.mental.science
+      }}
+    {{/if}}
+
+  </div>
+  <div class="block sub-block skills-block skills-{{type}} sub-block-{{skillPriorities.physical}}">
+
+    {{#if skills.physical.athletics}}
+      {{> _partials/stat-row
+        name="Athletics"
+        type="skill"
+        trait=skills.physical.athletics
+      }}
+    {{/if}}
+
+
+    {{#if skills.physical.brawl}}
+      {{> _partials/stat-row
+        name="Brawl"
+        type="skill"
+        trait=skills.physical.brawl
+      }}
+    {{/if}}
+
+
+    {{#if skills.physical.drive}}
+      {{> _partials/stat-row
+        name="Drive"
+        type="skill"
+        trait=skills.physical.drive
+      }}
+    {{/if}}
+
+
+    {{#if skills.physical.firearms}}
+      {{> _partials/stat-row
+        name="Firearms"
+        type="skill"
+        trait=skills.physical.firearms
+      }}
+    {{/if}}
+
+
+    {{#if skills.physical.larceny}}
+      {{> _partials/stat-row
+        name="Larceny"
+        type="skill"
+        trait=skills.physical.larceny
+      }}
+    {{/if}}
+
+
+    {{#if skills.physical.stealth}}
+      {{> _partials/stat-row
+        name="Stealth"
+        type="skill"
+        trait=skills.physical.stealth
+      }}
+    {{/if}}
+
+
+    {{#if skills.physical.survival}}
+      {{> _partials/stat-row
+        name="Survival"
+        type="skill"
+        trait=skills.physical.survival
+      }}
+    {{/if}}
+
+
+    {{#if skills.physical.weaponry}}
+      {{> _partials/stat-row
+        name="Weaponry"
+        type="skill"
+        trait=skills.physical.weaponry
+      }}
+    {{/if}}
+
+  </div>
+  <div class="block sub-block skills-block skills-{{type}} sub-block-{{skillPriorities.social}}">
+
+    {{#if skills.social.animalKen}}
+      {{> _partials/stat-row
+        name="Animal Ken"
+        type="skill"
+        trait=skills.social.animalKen
+      }}
+    {{/if}}
+
+
+    {{#if skills.social.empathy}}
+      {{> _partials/stat-row
+        name="Empathy"
+        type="skill"
+        trait=skills.social.empathy
+      }}
+    {{/if}}
+
+
+    {{#if skills.social.expression}}
+      {{> _partials/stat-row
+        name="Expression"
+        type="skill"
+        trait=skills.social.expression
+      }}
+    {{/if}}
+
+
+    {{#if skills.social.intimidation}}
+      {{> _partials/stat-row
+        name="Intimidation"
+        type="skill"
+        trait=skills.social.intimidation
+      }}
+    {{/if}}
+
+
+    {{#if skills.social.persuasion}}
+      {{> _partials/stat-row
+        name="Persuasion"
+        type="skill"
+        trait=skills.social.persuasion
+      }}
+    {{/if}}
+
+
+    {{#if skills.social.socialize}}
+      {{> _partials/stat-row
+        name="Socialize"
+        type="skill"
+        trait=skills.social.socialize
+      }}
+    {{/if}}
+
+
+    {{#if skills.social.streetwise}}
+      {{> _partials/stat-row
+        name="Streetwise"
+        type="skill"
+        trait=skills.social.streetwise
+      }}
+    {{/if}}
+
+
+    {{#if skills.social.subterfuge}}
+      {{> _partials/stat-row
+        name="Subterfuge"
+        type="skill"
+        trait=skills.social.subterfuge
+      }}
+    {{/if}}
+
+  </div>
+  </div>
+</div>

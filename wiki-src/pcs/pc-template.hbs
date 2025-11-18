@@ -1,0 +1,132 @@
+{{!--
+Template expects PCSheetData context with the following structure:
+
+Header Data:
+- `player`: string
+- `name`: string
+- `sex`: "m" | "f" | "nb" | "v" | "x" | "a" | "c" | "u"
+- `dob`: string
+- `imageUrl`: string
+- `concept`: string
+- `origin`: string
+- `clade`: string
+- `forms`: string[]
+
+Derived Traits (TraitDataDerived):
+- `health`: TraitDataDerived
+- `willpower`: TraitDataDerived
+- `acclimation`: TraitDataDerived
+- `stability`: TraitDataDerived
+
+Derived Stats:
+- `size`: number
+- `defense`: number
+- `initiative`: number
+- `speed`: number
+- `armor`: { general: number, ballistic: number }
+
+Attributes (nested by category):
+- `attributes`: Record<TraitCategory, Record<Attribute, TraitData<Attribute>>>
+  Access via: `attributes.mental.int`, `attributes.physical.str`, etc.
+
+  Skills (nested by category):
+  - `skills`: Record<TraitCategory, Record<Skill, TraitData<Skill>>>
+    Access via: `skills.mental.academics`, `skills.physical.athletics`, etc.
+
+    Optional:
+    - `bio`?: string (HTML content)
+    --}}
+    <!doctype html>
+    <html lang="en">
+
+    <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>{{name}} — PC</title>
+      <link rel="stylesheet" href="../styles/styles.css" />
+      <script type="importmap">
+    {
+      "imports": {
+        "gsap": "https://esm.sh/gsap@3.12.5"
+      }
+    }
+    </script>
+      <script type="module" src="../scripts/stat-label-animations.js"></script>
+      <script type="module" src="../scripts/tab-navigation.js"></script>
+    </head>
+
+    <body class="layout">
+      <div class="paper-container">
+        <section class="sidebar right-sidebar tab-navigation">
+          {{> _partials/tab-navigation-pc }}
+        </section>
+        <main class="container paper-stack">
+          <section class="page pc-page" name="front">
+
+            {{!-- Header Block --}}
+            {{> _partials/top_blocks/pc_page_front/header
+            player=player
+            name=name
+            sex=sex
+            dob=dob
+            imageUrl=imageUrl
+            concept=concept
+            origin=origin
+            clade=clade
+            forms=forms
+            acclimation=acclimation
+            stability=stability
+            }}
+
+            {{!-- Overview Block --}}
+            {{> _partials/top_blocks/pc_page_front/overview
+            overview=overview
+            }}
+
+            <div class="attributes-and-skills">
+              {{!-- Attributes Block --}}
+              {{> _partials/top_blocks/pc_page_front/attributes
+              type="pc"
+              attributes=attributes
+              attributePriorities=attributePriorities
+              }}
+
+              {{!-- Skills Block --}}
+              {{> _partials/top_blocks/pc_page_front/skills
+              type="pc"
+              skills=skills
+              skillPriorities=skillPriorities
+              }}
+            </div>
+
+            {{!-- Derived Traits Block --}}
+            {{> _partials/top_blocks/pc_page_front/derived-traits
+            type="pc"
+            health=health
+            willpower=willpower
+            acclimation=acclimation
+            stability=stability
+            speed=speed
+            defense=defense
+            initiative=initiative
+            size=size
+            }}
+
+
+          </section>
+
+          <section class="page pc-page" name="bio"></section>
+          <section class="page pc-page" name="merits">
+            {{!-- Merits Block --}}
+            {{> _partials/top_blocks/pc_page_front/merits
+            merits=merits
+            }}
+          </section>
+          <section class="page pc-page" name="deviation"></section>
+        </main>
+      </div>
+
+      {{> _partials/master-navigation}}
+    </body>
+
+    </html>

@@ -1,0 +1,58 @@
+{{!-- Variables to Pass:
+- `name`: string (display name for the trait)
+- `trait`: TraitData object containing:
+  - `key`: Attribute | Skill | string (the trait identifier)
+  - `value`: TraitValueData object with:
+    - `base`: number (base value)
+    - `bonus`?: number (bonus dots)
+    - `broken`?: number (broken dots)
+    - `total`: number (base + bonus)
+    - `max`: number (maximum value, typically 5 or 10)
+  - `dotline`: DotlineData object with:
+    - `dots`: DotType[] array ("full", "empty", "bonus", "broken")
+  - `tags`: TraitTag[] array ("asset", "hypercompetent", "overt")
+  - `specs`: SpecializationData[] array, each with:
+    - `text`: string (specialization name)
+    - `tags`: SpecializationTag[] array ("interdisciplinary", "expert")
+  - `cssClasses`: string[] (CSS classes for styling)
+  - `tooltip`?: string (optional tooltip text)
+- `type`: "attribute" | "skill" | "merit" | "magnitude" (for CSS/styling)
+ --}}
+
+
+
+  <div class="stat-label {{type}}-row stat-row-{{trait.value.total}} {{~#each trait.cssClasses}} {{this}}{{~/each~}}">
+    {{~ name ~}}
+  </div>
+
+  <div class="dotline {{type}}-dotline {{~#if trait.tooltipID}} has-tooltip{{~/if~}}" {{#if trait.tooltipID}} style="anchor-name: --{{trait.tooltipID}};"{{/if}}>
+    {{#each trait.dotline.dots}}
+      {{#if (eq this "full")}}
+        <span class="dot full-dot"></span>
+      {{else if (eq this "bonus")}}
+        <span class="dot full-dot bonus-dot"></span>
+      {{else if (eq this "broken")}}
+        <span class="dot broken-dot"></span>
+      {{else if (eq this "empty")}}
+        <span class="dot empty-dot"></span>
+      {{/if}}
+    {{/each}}
+  </div>
+  {{{trait.tooltip}}}
+
+  {{~#if (eq type "skill")~}}
+    {{~#if trait.specs~}}
+      <div class="skill-specs">
+        {{~#each trait.specs~}}
+          <span class="skill-spec">
+            {{~ this.text ~}}
+            {{~#if this.tagString~}}
+              <span class="spec-tag-string">
+                ({{{this.tagString}}})
+              </span>
+            {{~/if~}}
+          </span>
+        {{~/each~}}
+      </div>
+    {{~/if~}}
+  {{~/if~}}

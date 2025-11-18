@@ -1,0 +1,317 @@
+{
+  "int": {
+    "key": "int",
+    "value": {
+      "min": 1,
+      "max": 10
+    },
+    "name": "Intelligence",
+    "description": "Intelligence represents book smarts and data processing: memory, general knowledge, and solving complex problems.",
+    "levels": {
+      "1": "{{NAME}} remembers basics but struggles with abstract links and deep recall without prompts.",
+      "2": "{{NAME}} handles everyday facts and routines, recalling what {{he}} needs with a bit of effort.",
+      "3": "{{NAME}} connects ideas quickly, retains details, and solves layered problems with clear reasoning.",
+      "4": "{{NAME}} synthesizes large bodies of information, models possibilities, and spots elegant solutions others miss.",
+      "5": "{{NAME}} operates at the far edge of human brilliance: astonishing recall, rapid synthesis, and elegant, pressure-proof reasoning.",
+      "6": "{{NAME}}'s mind runs like a recursive engine, modeling vast problem-spaces with near-perfect clarity; {{he}} intuits relations that would take experts years.",
+      "7": "{{NAME}} perceives knowledge as a living tapestry, grasping entire conceptual ecosystems in a single breath; new information settles into place with impossible ease.",
+      "8": "{{NAME}} thinks on mythic scales: {{his}} intellect is a force of nature, capable of insights so deep and so rapid they feel like prophecy rather than analysis.",
+      "9": "{{NAME}}'s cognition has left linear thought behind; {{he}} perceives intellectual structures the way others perceive landscapes, navigating ideas with impossible immediacy.",
+      "10": "{{NAME}}'s mind operates like a conceptual singularity, collapsing vast domains of knowledge into instant, flawless understanding — insight beyond any mortal or machine.",
+      "11": "{{NAME}}'s mind moves through abstract truth the way swimmers move through water; whole disciplines reorganize themselves at {{his}} approach.",
+      "12": "{{NAME}} perceives the hidden machinery of reality — mathematics, causality, and logic reveal their substructure without effort.",
+      "13": "{{NAME}}'s thoughts fold over dimensions mortals never evolved to notice; {{he}} solves impossibilities by perceiving sideways.",
+      "14": "{{NAME}} can conceptualize infinities and compress them into workable models, treating paradox as a minor speed bump.",
+      "15": "{{NAME}} carries a cosmos of knowledge within {{his}} skull; thinking becomes an act of sculpting fundamental principles.",
+      "16": "{{NAME}} solves problems that have no known formulation, unraveling truths older than the universe's constants.",
+      "17": "{{NAME}}'s intellect exerts gravitational pull — lesser ideas orbit {{him}}, synchronizing into new forms simply by proximity.",
+      "18": "{{NAME}} achieves epistemic omnidirectionality: any question posed instantly flowers into a complete, coherent understanding.",
+      "19": "{{NAME}} thinks in axioms; {{his}} conclusions rewrite the rules they were derived from, stabilizing reality around {{his}} insight.",
+      "20": "{{NAME}}'s mind is a star of pure cognition, radiating understanding so potent it alters the shape of possibility itself."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 181
+    }
+  },
+  "wit": {
+    "key": "wit",
+    "value": {
+      "min": 1,
+      "max": 10
+    },
+    "name": "Wits",
+    "description": "Wits governs quickness of thought, improvisation, and perception: noticing details and reacting to new information.",
+    "levels": {
+      "1": "{{NAME}} catches the obvious but is a beat behind when things change suddenly.",
+      "2": "{{NAME}} notices common cues and reacts in time to keep pace with most situations.",
+      "3": "{{NAME}} reads a room fast, catches subtle tells, and pivots smoothly under surprise.",
+      "4": "{{NAME}} registers micro-details at a glance and improvises clean, immediate responses.",
+      "5": "{{NAME}} is razor-sharp: near-instant reads and effortless adaptation, seeing subtleties before most realize they're present.",
+      "6": "{{NAME}} seems to live half a second ahead of reality; sensory input blooms into meaning instantly, letting {{him}} improvise with impossible precision.",
+      "7": "{{NAME}} registers micro-shifts in the world like a predator reading the wind, catching cues so faint they verge on extrasensory.",
+      "8": "{{NAME}} moves through chaos as though fate itself slows for {{him}}; {{his}} awareness borders on omnidirectional, and nothing escapes {{his}} notice.",
+      "9": "{{NAME}} reacts to reality before it fully forms; {{he}} senses shifts in intention, motion, and circumstance as though reading the future by instinct.",
+      "10": "{{NAME}} moves in perfect synchrony with every unfolding moment, perceiving the world with omnidirectional clarity so complete it borders on precognition.",
+      "11": "{{NAME}} reacts to events before causality fully finalizes; chance itself seems embarrassed to surprise {{him}}.",
+      "12": "{{NAME}} processes sensory information across timelines of possibility, always acting on the most favorable branch.",
+      "13": "{{NAME}} reads intention in the stillness between heartbeats, interpreting micro-cues beneath quantum noise.",
+      "14": "{{NAME}} navigates chaos as though guided by an unseen map; entropy politely rearranges itself to accommodate {{him}}.",
+      "15": "{{NAME}} parses simultaneous threats with flawless clarity, weaving responses that look choreographed by gods.",
+      "16": "{{NAME}} sees patterns emerging from randomness, anticipating outcomes that defy probability entirely.",
+      "17": "{{NAME}} effectively perceives the world a moment in the future, choosing responses already optimized by inevitability.",
+      "18": "{{NAME}} moves in perfect synchrony with unfolding events, each reaction an act of metaphysical reflex.",
+      "19": "{{NAME}} perceives the architecture of time's flow, sidestepping consequences before they exist.",
+      "20": "{{NAME}} exists in a state of perpetual insight, experiencing the present as a crystal of infinite clarity."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 182
+    }
+  },
+  "res": {
+    "key": "res",
+    "value": {
+      "min": 1,
+      "max": 10
+    },
+    "name": "Resolve",
+    "description": "Resolve is patience, concentration, and determination: staying focused despite distraction or discouragement.",
+    "levels": {
+      "1": "{{NAME}} means well but loses focus when challenged or fatigued.",
+      "2": "{{NAME}} stays on task for a while, regaining focus with brief resets.",
+      "3": "{{NAME}} keeps a steady mind through noise, pressure, and delay.",
+      "4": "{{NAME}} locks in with quiet intensity, shrugging off temptation and setbacks.",
+      "5": "{{NAME}} is iron-willed: unwavering focus and unyielding commitment even under extreme pressure.",
+      "6": "{{NAME}}'s inner force is immovable; discouragement simply fails to take root, and distractions die against the wall of {{his}} focus.",
+      "7": "{{NAME}} radiates a calm that bends adversity around {{him}}; {{his}} intent is so stable it feels gravitational.",
+      "8": "{{NAME}}'s will is mythic, a lodestone of purpose that nothing—fear, pain, despair, or supernatural influence—can meaningfully disturb.",
+      "9": "{{NAME}}'s will is an elemental constant: fear, doubt, coercion, and supernatural pressure cannot meaningfully touch {{him}}.",
+      "10": "{{NAME}} embodies pure intention; {{his}} focus can reshape outcomes through unwavering purpose alone, impervious to any attempt to sway or break {{him}}.",
+      "11": "{{NAME}}'s will becomes an existential anchor; panic, doubt, and influence simply fail to find purchase.",
+      "12": "{{NAME}} can maintain focus across days of strain, sustaining purpose with inhuman serenity.",
+      "13": "{{NAME}}'s resolve radiates outward, steadying others and shutting down manipulative forces instinctively.",
+      "14": "{{NAME}} stands firm against supernatural attempts to erode identity, {{his}} sense of self solid as bedrock.",
+      "15": "{{NAME}} turns intent into an unbreakable vector; distractions collapse like moths against glass.",
+      "16": "{{NAME}} can maintain unwavering clarity through trauma, horror, or psychic assault that would shatter minds.",
+      "17": "{{NAME}}'s determination alters outcomes, imposing {{his}} chosen path even against probabilistic resistance.",
+      "18": "{{NAME}} becomes immune to coercion or despair; {{his}} inner light cannot be dimmed by any force.",
+      "19": "{{NAME}}'s will resonates like a cosmic tone, harmonizing discordant forces into alignment with {{his}} vision.",
+      "20": "{{NAME}}'s resolve becomes mythic: a monument of identity so absolute that reality itself hesitates to contradict it."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 182
+    }
+  },
+  "str": {
+    "key": "str",
+    "value": {
+      "min": 1,
+      "max": 10
+    },
+    "name": "Strength",
+    "description": "Strength is muscular power and applied force across a wide range of physical tasks and violence.",
+    "levels": {
+      "1": "{{NAME}} manages light exertion but tires quickly under heavy load.",
+      "2": "{{NAME}} handles everyday lifting and force with solid reliability.",
+      "3": "{{NAME}} applies strong, controlled power and moves weight with confidence.{{BR}}{{He}} must roll {{NAMEVALUE:man}} + {{NAMEVALUE:persuasion}} + {{NAMEVALUE:this}} {{SOURCE:DtR/77}}. Additionally, {{NAME}} scales {{CALC:10 + (5 * {{VALUE:context.skills.physical.athletics}})}} feet as an instant action, rather than the normal 10 feet.",
+      "4": "{{NAME}} delivers exceptional force with efficient technique and stamina behind it.",
+      "5": "{{NAME}} is at the human pinnacle: explosive, sustained, decisive physical power.",
+      "6": "{{NAME}} strikes with animal ferocity, lifting and tearing with force that borders on monstrous.",
+      "7": "{{NAME}} exerts strength on the scale of great beasts — bending metal, uprooting obstacles, and hurling weight with terrifying ease.",
+      "8": "{{NAME}}'s power becomes mythic: blows like wrecking balls, feats of lifting or breaking that redefine the word 'impossible.'",
+      "9": "{{NAME}}'s physical force rivals small-scale natural disasters; barriers crumble and mass becomes almost irrelevant to {{his}} exertion.",
+      "10": "{{NAME}} wields strength on a mythic scale — lifting, tearing, or striking with power that borders on divine, rewriting the limits of matter with brute force.",
+      "11": "{{NAME}} exerts force reminiscent of apex megafauna, casually overturning vehicles or cracking reinforced stone.",
+      "12": "{{NAME}} can lift and throw mass on the scale of industrial machinery; {{his}} blows mimic compact explosions.",
+      "13": "{{NAME}} tears through support beams and armored plating with feral ease, bending metal like damp clay.",
+      "14": "{{NAME}} exerts titanic pressure, {{his}} movements carrying the weight of collapsing mountains.",
+      "15": "{{NAME}} demonstrates force that borders on geological; cliffs and foundations tremble at {{his}} touch.",
+      "16": "{{NAME}} channels continent-moving strength, ripping apart obstacles meant to stop armies.",
+      "17": "{{NAME}} hits with the raw violence of natural disasters — hurricane gusts, volcanic blasts, tectonic snaps.",
+      "18": "{{NAME}}'s strength bends the environment around it; concrete warps and steel screams in {{his}} grip.",
+      "19": "{{NAME}} lifts absurd mass with dreamlike ease, as though inertia itself consents to be ignored.",
+      "20": "{{NAME}} embodies mythic force: one strike can shatter landscapes, and no barrier short of divine withstands {{him}}."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 182
+    }
+  },
+  "dex": {
+    "key": "dex",
+    "value": {
+      "min": 1,
+      "max": 10
+    },
+    "name": "Dexterity",
+    "description": "Dexterity represents hand-eye coordination, agility, and speed: balance, precision, and controlled movement.",
+    "levels": {
+      "1": "{{NAME}} is a bit slow to adjust and occasionally clumsy under pressure.",
+      "2": "{{NAME}} shows steady coordination and keeps {{his}} footing in most situations.",
+      "3": "{{NAME}} moves cleanly and fast, with reliable precision and balance.",
+      "4": "{{NAME}} is fluid and exact, threading tight timings and fine control with ease.",
+      "5": "{{NAME}} is preternaturally deft: swift, precise, and poised in any movement.",
+      "6": "{{NAME}} moves with predatory fluidity, reacting faster than conscious thought should allow.",
+      "7": "{{NAME}} balances and maneuvers with the ghostlike grace of a falcon in flight or a lizard running across water.",
+      "8": "{{NAME}}'s agility transcends biology: motion so perfect and instantaneous it resembles a natural law rather than skill.",
+      "9": "{{NAME}} moves with predatory perfection, slipping through space like physics is politely stepping aside for {{him}}.",
+      "10": "{{NAME}}'s motion is so refined it appears supernatural; precision, balance, and speed meld into a single seamless act that borders on teleportation to the untrained eye.",
+      "11": "{{NAME}} moves with animal impossibility, slipping through gaps that shouldn't allow a body to pass.",
+      "12": "{{NAME}} balances on surfaces too narrow, too unstable, or too fast-moving for any sane definition of footing.",
+      "13": "{{NAME}} reacts with predator-tier acceleration, executing maneuvers that blur to the human eye.",
+      "14": "{{NAME}} performs feats of motion that seem to bend physics — ricocheting, twisting, spiraling like a trick of perspective.",
+      "15": "{{NAME}} dances through threats with the liquid grace of a storm petrel riding hurricane winds.",
+      "16": "{{NAME}} transcends momentum, shifting directions midair with effortless precision.",
+      "17": "{{NAME}} flows through combat or obstacles like living water, {{his}} motion almost musical in its perfection.",
+      "18": "{{NAME}} executes actions so precise they mimic time dilation, as if each second holds room for fifty.",
+      "19": "{{NAME}} can thread a needle while dodging supersonic projectiles — and it looks relaxed.",
+      "20": "{{NAME}} moves with divine exactness: flawless, instantaneous, and utterly untouchable."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 182
+    }
+  },
+  "sta": {
+    "key": "sta",
+    "value": {
+      "min": 1,
+      "max": 10
+    },
+    "name": "Stamina",
+    "description": "Stamina describes general fitness, endurance, and toughness: sustained effort and resistance to physical punishment.",
+    "levels": {
+      "1": "{{NAME}} handles brief effort but fades under prolonged strain.",
+      "2": "{{NAME}} maintains a decent pace and recovers with short rests.",
+      "3": "{{NAME}} sustains hard effort, absorbs setbacks, and keeps going.",
+      "4": "{{NAME}} endures long grinds and shrugs off exhaustion that stops others.",
+      "5": "{{NAME}} is relentless: durable, steady, and difficult to break down.",
+      "6": "{{NAME}} endures catastrophic strain with animal resilience — shrugging off trauma that would fell any human.",
+      "7": "{{NAME}} sustains effort with the inexhaustibility of a great migratory beast, resisting punishment that should cripple or kill.",
+      "8": "{{NAME}} possesses unearthly vitality: a near-bottomless well of endurance that borders on the supernatural.",
+      "9": "{{NAME}} endures destruction that should pulp bone and rupture organs; {{his}} body absorbs devastation like an unstoppable engine.",
+      "10": "{{NAME}}'s vitality is titanic — exhaustion, injury, illness, and environmental extremes fold around {{him}} without effect, as though {{his}} body refuses the concept of failure.",
+      "11": "{{NAME}} withstands punishment equivalent to catastrophic accidents, continuing forward with monstrous endurance.",
+      "12": "{{NAME}} can run for days or fight for hours without measurable decline.",
+      "13": "{{NAME}} shrugs off internal damage that should disable organs or rupture tissue entirely.",
+      "14": "{{NAME}} resists heat, cold, starvation, and injury with animalistic tenacity bordering on immortality.",
+      "15": "{{NAME}} pushes through devastation as though {{his}} body refuses to register it.",
+      "16": "{{NAME}} heals from trauma through sheer vitality, restoring function with impossible speed.",
+      "17": "{{NAME}} endures lethal conditions for extended periods — vacuum, toxins, crushing pressure.",
+      "18": "{{NAME}} {{his}} endurance becomes mythic; exhaustion has lost all meaning to {{him}}.",
+      "19": "{{NAME}}'s body becomes an engine of survival, adapting instantly to protect itself.",
+      "20": "{{NAME}}'s stamina is eternal: {{he}} continues until {{he}} chooses to stop, and nothing else can compel rest."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 182
+    }
+  },
+  "pre": {
+    "key": "pre",
+    "value": {
+      "min": 1,
+      "max": 10
+    },
+    "name": "Presence",
+    "description": "Presence is raw charisma, assertiveness, and command: shaping attention and moods by simply being there.",
+    "levels": {
+      "1": "{{NAME}} can speak up, but {{his}} impact fades without support.",
+      "2": "{{NAME}} holds attention and states {{his}} case with natural confidence.",
+      "3": "{{NAME}} fills space with poise, shifting tone and energy to suit the moment.",
+      "4": "{{NAME}} commands a room; people track {{his}} lead without being told.",
+      "5": "{{NAME}} is gravitational: a compelling force whose presence shifts the energy of entire rooms.",
+      "6": "{{NAME}}'s charisma hits like weather — immediate, atmospheric, impossible to ignore or resist.",
+      "7": "{{NAME}} carries mythic presence, stirring conviction and emotion in others with a word, a gesture, or a glance.",
+      "8": "{{NAME}} speaks with the weight of archetype; {{his}} mere existence can reroute the emotional current of crowds or quell panic like a miracle.",
+      "9": "{{NAME}}'s presence bends crowds and conversations by sheer force of existence; people feel {{him}} before they see {{him}}.",
+      "10": "{{NAME}} radiates mythic authority — a living archetype whose presence can still an army, ignite devotion, or shift the emotional axis of entire groups with a breath.",
+      "11": "{{NAME}}'s aura sweeps through crowds like a weather front, shifting mood and energy without a word.",
+      "12": "{{NAME}} commands mythic respect, drawing eyes and aligning emotions the way gravity aligns orbits.",
+      "13": "{{NAME}} can ignite courage, devotion, or terror with a mere tilt of the head.",
+      "14": "{{NAME}}'s presence floods spaces with archetypal resonance: leader, prophet, warrior, judge.",
+      "15": "{{NAME}} shapes social dynamics intuitively, becoming the silent center around which others revolve.",
+      "16": "{{NAME}} overrides fear, doubt, or hostility simply by standing still.",
+      "17": "{{NAME}} inspires unity or chaos on a grand scale, affecting crowds like a living emotion.",
+      "18": "{{NAME}}'s voice alone can still riots or raise armies to fervor.",
+      "19": "{{NAME}} embodies mythic charisma that crosses languages, cultures, and even species.",
+      "20": "{{NAME}} is a living icon — a presence so powerful it imprints itself onto memory, history, and narrative."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 182
+    }
+  },
+  "man": {
+    "key": "man",
+    "value": {
+      "min": 1,
+      "max": 10
+    },
+    "name": "Manipulation",
+    "description": "Manipulation governs shaping others through word choice and presentation: masking intent, framing ideas, and guiding agreement.",
+    "levels": {
+      "1": "{{NAME}} manages simple spins but is transparent if pressed.",
+      "2": "{{NAME}} chooses words carefully and steers conversations toward {{his}} aims.",
+      "3": "{{NAME}} reframes assumptions smoothly and hides motives behind easy charm.",
+      "4": "{{NAME}} weaves layered messages, nudging decisions while appearing neutral.",
+      "5": "{{NAME}} is surgical: invisible influence that makes {{his}} plan feel like their idea.",
+      "6": "{{NAME}} threads meaning through language with predatory precision, making shifts in emotion and belief feel self-generated.",
+      "7": "{{NAME}}'s influence flows like a spell: layered, atmospheric, and nearly impossible to detect even in retrospect.",
+      "8": "{{NAME}} can reshape social realities with a few words, orchestrating decisions and dynamics as though conducting an unseen symphony.",
+      "9": "{{NAME}}'s influence slips into the subconscious with flawless subtlety, steering choices without leaving the faintest trace.",
+      "10": "{{NAME}} speaks with reality-shaping persuasion: ideas latch into others like immutable truths, rewriting priorities and perceptions with effortless finesse.",
+      "11": "{{NAME}} guides conversations with uncanny ease, leaving no trace of the decisions {{he}} subtly authors.",
+      "12": "{{NAME}}'s influence reconfigures assumptions without resistance, leaving others convinced they reached conclusions alone.",
+      "13": "{{NAME}} weaves emotional and intellectual cues into intricate, invisible nets.",
+      "14": "{{NAME}} can flip allegiances, beliefs, or motivations with gently placed words.",
+      "15": "{{NAME}} orchestrates social dynamics like a conductor guiding a symphony.",
+      "16": "{{NAME}} instills ideas that persist even when contradicted by evidence or memory.",
+      "17": "{{NAME}} bends entire groups to new priorities with a single suggestion.",
+      "18": "{{NAME}}'s persuasion shapes the emotional weather of a room or a crowd.",
+      "19": "{{NAME}} influences people with mythic subtlety, crafting desires and fears that feel primordial.",
+      "20": "{{NAME}} manipulates narrative itself — conversations, moods, decisions all drift toward the outcomes {{he}} intends."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 182
+    }
+  },
+  "com": {
+    "key": "com",
+    "value": {
+      "min": 1,
+      "max": 10
+    },
+    "name": "Composure",
+    "description": "Composure describes emotional control, poise, and steadiness: keeping a level head and resisting manipulation.",
+    "levels": {
+      "1": "{{NAME}} betrays tension under stress and needs time to reset.",
+      "2": "{{NAME}} stays mostly calm, regaining balance with measured breaths.",
+      "3": "{{NAME}} holds steady in conflict, reading pressure without reacting to it.",
+      "4": "{{NAME}} is unflappable; provocation and shock slide off without cracks.",
+      "5": "{{NAME}} is a rock: serene focus, perfect poker face, and deep self-control.",
+      "6": "{{NAME}} cannot be rattled; emotional storms, threats, and shocks break against {{him}} with no visible mark.",
+      "7": "{{NAME}} navigates crises with stillness so profound it feels supernatural, steadying others simply by existing.",
+      "8": "{{NAME}}'s calm is mythic: an anchor against terror, manipulation, or despair, untouched even by forces meant to erode the human spirit.",
+      "9": "{{NAME}}'s inner equilibrium is absolute; even existential threats, psychic assault, or catastrophic terror cannot crack {{his}} calm.",
+      "10": "{{NAME}} embodies perfect serenity — a stillness so profound that emotional, psychic, and supernatural forces break against {{him}} like waves against stone, leaving {{him}} untouched.",
+      "11": "{{NAME}} remains untouched by disaster; even witnessing horror does not shake {{his}} internal symmetry.",
+      "12": "{{NAME}} endures psychic force with steady, unbreakable calm.",
+      "13": "{{NAME}} maintains serenity that pacifies others, dampening chaos around {{him}}.",
+      "14": "{{NAME}} is immune to emotional manipulation, supernatural fear, or psychic distortion.",
+      "15": "{{NAME}} becomes the still point in the world's spinning, anchoring others simply by existing.",
+      "16": "{{NAME}} can maintain perfect clarity even in altered realities or dreamlike paradoxes.",
+      "17": "{{NAME}} negates psychic storms through sheer internal order, quieting them like blown-out candles.",
+      "18": "{{NAME}} radiates deep stillness that unravels illusions, fear, and tension.",
+      "19": "{{NAME}}'s composure becomes transcendent — no force can unseat {{his}} emotional equilibrium.",
+      "20": "{{NAME}} is pure serenity incarnate: a being whose calm bends the world around {{him}} toward peace, clarity, and coherence."
+    },
+    "source": {
+      "book": "DtR",
+      "page": 182
+    }
+  }
+}

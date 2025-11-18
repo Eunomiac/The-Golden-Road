@@ -1,0 +1,138 @@
+@use "./_colors" as *;
+@use "./_typography" as *;
+@use "./_mixins" as *;
+
+.layout {
+  overflow: hidden;
+  padding-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  background-image: url("../assets/images/bg-red.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: repeat-y;
+
+  // Container that wraps both sidebar and paper-stack to establish common stacking context
+  .paper-container {
+    position: relative; // Create positioning context for tabs and paper-stack
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+
+
+    .paper-stack {
+      position: relative;
+      z-index: 2;
+      padding: 0rem 4rem 1.5rem 3rem;
+      // margin: 1rem 0 0 0;
+      // place-items: start stretch;
+      background-image: url("../assets/images/bg-paper-stack.webp");
+      background-position: top center;
+      background-size: contain;
+      background-repeat: no-repeat;
+      aspect-ratio: 8.5 / 11;
+      display: flex;
+      justify-content: stretch;
+      align-items: stretch;
+      --paper-height: 100vh;
+      height: var(--paper-height);
+      width: calc(var(--paper-height) * 8.5 / 11);
+
+      .page {
+        &.pc-page {
+          flex-direction: column;
+          justify-content: flex-start; // Start from top (first item at top)
+          align-items: stretch;
+          flex: 1;
+
+          // height: 100%;
+          // aspect-ratio: 8.5 / 11;
+
+          // Use gap to create even spacing between items
+          // This approximates space-evenly but starts from the first item
+          gap: 1rem; // Adjust this value to control spacing between blocks
+
+          // First block naturally at top with flex-start
+          // Remaining blocks will have equal gap spacing between them
+        }
+      }
+    }
+  }
+
+  // Master Navigation Sidebar
+
+  .master-navigation {
+
+    position: absolute;
+    left: calc(50% + (100vh * 8.5 / 11) / 2 + 2rem);
+    top: 2rem;
+    padding: 0 1.5rem;
+    background: $color-parchment;
+    line-height: 1.5;
+
+    .nav-header {
+      margin: 0;
+      margin-top: 0.5rem;
+      text-indent: -1rem;
+
+
+    }
+
+    .nav-list {
+
+      $nav-link-font-size: 1rem;
+
+      &.nav-list-pc {
+        $nav-link-font-size: 1.25rem;
+      }
+
+      padding: 0;
+      margin-top: 0rem;
+
+      list-style: none;
+
+      .nav-item {
+        padding: 0 1rem;
+        background: $color-parchment;
+        // margin: 0.25rem 0;
+
+        &.nav-item-current {
+          pointer-events: none;
+        }
+
+        &:hover {
+          background: $color-ink;
+          .nav-link {
+            color: $color-parchment;
+          }
+        }
+
+        .nav-link {
+          text-decoration: none;
+          font-family: $font-heading;
+          font-size: $nav-link-font-size;
+          color: $color-ink;
+          position: relative;
+          // padding-left: 1.5rem; // Reserve space for current page indicator
+
+          &.nav-link-current {
+            color: $color-grey;
+            pointer-events: none;
+
+            &::before {
+              content: "▶ ";
+              position: absolute;
+              left: -1.5rem;
+            }
+          }
+        }
+
+      }
+
+
+    }
+
+
+  }
+}

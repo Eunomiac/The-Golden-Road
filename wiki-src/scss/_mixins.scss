@@ -1,0 +1,322 @@
+@use "sass:color";
+@use "sass:list";
+@use "./_colors" as *;
+@use "./_typography" as *;
+
+/* === SPECIFIC COMPONENT STYLES === */
+
+/* --- TRAIT LABELS --- */
+
+@mixin label-specialty($tags:[]) {
+  @include caption-text-uppercase;
+  // @include body-text-all-caps();
+  // font-size: 0.75rem;
+  // color: $color-ink;
+  white-space: nowrap;
+  // margin-top: -0.15rem;
+
+  &:first-of-type::before {
+    display: inline-block;
+    content: "↪";
+    margin-left: -2.25ch;
+    // margin-right: -0.25ch;
+  }
+
+  & + .skill-spec::before {
+    content: "|";
+    color: $color-grey;
+    // margin-left: 0.15ch;
+    // margin-right: 0.15ch;
+  }
+
+  $contentTags: [];
+
+  @if (list.index($tags, "interdisciplinary") != null) {
+    // "Interdisciplinary" chosen
+    background: color.adjust($color-ink, $alpha: -0.75);
+    padding: 0 0.1rem 0 0.25rem;
+
+    $contentTags: list.append($contentTags, "⁂");
+  }
+  @if (list.index($tags, "expert") != null) {
+    // "Area of Expertise" chosen
+    // font-weight: bold;
+    $contentTags: list.append($contentTags, "+2");
+  }
+  @if ($contentTags != []) {
+
+    $length: list.length($contentTags);
+    $result: "";
+    @for $i from 1 through $length {
+      $result: $result + "#{list.nth($contentTags, $i)}";
+      @if $i < $length {
+        $result: $result + ", ";
+      }
+    }
+
+    &::after {
+      content: " (" + $result + ")";
+    }
+  }
+}
+
+@mixin label-attribute($value: 1, $tags:[]) {
+  @include body-text-small-caps;
+  font-size: 18px;
+}
+
+@mixin label-skill($value: null, $tags:[]) {
+
+  &, & + .dotline {
+    // font-size: 0.9rem;
+  @if ($value == 0) {
+    --opacity: 0.3;
+    // font-size: 0.75em;
+  }
+
+  // @if ($value == 1) {
+  //   --opacity: 0.8;
+  // }
+
+  @if ($value == 3) {
+      // font-weight: bold;
+      // letter-spacing: -0.15em;
+  }
+
+  @if ($value == 4 or $value == 5) {
+    // font-weight: bold;
+    @include body-text-all-caps();
+    // text-shadow:
+      // 0 0 0.015rem rgba(0, 0, 0, 1),
+      // 0 0 0.015rem rgba(0, 0, 0, 1),
+      // 0 0 0.015rem rgba(0, 0, 0, 1);
+    // letter-spacing: 0em;
+
+    &::before {
+      // text-shadow: none;
+    }
+
+    @if ($value == 5) {
+      background: white;
+      filter: invert(1);
+
+      &.stat-label {
+        // padding-left: 0.25rem;
+        padding-right: 0.25rem;
+        margin-left: 0.25rem;
+        margin-right: 0.25rem;;
+      }
+      & + .dotline {
+        padding-right: 0.25rem;
+        margin-left: -0.25rem;
+        padding-left: 0.25rem;
+        min-width: calc(var(--dotline-size) * 5 + var(--dotline-gap) * 4 + 0.5rem);
+      }
+    }
+
+  }
+
+  $beforeContent: "";
+
+  @if ($tags != []) {
+
+    @if (list.index($tags, "asset") != null) {
+      // "Asset Skill" chosen
+      $beforeContent: $beforeContent + "⭐";
+    }
+
+    @if(list.index($tags, "hypercompetent") != null) {
+      // "Hypercompetent" chosen
+      $beforeContent: $beforeContent + "♠️";
+    }
+
+
+    @if ($beforeContent != "") {
+      &.stat-label::before {
+        display: inline-block;
+        content: $beforeContent;
+        margin: 0rem -0.25rem 0 0.25rem;
+        // font-size: 0.75rem;
+        // line-height: 0.75rem;
+        height: 0.75rem;
+        width: 0.75rem;
+        text-align: left;
+        vertical-align: middle;
+        filter: brightness(0);
+        // border: 1px solid black;
+        box-sizing: border-box;
+        transform-origin: center center;
+        // text-indent: -0.125rem;
+
+        // Opacity controlled by GSAP via CSS custom property
+        opacity: var(--icon-opacity, 1);
+        transform: scale(var(--icon-scale, 1));
+        filter: brightness(0) drop-shadow(0 0 var(--shadow-blur) rgba(0, 0, 0, var(--shadow-alpha))) !important;
+      }
+    }
+  }
+}
+}
+
+@mixin stat-row($gap: 0.3rem) {
+  display: grid;
+  grid-template-columns: 1fr auto; // Use 1fr for second column to allow shrinking
+  gap: $gap 0.5rem;
+  white-space: nowrap;
+  min-width: 0; // Allow grid to shrink below content size
+  max-width: 100%; // Prevent expansion beyond container
+  // justify-content: flex-start;
+  --primary-color: #{$color-ink};
+  // align-items: stretch;
+  place-content: stretch center;
+
+  .stat-label {
+    align-items: center;
+    place-self: center start;
+
+    &.attribute-row {
+      @include label-attribute(3);
+      max-height: unset;
+      // &.stat-row-1 { @include label-attribute(1); }
+      // &.stat-row-2 { @include label-attribute(2); }
+      // &.stat-row-3 { @include label-attribute(3); }
+      // &.stat-row-4 { @include label-attribute(4); }
+      // &.stat-row-5 { @include label-attribute(5); }
+      // &.stat-row-6 { @include label-attribute(6); }
+      // &.stat-row-7 { @include label-attribute(7); }
+      // &.stat-row-8 { @include label-attribute(8); }
+      // &.stat-row-9 { @include label-attribute(9); }
+      // &.stat-row-10 { @include label-attribute(10); }
+      // &.stat-row-17 { @include label-attribute(17); }
+    }
+
+    &.skill-row {
+
+      // &.asset-tag { @include label-skill(null, ["asset"]); }
+      @include label-skill(2);
+      // // font-size: 0.9rem;
+      &.stat-row-0 { @include label-skill(0); }
+      // &.stat-row-1 { @include label-skill(1); }
+      // &.stat-row-2 { @include label-skill(2); }
+      // &.stat-row-3 { @include label-skill(3); }
+      // &.stat-row-4 { @include label-skill(4); }
+      // &.stat-row-5 { @include label-skill(5); }
+      // &.stat-row-6 { @include label-skill(6); }
+      // &.stat-row-7 { @include label-skill(7); }
+      // &.stat-row-8 { @include label-skill(8); }
+      // &.stat-row-9 { @include label-skill(9); }
+      // &.stat-row-10 { @include label-skill(10); }
+    }
+    &.hypercompetent-tag:not(.asset-tag) {
+      @include label-skill(null, ["hypercompetent"]);
+    }
+    &.asset-tag:not(.hypercompetent-tag) {
+      @include label-skill(null, ["asset"]);
+    }
+    &.hypercompetent-tag.asset-tag {
+      @include label-skill(null, ["hypercompetent", "asset"]);
+    }
+    text-align: right;
+    color: var(--primary-color);
+    opacity: var(--opacity, 1);
+
+    // Initialize CSS custom property for GSAP animation
+    // GSAP will animate this value, which controls ::before opacity
+    --icon-opacity: 0.6;
+    --icon-scale: 1;
+    --shadow-blur: 0rem;
+    --shadow-alpha: 1;
+
+    max-height: 14px;
+    min-height: 14px;
+  }
+
+  .dotline {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
+    flex-basis: 40%;
+    min-width: calc(var(--dotline-size) * 7 + var(--dotline-gap) * 4);
+    // min-width: 0; // Allow flex item to shrink (overrides min-width when needed)
+    max-width: 100%; // Prevent expansion beyond container
+    gap: var(--dotline-gap);
+    // font-size: 0;
+    // min-width: calc(var(--dotline-size) * 7 + var(--dotline-gap) * 4); // Commented out to allow shrinking
+    --dotline-size: 1rem;
+    --dotline-gap: 0;
+    --dotline-dot-full: url("../../assets/images/dots/dot-full.webp");
+    --dotline-dot-empty: url("../../assets/images/dots/dot-empty.webp");
+    --dotline-dot-bonus: url("../../assets/images/dots/dot-bonus.webp");
+    --dotline-dot-broken: url("../../assets/images/dots/dot-broken.webp");
+
+    &.attribute-dotline,
+    &.skill-dotline {
+      --dotline-size: 0.75rem;
+      --dotline-gap: 0.05rem;
+    }
+
+    .dot {
+      display: inline-block;
+      flex-basis: var(--dotline-size);
+      height: var(--dotline-size);
+      vertical-align: middle;
+      box-sizing: border-box;
+      flex-shrink: 1;
+      flex-grow: 1;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      transform-origin: center center;
+      transform: scale(1.1);
+
+      &.full-dot {
+        background-image: var(--dotline-dot-full);
+        opacity: var(--opacity, 1);
+      }
+      &.bonus-dot {
+        background-image: var(--dotline-dot-bonus);
+      }
+      &.broken-dot {
+        background-image: var(--dotline-dot-broken);
+        opacity: var(--opacity, 1);
+      }
+      &.empty-dot {
+        background-image: var(--dotline-dot-empty);
+        // opacity: 0.05;
+      }
+      &.blank-dot {
+        opacity: 0;
+      }
+
+      &:nth-child(5n) {
+        margin-right: calc(var(--dotline-size) * 2 + 0.15rem);
+      }
+      &:nth-child(6n) {
+        margin-left: calc(-1 * (var(--dotline-size) * 2));
+      }
+    }
+  }
+
+  .skill-specs {
+    // span two grid cells horizontally
+    grid-column: span 2;
+    margin-top: -0.25rem;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: top;
+    padding-left: 20%;
+
+    .skill-spec {
+
+      @include label-specialty();
+
+      .super-spec {
+        @include label-specialty($tags: ["interdisciplinary", "expert"]);
+      }
+
+
+    }
+  }
+}

@@ -1,0 +1,151 @@
+@use "./_colors" as *;
+@use "./_typography" as *;
+
+/**
+ * Tab Navigation Component
+ *
+ * Sticky tab-style navigation aligned to the left of the paper stack container.
+ * Tabs are rotated 90 degrees and styled to resemble sticky tabs on paper.
+ */
+
+// Tab navigation container (sidebar)
+// Positioned to align with and overlap the left edge of the paper-stack
+// Now positioned relative to .paper-container, which establishes a common stacking context
+.sidebar.tab-navigation {
+  position: absolute;
+  // Position relative to .paper-container (which centers the paper-stack)
+  // Paper-stack uses: width = calc(100vh * 8.5 / 11) and is centered in .paper-container
+  // So we position tabs at: left edge of paper-stack (0% of container, but paper is centered)
+  // Calculate: center of container - half paper width
+  left: calc(50% - (100vh * 8.5 / 11) / 2);
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  padding: 0;
+  margin: 0;
+  // No z-index needed here - tabs will control their own stacking via z-index
+  width: auto;
+  pointer-events: none; // Allow clicks to pass through to container
+}
+
+.tab-navigation {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 1rem 0 0 0; // Top padding to align with paper content
+  margin: 0;
+  pointer-events: none; // Allow clicks to pass through to tabs
+
+  .tab-button {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    pointer-events: auto; // Re-enable pointer events for buttons
+    transition: all 0.2s ease;
+    min-width: fit-content;
+    width: auto;
+    // Inactive tabs appear behind the paper-stack (z-index: 2)
+    z-index: 1;
+
+    .tab-text {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+      white-space: nowrap;
+      padding: 0.75rem 0.25rem 0.75rem 1.25rem;
+      font-size: 1rem;
+      font-family: $font-tab;
+      text-transform: uppercase;
+      font-weight: normal;
+      color: $color-ink;
+      background-color: rgba($color-parchment, 0.9);
+      border: 1px solid rgba($color-ink, 0.2);
+      box-shadow:
+        0 -2px 4px rgba($color-ink, 0.1),
+        inset 0 1px 2px rgba($color-ink, 0.05);
+      // transition: all 0.2s ease;
+      user-select: none;
+      display: inline-block;
+    }
+
+    // Hover state for non-active tabs
+    &:not(.active):hover .tab-text {
+      background-color: rgba($color-parchment, 1);
+      border-color: rgba($color-ink, 0.4);
+      box-shadow:
+        0 -2px 6px rgba($color-ink, 0.15),
+        inset 0 1px 2px rgba($color-ink, 0.08);
+      transform: rotate(180deg) translateX(2px);
+    }
+
+    // Active tab styling
+    &.active {
+      pointer-events: none; // Disable interaction for active tab
+      cursor: default;
+      // Active tab appears above the paper-stack (z-index: 2)
+      // Since sidebar and paper-stack are now siblings in .paper-container,
+      // z-index works correctly across both elements
+      z-index: 3;
+
+      .tab-text {
+        // Gradient background: solid black at top, fading to transparent at bottom third
+        // Since tabs are rotated 90 degrees, use horizontal gradient (to left)
+        // The bottom third (overlapping portion) becomes almost transparent
+        background: linear-gradient(
+          to left,
+          $color-ink 0%,
+          $color-ink 90%,
+          rgba($color-ink, 0.1) 90%,
+          rgba($color-ink, 0.05) 100%
+        );
+        border-color: rgba($color-ink, 0.3);
+        border-width: 2px 2px 1px 1px;
+        // Make bottom border transparent to avoid visible line at fade edge
+        border-left: none;
+        box-shadow:
+          none;
+        // Remove inset shadow that could create a dark line at the bottom
+        font-weight: normal;
+        color: $color-parchment;
+      }
+    }
+
+    // Spacing between tabs
+    & + .tab-button {
+      margin-top: 0.5rem;
+    }
+  }
+}
+
+// Positioning relative to paper-stack container
+// Tabs overlap the paper container, so we adjust padding to accommodate
+.paper-stack {
+  position: relative;
+  // Keep original padding but tabs will overlap from the left
+  padding-left: 3rem;
+  pointer-events: none;
+}
+
+// Hide non-active page sections
+.pc-page {
+  display: none;
+  width: 100%;
+  min-width: 0; // Allow flex items to shrink below content size
+  max-width: 100%; // Prevent expansion beyond container
+
+  &.active {
+    display: flex;
+    flex-direction: column; // Ensure column layout
+    pointer-events: auto;
+  }
+}

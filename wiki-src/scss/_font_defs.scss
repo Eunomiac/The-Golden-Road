@@ -1,0 +1,126 @@
+/* Repent - Header Font */
+@font-face {
+  font-family: "Repent";
+  src: url("../assets/fonts/Repent.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Typewriter - Body Font Family */
+@font-face {
+  font-family: "Typewriter";
+  src: url("../assets/fonts/Typewriter Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Typewriter";
+  src: url("../assets/fonts/Typewriter Light Italic.otf") format("opentype");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Typewriter";
+  src: url("../assets/fonts/Typewriter Med.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Typewriter";
+  src: url("../assets/fonts/Typewriter Med Italic.otf") format("opentype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Typewriter";
+  src: url("../assets/fonts/Typewriter Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Typewriter";
+  src: url("../assets/fonts/Typewriter Bold Italic.otf") format("opentype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Typewriter Condensed - Separate Family for Condensed Versions */
+@font-face {
+  font-family: "Typewriter Condensed";
+  src: url("../assets/fonts/Typewriter Cond Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Typewriter Condensed";
+  src: url("../assets/fonts/Typewriter Cond.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Typewriter Condensed";
+  src: url("../assets/fonts/Typewriter Cond Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* VTypewriter & BadTypewriter - More Distressed Typewritten Look */
+
+@font-face {
+  font-family: "VTypewriter";
+  src: url("../assets/fonts/VTypewriter Bold.otf") format("opentype");
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "VTypewriter";
+  src: url("../assets/fonts/VTypewriter Med.otf") format("opentype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "BadTypewriter";
+  src: url("../assets/fonts/BadTypewriter.ttf") format("truetype");
+  font-display: swap;
+}
+
+/* Handwritten Fonts */
+
+@font-face {
+  font-family: "PermanentMarker";
+  src: url("../assets/fonts/PermanentMarker.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Scribble";
+  src: url("../assets/fonts/Scribble Med.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Scribble";
+  src: url("../assets/fonts/Scribble Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-display: swap;
+}
