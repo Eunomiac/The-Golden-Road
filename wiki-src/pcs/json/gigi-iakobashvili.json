@@ -16,7 +16,7 @@
   "stability": 6,
   "size": 5,
   "defense": 3,
-  "initiative": 5,
+  "initiative": 6,
   "speed": 10,
   "attributePriorities": {
     "mental": "secondary",
