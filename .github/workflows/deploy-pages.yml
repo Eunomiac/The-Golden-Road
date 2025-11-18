@@ -4,7 +4,7 @@ name: Deploy Wiki to GitHub Pages
 on:
   push:
     branches:
-      - main
+      - master
   workflow_dispatch:
 
 # Grant least-privilege permissions required for Pages deployments
