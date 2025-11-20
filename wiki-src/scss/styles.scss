@@ -12,6 +12,7 @@
 
 @use "./pages/_pc_page_front";
 @use "./pages/_pc_page_merits";
+@use "./pages/_pc_page_deviation";
 
 /* Base element resets kept minimal to preserve readability */
 * { box-sizing: border-box; }

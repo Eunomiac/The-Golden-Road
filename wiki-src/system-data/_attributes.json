@@ -115,7 +115,7 @@
     "levels": {
       "1": "{{NAME}} manages light exertion but tires quickly under heavy load.",
       "2": "{{NAME}} handles everyday lifting and force with solid reliability.",
-      "3": "{{NAME}} applies strong, controlled power and moves weight with confidence.{{BR}}{{He}} must roll {{NAMEVALUE:man}} + {{NAMEVALUE:persuasion}} + {{NAMEVALUE:this}} {{SOURCE:DtR/77}}. Additionally, {{NAME}} scales {{CALC:10 + (5 * {{VALUE:context.skills.physical.athletics}})}} feet as an instant action, rather than the normal 10 feet.",
+      "3": "{{NAME}} applies strong, controlled power and moves weight with confidence.",
       "4": "{{NAME}} delivers exceptional force with efficient technique and stamina behind it.",
       "5": "{{NAME}} is at the human pinnacle: explosive, sustained, decisive physical power.",
       "6": "{{NAME}} strikes with animal ferocity, lifting and tearing with force that borders on monstrous.",

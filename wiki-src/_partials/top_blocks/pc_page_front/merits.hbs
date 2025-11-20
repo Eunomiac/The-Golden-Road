@@ -35,12 +35,12 @@
       <div class="merit-content" style="display: none;">
         {{#if effect}}
           <div class="merit-effect">
-            <strong>Effect:</strong> {{{effect}}}
+            {{{inlineLabel effect "Effect:"}}}
           </div>
         {{/if}}
         {{#if drawback}}
           <div class="merit-drawback">
-            <strong>Drawback:</strong> {{{drawback}}}
+            {{{inlineLabel drawback "Drawback:"}}}
           </div>
         {{/if}}
         {{#if levels}}
@@ -48,11 +48,12 @@
             {{#each (range 1 value)}}
               {{#with (lookup ../levels (toString this))}}
                 <li class="merit-level">
-                  <strong class="merit-level-name">{{name}} ({{repeat "●" ("+" 1 @index)}}):</strong>
-                  <span class="merit-level-effect">{{{effect}}}</span>
+                  <div class="merit-level-effect">
+                    {{{inlineLabel effect (meritLevelLabel name ../this)}}}
+                  </div>
                   {{#if drawback}}
                     <div class="merit-level-drawback">
-                      <em>Drawback:</em> {{{drawback}}}
+                      {{{inlineLabel drawback "Drawback:"}}}
                     </div>
                   {{/if}}
                 </li>

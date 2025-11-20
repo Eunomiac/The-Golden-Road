@@ -21,7 +21,8 @@ export class CalcHandler implements NotationHandler {
     try {
       // Convert to number if it's a string representation of a number
       if (typeof processedFormula === "string") {
-        const num = Number(processedFormula);
+        const normalizedFormula = this.normalizeOperators(processedFormula);
+        const num = Number(normalizedFormula);
         if (!isNaN(num) && isFinite(num)) {
           return Math.round(num);
         }
@@ -34,7 +35,12 @@ export class CalcHandler implements NotationHandler {
 
       // Try to evaluate as expression
       // eslint-disable-next-line no-eval
-      const result = eval(processedFormula);
+      const safeFormula = typeof processedFormula === "string"
+        ? this.normalizeOperators(processedFormula)
+        : processedFormula;
+
+      // eslint-disable-next-line no-eval
+      const result = eval(safeFormula);
 
       if (typeof result === "number" && !isNaN(result) && isFinite(result)) {
         return Math.round(result);
@@ -54,12 +60,20 @@ export class CalcHandler implements NotationHandler {
         return error.toInlineError();
       }
 
+      const message = error instanceof Error ? error.message : String(error);
+      const snippet = typeof content === "string"
+        ? this.normalizeOperators(content).slice(0, 120)
+        : String(content);
       throw new NotationError(
-        `CALC expression evaluation failed: ${error instanceof Error ? error.message : String(error)}`,
+        `CALC expression evaluation failed: ${message}. Context: ${snippet}`,
         `CALC:${content}`,
         context.filePath,
         context.lineNumber
       );
     }
+  }
+
+  private normalizeOperators(formula: string): string {
+    return formula.replace(/\u2212/g, "-"); // Unicode minus to ASCII hyphen-minus
   }
 }

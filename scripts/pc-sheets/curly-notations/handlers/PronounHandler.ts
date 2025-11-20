@@ -3,7 +3,7 @@ import type { ProcessingContext } from "../ProcessingContext";
 import type { CurlyNotationProcessor } from "../CurlyNotationProcessor";
 
 /**
- * Handles pronoun notations: {{he}}, {{his}}, {{him}}, {{himself}}, {{he's}}
+ * Handles pronoun notations: {{he}}, {{his}}, {{hiss}}, {{him}}, {{himself}}, {{he's}}
  */
 export class PronounHandler implements NotationHandler {
   name = "PRONOUN";
@@ -15,7 +15,15 @@ export class PronounHandler implements NotationHandler {
       a: "it",
       default: "they"
     },
+    // Possessive adjective (e.g., "her Asset Skills")
     his: {
+      m: "his",
+      f: "her",
+      a: "its",
+      default: "their"
+    },
+    // Possessive pronoun (e.g., "the Asset Skills are hers")
+    hiss: {
       m: "his",
       f: "hers",
       a: "its",

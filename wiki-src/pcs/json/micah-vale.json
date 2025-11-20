@@ -4,6 +4,7 @@
   "type": "pc",
   "sex": "m",
   "dob": "12 / 15 / 96",
+  "ddv": "06 / 13 / 09",
   "imageUrl": "assets/images/pc/micah.webp",
   "concept": "the HOST",
   "origin": "Exomorph",
@@ -28,7 +29,13 @@
     "wit": 3,
     "res": 2,
     "str": 3,
-    "dex": 3,
+    "dex": {
+      "value": {
+        "base": 3,
+        "bonus": 5,
+        "total": 8
+      }
+    },
     "sta": 2,
     "pre": 1,
     "man": 2,
@@ -146,43 +153,32 @@
         "total": 4
       },
       "type": "physical",
-      "display": "Unleashing Vein (Involuntary Stimulus: Micah's Blood)",
-      "narrative": "Vein _is_ Micah's blood, and Micah's body is all that contains the symbiote. When Micah bleeds, whether willingly (by cutting himself to voluntarily transform into Vein) or unwillingly (by suffering an injury), the transformation into Vein is governed entirely by whether Vein has escaped the containment of Micah's body.",
+      "display": "Involuntary Stimulus",
+      "subtitle": "When Micah Bleeds, Vein Is Free",
+      "narrative": "Vein <em>is</em> Micah's blood, and Micah's body is all that contains the symbiote. When Micah bleeds, whether willingly (by cutting himself to voluntarily transform into Vein) or unwillingly (by suffering an injury), the transformation into Vein is governed entirely by blood escaping the containment of Micah's body.",
       "entangledVariations": [
         "monstrousTransformation"
       ],
-      "source": {
-        "book": "DtR",
-        "page": 156
-      }
+      "vars": {
+        "stimulus": "when Micah bleeds"
+      },
+      "selectedDeviations": [
+        "uncontrollable"
+      ]
     },
     {
       "key": "thinSkin",
       "type": "physical",
       "value": 1,
-      "display": "Fear of Losing Containment (Thin Skin)",
-      "narrative": "Given how easily Vein can escape, and how unpredictable Vein is when he does, Micah is understandably wary of suffering even mild wounds -- wounds that might release the symbiote whether Micah wants it or not.",
+      "display": "Thin Skin",
+      "subtitle": "Fear of Losing Containment",
+      "narrative": "Given how easily Vein can escape, and how unpredictable Vein is when he does, Micah is understandably wary of suffering even mild wounds -- wounds that might release the symbiote whether Micah wants it or not. This leads to caution at best, cowardice at worst.",
       "entangledVariations": [
         "carapace"
       ],
       "source": {
         "book": "DtR",
         "page": 170
-      }
-    },
-    {
-      "key": "alternatePersona",
-      "type": "mental",
-      "value": 2,
-      "display": "Vein's Growing Influence (Alternate Persona: Vein)",
-      "narrative": "As Micah's innate (i.e. permanent/perpetual) abilities grow, they come at a cost: Vein's _lessons_ come with increasing _influence,_ and recently Vein has managed to seize control of Micah's body entirely, relegating Micah to backseat driver in his own body. Fortunately, these events are rare and short-lived, but Vein is always offering more power if Micah will cede just a little more of his control...",
-      "entangledVariations": [
-        "predatorsCunning",
-        "hyper-competence"
-      ],
-      "source": {
-        "book": "DtR",
-        "page": 158
       }
     }
   ],
@@ -194,16 +190,9 @@
         "free": 1,
         "total": 5
       },
-      "display": "Monstrous Transformation: Vein",
+      "display": "Monstrous Transformation - Vein",
       "narrative": "",
       "entangledScar": "involuntaryStimulus",
-      "activation": "involuntary",
-      "tags": ["overt"],
-      "keywords": ["overt", "discrete", "toggled"],
-      "source": {
-        "book": "DtR",
-        "page": 139
-      },
       "secondaryVariations": [
         {
           "key": "brachiation",
@@ -211,9 +200,8 @@
           "display": "Liquid Movement (Brachiation)",
           "narrative": "",
           "tags": ["secondary"],
-          "source": {
-            "book": "DtR",
-            "page": 114
+          "vars": {
+            "options": ["leaper", "spider"]
           }
         },
         {
@@ -223,12 +211,14 @@
             "deviation": 1,
             "total": 3
           },
-          "display": "Lashing Tendrils (Cutting Lash)",
+          "display": "Septic Tendrils (Cutting Lash)",
           "narrative": "",
           "tags": ["secondary"],
-          "source": {
-            "book": "DtR",
-            "page": 122
+          "selectedDeviations": [
+            "burst"
+          ],
+          "vars": {
+            "options": ["channel", "deadly", "soporific"]
           }
         },
         {
@@ -237,45 +227,21 @@
           "display": "Grasping Strands (Telekinesis)",
           "narrative": "Not a psychic phenomena at all, 'Telekinesis' merely provides convenient mechanical effects for Vein's ability to extend multiple strong tendrils of coagulated blood, capable of ensnaring, grappling, and even throwing heavy objects.",
           "tags": ["secondary"],
-          "source": {
-            "book": "DtR",
-            "page": 132
+          "vars": {
+            "options": ["throw"]
           }
         }
       ]
-    },
-    {
-      "key": "predatorsCunning",
-      "display": "Vein's Psychology (Predator's Cunning)",
-      "value": 1,
-      "narrative": "",
-      "entangledScar": "alternatePersona",
-      "activation": "persistent",
-      "source": {
-        "book": "DtR",
-        "page": 141
-      }
     },
     {
       "key": "carapace",
       "value": 1,
       "display": "Vein's Physiology (Carapace)",
       "narrative": "Micah does not possess a hardened 'carapace', per se. Rather, even when Vein is safely contained, he is able to quickly staunch internal bleeding and effectively heal bullet wounds (and even melee wounds, albeit to a lesser extent). The armor provided by Carapace does not represent reflecting or absorbing bullets, but rather the bullets passing through Micah (painfully, and dangerously as bullets tend to cause Micah to bleed) but being healed by Vein from within almost instantly.",
-      "entangledScar": "thin-skin",
+      "entangledScar": "thinSkin",
       "activation": "persistent",
       "vars": {
         "armorChoice": "kevlar"
-      }
-    },
-    {
-      "key": "hyper-competence",
-      "value": 1,
-      "display": "Vein's Physicality (Hyper-Competence: Athletics)",
-      "narrative": "",
-      "entangledScar": "alternatePersona",
-      "activation": "persistent",
-      "vars": {
-        "skill": "athletics"
       }
     }
   ],

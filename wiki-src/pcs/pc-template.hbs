@@ -58,73 +58,79 @@ Attributes (nested by category):
     <body class="layout-viewport">
       <div class="layout">
         <div class="paper-container">
-        <section class="sidebar right-sidebar tab-navigation">
-          {{> _partials/tab-navigation-pc }}
-        </section>
-        <main class="container paper-stack">
-          <section class="page pc-page" name="front">
+          <section class="sidebar right-sidebar tab-navigation">
+            {{> _partials/tab-navigation-pc }}
+          </section>
+          <main class="container paper-stack">
+            <section class="page pc-page" name="front">
 
-            {{!-- Header Block --}}
-            {{> _partials/top_blocks/pc_page_front/header
-            player=player
-            name=name
-            sex=sex
-            dob=dob
-            imageUrl=imageUrl
-            concept=concept
-            origin=origin
-            clade=clade
-            forms=forms
-            acclimation=acclimation
-            stability=stability
-            }}
-
-            {{!-- Overview Block --}}
-            {{> _partials/top_blocks/pc_page_front/overview
-            overview=overview
-            }}
-
-            <div class="attributes-and-skills">
-              {{!-- Attributes Block --}}
-              {{> _partials/top_blocks/pc_page_front/attributes
-              type="pc"
-              attributes=attributes
-              attributePriorities=attributePriorities
+              {{!-- Header Block --}}
+              {{> _partials/top_blocks/pc_page_front/header
+              player=player
+              name=name
+              sex=sex
+              dob=dob
+              ddv=ddv
+              imageUrl=imageUrl
+              concept=concept
+              origin=origin
+              clade=clade
+              forms=forms
+              acclimation=acclimation
+              stability=stability
               }}
 
-              {{!-- Skills Block --}}
-              {{> _partials/top_blocks/pc_page_front/skills
-              type="pc"
-              skills=skills
-              skillPriorities=skillPriorities
+              {{!-- Overview Block --}}
+              {{> _partials/top_blocks/pc_page_front/overview
+              overview=overview
               }}
-            </div>
 
-            {{!-- Derived Traits Block --}}
-            {{> _partials/top_blocks/pc_page_front/derived-traits
-            type="pc"
-            health=health
-            willpower=willpower
-            acclimation=acclimation
-            stability=stability
-            speed=speed
-            defense=defense
-            initiative=initiative
-            size=size
-            }}
+              <div class="attributes-and-skills">
+                {{!-- Attributes Block --}}
+                {{> _partials/top_blocks/pc_page_front/attributes
+                type="pc"
+                attributes=attributes
+                attributePriorities=attributePriorities
+                }}
+
+                {{!-- Skills Block --}}
+                {{> _partials/top_blocks/pc_page_front/skills
+                type="pc"
+                skills=skills
+                skillPriorities=skillPriorities
+                }}
+              </div>
+
+              {{!-- Derived Traits Block --}}
+              {{> _partials/top_blocks/pc_page_front/derived-traits
+              type="pc"
+              health=health
+              willpower=willpower
+              acclimation=acclimation
+              stability=stability
+              speed=speed
+              defense=defense
+              initiative=initiative
+              size=size
+              }}
 
 
-          </section>
+            </section>
 
-          <section class="page pc-page" name="bio"></section>
-          <section class="page pc-page" name="merits">
-            {{!-- Merits Block --}}
-            {{> _partials/top_blocks/pc_page_front/merits
-            merits=merits
-            }}
-          </section>
-          <section class="page pc-page" name="deviation"></section>
-        </main>
+            <section class="page pc-page" name="bio"></section>
+            <section class="page pc-page" name="merits">
+              {{!-- Merits Block --}}
+              {{> _partials/top_blocks/pc_page_front/merits
+              merits=merits
+              }}
+            </section>
+            <section class="page pc-page" name="deviation">
+              {{> _partials/top_blocks/pc_page_front/deviation
+              scars=scars
+              variationsByScar=variationsByScar
+              }}
+            </section>
+          </main>
         </div>
 
         {{> _partials/master-navigation}}

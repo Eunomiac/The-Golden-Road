@@ -65,23 +65,36 @@ function findHbsFiles(dir: string): string[] {
 
 // Function to find all .json files in wiki-src/pcs/json/
 function findJsonFiles(dir: string): string[] {
-  const results: string[] = [];
   const jsonDir: string = path.join(dir, "pcs", "json");
-  if (!fs.existsSync(jsonDir)) {
+  return findJsonFilesRecursive(jsonDir);
+}
+
+function findSystemDataFiles(dir: string): string[] {
+  const systemDir: string = path.join(dir, "system-data");
+  return findJsonFilesRecursive(systemDir);
+}
+
+function findJsonFilesRecursive(dir: string): string[] {
+  const results: string[] = [];
+  if (!fs.existsSync(dir)) {
     return results;
   }
+
   try {
-    const entries: string[] = fs.readdirSync(jsonDir);
+    const entries: string[] = fs.readdirSync(dir);
     for (const entry of entries) {
-      const fullPath: string = path.join(jsonDir, entry);
+      const fullPath: string = path.join(dir, entry);
       const stat = fs.statSync(fullPath);
-      if (stat.isFile() && fullPath.endsWith(".json")) {
+      if (stat.isDirectory()) {
+        results.push(...findJsonFilesRecursive(fullPath));
+      } else if (stat.isFile() && fullPath.endsWith(".json")) {
         results.push(fullPath);
       }
     }
-  } catch (error) {
+  } catch {
     // Ignore errors
   }
+
   return results;
 }
 
@@ -89,12 +102,14 @@ function findJsonFiles(dir: string): string[] {
 const hbsFiles: string[] = findHbsFiles(srcDir);
 // Find all .json files for PC sheets
 const jsonFiles: string[] = findJsonFiles(srcDir);
+// Find all system-data json files
+const systemDataFiles: string[] = findSystemDataFiles(srcDir);
 // eslint-disable-next-line no-console
-console.log(`[HBS] Found ${hbsFiles.length} .hbs files and ${jsonFiles.length} .json files to watch`);
+console.log(`[HBS] Found ${hbsFiles.length} .hbs files, ${jsonFiles.length} PC JSON files, and ${systemDataFiles.length} system-data JSON files to watch`);
 
 // Store file modification times for both HBS and JSON files
 const fileTimestamps: Map<string, number> = new Map();
-const allWatchedFiles: string[] = [...hbsFiles, ...jsonFiles];
+const allWatchedFiles: string[] = [...hbsFiles, ...jsonFiles, ...systemDataFiles];
 
 function updateTimestamps(): void {
   for (const filePath of allWatchedFiles) {
@@ -138,6 +153,18 @@ setInterval(() => {
     }
   }
 
+  // Check for new system-data JSON files
+  const currentSystemDataFiles: string[] = findSystemDataFiles(srcDir);
+  for (const filePath of currentSystemDataFiles) {
+    if (!systemDataFiles.includes(filePath)) {
+      // eslint-disable-next-line no-console
+      console.log(`[HBS] Detected new system-data file: ${path.relative(process.cwd(), filePath)}`);
+      systemDataFiles.push(filePath);
+      allWatchedFiles.push(filePath);
+      hasChanges = true;
+    }
+  }
+
   // Check for modified files (both HBS and JSON)
   for (const filePath of allWatchedFiles) {
     try {
@@ -148,7 +175,7 @@ setInterval(() => {
       if (lastMtime === undefined || currentMtime > lastMtime) {
         fileTimestamps.set(filePath, currentMtime);
         if (lastMtime !== undefined) {
-          const fileType: string = filePath.endsWith(".json") ? "JSON" : "HBS";
+          const fileType: string = getFileTypeLabel(filePath);
           // eslint-disable-next-line no-console
           console.log(`[HBS] Detected ${fileType} change: ${path.relative(process.cwd(), filePath)}`);
           hasChanges = true;
@@ -164,6 +191,10 @@ setInterval(() => {
           const jsonIndex = jsonFiles.indexOf(filePath);
           if (jsonIndex > -1) {
             jsonFiles.splice(jsonIndex, 1);
+          }
+          const systemIndex = systemDataFiles.indexOf(filePath);
+          if (systemIndex > -1) {
+            systemDataFiles.splice(systemIndex, 1);
           }
         } else {
           const hbsIndex = hbsFiles.indexOf(filePath);
@@ -267,3 +298,16 @@ setInterval(() => {
 }, 300); // Check CSS every 300ms
 
 // Process stays alive via setInterval polling loops
+
+function getFileTypeLabel(filePath: string): string {
+  if (filePath.endsWith(".hbs")) {
+    return "HBS";
+  }
+  if (filePath.includes(`${path.sep}system-data${path.sep}`)) {
+    return "System JSON";
+  }
+  if (filePath.endsWith(".json")) {
+    return "JSON";
+  }
+  return "file";
+}

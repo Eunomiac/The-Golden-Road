@@ -4,6 +4,7 @@ import { promisify } from "util";
 import Handlebars = require("handlebars");
 import { PCSheet } from "./pc-sheets";
 import type { PCJSONData } from "./pc-sheets";
+import { NotationError } from "./pc-sheets/curly-notations/NotationError";
 
 const readFile = promisify(fs.readFile);
 const writeFile = promisify(fs.writeFile);
@@ -392,12 +393,10 @@ function registerHelpers(navigationData: NavigationData): void {
     const end = actualArgs[1];
     const startNum: number = parseNumber(start);
     const endNum: number = parseNumber(end);
-    console.log(`🔍 range helper: start=${start} (parsed: ${startNum}), end=${end} (parsed: ${endNum})`);
     const result: number[] = [];
     for (let i = startNum; i <= endNum; i++) {
       result.push(i);
     }
-    console.log(`🔍 range helper: result=`, result);
     return result;
   });
 
@@ -468,6 +467,63 @@ function registerHelpers(navigationData: NavigationData): void {
 
     return getRelativePath(current, target);
   });
+
+  Handlebars.registerHelper("inlineLabel", (html: unknown, label: unknown) => {
+    const htmlContent = toTrimmedString(html);
+    const labelText = toTrimmedString(label);
+    if (!htmlContent || !labelText) {
+      return htmlContent ?? "";
+    }
+    const injected = injectInlineLabel(htmlContent, labelText);
+    return new Handlebars.SafeString(injected);
+  });
+
+  Handlebars.registerHelper("meritLevelLabel", (name: unknown, level: unknown) => {
+    return buildMeritLevelLabel(name, level);
+  });
+}
+
+function injectInlineLabel(html: string, label: string): string {
+  const labelPattern = buildLabelPattern(label);
+  if (labelPattern.test(html)) {
+    return html;
+  }
+
+  const labelMarkup = `<strong>${label}</strong> `;
+  if (/^<p[\s>]/i.test(html)) {
+    return html.replace(/<p([^>]*)>/i, `<p$1>${labelMarkup}`);
+  }
+
+  return `<p>${labelMarkup}${html}</p>`;
+}
+
+function buildLabelPattern(label: string): RegExp {
+  const escapedLabel = escapeRegExp(label);
+  return new RegExp(`<strong[^>]*>\\s*${escapedLabel}\\s*</strong>`, "i");
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function toTrimmedString(value: unknown): string | undefined {
+  if (typeof value !== "string") {
+    return undefined;
+  }
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : undefined;
+}
+
+function buildMeritLevelLabel(name: unknown, level: unknown): string {
+  const safeName = toTrimmedString(name);
+  const levelNumberRaw = typeof level === "number" ? level : Number(level);
+  const levelNumber = Number.isFinite(levelNumberRaw) ? Math.max(0, Math.floor(levelNumberRaw)) : 0;
+  const dots = levelNumber > 0 ? "●".repeat(levelNumber) : "";
+  const baseLabel = safeName ?? (levelNumber > 0 ? `Level ${levelNumber}` : "Level");
+  if (dots.length > 0) {
+    return `${baseLabel} (${dots}):`;
+  }
+  return `${baseLabel}:`;
 }
 
 /** Parse a value as a number, defaulting to 0 if invalid or missing */

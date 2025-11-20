@@ -4,6 +4,45 @@ import type { CurlyNotationProcessor } from "../CurlyNotationProcessor";
 import { ReferenceResolver } from "../ReferenceResolver";
 import { NotationError } from "../NotationError";
 
+const ATTRIBUTE_DISPLAY_MAP: Record<string, string> = {
+  int: "Intelligence",
+  wit: "Wits",
+  res: "Resolve",
+  str: "Strength",
+  dex: "Dexterity",
+  sta: "Stamina",
+  pre: "Presence",
+  man: "Manipulation",
+  com: "Composure"
+};
+
+const SKILL_DISPLAY_MAP: Record<string, string> = {
+  academics: "Academics",
+  computer: "Computer",
+  crafts: "Crafts",
+  investigation: "Investigation",
+  medicine: "Medicine",
+  occult: "Occult",
+  politics: "Politics",
+  science: "Science",
+  athletics: "Athletics",
+  brawl: "Brawl",
+  drive: "Drive",
+  firearms: "Firearms",
+  larceny: "Larceny",
+  stealth: "Stealth",
+  survival: "Survival",
+  weaponry: "Weaponry",
+  animalKen: "Animal Ken",
+  empathy: "Empathy",
+  expression: "Expression",
+  intimidation: "Intimidation",
+  persuasion: "Persuasion",
+  socialize: "Socialize",
+  streetwise: "Streetwise",
+  subterfuge: "Subterfuge"
+};
+
 /**
  * Handles {{DISPLAY:<curlyreference>,DisplayFormat,...OptionalClasses}} notation
  */
@@ -22,7 +61,7 @@ export class DisplayHandler implements NotationHandler {
   ): string {
     const parts = content.split(",").map((p) => p.trim());
     const reference = parts[0] ?? "";
-    const format = parts[1] ?? "none";
+    const format = parts[1] ?? "proper";
     const classes = parts.slice(2);
 
     try {
@@ -46,11 +85,12 @@ export class DisplayHandler implements NotationHandler {
             context.lineNumber
           );
         }
-        // Recursively process if it contains notations
-        text = processor.process(text, context);
       } else {
         text = String(resolved);
       }
+
+      text = processor.process(text, context);
+      text = this.applyDisplayOverrides(text);
 
       // Apply formatting
       const formatted = this.applyFormat(text, format);
@@ -116,5 +156,21 @@ export class DisplayHandler implements NotationHandler {
         return word;
       })
       .join(" ");
+  }
+  private applyDisplayOverrides(value: string): string {
+    const trimmed = value.trim();
+    if (trimmed.length === 0) {
+      return value;
+    }
+
+    if (ATTRIBUTE_DISPLAY_MAP[trimmed]) {
+      return ATTRIBUTE_DISPLAY_MAP[trimmed];
+    }
+
+    if (SKILL_DISPLAY_MAP[trimmed]) {
+      return SKILL_DISPLAY_MAP[trimmed];
+    }
+
+    return value;
   }
 }

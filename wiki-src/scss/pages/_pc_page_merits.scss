@@ -73,13 +73,9 @@
 
       .merit-content {
 
-        &,
-        & * {
-          hyphens: auto;
-          text-wrap: pretty;
-          text-align: justify;
-        }
-
+        hyphens: auto;
+        text-wrap: pretty;
+        text-align: justify;
         opacity: 0;
         transition: opacity 0.3s ease;
 
@@ -142,7 +138,7 @@
         }
 
         .merit-source {
-          margin-top: -8px;
+          margin-top: -16px;
           text-align: right;
         }
       }

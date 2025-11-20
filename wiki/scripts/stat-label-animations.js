@@ -93,7 +93,6 @@ function initStatLabelAnimations() {
     });
     const pulseTest = gsap.effects["pulse"](labelsWithIcons[0], { index: 0 }).duration();
     const shadowBurstTest = gsap.effects["shadowBurst"](labelsWithIcons[0], { index: 0 }).duration();
-    console.log(pulseTest, shadowBurstTest);
     labelsWithIcons.forEach((label, index) => {
         gsap.timeline({ delay: index * staggerDelay })["pulse"](label, { index }, 0)["shadowBurst"](label, { index }, 0);
     });

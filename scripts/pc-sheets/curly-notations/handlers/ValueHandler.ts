@@ -21,31 +21,17 @@ export class ValueHandler implements NotationHandler {
     processor: CurlyNotationProcessor
   ): string | number {
     // Parse content: may have default value after colon
-    const parts = content.split(":");
-    const reference = parts[0]?.trim() ?? "";
-    const defaultValue = parts[1]?.trim();
+    const segments = content.split(",").map((segment) => segment.trim());
+    const referencePart = segments.shift() ?? "";
+    const optionTokens = segments;
+
+    const [reference, defaultValue] = this.parseReferenceAndDefault(referencePart);
+    const options = this.parseOptions(optionTokens);
 
     try {
       const resolved = this.referenceResolver.resolve(reference, context);
-
-      // If it's a number, return it directly
-      if (typeof resolved === "number") {
-        return resolved;
-      }
-
-      // If it's an object, extract value
-      if (typeof resolved === "object" && resolved !== null && !Array.isArray(resolved)) {
-        return this.extractValue(resolved as Record<string, unknown>, reference, context, defaultValue);
-      }
-
-      // If we have a default, use it
-      if (defaultValue !== undefined) {
-        const defaultNum = Number(defaultValue);
-        if (!isNaN(defaultNum)) {
-          return defaultNum;
-        }
-        return defaultValue;
-      }
+      const numericValue = this.coerceToNumber(resolved, reference, context, defaultValue, options);
+      return options.signed ? this.formatSignedNumber(numericValue) : numericValue;
 
       throw new NotationError(
         `Cannot extract value from reference: ${reference}`,
@@ -68,11 +54,50 @@ export class ValueHandler implements NotationHandler {
   /**
    * Extracts numeric value from an object
    */
+  private parseReferenceAndDefault(referencePart: string): [string, string | undefined] {
+    const parts = referencePart.split(":");
+    const reference = parts[0]?.trim() ?? "";
+    const defaultValue = parts[1]?.trim();
+    return [reference, defaultValue?.length ? defaultValue : undefined];
+  }
+
+  private coerceToNumber(
+    resolved: unknown,
+    reference: string,
+    context: ProcessingContext,
+    defaultValue: string | undefined,
+    options: { signed: boolean; base: boolean }
+  ): number {
+    if (typeof resolved === "number") {
+      return resolved;
+    }
+
+    if (typeof resolved === "object" && resolved !== null && !Array.isArray(resolved)) {
+      return this.extractValue(resolved as Record<string, unknown>, reference, context, defaultValue, options);
+    }
+
+    if (defaultValue !== undefined) {
+      const defaultNum = Number(defaultValue);
+      if (!Number.isNaN(defaultNum)) {
+        return defaultNum;
+      }
+    }
+
+    throw new NotationError(
+      `Cannot extract value from reference: ${reference}`,
+      `VALUE:${reference}`,
+      context.filePath,
+      context.lineNumber,
+      `Resolved type: ${typeof resolved}`
+    );
+  }
+
   private extractValue(
     obj: Record<string, unknown>,
     reference: string,
     context: ProcessingContext,
-    defaultValue?: string
+    defaultValue: string | undefined,
+    options: { signed: boolean; base: boolean }
   ): number {
     // Check if entity.value is a number
     if ("value" in obj && typeof obj.value === "number") {
@@ -84,6 +109,12 @@ export class ValueHandler implements NotationHandler {
       const valueObj = obj.value as Record<string, unknown>;
 
       // Check in order: total, value, base, min
+      if (options.base) {
+        if ("base" in valueObj && typeof valueObj.base === "number") {
+          return valueObj.base;
+        }
+      }
+
       if ("total" in valueObj && typeof valueObj.total === "number") {
         return valueObj.total;
       }
@@ -98,6 +129,12 @@ export class ValueHandler implements NotationHandler {
       }
     } else {
       // Check direct properties
+      if (options.base) {
+        if ("base" in obj && typeof obj.base === "number") {
+          return obj.base;
+        }
+      }
+
       if ("total" in obj && typeof obj.total === "number") {
         return obj.total;
       }
@@ -115,7 +152,7 @@ export class ValueHandler implements NotationHandler {
     // No value found
     if (defaultValue !== undefined) {
       const defaultNum = Number(defaultValue);
-      if (!isNaN(defaultNum)) {
+      if (!Number.isNaN(defaultNum)) {
         return defaultNum;
       }
     }
@@ -127,5 +164,23 @@ export class ValueHandler implements NotationHandler {
       context.lineNumber,
       "Value extraction failed"
     );
+  }
+
+  private parseOptions(optionTokens: string[]): { signed: boolean; base: boolean } {
+    const normalizedTokens = optionTokens
+      .map((token) => token.trim().toLowerCase())
+      .filter((token) => token.length > 0);
+
+    return {
+      signed: normalizedTokens.includes("signed"),
+      base: normalizedTokens.includes("base")
+    };
+  }
+
+  private formatSignedNumber(value: number): string {
+    if (value < 0) {
+      return `−${Math.abs(value)}`;
+    }
+    return `+${value}`;
   }
 }

@@ -13,7 +13,7 @@ export class BreakHandler implements NotationHandler {
     context: ProcessingContext,
     processor: CurlyNotationProcessor
   ): string {
-    // BR doesn't take content
-    return "</p><p>";
+    // BR doesn't take content; emit double line break to avoid invalid block nesting
+    return "<br><br>";
   }
 }

@@ -234,6 +234,7 @@ html {
   margin: 0;
   margin-top: 8px;
   text-indent: -16px;
+  white-space: nowrap;
 }
 .layout .master-navigation .nav-list {
   padding: 0;
@@ -243,6 +244,7 @@ html {
 .layout .master-navigation .nav-list .nav-item {
   padding: 0 16px;
   background: #F3EFE6;
+  white-space: nowrap;
 }
 .layout .master-navigation .nav-list .nav-item.nav-item-current {
   pointer-events: none;
@@ -303,6 +305,7 @@ html {
   display: inline-block;
   flex-basis: var(--dotline-size);
   height: var(--dotline-size);
+  width: var(--dotline-size);
   vertical-align: middle;
   box-sizing: border-box;
   flex-shrink: 1;
@@ -357,6 +360,13 @@ html {
   content: ",";
 }
 
+strong.super-strong {
+  background: #141414;
+  color: #ff7676;
+  padding: 0 8px;
+  border-radius: 4px;
+}
+
 /**
 * Versatile tooltips styles using anchor & target features.
 *    - Target: element with the "tooltip" class.
@@ -366,6 +376,14 @@ html {
 */
 .has-tooltip {
   cursor: pointer;
+}
+.has-tooltip:not(.dotline) {
+  background: rgba(255, 0, 0, 0.2);
+  padding: 0 3px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-decoration-style: dotted;
+  text-decoration-line: underline;
 }
 .has-tooltip:hover + .tooltip, .has-tooltip:focus-visible + .tooltip {
   visibility: visible;
@@ -380,6 +398,7 @@ html {
 .tooltip {
   position: absolute;
   position-area: top center;
+  display: inline-block;
   background: url("../assets/images/backgrounds/ink-block.webp") no-repeat center center;
   background-size: 100% 100%;
   min-height: 16px;
@@ -414,17 +433,75 @@ html {
   transition-delay: 0s, 0s, 0s;
 }
 .tooltip.tiny-tooltip {
-  padding: 8px;
+  padding: 2px 32px;
   min-height: unset;
   min-width: unset;
+  white-space: nowrap;
 }
-.tooltip h1 {
-  margin: 0;
-}
-.tooltip > span {
+.tooltip .tooltip-title,
+.tooltip .tooltip-subtitle,
+.tooltip .tooltip-block {
   display: block;
-  margin: 16px 0;
+  width: 100%;
+  text-wrap: pretty;
+  text-align: justify;
+  hyphens: auto;
+  margin: 8px 0;
+}
+.tooltip .tooltip-title.tooltip-title-left,
+.tooltip .tooltip-subtitle.tooltip-title-left,
+.tooltip .tooltip-block.tooltip-title-left {
+  text-align: left;
+  --tooltip-title-align: left;
+}
+.tooltip .tooltip-title.tooltip-title-right,
+.tooltip .tooltip-subtitle.tooltip-title-right,
+.tooltip .tooltip-block.tooltip-title-right {
+  text-align: right;
+  --tooltip-title-align: right;
+}
+.tooltip .tooltip-title.tooltip-title-white,
+.tooltip .tooltip-subtitle.tooltip-title-white,
+.tooltip .tooltip-block.tooltip-title-white {
+  --tooltip-title-color: $color-parchment;
+}
+.tooltip .tooltip-title.tooltip-title, .tooltip .tooltip-title.tooltip-subtitle,
+.tooltip .tooltip-subtitle.tooltip-title,
+.tooltip .tooltip-subtitle.tooltip-subtitle,
+.tooltip .tooltip-block.tooltip-title,
+.tooltip .tooltip-block.tooltip-subtitle {
+  text-align: var(--tooltip-title-align, center);
+}
+.tooltip .tooltip-title.tooltip-title,
+.tooltip .tooltip-subtitle.tooltip-title,
+.tooltip .tooltip-block.tooltip-title {
+  font-family: "BadTypewriter", serif;
+  font-size: 24px;
+  font-weight: 700;
+  text-transform: uppercase;
   letter-spacing: 0.05em;
+  color: var(--tooltip-title-color, #FF0000);
+  padding: 0;
+  border: none;
+  background: none;
+}
+.tooltip .tooltip-title.tooltip-title + .tooltip-subtitle,
+.tooltip .tooltip-subtitle.tooltip-title + .tooltip-subtitle,
+.tooltip .tooltip-block.tooltip-title + .tooltip-subtitle {
+  margin-top: -8px;
+}
+.tooltip .tooltip-title.tooltip-subtitle,
+.tooltip .tooltip-subtitle.tooltip-subtitle,
+.tooltip .tooltip-block.tooltip-subtitle {
+  font-weight: bold;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.tooltip .tooltip-title.tooltip-block,
+.tooltip .tooltip-subtitle.tooltip-block,
+.tooltip .tooltip-block.tooltip-block {
+  font-size: 14px;
 }
 .tooltip .trait-desc-general {
   margin: 16px 16px;
@@ -439,7 +516,7 @@ html {
  */
 .sidebar.tab-navigation {
   position: absolute;
-  left: calc(50% - var(--paper-width) / 2);
+  left: calc(50% - var(--paper-width) / 2 + 6px);
   top: 0;
   bottom: 0;
   display: flex;
@@ -577,6 +654,9 @@ html {
   width: 32px;
   height: 32px;
 }
+.page.pc-page[name=front] .top-block.pc-header > .sub-block .form-field {
+  text-indent: 20px;
+}
 .page.pc-page[name=front] .top-block.pc-header > .sub-block.character-name {
   font-size: 14px;
   font-family: "Typewriter", serif;
@@ -587,6 +667,16 @@ html {
   font-size: 24px;
   font-family: "BadTypewriter", serif;
   font-size: 48px;
+}
+.page.pc-page[name=front] .top-block.pc-header > .sub-block.dob-row {
+  width: 65%;
+}
+.page.pc-page[name=front] .top-block.pc-header > .sub-block.dob-row .form-field {
+  text-indent: 0;
+  text-align: center;
+}
+.page.pc-page[name=front] .top-block.pc-header > .sub-block.dob-row .form-label:nth-child(3) {
+  margin-left: 10px;
 }
 .page.pc-page[name=front] .top-block.pc-header > .absolute-block {
   position: absolute;
@@ -620,17 +710,17 @@ html {
 .page.pc-page[name=front] .top-block.pc-header > .absolute-block.pc-polaroid-container .pc-polaroid-caption {
   font-family: "PermanentMarker", serif;
   font-weight: normal;
-  font-size: 24px;
+  font-size: 28px;
   text-align: center;
   width: 100%;
   position: absolute;
-  bottom: 36px;
+  bottom: 40px;
   z-index: 5;
   white-space: nowrap;
   transform-origin: center center;
   transform: translateX(-50%) scaleX(0.85);
   left: 50%;
-  text-indent: -8px;
+  text-indent: -18px;
 }
 
 .page.pc-page[name=front] .overview-block {
@@ -1476,12 +1566,10 @@ html {
   color: #1B1A17;
   padding: 0 4px;
 }
-.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content, .page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content * {
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content {
   hyphens: auto;
   text-wrap: pretty;
   text-align: justify;
-}
-.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content {
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -1534,7 +1622,7 @@ html {
   font-weight: bold;
 }
 .page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-source {
-  margin-top: -8px;
+  margin-top: -16px;
   text-align: right;
 }
 .page.pc-page[name=merits] .top-block.merits-block > .merit-item.sub-merit {
@@ -1548,6 +1636,147 @@ html {
 }
 .page.pc-page[name=merits] .top-block.merits-block > .merit-item.sub-merit .merit-header .merit-name-row .merit-value.dotline .dot {
   filter: none;
+}
+
+.page.pc-page[name=deviation] {
+  padding-top: 16px;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block {
+  overflow: hidden;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .form-label-title {
+  margin-bottom: 8px;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .deviation-columns {
+  display: block;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .deviation-section {
+  padding: 0 8px 16px 8px;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-entry {
+  margin: 12px 0;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-entry {
+  margin: 12px 0;
+  border: 0;
+  box-shadow: none;
+  background: rgba(243, 239, 230, 0.08);
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header {
+  cursor: pointer;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .variation-name-row,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .scar-title-row,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  background: url("../../assets/images/backgrounds/red-header.webp") no-repeat center center;
+  background-size: 100% 100%;
+  font-size: 18px;
+  line-height: 20px;
+  font-family: "Repent", sans-serif;
+  text-transform: uppercase;
+  color: #F3EFE6;
+  padding: 4px 24px;
+  margin: 8px 0 4px 0;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row.scar-title-row,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .variation-name-row.scar-title-row,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .scar-title-row.scar-title-row,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row.scar-title-row {
+  background: url("../../assets/images/backgrounds/black-header.webp") no-repeat center center;
+  color: red;
+  background-size: 100% 100%;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-meta,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-tier,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-final,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-level {
+  font-family: "Repent", sans-serif;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-type {
+  text-transform: capitalize;
+  color: #F3EFE6;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-narrative,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-narrative {
+  font-size: 14px;
+  font-family: "Typewriter", serif;
+  font-kerning: normal;
+  color: #1B1A17;
+  line-height: 1.2;
+  text-rendering: optimizeLegibility;
+  font-size: 13px;
+  background: #1B1A17;
+  padding: 8px;
+  margin: 0 24px;
+  color: #F3EFE6;
+  letter-spacing: 0.5px;
+  text-wrap: pretty;
+  text-align: justify;
+  hyphens: auto;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-narrative strong,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-narrative strong {
+  background: #F3EFE6;
+  color: #1B1A17;
+  padding: 0 4px;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-content,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-content {
+  hyphens: auto;
+  text-wrap: pretty;
+  text-align: justify;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  padding: 0 24px 0px 24px;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-content .scar-effect,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-content .variation-effect,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-content .scar-effect,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-content .variation-effect {
+  margin: 8px 0;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-source,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-source {
+  margin-top: -16px;
+  text-align: right;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-variations {
+  margin: 16px 0 0 0;
+  padding: 0;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-variations > *:first-child {
+  margin-top: 0;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-variations .scar-variations-label {
+  font-family: "Repent", sans-serif;
+  text-transform: uppercase;
+  margin: 0 0 4px 0;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-empty,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-empty {
+  font-size: 14px;
+  font-family: "Typewriter", serif;
+  font-kerning: normal;
+  color: #1B1A17;
+  line-height: 1.2;
+  text-rendering: optimizeLegibility;
+  font-style: italic;
+  padding: 16px 24px;
+  color: rgba(27, 26, 23, 0.7);
 }
 
 /* Base element resets kept minimal to preserve readability */

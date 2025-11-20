@@ -1,0 +1,280 @@
+{{#*inline "variationCard"}}
+  <article class="variation-entry" data-variation-key="{{key}}">
+    <div class="variation-header" role="button" tabindex="0" aria-expanded="false">
+      <div class="variation-name-row">
+        <span class="variation-name">{{display}}</span>
+        <span class="variation-meta">
+          <span class="variation-tier">Tier {{purchaseLevel}}</span>
+          {{#if finalMagnitude}}
+            <span class="variation-final">Final {{finalMagnitude}}</span>
+          {{/if}}
+        </span>
+      </div>
+      {{#if narrative}}
+        <div class="variation-narrative">
+          {{{narrative}}}
+        </div>
+      {{/if}}
+    </div>
+    <div class="variation-content" style="display: none;">
+      <div class="variation-effect">
+        {{{effect}}}
+      </div>
+      {{#if source}}
+        <div class="variation-source">
+          {{> _partials/source-citation source=source}}
+        </div>
+      {{/if}}
+    </div>
+  </article>
+{{/inline}}
+
+<div class="block top-block deviation-block">
+  <div class="form-label form-label-title">Deviation</div>
+
+  <div class="deviation-columns">
+    <section class="deviation-section scars-section">
+      {{#if scars}}
+        {{#each scars}}
+          <article class="scar-entry" data-scar-key="{{key}}">
+            <div class="scar-header" role="button" tabindex="0" aria-expanded="false">
+              <div class="scar-title-row">
+                <span class="scar-activation-icon scar-activation-{{activation}}"></span>
+                <span class="scar-name">{{display}}</span>
+                <span class="scar-meta">
+                  <span class="scar-type">{{type}}</span>
+                  <span class="scar-level">Tier {{purchaseLevel}}</span>
+                </span>
+              </div>
+              {{#if narrative}}
+                <div class="scar-narrative">
+                  {{{narrative}}}
+                </div>
+              {{/if}}
+            </div>
+            <div class="scar-content" style="display: none;">
+              {{#if effect}}
+                <div class="scar-effect">
+                  {{{effect}}}
+                </div>
+              {{/if}}
+              {{#if source}}
+                <div class="scar-source">
+                  {{> _partials/source-citation source=source}}
+                </div>
+              {{/if}}
+              {{#with (lookup ../variationsByScar key) as |scarVariations|}}
+                {{#if scarVariations}}
+                  <div class="scar-variations" data-variation-group>
+                    {{#each scarVariations}}
+                      {{> variationCard}}
+                    {{/each}}
+                  </div>
+                {{/if}}
+              {{/with}}
+            </div>
+          </article>
+        {{/each}}
+      {{else}}
+        <p class="scar-empty">No recorded scars.</p>
+      {{/if}}
+    </section>
+  </div>
+</div>
+
+<script type="module">
+  import { gsap } from "gsap";
+
+  const deviationBlock = document.querySelector(".deviation-block");
+
+  if (deviationBlock) {
+    const createAccordion = (items, selectors, options = {}) => {
+      const groupItems = Array.from(items);
+      if (groupItems.length === 0) {
+        return null;
+      }
+
+      let openItem = null;
+
+      const closePanel = (item, instant = false) => {
+        const header = item.querySelector(selectors.header);
+        const content = item.querySelector(selectors.content);
+        const narrative = selectors.narrative ? item.querySelector(selectors.narrative) : null;
+
+        if (!header || !content) {
+          return;
+        }
+
+        header.setAttribute("aria-expanded", "false");
+
+        if (instant) {
+          content.style.display = "none";
+          content.style.opacity = "0";
+          content.style.height = "";
+          content.style.overflow = "";
+          if (narrative) {
+            narrative.style.display = "block";
+            narrative.style.opacity = "1";
+            narrative.style.height = "";
+            narrative.style.overflow = "";
+          }
+          if (openItem === item) {
+            openItem = null;
+          }
+          if (typeof options.onClose === "function") {
+            options.onClose(item, true);
+          }
+          return;
+        }
+
+        const contentHeight = content.offsetHeight;
+        content.style.height = `${contentHeight}px`;
+        content.style.overflow = "hidden";
+
+        const closingTimeline = gsap.timeline({
+          onComplete: () => {
+            content.style.display = "none";
+            content.style.height = "";
+            content.style.overflow = "";
+            if (typeof options.onClose === "function") {
+              options.onClose(item, false);
+            }
+          }
+        });
+
+        closingTimeline.to(content, {
+          opacity: 0,
+          height: 0,
+          duration: 0.3,
+          ease: "power2.in"
+        });
+
+        if (narrative) {
+          narrative.style.display = "block";
+          narrative.style.opacity = "0";
+          narrative.style.height = "0";
+          narrative.style.overflow = "hidden";
+          const narrativeHeight = narrative.scrollHeight;
+          closingTimeline.to(narrative, {
+            opacity: 1,
+            height: narrativeHeight,
+            duration: 0.4,
+            ease: "power2.out",
+            onComplete: () => {
+              narrative.style.height = "auto";
+              narrative.style.overflow = "";
+            }
+          }, "-=0.1");
+        }
+
+        if (openItem === item) {
+          openItem = null;
+        }
+      };
+
+      const openPanel = (item, header, content, narrative) => {
+        if (openItem && openItem !== item) {
+          closePanel(openItem);
+        }
+
+        openItem = item;
+        header.setAttribute("aria-expanded", "true");
+
+        content.style.display = "block";
+        content.style.opacity = "0";
+        content.style.height = "0";
+        content.style.overflow = "hidden";
+
+        const openingTimeline = gsap.timeline();
+
+        if (narrative) {
+          const narrativeHeight = narrative.offsetHeight;
+          narrative.style.height = `${narrativeHeight}px`;
+          narrative.style.overflow = "hidden";
+          openingTimeline.to(narrative, {
+            opacity: 0,
+            height: 0,
+            duration: 0.3,
+            ease: "power2.in",
+            onComplete: () => {
+              narrative.style.display = "none";
+              narrative.style.height = "";
+              narrative.style.overflow = "";
+            }
+          });
+        }
+
+        const targetHeight = content.scrollHeight;
+        openingTimeline.to(content, {
+          opacity: 1,
+          height: targetHeight,
+          duration: 0.4,
+          ease: "power2.out",
+          onComplete: () => {
+            content.style.height = "auto";
+            content.style.overflow = "";
+          }
+        }, narrative ? "-=0.1" : 0);
+      };
+
+      groupItems.forEach((item) => {
+        const header = item.querySelector(selectors.header);
+        const content = item.querySelector(selectors.content);
+        const narrative = selectors.narrative ? item.querySelector(selectors.narrative) : null;
+
+        if (!header || !content) {
+          return;
+        }
+
+        const toggle = () => {
+          const isExpanded = header.getAttribute("aria-expanded") === "true";
+          if (isExpanded) {
+            closePanel(item);
+          } else {
+            openPanel(item, header, content, narrative);
+          }
+        };
+
+        header.addEventListener("click", toggle);
+        header.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            toggle();
+          }
+        });
+      });
+
+      return {
+        closeAll(options = {}) {
+          if (openItem) {
+            closePanel(openItem, options.instant === true);
+          }
+        }
+      };
+    };
+
+    const variationControllers = new WeakMap();
+    const variationGroups = deviationBlock.querySelectorAll("[data-variation-group]");
+    variationGroups.forEach((group) => {
+      const controller = createAccordion(
+        group.querySelectorAll(".variation-entry"),
+        { header: ".variation-header", content: ".variation-content", narrative: ".variation-narrative" }
+      );
+      if (controller) {
+        variationControllers.set(group, controller);
+      }
+    });
+
+    createAccordion(
+      deviationBlock.querySelectorAll(".scar-entry"),
+      { header: ".scar-header", content: ".scar-content", narrative: ".scar-narrative" },
+      {
+        onClose: (scarElement) => {
+          scarElement.querySelectorAll("[data-variation-group]").forEach((group) => {
+            variationControllers.get(group)?.closeAll({ instant: true });
+          });
+        }
+      }
+    );
+  }
+</script>

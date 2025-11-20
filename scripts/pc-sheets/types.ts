@@ -1,3 +1,11 @@
+import type {
+  MeritJSON,
+  ProcessedScar,
+  ProcessedVariation,
+  ScarJSON,
+  VariationJSON
+} from "./shared/advantage/types";
+
 /**
  * TypeScript type definitions for PC Sheet system
  * Defines the structure of JSON input and Handlebars context output
@@ -134,6 +142,7 @@ export interface PCJSONData {
   name: string;
   sex: "m" | "f" | "nb" | "v" | "x" | "a" | "c" | "u";
   dob?: string;
+  ddv?: string;
   imageUrl?: string;
   concept?: string;
   origin: string;
@@ -156,55 +165,9 @@ export interface PCJSONData {
   attributes: Record<Attribute, TraitJSON>;
   skillPriorities: Record<TraitCategory, TraitPriority>;
   skills: Record<Skill, TraitJSON>;
-  merits?: Array<{
-    key: string;
-    value?: number;
-    display?: string;
-    narrative?: string;
-    vars?: Record<string, unknown>;
-    source?: {
-      book: string;
-      page: number;
-    };
-  }>;
-  variations?: Array<{
-    key: string;
-    value?: number | {
-      base?: number;
-      free?: number;
-      deviation?: number;
-      total?: number;
-    };
-    display?: string;
-    narrative?: string;
-    entangledScar?: string;
-    activation?: string;
-    tags?: string[];
-    keywords?: string[];
-    source?: {
-      book: string;
-      page: number;
-    };
-    vars?: Record<string, unknown>;
-    deviations?: string[];
-    secondaryVariations?: Array<unknown>;
-  }>;
-  scars?: Array<{
-    key: string;
-    type: "physical" | "mental" | "social";
-    value?: number | {
-      base?: number;
-      deviation?: number;
-      total?: number;
-    };
-    display?: string;
-    narrative?: string;
-    entangledVariations?: string[];
-    source?: {
-      book: string;
-      page: number;
-    };
-  }>;
+  merits?: MeritJSON[];
+  variations?: VariationJSON[];
+  scars?: ScarJSON[];
   bio?: string;
 }
 
@@ -218,6 +181,7 @@ export interface PCSheetData {
   name: string;
   sex: "m" | "f" | "nb" | "v" | "x" | "a" | "c" | "u";
   dob: string;
+  ddv: string;
   imageUrl: string;
   concept: string;
   origin: string;
@@ -283,6 +247,27 @@ export interface PCSheetData {
     finalMagnitude: number;
     [key: string]: unknown;
   }>;
+  /**
+   * Variations grouped by the scar they entangle with. The "__ungrouped__" bucket
+   * contains any variations that are not tied to a scar.
+   */
+  variationsByScar?: Record<string, ProcessedVariation[]>;
+  scars?: Array<{
+    key: string;
+    display: string;
+    type: "physical" | "mental" | "social";
+    narrative?: string;
+    effect: string;
+    purchaseLevel: number;
+    entangledVariations?: string[];
+    source?: {
+      book: string;
+      page: number;
+    };
+    [key: string]: unknown;
+  }>;
+  /** Fast lookup map for scar data by key */
+  scarsByKey?: Record<string, ProcessedScar>;
 
   // Optional HTML fields (wrapped as SafeString in implementation)
   bio?: string;

@@ -44,8 +44,25 @@
         }
       }
 
+      .form-field {
+        text-indent: 20px;
+      }
+
       &.character-name {
         @include header-text-title;
+      }
+
+      &.dob-row {
+        width: 65%;
+
+        .form-field {
+          text-indent: 0;
+          text-align: center;
+        }
+
+        .form-label:nth-child(3) {
+          margin-left: 10px;
+        }
       }
   }
 
@@ -84,17 +101,17 @@
         .pc-polaroid-caption {
           font-family: $font-marker;
           font-weight: normal;
-          font-size: 24px;
+          font-size: 28px;
           text-align: center;
           width: 100%;
           position: absolute;
-          bottom: 36px;
+          bottom: 40px;
           z-index: 5;
           white-space: nowrap;
           transform-origin: center center;
           transform: translateX(-50%) scaleX(0.85) ;
           left: 50%;
-          text-indent: -8px;
+          text-indent: -18px;
         }
       }
 

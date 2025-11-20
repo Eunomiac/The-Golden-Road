@@ -1,0 +1,152 @@
+@use "../../_colors" as *;
+@use "../../_typography" as *;
+
+.page.pc-page[name='deviation'] {
+  padding-top: 16px;
+
+  .top-block.deviation-block {
+    overflow: hidden;
+
+    .form-label-title {
+      margin-bottom: 8px;
+    }
+
+    .deviation-columns {
+      display: block;
+    }
+
+    .deviation-section {
+      padding: 0 8px 16px 8px;
+    }
+
+    .scar-entry {
+      margin: 12px 0;
+      // background: rgba($color-parchment, 0.04);
+      // box-shadow: 0 2px 4px rgba($color-ink, 0.15);
+    }
+
+    .variation-entry {
+      margin: 12px 0;
+      border: 0;
+      box-shadow: none;
+      background: rgba($color-parchment, 0.08);
+    }
+
+    .scar-header,
+    .variation-header {
+      cursor: pointer;
+
+      .scar-title-row,
+      .variation-name-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+        background: url("../../assets/images/backgrounds/red-header.webp") no-repeat center center;
+        background-size: 100% 100%;
+        font-size: 18px;
+        line-height: 20px;
+        font-family: $font-tab;
+        text-transform: uppercase;
+        color: $color-parchment;
+        padding: 4px 24px;
+        margin: 8px 0 4px 0;
+
+        &.scar-title-row {
+          background: url("../../assets/images/backgrounds/black-header.webp") no-repeat center center;
+          color: red;
+          background-size: 100% 100%;
+
+        }
+      }
+    }
+
+    .scar-meta,
+    .variation-meta {
+      display: flex;
+      gap: 12px;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .variation-tier,
+    .variation-final,
+    .scar-level {
+      font-family: $font-tab;
+    }
+
+    .scar-type {
+      text-transform: capitalize;
+      color: $color-parchment;
+    }
+
+    .scar-narrative,
+    .variation-narrative {
+      @include body-text-general;
+
+      font-size: 13px;
+      background: $color-ink;
+      padding: 8px;
+      margin: 0 24px;
+      color: $color-parchment;
+      letter-spacing: 0.5px;
+      text-wrap: pretty;
+      text-align: justify;
+      hyphens: auto;
+      opacity: 1;
+      transition: opacity 0.2s ease;
+
+      strong {
+        background: $color-parchment;
+        color: $color-ink;
+        padding: 0 4px;
+      }
+    }
+
+    .scar-content,
+    .variation-content {
+      hyphens: auto;
+      text-wrap: pretty;
+      text-align: justify;
+
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      padding: 0 24px 0px 24px;
+
+      .scar-effect,
+      .variation-effect {
+        margin: 8px 0;
+      }
+    }
+
+    .scar-source,
+    .variation-source {
+      margin-top: -16px;
+      text-align: right;
+    }
+
+    .scar-variations {
+      margin: 16px 0 0 0;
+      padding: 0;
+
+      > *:first-child {
+        margin-top: 0;
+      }
+
+      .scar-variations-label {
+        font-family: $font-tab;
+        text-transform: uppercase;
+        margin: 0 0 4px 0;
+      }
+    }
+
+    .scar-empty,
+    .variation-empty {
+      @include body-text-general;
+
+      font-style: italic;
+      padding: 16px 24px;
+      color: rgba($color-ink, 0.7);
+    }
+  }
+}

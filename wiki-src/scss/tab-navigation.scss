@@ -17,7 +17,7 @@
   // Paper-stack uses: width = var(--paper-width) and is centered in .paper-container
   // So we position tabs at: left edge of paper-stack (0% of container, but paper is centered)
   // Calculate: center of container - half paper width
-  left: calc(50% - var(--paper-width) / 2);
+  left: calc(50% - var(--paper-width) / 2 + 6px);
   top: 0;
   bottom: 0;
   display: flex;

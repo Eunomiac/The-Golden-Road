@@ -1,7 +1,67 @@
 import type { ProcessingContext } from "./ProcessingContext";
+import type { PCSheetData, TraitDataAttribute } from "../types";
+import { AttributeMental, AttributePhysical, AttributeSocial } from "../types";
 import { SystemDataLoader } from "./SystemDataLoader";
 import { ShorthandResolver } from "./ShorthandResolver";
 import { NotationError } from "./NotationError";
+
+type ScarType = "physical" | "mental" | "social";
+type ScarStatName = "scarPower" | "scarFinesse" | "scarResistance";
+type AttributeKey = AttributeMental | AttributePhysical | AttributeSocial;
+
+const SCAR_STAT_METADATA: Record<ScarStatName, {
+  display: string;
+  attributeMap: Record<ScarType, AttributeKey>;
+}> = {
+  scarPower: {
+    display: "Scar Power",
+    attributeMap: {
+      physical: AttributePhysical.str,
+      mental: AttributeMental.int,
+      social: AttributeSocial.pre
+    }
+  },
+  scarFinesse: {
+    display: "Scar Finesse",
+    attributeMap: {
+      physical: AttributePhysical.dex,
+      mental: AttributeMental.wit,
+      social: AttributeSocial.man
+    }
+  },
+  scarResistance: {
+    display: "Scar Resistance",
+    attributeMap: {
+      physical: AttributePhysical.sta,
+      mental: AttributeMental.res,
+      social: AttributeSocial.com
+    }
+  }
+};
+
+const ATTRIBUTE_DISPLAY_NAMES: Record<AttributeKey, string> = {
+  [AttributeMental.int]: "Intelligence",
+  [AttributeMental.wit]: "Wits",
+  [AttributeMental.res]: "Resolve",
+  [AttributePhysical.str]: "Strength",
+  [AttributePhysical.dex]: "Dexterity",
+  [AttributePhysical.sta]: "Stamina",
+  [AttributeSocial.pre]: "Presence",
+  [AttributeSocial.man]: "Manipulation",
+  [AttributeSocial.com]: "Composure"
+};
+
+const BASE_ATTRIBUTE_REFERENCES: Record<string, AttributeKey> = {
+  baseInt: AttributeMental.int,
+  baseWit: AttributeMental.wit,
+  baseRes: AttributeMental.res,
+  baseStr: AttributePhysical.str,
+  baseDex: AttributePhysical.dex,
+  baseSta: AttributePhysical.sta,
+  basePre: AttributeSocial.pre,
+  baseMan: AttributeSocial.man,
+  baseCom: AttributeSocial.com
+};
 
 /**
  * Resolves curly references (dot-notation paths) to their actual values
@@ -9,6 +69,10 @@ import { NotationError } from "./NotationError";
 export class ReferenceResolver {
   private systemDataLoader: SystemDataLoader;
   private shorthandResolver: ShorthandResolver;
+  private readonly scarStatNames = new Set<ScarStatName>(["scarPower", "scarFinesse", "scarResistance"]);
+  private readonly mentalAttributes = new Set<AttributeMental>(Object.values(AttributeMental) as AttributeMental[]);
+  private readonly physicalAttributes = new Set<AttributePhysical>(Object.values(AttributePhysical) as AttributePhysical[]);
+  private readonly socialAttributes = new Set<AttributeSocial>(Object.values(AttributeSocial) as AttributeSocial[]);
 
   constructor() {
     this.systemDataLoader = new SystemDataLoader();
@@ -22,6 +86,20 @@ export class ReferenceResolver {
     // Step 1: Check if it starts with context indicator or is a bare context word
     let dotKey: string;
     let root: unknown;
+
+    const scarStatResult = this.tryResolveScarStat(reference, context);
+    if (scarStatResult.handled) {
+      return scarStatResult.value;
+    }
+
+    const baseAttributeResult = this.tryResolveBaseAttribute(reference, context);
+    if (baseAttributeResult.handled) {
+      return baseAttributeResult.value;
+    }
+
+    if (reference.startsWith("json.")) {
+      return this.resolveJsonReference(reference.substring(5), context);
+    }
 
     if (reference === "this") {
       // Bare "this" refers to the entity itself
@@ -140,6 +218,301 @@ export class ReferenceResolver {
 
     // Step 4: Merge system data with context data
     return this.mergeSystemData(contextData as Record<string, unknown>, systemData);
+  }
+
+  private tryResolveScarStat(
+    reference: string,
+    context: ProcessingContext
+  ): { handled: boolean; value?: Record<string, unknown> } {
+    if (!this.scarStatNames.has(reference as ScarStatName)) {
+      return { handled: false };
+    }
+
+    if (!context.thisEntity) {
+      throw new NotationError(
+        `Cannot resolve '${reference}' outside of a scar or variation context.`,
+        reference,
+        context.filePath,
+        context.lineNumber
+      );
+    }
+
+    const value = this.computeScarStat(reference as ScarStatName, context);
+    return { handled: true, value };
+  }
+
+  private tryResolveBaseAttribute(
+    reference: string,
+    context: ProcessingContext
+  ): { handled: boolean; value?: Record<string, unknown> } {
+    const attributeKey = BASE_ATTRIBUTE_REFERENCES[reference];
+    if (!attributeKey) {
+      return { handled: false };
+    }
+
+    const attributeRecord = this.getAttributeRecord(attributeKey, context.context);
+    if (!attributeRecord) {
+      throw new NotationError(
+        `Attribute '${attributeKey}' is unavailable while resolving '${reference}'.`,
+        reference,
+        context.filePath,
+        context.lineNumber
+      );
+    }
+
+    const baseValue = this.extractBaseAttributeValue(attributeRecord, reference, context);
+    const entity = this.buildBaseAttributeEntity(reference, attributeKey, baseValue);
+    return { handled: true, value: entity };
+  }
+
+  private computeScarStat(
+    statName: ScarStatName,
+    context: ProcessingContext
+  ): Record<string, unknown> {
+    if (!context.thisEntity) {
+      throw new NotationError(
+        `Cannot resolve '${statName}' without an entity context.`,
+        statName,
+        context.filePath,
+        context.lineNumber
+      );
+    }
+
+    const scarType = this.resolveScarType(context.thisEntity as Record<string, unknown>, context, statName);
+    const attributeKey = SCAR_STAT_METADATA[statName].attributeMap[scarType];
+    const baseValue = this.getAttributeBaseValue(attributeKey, context.context, statName, context);
+    return this.buildScarStatEntity(statName, baseValue);
+  }
+
+  private resolveScarType(
+    entity: Record<string, unknown>,
+    context: ProcessingContext,
+    reference: ScarStatName
+  ): ScarType {
+    const directType = this.normalizeScarType(entity.type);
+    if (directType) {
+      return directType;
+    }
+
+    const entangledScarKey = this.extractEntangledScarKey(entity);
+    if (entangledScarKey) {
+      const scar = this.findScar(entangledScarKey, context.context);
+      if (!scar) {
+        throw new NotationError(
+          `Entangled scar '${entangledScarKey}' (referenced by '${this.getEntityLabel(entity)}') was not found in the character data.`,
+          reference,
+          context.filePath,
+          context.lineNumber
+        );
+      }
+
+      const scarType = this.normalizeScarType((scar as Record<string, unknown>).type);
+      if (!scarType) {
+        throw new NotationError(
+          `Entangled scar '${entangledScarKey}' is missing a valid type (must be physical, mental, or social).`,
+          reference,
+          context.filePath,
+          context.lineNumber
+        );
+      }
+
+      return scarType;
+    }
+
+    throw new NotationError(
+      `Unable to resolve scar type for '${this.getEntityLabel(entity)}'. Add a 'type' property or specify an entangled scar.`,
+      reference,
+      context.filePath,
+      context.lineNumber
+    );
+  }
+
+  private extractEntangledScarKey(entity: Record<string, unknown>): string | null {
+    const raw = entity.entangledScar;
+    if (typeof raw !== "string") {
+      return null;
+    }
+
+    const trimmed = raw.trim();
+    return trimmed.length > 0 ? trimmed : null;
+  }
+
+  private normalizeScarType(typeValue: unknown): ScarType | null {
+    if (typeof typeValue !== "string") {
+      return null;
+    }
+
+    const normalized = typeValue.toLowerCase();
+    if (normalized === "physical" || normalized === "mental" || normalized === "social") {
+      return normalized as ScarType;
+    }
+    return null;
+  }
+
+  private findScar(key: string, pcData: PCSheetData): Record<string, unknown> | null {
+    if (pcData.scarsByKey && pcData.scarsByKey[key]) {
+      return pcData.scarsByKey[key] as Record<string, unknown>;
+    }
+
+    if (Array.isArray(pcData.scars)) {
+      const scar = pcData.scars.find((entry) => entry.key === key);
+      if (scar) {
+        return scar as Record<string, unknown>;
+      }
+    }
+
+    return null;
+  }
+
+  private getAttributeBaseValue(
+    attributeKey: AttributeKey,
+    pcData: PCSheetData,
+    reference: ScarStatName,
+    context: ProcessingContext
+  ): number {
+    const trait = this.getAttributeRecord(attributeKey, pcData);
+    if (!trait) {
+      throw new NotationError(
+        `Attribute '${attributeKey}' is unavailable while resolving '${reference}'.`,
+        reference,
+        context.filePath,
+        context.lineNumber
+      );
+    }
+
+    const base = trait.value?.base;
+    if (typeof base !== "number") {
+      throw new NotationError(
+        `Attribute '${attributeKey}' is missing a base value while resolving '${reference}'.`,
+        reference,
+        context.filePath,
+        context.lineNumber
+      );
+    }
+
+    return base;
+  }
+
+  private getAttributeRecord(attributeKey: AttributeKey, pcData: PCSheetData): TraitDataAttribute | undefined {
+    if (this.isMentalAttribute(attributeKey)) {
+      return pcData.attributes.mental[attributeKey as AttributeMental];
+    }
+
+    if (this.isPhysicalAttribute(attributeKey)) {
+      return pcData.attributes.physical[attributeKey as AttributePhysical];
+    }
+
+    if (this.isSocialAttribute(attributeKey)) {
+      return pcData.attributes.social[attributeKey as AttributeSocial];
+    }
+
+    return undefined;
+  }
+
+  private isMentalAttribute(attributeKey: AttributeKey): attributeKey is AttributeMental {
+    return this.mentalAttributes.has(attributeKey as AttributeMental);
+  }
+
+  private isPhysicalAttribute(attributeKey: AttributeKey): attributeKey is AttributePhysical {
+    return this.physicalAttributes.has(attributeKey as AttributePhysical);
+  }
+
+  private isSocialAttribute(attributeKey: AttributeKey): attributeKey is AttributeSocial {
+    return this.socialAttributes.has(attributeKey as AttributeSocial);
+  }
+
+  private extractBaseAttributeValue(
+    trait: TraitDataAttribute,
+    reference: string,
+    context: ProcessingContext
+  ): number {
+    const baseValue = trait.value?.base ?? trait.value?.total;
+    if (typeof baseValue === "number") {
+      return baseValue;
+    }
+
+    throw new NotationError(
+      `Attribute '${trait.key}' is missing a base value while resolving '${reference}'.`,
+      reference,
+      context.filePath,
+      context.lineNumber
+    );
+  }
+
+  private buildBaseAttributeEntity(
+    reference: string,
+    attributeKey: AttributeKey,
+    value: number
+  ): Record<string, unknown> {
+    const attributeName = ATTRIBUTE_DISPLAY_NAMES[attributeKey] ?? attributeKey.toUpperCase();
+    const displayName = `Base ${attributeName}`;
+
+    return {
+      key: reference,
+      name: displayName,
+      display: displayName,
+      value: {
+        base: value,
+        total: value
+      },
+      signedOutput: false
+    };
+  }
+
+  private buildScarStatEntity(statName: ScarStatName, value: number): Record<string, unknown> {
+    const metadata = SCAR_STAT_METADATA[statName];
+    return {
+      key: statName,
+      name: metadata.display,
+      display: metadata.display,
+      value: {
+        base: value,
+        total: value
+      }
+    };
+  }
+
+  private getEntityLabel(entity: Record<string, unknown>): string {
+    if (typeof entity.name === "string" && entity.name.trim().length > 0) {
+      return entity.name;
+    }
+    if (typeof entity.key === "string" && entity.key.trim().length > 0) {
+      return entity.key;
+    }
+    return "the current entity";
+  }
+
+  /**
+   * Resolves references to standalone system JSON files (json.alias.path).
+   */
+  private resolveJsonReference(
+    reference: string,
+    context: ProcessingContext
+  ): unknown {
+    const segments = reference.split(".").filter((segment) => segment.length > 0);
+
+    if (segments.length < 2) {
+      throw new NotationError(
+        "JSON references must include a file alias and at least one key.",
+        `json.${reference}`,
+        context.filePath,
+        context.lineNumber
+      );
+    }
+
+    const [alias, ...pathSegments] = segments;
+    const resolved = this.systemDataLoader.getJsonReference(alias, pathSegments);
+
+    if (resolved === null || resolved === undefined) {
+      throw new NotationError(
+        `JSON reference '${alias}' with path '${pathSegments.join(".")}' could not be resolved.`,
+        `json.${reference}`,
+        context.filePath,
+        context.lineNumber
+      );
+    }
+
+    return resolved;
   }
 
   /**

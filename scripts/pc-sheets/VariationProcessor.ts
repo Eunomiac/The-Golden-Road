@@ -1,58 +1,15 @@
 import type { PCSheetData } from "./types";
-import { SystemDataLoader } from "./curly-notations/SystemDataLoader";
-import { CurlyNotationProcessor } from "./curly-notations/CurlyNotationProcessor";
 import type { ProcessingContext } from "./curly-notations/ProcessingContext";
-import { ScarAttributeResolver, type ScarJSON } from "./ScarAttributeResolver";
+import { variationPurchaseStrategy } from "./shared/advantage/helpers";
+import type {
+  ProcessedVariation,
+  VariationJSON
+} from "./shared/advantage/types";
+import { BaseAdvantageProcessor } from "./shared/advantage/BaseAdvantageProcessor";
 
-/**
- * Variation data structure from JSON
- */
-export interface VariationJSON {
-  key: string;
-  value?: number | {
-    base?: number;
-    free?: number;
-    deviation?: number;
-    total?: number;
-  };
-  display?: string;
-  narrative?: string;
-  entangledScar?: string;
-  activation?: string;
-  tags?: string[];
-  keywords?: string[];
-  source?: {
-    book: string;
-    page: number;
-  };
-  vars?: Record<string, unknown>;
-  deviations?: string[];  // Array of deviation keys
-  secondaryVariations?: VariationJSON[];
-}
-
-/**
- * Processed variation data
- */
-export interface ProcessedVariation {
-  key: string;
-  display: string;
-  narrative?: string;
-  effect: string;  // Processed effect text
-  purchaseLevel: number;  // Original purchase level
-  finalMagnitude: number;  // Purchase level + sum of deviation magMods
-  [key: string]: unknown;  // Other properties
-}
-
-/**
- * Processes variations, handling effect selection and deviation application
- */
-export class VariationProcessor {
-  private systemDataLoader: SystemDataLoader;
-  private notationProcessor: CurlyNotationProcessor;
-
+export class VariationProcessor extends BaseAdvantageProcessor<VariationJSON> {
   constructor() {
-    this.systemDataLoader = new SystemDataLoader();
-    this.notationProcessor = new CurlyNotationProcessor(true);
+    super("variations");
   }
 
   /**
@@ -60,259 +17,152 @@ export class VariationProcessor {
    */
   processVariation(
     variationJson: VariationJSON,
-    pcData: PCSheetData,
-    scars?: ScarJSON[]
+    pcData: PCSheetData
   ): ProcessedVariation {
-    // Step 1: Load system data
-    const systemData = this.systemDataLoader.getSystemData("variations", variationJson.key);
+    const selectedDeviationKeys = this.getSelectedDeviationKeys(variationJson);
+    const prepared = this.prepareAdvantage(variationJson, {
+      purchaseStrategy: (value) => variationPurchaseStrategy(value),
+      deviationKeys: selectedDeviationKeys,
+      allowMagMod: true
+    });
+    const mergedVariation = prepared.mergedAdvantage;
+    const purchaseLevel = prepared.purchaseLevel;
+    const finalMagnitude = prepared.adjustedValue;
+    if (selectedDeviationKeys.length > 0) {
+      mergedVariation.selectedDeviations = selectedDeviationKeys;
+    }
 
-    // Step 2: Merge context data with system data
-    const mergedVariation = this.mergeVariationData(variationJson, systemData);
+    const mergedVars = this.combineVars(mergedVariation, variationJson);
 
-    // Step 3: Determine purchase level
-    const purchaseLevel = this.getPurchaseLevel(variationJson);
-
-    // Step 4: Apply deviations
-    const { finalMagnitude, mergedWithDeviations } = this.applyDeviations(
+    // Step 5: Select and process effect
+    const resolvedType = this.resolveVariationType(
+      variationJson,
       mergedVariation,
-      variationJson.deviations ?? [],
-      purchaseLevel
+      pcData
     );
+    if (resolvedType) {
+      mergedVariation.type = resolvedType;
+    }
 
-    // Step 5: Derive scar attributes and merge with vars
-    const scarAttributes = this.deriveScarAttributes(variationJson, scars, pcData);
-    const mergedVars = {
-      ...variationJson.vars,
-      ...scarAttributes
+    const effectContext: ProcessingContext = {
+      context: pcData,
+      thisEntity: mergedVariation,
+      vars: mergedVars ?? variationJson.vars,
+      strict: true
     };
 
-    // Step 6: Select and process effect
-    const effect = this.selectAndProcessEffect(
-      mergedWithDeviations,
-      purchaseLevel,
-      pcData,
-      mergedVars
+    const effect = this.textRenderer.process(
+      prepared.effectTemplate,
+      effectContext,
+      { prefix: "Effect:" }
+    ) ?? "";
+
+    // Step 6: Build processed variation
+    const narrativeSource = this.pickFirstString(
+      variationJson.narrative,
+      mergedVariation.narrative
     );
 
-    // Step 7: Build processed variation
-    const narrative = variationJson.narrative ??
-      (typeof mergedWithDeviations.narrative === "string" ? mergedWithDeviations.narrative : undefined);
+    const narrative = narrativeSource
+      ? this.processTextField(narrativeSource, effectContext, true)
+      : undefined;
+
+    const displaySource = this.pickFirstString(
+      variationJson.display,
+      mergedVariation.display,
+      mergedVariation.name,
+      variationJson.key
+    );
+
+    const processedDisplay = displaySource
+      ? this.processTextField(displaySource, effectContext, false)
+      : undefined;
 
     const processed: ProcessedVariation = {
       key: variationJson.key,
-      display: variationJson.display ??
-        (typeof mergedWithDeviations.name === "string" ? mergedWithDeviations.name : variationJson.key),
+      display: processedDisplay ?? variationJson.key,
       narrative,
       effect,
       purchaseLevel,
       finalMagnitude,
-      ...this.copyOtherProperties(mergedWithDeviations, variationJson)
+      ...this.copyOtherProperties(mergedVariation, variationJson)
     };
 
     return processed;
   }
 
-  /**
-   * Merges variation context data with system data
-   * Arrays are combined and deduplicated; other properties are overwritten by context data
-   */
-  private mergeVariationData(
-    contextData: VariationJSON,
-    systemData: Record<string, unknown> | null
-  ): Record<string, unknown> {
-    if (!systemData) {
-      // No system data, return context data as object
-      return { ...contextData };
-    }
-
-    const result: Record<string, unknown> = { ...systemData };
-
-    // Merge each property from context data
-    const contextObj = contextData as unknown as Record<string, unknown>;
-    for (const key in contextObj) {
-      const contextValue = contextObj[key];
-      const systemValue = systemData[key];
-
-      // If both are arrays, combine and deduplicate
-      if (Array.isArray(contextValue) && Array.isArray(systemValue)) {
-        result[key] = this.mergeArrays(systemValue, contextValue);
-      } else {
-        // Otherwise, context data overwrites system data
-        result[key] = contextValue;
-      }
-    }
-
-    return result;
-  }
+  // mergeVariationData/getPurchaseLevel removed (handled by shared helpers)
 
   /**
-   * Combines two arrays and removes duplicate values
+   * Combines system-specified vars with player-provided vars.
    */
-  private mergeArrays(systemArray: unknown[], contextArray: unknown[]): unknown[] {
-    const combined = [...systemArray, ...contextArray];
-
-    // Deduplicate using Set for primitives, or JSON.stringify for objects
-    const seen = new Set<string>();
-    const result: unknown[] = [];
-
-    for (const item of combined) {
-      let key: string;
-
-      if (item === null || item === undefined) {
-        key = String(item);
-      } else if (typeof item === "object") {
-        // For objects, use JSON.stringify for comparison
-        key = JSON.stringify(item);
-      } else {
-        // For primitives, use the value directly
-        key = String(item);
-      }
-
-      if (!seen.has(key)) {
-        seen.add(key);
-        result.push(item);
-      }
-    }
-
-    return result;
-  }
-
-  /**
-   * Gets the purchase level from variation value
-   */
-  private getPurchaseLevel(variation: VariationJSON): number {
-    if (typeof variation.value === "number") {
-      return variation.value;
-    }
-
-    if (variation.value && typeof variation.value === "object") {
-      // Use base if available, otherwise total
-      if (typeof variation.value.base === "number") {
-        return variation.value.base;
-      }
-      if (typeof variation.value.total === "number") {
-        return variation.value.total;
-      }
-    }
-
-    // Default to 1 if no value specified
-    return 1;
-  }
-
-  /**
-   * Applies deviations to a variation
-   * Returns final magnitude and merged variation data
-   */
-  private applyDeviations(
+  private combineVars(
     mergedVariation: Record<string, unknown>,
-    deviationKeys: string[],
-    purchaseLevel: number
-  ): {
-    finalMagnitude: number;
-    mergedWithDeviations: Record<string, unknown>;
-  } {
-    let finalMagnitude = purchaseLevel;
-    let result = { ...mergedVariation };
+    variationJson: VariationJSON
+  ): Record<string, unknown> | undefined {
+    const systemVars = this.extractVars(mergedVariation.vars);
+    const playerVars = this.extractVars(variationJson.vars);
 
-    // Get deviations from system data
-    const systemDeviations = (mergedVariation.deviations as Record<string, unknown> | undefined) ?? {};
-
-    // Apply each deviation in order
-    for (const deviationKey of deviationKeys) {
-      const deviation = systemDeviations[deviationKey] as Record<string, unknown> | undefined;
-
-      if (!deviation) {
-        continue; // Skip if deviation not found
-      }
-
-      // Apply magMod
-      if (typeof deviation.magMod === "number") {
-        finalMagnitude += deviation.magMod;
-      }
-
-      // Apply replace
-      if (deviation.replace && typeof deviation.replace === "object") {
-        const replaceObj = deviation.replace as Record<string, unknown>;
-
-        // Replace matching keys (entire property replacement, not deep merge)
-        for (const key in replaceObj) {
-          result[key] = replaceObj[key];
-        }
-      }
+    if (!systemVars && !playerVars) {
+      return undefined;
     }
 
     return {
-      finalMagnitude,
-      mergedWithDeviations: result
+      ...(systemVars ?? {}),
+      ...(playerVars ?? {})
     };
   }
 
   /**
-   * Selects the appropriate effect based on purchase level and processes it
+   * Extracts and sanitizes the list of selected deviation keys from player JSON.
    */
-  private selectAndProcessEffect(
-    mergedVariation: Record<string, unknown>,
-    purchaseLevel: number,
-    pcData: PCSheetData,
-    vars?: Record<string, unknown>
-  ): string {
-    const effect = mergedVariation.effect;
-
-    if (!effect) {
-      return ""; // No effect defined
+  private getSelectedDeviationKeys(
+    variationJson: VariationJSON
+  ): string[] {
+    const preferred =
+      this.normalizeDeviationList((variationJson as { selectedDeviations?: unknown }).selectedDeviations);
+    if (preferred) {
+      return preferred;
     }
-
-    let effectText: string;
-
-    if (typeof effect === "string") {
-      // Simple string effect
-      effectText = effect;
-    } else if (typeof effect === "object" && effect !== null && !Array.isArray(effect)) {
-      // Record<number, string> - select by purchase level
-      const effectRecord = effect as Record<string, unknown>;
-      const levelKey = purchaseLevel.toString();
-      effectText = (effectRecord[levelKey] as string) ?? "";
-    } else {
-      return ""; // Invalid effect format
-    }
-
-    // Process effect text through curly notation processor
-    const processingContext: ProcessingContext = {
-      context: pcData,
-      thisEntity: mergedVariation,
-      vars,
-      strict: true
-    };
-
-    return this.notationProcessor.process(effectText, processingContext);
+    const legacy = this.normalizeDeviationList(variationJson.deviations);
+    return legacy ?? [];
   }
 
   /**
-   * Derives scar attributes (scarPower, scarFinesse, scarResistance) from the variation's entangled scar
+   * Normalizes raw deviation arrays into trimmed string lists.
    */
-  private deriveScarAttributes(
-    variationJson: VariationJSON,
-    scars: ScarJSON[] | undefined,
-    pcData: PCSheetData
-  ): Record<string, number> {
-    // Check for entangledScar
-    const scarKey = variationJson.entangledScar;
-
-    if (!scarKey || !scars) {
-      return {}; // No entangled scar reference or no scars array
+  private normalizeDeviationList(value: unknown): string[] | null {
+    if (!Array.isArray(value)) {
+      return null;
     }
+    const normalized = value
+      .map((entry) => (typeof entry === "string" ? entry.trim() : ""))
+      .filter((entry) => entry.length > 0);
+    return normalized.length > 0 ? normalized : [];
+  }
 
-    // Find the scar
-    const scar = ScarAttributeResolver.findScar(scars, scarKey);
+  private processTextField(
+    value: string | undefined,
+    context: ProcessingContext,
+    wrap: boolean
+  ): string | undefined {
+    return this.textRenderer.process(value, context, { wrap });
+  }
 
-    if (!scar) {
-      return {}; // Scar not found
+  private pickFirstString(...values: Array<unknown>): string | undefined {
+    for (const value of values) {
+      if (typeof value === "string" && value.length > 0) {
+        return value;
+      }
     }
+    return undefined;
+  }
 
-    // Derive attributes
-    const attributes = ScarAttributeResolver.deriveScarAttributes(scar, pcData);
-
-    return attributes ?? {};
+  private extractVars(source: unknown): Record<string, unknown> | undefined {
+    if (source && typeof source === "object" && !Array.isArray(source)) {
+      return source as Record<string, unknown>;
+    }
+    return undefined;
   }
 
   /**
@@ -332,7 +182,8 @@ export class VariationProcessor {
       "keywords",
       "source",
       "vars",
-      "secondaryVariations"
+      "secondaryVariations",
+      "type"
     ];
 
     for (const prop of propertiesToCopy) {
@@ -344,5 +195,87 @@ export class VariationProcessor {
     }
 
     return result;
+  }
+  private resolveVariationType(
+    variationJson: VariationJSON,
+    mergedVariation: Record<string, unknown>,
+    pcData: PCSheetData
+  ): "physical" | "mental" | "social" | undefined {
+    const directType = this.normalizeScarType(
+      (variationJson as { type?: unknown }).type ?? mergedVariation.type
+    );
+    if (directType) {
+      return directType;
+    }
+
+    const entangledScarKey = this.getEntangledScarKey(variationJson, mergedVariation);
+    if (!entangledScarKey) {
+      return undefined;
+    }
+
+    const scar = this.findScarInContext(entangledScarKey, pcData);
+    if (!scar) {
+      throw new Error(
+        `Variation "${variationJson.key}" references entangled scar "${entangledScarKey}", but that scar was not found.`
+      );
+    }
+
+    const scarType = this.normalizeScarType((scar as Record<string, unknown>).type);
+    if (!scarType) {
+      throw new Error(
+        `Entangled scar "${entangledScarKey}" (referenced by variation "${variationJson.key}") is missing a valid type ("physical", "mental", or "social").`
+      );
+    }
+
+    return scarType;
+  }
+
+  private getEntangledScarKey(
+    variationJson: VariationJSON,
+    mergedVariation: Record<string, unknown>
+  ): string | undefined {
+    const entangledFromJson = (variationJson as { entangledScar?: unknown }).entangledScar;
+    const candidate = typeof entangledFromJson === "string"
+      ? entangledFromJson
+      : (typeof mergedVariation.entangledScar === "string"
+        ? (mergedVariation.entangledScar as string)
+        : undefined);
+
+    if (!candidate) {
+      return undefined;
+    }
+
+    const trimmed = candidate.trim();
+    return trimmed.length > 0 ? trimmed : undefined;
+  }
+
+  private findScarInContext(
+    scarKey: string,
+    pcData: PCSheetData
+  ): Record<string, unknown> | undefined {
+    if (pcData.scarsByKey && pcData.scarsByKey[scarKey]) {
+      return pcData.scarsByKey[scarKey] as Record<string, unknown>;
+    }
+
+    if (Array.isArray(pcData.scars)) {
+      const scar = pcData.scars.find((entry) => entry.key === scarKey);
+      if (scar) {
+        return scar as Record<string, unknown>;
+      }
+    }
+
+    return undefined;
+  }
+
+  private normalizeScarType(value: unknown): "physical" | "mental" | "social" | undefined {
+    if (typeof value !== "string") {
+      return undefined;
+    }
+
+    const normalized = value.toLowerCase();
+    if (normalized === "physical" || normalized === "mental" || normalized === "social") {
+      return normalized as "physical" | "mental" | "social";
+    }
+    return undefined;
   }
 }

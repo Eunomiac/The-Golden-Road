@@ -1,4 +1,5 @@
-@use "./_colors";
+@use "./_colors" as *;
+@use "./_typography" as *;
 
 /**
 * Versatile tooltips styles using anchor & target features.
@@ -10,6 +11,15 @@
 
 .has-tooltip {
   cursor: pointer;
+
+  &:not(.dotline) {
+    background: rgba(255, 0, 0, 0.2);
+    padding: 0 3px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration-style: dotted;
+    text-decoration-line: underline;
+  }
 
   // Show tooltip on hover with delay, or when hovering the tooltip itself
   &:hover + .tooltip,
@@ -29,6 +39,7 @@
 .tooltip {
   position: absolute;
   position-area: top center;
+  display: inline-block;
 
   background: url("../assets/images/backgrounds/ink-block.webp") no-repeat center center;
   background-size: 100% 100%;
@@ -46,7 +57,7 @@
   margin-bottom: 16px;
   padding: 24px 40px;
 
-  color: colors.$color-parchment;
+  color: $color-parchment;
 
   filter: drop-shadow(8px 8px 4px rgba(0, 0, 0, 1));
 
@@ -79,19 +90,67 @@
   }
 
   &.tiny-tooltip {
-    padding: 8px;
+    padding: 2px 32px;
     min-height: unset;
     min-width: unset;
+    white-space: nowrap;
   }
 
-  h1 {
-    margin: 0;
-  }
-
-  > span {
+  .tooltip-title,
+  .tooltip-subtitle,
+  .tooltip-block {
     display: block;
-    margin: 16px 0;
-    letter-spacing: 0.05em;
+    width: 100%;
+    text-wrap: pretty;
+    text-align: justify;
+    hyphens: auto;
+    margin: 8px 0;
+
+    &.tooltip-title-left {
+      text-align: left;
+      --tooltip-title-align: left;
+    }
+
+    &.tooltip-title-right {
+      text-align: right;
+      --tooltip-title-align: right;
+    }
+
+    &.tooltip-title-white {
+      --tooltip-title-color: $color-parchment;
+    }
+
+    &.tooltip-title,
+    &.tooltip-subtitle {
+      text-align: var(--tooltip-title-align, center);
+    }
+
+    &.tooltip-title {
+      font-family: $font-heading;
+      font-size: 24px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--tooltip-title-color, #FF0000);
+      padding: 0;
+      border: none;
+      background: none;
+
+      + .tooltip-subtitle {
+        margin-top: -8px;
+      }
+    }
+
+    &.tooltip-subtitle {
+      font-weight: bold;
+      font-size: 18px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    &.tooltip-block {
+      font-size: 14px;
+    }
   }
 
   .trait-desc-general {

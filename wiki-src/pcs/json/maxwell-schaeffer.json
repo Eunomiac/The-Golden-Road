@@ -109,23 +109,23 @@
       "vars": {
         "profession": "Scientist",
         "assetSkills": ["Academics", "Crafts", "Science"]
-      }
-    },
-    {
-      "key": "contacts",
-      "vars": {
-        "subtype": "electrical engineering academia"
       },
-      "narrative": "",
-      "cssClasses": "sub-merit"
-    },
-    {
-      "key": "contacts",
-      "vars": {
-        "subtype": "drone hobbyists"
-      },
-      "narrative": "",
-      "cssClasses": "sub-merit"
+      "secondaryMerits": [
+        {
+          "key": "contacts",
+          "vars": {
+            "subtype": "electrical engineering academia"
+          },
+          "narrative": ""
+        },
+        {
+          "key": "contacts",
+          "vars": {
+            "subtype": "drone hobbyists"
+          },
+          "narrative": ""
+        }
+      ]
     },
     {
       "key": "formPrototype",

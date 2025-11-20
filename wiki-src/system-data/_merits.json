@@ -1,11 +1,11 @@
 {
   "areaOfExpertise": {
     "key": "areaOfExpertise",
-    "name": "Area of Expertise - {{vars.specialty}}",
+    "name": "Area of Expertise - {{DISPLAY:vars.specialty}}",
     "tags": ["mental"],
     "prerequisites": "Resolve •• and one Skill Specialty",
     "value": 1,
-    "effect": "{{NAME}} is exceptionally specialized in {{DISPLAY:vars.specialty,proper}}. Whenever this Specialty applies, it grants a <strong>+2</strong> bonus instead of the usual +1.",
+    "effect": "{{NAME}} is exceptionally specialized in {{DISPLAY:vars.specialty}}. Whenever this Specialty applies, it grants a <strong>+2</strong> bonus instead of the usual +1.",
     "source": {
       "book": "DtR",
       "page": 96
@@ -17,7 +17,7 @@
     "tags": ["mental"],
     "prerequisites": "Deviant",
     "value": 1,
-    "effect": "{{NAME}} can weaponize invasive memories of {{his}} Divergence. Once per chapter {{he}} may voluntarily take the <strong><em>Shaken</em></strong> Condition to trigger a vivid flashback about {{his}} transformation, revealing code phrases, diagrams, or overheard exchanges that will prove relevant even if their meaning is not immediately obvious.",
+    "effect": "{{NAME}} can weaponize invasive memories of {{his}} Divergence. Once per chapter {{he}} may voluntarily take the {{TOOLTIP:Shaken Condition,json.conditions.shaken}} to trigger a vivid flashback about {{his}} transformation, revealing code phrases, diagrams, or overheard exchanges that will prove relevant even if their meaning is not immediately obvious.",
     "source": {
       "book": "DtR",
       "page": 96
@@ -29,7 +29,7 @@
     "tags": ["mental"],
     "value": 1,
     "effect": "{{NAME}} constantly scans for the curling of fingers, the flash of a barrel, or the shift in a raised voice. Any reflexive {{NAMEVALUE:wit}} + {{NAMEVALUE:com}} roll {{he}} makes to detect an impending ambush, snare, or trap gains the <strong>8-again</strong> quality.",
-    "drawback": "If such a detection roll produces an exceptional success, {{NAME}} suffers the <strong><em>Spooked</em></strong> Condition from recognizing the danger too clearly.",
+    "drawback": "If such a detection roll produces an exceptional success, {{NAME}} suffers the {{TOOLTIP:Spooked Condition,json.conditions.spooked}} from recognizing the danger too clearly.",
     "source": {
       "book": "DtR",
       "page": 97
@@ -37,10 +37,10 @@
   },
   "interdisciplinarySpecialty": {
     "key": "interdisciplinarySpecialty",
-    "name": "Interdisciplinary Specialty - {{vars.specialty}}",
+    "name": "Interdisciplinary Specialty - {{DISPLAY:vars.specialty}}",
     "tags": ["mental"],
     "prerequisites": "Skill at ••• or higher with a Specialty",
-    "effect": "{{NAME}} may apply the +1 bonus from {{his}} {{DISPLAY:vars.specialty,proper}} Specialty to any Skill in which {{he}} has at least one dot whenever it is justifiable within the fiction.",
+    "effect": "{{NAME}} may apply the bonus from {{his}} {{DISPLAY:vars.specialty}} Specialty to any Skill in which {{he}} has at least one dot whenever it is justifiable within the fiction.",
     "source": {
       "book": "DtR",
       "page": 97
@@ -48,24 +48,24 @@
   },
   "multilingual": {
     "key": "multilingual",
-    "name": "Multilingual - {{vars.lang1}} & {{vars.lang2}}",
+    "name": "Multilingual - {{DISPLAY:vars.lang1}} & {{DISPLAY:vars.lang2}}",
     "tags": ["mental"],
     "value": 1,
-    "effect": "{{NAME}} gains conversational fluency in {{DISPLAY:vars.lang1,proper}} and {{DISPLAY:vars.lang2,proper}}. With a {{NAMEVALUE:int}} + {{NAMEVALUE:academics}} roll {{he}} can read enough of either language to grasp context. If {{he}} later purchases the Language Merit for one of these tongues, immediately replace that slot in Multilingual with a new language so the Merit continues to grant two distinct options."
+    "effect": "{{NAME}} gains conversational fluency in {{DISPLAY:vars.lang1}} and {{DISPLAY:vars.lang2}}. With a {{NAMEVALUE:int}} + {{NAMEVALUE:academics}} roll {{he}} can read enough of either language to grasp context. If {{he}} later purchases the Language Merit for one of these tongues, immediately replace that slot in Multilingual with a new language so the Merit continues to grant two distinct options."
   },
   "professionalTraining": {
     "key": "professionalTraining",
-    "name": "Professional Training - {{DISPLAY:vars.profession,proper}}",
+    "name": "Professional Training - {{DISPLAY:vars.profession}}",
     "tags": ["overt", "style"],
     "value": {
       "min": 1,
       "max": 5
     },
-    "effect": "{{NAME}} has extensive professional conditioning as a {{DISPLAY:vars.profession,proper}}. {{INLINELIST:vars.assetSkills}} are {{his}} Asset Skills; the benefits below only apply when {{NAME}} is using one of those Asset Skills.",
+    "effect": "{{NAME}} has extensive professional conditioning as a {{DISPLAY:vars.profession}}. {{INLINELIST:vars.assetSkills}} are {{his}} Asset Skills; the benefits below only apply when {{NAME}} is using one of those Asset Skills.",
     "levels": {
       "1": {
         "name": "Networking",
-        "effect": "{{NAME}} cultivates colleagues within {{DISPLAY:vars.profession,proper}} circles. Gain two dots of relevant Contacts tied to the Asset Skills defined for this Merit."
+        "effect": "{{NAME}} cultivates colleagues within {{DISPLAY:vars.profession}} circles. Gain two dots of relevant Contacts tied to the Asset Skills defined for this Merit."
       },
       "2": {
         "name": "Continuing Education",
@@ -73,7 +73,7 @@
       },
       "3": {
         "name": "Breadth of Knowledge",
-        "effect": "{{NAME}} gains a third Asset Skill related to {{DISPLAY:vars.profession,proper}}, then gains two Specialties distributed among those Asset Skills."
+        "effect": "{{NAME}} gains a third Asset Skill related to {{DISPLAY:vars.profession}}, then gains two Specialties distributed among those Asset Skills."
       },
       "4": {
         "name": "On the Job Training",
@@ -102,11 +102,11 @@
     "levels": {
       "1": {
         "name": "Flow",
-        "effect": "{{NAME}} reacts instinctively to any obstacles with leaps, jumps, and scaling techniques. When in a foot chase, subtract <strong>{{this.value}}</strong> from the successes needed to pursue or evade. Also, ignore up to <strong>-{{this.value}}</strong> from environmental penalties to Athletics rolls."
+        "effect": "{{NAME}} reacts instinctively to any obstacles with leaps, jumps, and scaling techniques. When in a foot chase, subtract <strong>{{VALUE:this.value}}</strong> from the successes needed to pursue or evade. Also, ignore up to <strong>-{{VALUE:this.value}}</strong> from environmental penalties to Athletics rolls."
       },
       "2": {
         "name": "Cat Leap",
-        "effect": "{{NAME}} falls with outstanding grace. When using a {{NAMEVALUE:dex}} + {{NAMEVALUE:athletics}} roll to mitigate damage from falling, {{he}} gains one automatic success. Additionally, {{he}} adds <strong>{{this.value}}</strong> to the amount of damage removed through this roll. Parkour will not mitigate damage from a terminal-velocity fall."
+        "effect": "{{NAME}} falls with outstanding grace. When using a {{NAMEVALUE:dex}} + {{NAMEVALUE:athletics}} roll to mitigate damage from falling, {{he}} gains one automatic success. Additionally, {{he}} adds <strong>{{VALUE:this.value}}</strong> to the amount of damage removed through this roll. Parkour will not mitigate damage from a terminal-velocity fall."
       },
       "3": {
         "name": "Wall Run",
@@ -181,13 +181,13 @@
   },
   "allies": {
     "key": "allies",
-    "name": "Allies - {{DISPLAY:vars.subtype,proper}}",
+    "name": "Allies - {{DISPLAY:vars.subtype}}",
     "tags": ["social", "overt"],
     "value": {
       "min": 1,
       "max": 5
     },
-    "effect": "{{NAME}} has one or more allies in {{vars.subtype}}. When requesting help from Allies, the Storyteller assigns a rating between 1 and 5 to the favor. {{NAME}} can ask for favors that add up to a maximum of {{this.value}} per chapter. If {{he}} stretches {{his}} influence beyond that, {{he}} must roll {{NAMEVALUE:man}} + {{NAMEVALUE:persuasion}} + {{NAMEVALUE:this.value}} with a penalty equal to the favor's rating. Whether failed or successful, {{NAME}} loses a dot of Allies (though Sanctity of Merits applies).",
+    "effect": "{{NAME}} has one or more allies in {{DISPLAY:vars.subtype}}. When requesting help from Allies, the Storyteller assigns a rating between 1 and 5 to the favor. {{NAME}} can ask for favors that add up to a maximum of {{VALUE:this.value}} per chapter. If {{he}} stretches {{his}} influence beyond that, {{he}} must roll {{NAMEVALUE:man}} + {{NAMEVALUE:persuasion}} + {{NAMEVALUE:this.value}} with a penalty equal to the favor's rating. Whether failed or successful, {{NAME}} loses a dot of Allies (though Sanctity of Merits applies).",
     "drawback": "Most allies won't have {{NAME}}'s back for free. They're going to expect {{him}} to have theirs as well. Allies might call at inconvenient times, demand favors, talk to the wrong people, or put themselves in harm's way.",
     "source": {
       "book": "DtR",
@@ -202,7 +202,7 @@
       "min": 1,
       "max": 5
     },
-    "effect": "{{NAME}} eschews identification. {{He}} avoids any official authoritative influence in {{his}} affairs. Any attempts to find {{him}} by paper trail suffer a <strong>-{{this.value}}</strong> penalty.",
+    "effect": "{{NAME}} eschews identification. {{He}} avoids any official authoritative influence in {{his}} affairs. Any attempts to find {{him}} by paper trail suffer a <strong>-{{VALUE:this.value}}</strong> penalty.",
     "drawback": "Living off the grid means purchases must be made with cash or falsified credit cards.",
     "source": {
       "book": "DtR",
@@ -218,10 +218,10 @@
   },
   "contacts": {
     "key": "contacts",
-    "name": "Contacts - {{DISPLAY:vars.subtype,proper}}",
+    "name": "Contacts - {{DISPLAY:vars.subtype}}",
     "tags": ["social"],
     "value": 1,
-    "effect": "{{NAME}} has contacts among {{vars.subtype}}, with which {{he}} can garner information (not services). This may be face-to-face, by email, telephone, or even by séance, in some strange instances.{{BR}}Garnering information from {{his}} Contacts requires a {{NAMEVALUE:man}} + Social Skill roll, depending on the method {{NAME}} uses and their relationship with their Contact. The Storyteller should give a bonus or penalty depending on how relevant the information is to that particular Contact, whether accessing the information is dangerous, and whether the character has maintained good relations or done favors for the Contact. These modifiers should range from -3 to +3 in most cases. If successful, the Contact provides the information.",
+    "effect": "{{NAME}} has contacts among {{DISPLAY:vars.subtype}}, with which {{he}} can garner information (not services). This may be face-to-face, by email, telephone, or even by séance, in some strange instances.{{BR}}Garnering information from {{his}} Contacts requires a {{NAMEVALUE:man}} + Social Skill roll, depending on the method {{NAME}} uses and their relationship with their Contact. The Storyteller should give a bonus or penalty depending on how relevant the information is to that particular Contact, whether accessing the information is dangerous, and whether the character has maintained good relations or done favors for the Contact. These modifiers should range from -3 to +3 in most cases. If successful, the Contact provides the information.",
     "source": {
       "book": "DtR",
       "page": 100
@@ -266,18 +266,18 @@
   },
   "manticoreCompanion": {
     "key": "manticoreCompanion",
-    "name": "Manticore Companion - {{vars.manticoreName}}",
+    "name": "Manticore Companion - {{DISPLAY:vars.manticoreName}}",
     "tags": ["social", "overt"],
     "value": {
       "min": 1,
       "max": 5
     },
     "effect": {
-      "1": "{{NAME}} has bonded with {{vars.manticoreName}}, a {{DISPLAY:vars.manticoreSpecies,proper}} manticore bred as an animal testbed for Divergences. The companion behaves like a clever pet, performing tricks, parroting short phrases, and remaining fiercely loyal despite a propensity for poorly timed squawks. It may manifest a single Magnitude-1 Variation.{{RAW:vars.manticoreVariations}}",
-      "2": "{{NAME}} has bonded with {{vars.manticoreName}}, a {{DISPLAY:vars.manticoreSpecies,proper}} manticore bred as an animal testbed for Divergences. The creature acts as a canny familiar, solving problems like a gifted corvid, remembering complex commands, and relaying short spoken messages with tone-appropriate delivery while still being a non-sapient animal. It may manifest Variations that could be entangled with a <strong>Magnitude-2 Scar</strong>.{{RAW:vars.manticoreVariations}}",
-      "3": "{{NAME}} has bonded with {{vars.manticoreName}}, a {{DISPLAY:vars.manticoreSpecies,proper}} manticore bred as an animal testbed for Divergences. The companion rivals a brilliant parrot, understanding nuance, speaking multiple languages, and performing convincing vocal mimicry over phones or other communications while shadowing {{NAME}} loyally. It may manifest Variations that could be entangled with a <strong>Magnitude-3 Scar</strong>.{{RAW:vars.manticoreVariations}}",
-      "4": "{{NAME}} has bonded with {{vars.manticoreName}}, a {{DISPLAY:vars.manticoreSpecies,proper}} manticore bred as an animal testbed for Divergences. The companion operates as a field partner, coordinating ambushes, executing multi-step infiltration plans, and leveraging its Variations creatively without constant supervision while remaining an exceptionally smart animal. It may manifest Variations that could be entangled with a <strong>Magnitude-4 Scar</strong>.{{RAW:vars.manticoreVariations}}",
-      "5": "{{NAME}} has bonded with {{vars.manticoreName}}, a {{DISPLAY:vars.manticoreSpecies,proper}} manticore bred as an animal testbed for Divergences. The companion approaches near-sapience, demonstrating independent ethical reasoning, unwavering devotion, and sophisticated tactical insight while remaining unmistakably nonhuman. It may manifest Variations that could be entangled with a <strong>Magnitude-5 Scar</strong>.{{RAW:vars.manticoreVariations}}"
+      "1": "{{NAME}} has bonded with {{DISPLAY:vars.manticoreName}}, a {{DISPLAY:vars.manticoreSpecies}} manticore bred as an animal testbed for Divergences. The companion behaves like a clever pet, performing tricks, parroting short phrases, and remaining fiercely loyal despite a propensity for poorly timed squawks. It may manifest a single Magnitude-1 Variation.{{RAW:vars.manticoreVariations}}",
+      "2": "{{NAME}} has bonded with {{DISPLAY:vars.manticoreName}}, a {{DISPLAY:vars.manticoreSpecies}} manticore bred as an animal testbed for Divergences. The creature acts as a canny familiar, solving problems like a gifted corvid, remembering complex commands, and relaying short spoken messages with tone-appropriate delivery while still being a non-sapient animal. It may manifest Variations that could be entangled with a <strong>Magnitude-2 Scar</strong>.{{RAW:vars.manticoreVariations}}",
+      "3": "{{NAME}} has bonded with {{DISPLAY:vars.manticoreName}}, a {{DISPLAY:vars.manticoreSpecies}} manticore bred as an animal testbed for Divergences. The companion rivals a brilliant parrot, understanding nuance, speaking multiple languages, and performing convincing vocal mimicry over phones or other communications while shadowing {{NAME}} loyally. It may manifest Variations that could be entangled with a <strong>Magnitude-3 Scar</strong>.{{RAW:vars.manticoreVariations}}",
+      "4": "{{NAME}} has bonded with {{DISPLAY:vars.manticoreName}}, a {{DISPLAY:vars.manticoreSpecies}} manticore bred as an animal testbed for Divergences. The companion operates as a field partner, coordinating ambushes, executing multi-step infiltration plans, and leveraging its Variations creatively without constant supervision while remaining an exceptionally smart animal. It may manifest Variations that could be entangled with a <strong>Magnitude-4 Scar</strong>.{{RAW:vars.manticoreVariations}}",
+      "5": "{{NAME}} has bonded with {{DISPLAY:vars.manticoreName}}, a {{DISPLAY:vars.manticoreSpecies}} manticore bred as an animal testbed for Divergences. The companion approaches near-sapience, demonstrating independent ethical reasoning, unwavering devotion, and sophisticated tactical insight while remaining unmistakably nonhuman. It may manifest Variations that could be entangled with a <strong>Magnitude-5 Scar</strong>.{{RAW:vars.manticoreVariations}}"
     },
     "drawback": "Despite its gifts, the manticore remains an exceptionally smart animal: {{NAME}} must provide specialized care, feeding, and secrecy, and the creature cannot handle paperwork, medical visits, or other human logistics without drawing dangerous attention.",
     "source": {
@@ -321,10 +321,10 @@
   },
   "masteredTechnique": {
     "key": "masteredTechnique",
-    "name": "Mastered Technique - {{vars.techniqueName}} ({{DISPLAY:vars.techniqueVariation}})",
+    "name": "Mastered Technique - {{DISPLAY:vars.techniqueName}} ({{DISPLAY:vars.techniqueVariation}})",
     "tags": ["deviant"],
     "value": 1,
-    "effect": "{{NAME}} has mastered the {{vars.techniqueName}} Technique for the {{DISPLAY:vars.techniqueVariation}} Variation. {{He}} may call upon it at will, and enjoys the listed Mastered benefits when {{he}} does.<div class='sub-block'><h3>Technique: {{DISPLAY:vars.techniqueName}}</h3><p>{{RAW:vars.techniqueRules}}</p>{{SOURCE:SG/{{vars.techniquePage}}}}</div>",
+    "effect": "{{NAME}} has mastered the {{DISPLAY:vars.techniqueName}} Technique for the {{DISPLAY:vars.techniqueVariation}} Variation. {{He}} may call upon it at will, and enjoys the listed Mastered benefits when {{he}} does.<div class='sub-block'><h3>Technique: {{DISPLAY:vars.techniqueName}}</h3><p>{{RAW:vars.techniqueRules}}</p>{{SOURCE:SG/{{USE:vars.techniquePage}}}}</div>",
     "source": {
       "book": "SG",
       "page": 72
@@ -339,7 +339,7 @@
       "min": 2,
       "max": 10
     },
-    "effect": "{{NAME}} can recreate the horrific procedures that birthed {{him}}. Track a prototype pool that begins at 0.{{BR}}• Once per chapter in which {{he}} does not attempt to create a new Deviant, {{he}} may spend a scene preparing (examining a subject, gathering equipment, coaching breathing exercises, etc.) and roll a dice pool equal to half this Merit’s dots (round down, minimum 1). Add any successes to the prototype pool; making this roll forbids an attempt in the same chapter.{{BR}}• Once per chapter, after another scene of preparation, {{NAME}} may roll a number of dice equal to the current prototype pool to trigger Divergence in a test subject. On a success the subject transforms, usually echoing {{NAME}}'s own Variations and Scars; on an exceptional success the Storyteller may allow {{him}} to choose each new Variation and Scar (including setting their variables). On a failure the experiment fails, likely killing or mutilating the subject and inflicting a minor Instability on {{NAME}}. A dramatic failure deals a medium Instability and causes catastrophic fallout (dead subjects, fires, mobs, etc.). Any attempt to trigger Divergence resets the prototype pool to 0.",
+    "effect": "{{NAME}} can recreate the horrific procedures that birthed {{him}}. Track a prototype pool that begins at 0.{{BR}}• Once per chapter in which {{he}} does not attempt to create a new Deviant, {{he}} may spend a scene preparing (examining a subject, gathering equipment, coaching breathing exercises, etc.) and roll a dice pool of <strong>{{TOOLTIP:tiny-tooltip,{{MAX:{{ROUNDDOWN:{{CALC:{{VALUE:this.value}} / 2}}}},1}},Half Merit Value ({{VALUE:this.value}}), rounded down to a minimum of 1 = {{MAX:{{ROUNDDOWN:{{CALC:{{VALUE:this.value}} / 2}}}},1}}}}</strong>. Add any successes to the prototype pool; making this roll forbids an attempt in the same chapter.{{BR}}• Once per chapter, after another scene of preparation, {{NAME}} may roll a number of dice equal to the current prototype pool to trigger Divergence in a test subject. On a success the subject transforms, usually echoing {{NAME}}'s own Variations and Scars; on an exceptional success the Storyteller may allow {{him}} to choose each new Variation and Scar (including setting their variables). On a failure the experiment fails, likely killing or mutilating the subject and inflicting a minor Instability on {{NAME}}. A dramatic failure deals a medium Instability and causes catastrophic fallout (dead subjects, fires, mobs, etc.). Any attempt to trigger Divergence resets the prototype pool to 0.",
     "source": {
       "book": "SG",
       "page": 56
@@ -347,14 +347,14 @@
   },
   "prototype": {
     "key": "prototype",
-    "name": "Prototype - {{vars.prototypeName}}",
+    "name": "Prototype - {{DISPLAY:vars.prototypeName}}",
     "tags": ["deviant", "special", "overt"],
     "prerequisites": "Deviant",
     "value": {
       "min": 1,
       "max": 10
     },
-    "effect": "{{NAME}} possesses {{vars.prototypeName}}, a detachable Prototype enhancement. Its base Variation Magnitude equals {{this.value}} (maximum 3 unless {{NAME}} purchases 5 dots for Magnitude 4 or 7 dots for Magnitude 5). {{He}} may invest +1 additional Merit dot to restrict who can operate the Prototype (limiting it to members of a single clade or conspiracy), and +2 additional dots to assign it to the Biologic, Hypertech, or Paranormal category as appropriate. This Merit is not limited to five dots, allowing further customization and future upgrades.",
+    "effect": "{{NAME}} possesses {{DISPLAY:vars.prototypeName}}, a detachable Prototype enhancement. Its base Variation Magnitude equals {{VALUE:this.value}} (maximum 3 unless {{NAME}} purchases 5 dots for Magnitude 4 or 7 dots for Magnitude 5). {{He}} may invest +1 additional Merit dot to restrict who can operate the Prototype (limiting it to members of a single clade or conspiracy), and +2 additional dots to assign it to the Biologic, Hypertech, or Paranormal category as appropriate. This Merit is not limited to five dots, allowing further customization and future upgrades.",
     "drawback": "The Prototype's associated Variation or Scar must be Overt, and conspiracies everywhere covet an edge that is not shackled to an inconvenient Deviant. Expect rivals to try to steal, study, or leash it at every opportunity."
   }
 }

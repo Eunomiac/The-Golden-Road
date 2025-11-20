@@ -84,23 +84,23 @@
       "vars": {
         "profession": "Journalist",
         "assetSkills": ["Investigation", "Persuasion", "Socialize"]
-      }
-    },
-    {
-      "key": "contacts",
-      "vars": {
-        "subtype": "prestigious journalists"
       },
-      "narrative": "Andres still trades embargoed drafts and camera-ready favors with prestigious journalists who remember the awards his exposes delivered.",
-      "cssClasses": "sub-merit"
-    },
-    {
-      "key": "contacts",
-      "vars": {
-        "subtype": "the FMP"
-      },
-      "narrative": "He can still tap the FMP officers he once embedded with, swapping intel for quiet warnings before raids close in.",
-      "cssClasses": "sub-merit"
+      "secondaryMerits": [
+        {
+          "key": "contacts",
+          "vars": {
+            "subtype": "prestigious journalists"
+          },
+          "narrative": "Andres still trades embargoed drafts and camera-ready favors with prestigious journalists who remember the awards his exposes delivered."
+        },
+        {
+          "key": "contacts",
+          "vars": {
+            "subtype": "the FMP"
+          },
+          "narrative": "He can still tap the FMP officers he once embedded with, swapping intel for quiet warnings before raids close in."
+        }
+      ]
     },
     {
       "key": "anonymity",

@@ -30,9 +30,17 @@ import {
 } from "./types";
 import { CurlyNotationProcessor } from "./curly-notations/CurlyNotationProcessor";
 import type { ProcessingContext } from "./curly-notations/ProcessingContext";
-import { MeritProcessor, type MeritJSON } from "./MeritProcessor";
-import { VariationProcessor, type VariationJSON } from "./VariationProcessor";
-import { ScarAttributeResolver, type ScarJSON } from "./ScarAttributeResolver";
+import { MeritProcessor } from "./MeritProcessor";
+import { VariationProcessor } from "./VariationProcessor";
+import { ScarProcessor } from "./ScarProcessor";
+import type {
+  MeritJSON,
+  ProcessedMerit,
+  ProcessedScar,
+  ProcessedVariation,
+  ScarJSON,
+  VariationJSON
+} from "./shared/advantage/types";
 
 /**
  * Context data for template processing
@@ -42,10 +50,21 @@ import { ScarAttributeResolver, type ScarJSON } from "./ScarAttributeResolver";
 export interface TemplateContext {
   /** Current trait/merit name (for {{NAMEVALUE:this}}) */
   currentTraitName?: string;
-  /** Current trait/merit value/cost/rating (for {{this.value}}) */
+  /** Current trait/merit value/cost/rating (for {{VALUE:this.value}}) */
   currentValue?: number;
   /** Current subtype value (for {{subtype}}) */
   currentSubtype?: string;
+}
+
+type VariationCategory = "physical" | "mental" | "social";
+
+interface VariationInput {
+  variation: VariationJSON;
+  parentVariationKey?: string;
+  parentMeritKey?: string;
+  inheritedScar?: string;
+  inheritedType?: VariationCategory;
+  requireContext?: boolean;
 }
 
 /**
@@ -72,12 +91,14 @@ export class PCSheet {
   private notationProcessor: CurlyNotationProcessor;
   private meritProcessor: MeritProcessor;
   private variationProcessor: VariationProcessor;
+  private scarProcessor: ScarProcessor;
 
   constructor(jsonData: PCJSONData) {
     this.jsonData = jsonData;
     this.notationProcessor = new CurlyNotationProcessor(true); // Strict mode by default
     this.meritProcessor = new MeritProcessor();
     this.variationProcessor = new VariationProcessor();
+    this.scarProcessor = new ScarProcessor();
   }
 
   /**
@@ -129,7 +150,8 @@ export class PCSheet {
       player: "",
       name: "",
       sex: "u",
-      dob: "??/??/??",
+      dob: "?? / ?? / ??",
+      ddv: "?? / ?? / ??",
       imageUrl: "",
       concept: "",
       origin: "",
@@ -220,9 +242,6 @@ export class PCSheet {
     // Total "non-empty" dots equals base + broken + bonus
     // Derive emptyCount from max dots remaining
     emptyCount = Math.max(emptyCount - (baseCount + bonusCount + brokenCount), 0)
-
-    console.log(`... broken: ${brokenCount}, base: ${baseCount}, bonus: ${bonusCount}, empty: ${emptyCount}`);
-
 
     // Add full dots for base value
     for (let i = 0; i < data.base; i++) {
@@ -380,9 +399,9 @@ export class PCSheet {
 
     // Build tooltip content
     const tooltipContentHTML = [
-      `<h1>${displayName}: ${totalValue}</h1>`,
-      `<span class='trait-desc-general'>${processedDescription}</span>`,
-      `<span class='trait-desc-specific'>${processedLevelText}</span>`
+      `<span class='tooltip-title tooltip-title-white tooltip-title-left'>${displayName}: ${totalValue}</span>`,
+      `<span class='trait-desc-general tooltip-block'>${processedDescription}</span>`,
+      `<span class='trait-desc-specific tooltip-block'>${processedLevelText}</span>`
     ].join("");
 
     tooltipHTML.push(`<div class="tooltip" style="position-anchor: --${tooltipID};">`);
@@ -470,7 +489,6 @@ export class PCSheet {
     if (["health", "willpower", "stability"].includes(key)) {
       valueData.max = 10;
     }
-    // console.log(`💾 Derived Dotline "${key}"`);
     const dotline = this.resolveDotline(valueData);
     const cssClasses = this.buildCssClasses(tags);
     // Tooltip will be built later when we have full PCSheetData
@@ -563,7 +581,6 @@ export class PCSheet {
     if (["health", "willpower", "stability"].includes(key)) {
       valueData.max = 10;
     }
-    // console.log(`💾 Dotline "${key}"`);
     const dotline = this.resolveDotline(valueData);
     const cssClasses = this.buildCssClasses(tags, priority);
     // Tooltip will be built later when we have full PCSheetData
@@ -615,6 +632,9 @@ export class PCSheet {
     }
     if (this.jsonData.dob !== undefined) {
       result.dob = this.jsonData.dob;
+    }
+    if (this.jsonData.ddv !== undefined) {
+      result.ddv = this.jsonData.ddv;
     }
     if (this.jsonData.imageUrl !== undefined) {
       result.imageUrl = this.jsonData.imageUrl;
@@ -727,12 +747,6 @@ export class PCSheet {
 
     // Merits and variations will be processed in getData() after we have full context
     // For now, just store references to the raw data
-    console.log("🔍 DEBUG: Checking for merits in JSON data:", {
-      hasMerits: this.jsonData.merits !== undefined,
-      isArray: Array.isArray(this.jsonData.merits),
-      length: Array.isArray(this.jsonData.merits) ? this.jsonData.merits.length : "N/A",
-      merits: this.jsonData.merits
-    });
     if (this.jsonData.merits !== undefined) {
       (result as any)._meritsRaw = this.jsonData.merits;
     }
@@ -864,47 +878,62 @@ export class PCSheet {
     const defaults: PCSheetData = this.getDefaults();
     const processed: Partial<PCSheetData> = this.processJSONData();
     const merged: PCSheetData = this.mergeData(defaults, processed);
+    const variationInputsFromMerits: VariationInput[] = [];
 
     // Build tooltips now that we have complete data
     this.buildAllTooltips(merged);
 
     // Process merits and variations now that we have full PCSheetData context
     const rawMerits = (processed as any)._meritsRaw;
-    console.log("🔍 DEBUG: Raw merits from JSON:", rawMerits);
     if (rawMerits !== undefined && Array.isArray(rawMerits)) {
-      console.log(`🔍 DEBUG: Processing ${rawMerits.length} merits...`);
-      merged.merits = rawMerits.map((meritJson: MeritJSON, index: number) => {
-        console.log(`🔍 DEBUG: Processing merit ${index + 1}/${rawMerits.length}:`, meritJson.key);
-        const processedMerit = this.meritProcessor.processMerit(meritJson, merged);
-        console.log(`🔍 DEBUG: Processed merit ${index + 1}:`, {
-          key: processedMerit.key,
-          name: processedMerit.name,
-          value: processedMerit.value,
-          hasEffect: !!processedMerit.effect,
-          hasNarrative: !!processedMerit.narrative
-        });
-        return processedMerit;
+      const { merits: processedMerits, emittedVariations } = this.processMeritTree(rawMerits, merged);
+      merged.merits = processedMerits;
+      variationInputsFromMerits.push(...emittedVariations);
+    }
+
+    const rawScars = (processed as any)._scarsRaw;
+    if (Array.isArray(rawScars)) {
+      merged.scars = rawScars.map((scarJson: ScarJSON) => {
+        return this.scarProcessor.processScar(scarJson, merged);
       });
-      console.log("🔍 DEBUG: Final merits array:", merged.merits);
-    } else {
-      console.log("🔍 DEBUG: No raw merits found or not an array");
     }
 
     const rawVariations = (processed as any)._variationsRaw;
-    if (rawVariations !== undefined && Array.isArray(rawVariations)) {
-      // Extract scars for variation processing
-      const rawScars = (processed as any)._scarsRaw;
-      const scars: ScarJSON[] | undefined = rawScars?.map((scar: any) => ({
-        key: scar.key,
-        type: scar.type
-      })) as ScarJSON[];
+    const variationInputs: VariationInput[] = [
+      ...(Array.isArray(rawVariations)
+        ? rawVariations.map((variationJson: VariationJSON) => ({ variation: variationJson }))
+        : []),
+      ...variationInputsFromMerits
+    ];
 
-      merged.variations = rawVariations.map((variationJson: VariationJSON) => {
-        return this.variationProcessor.processVariation(variationJson, merged, scars);
-      });
+    if (variationInputs.length > 0) {
+      const processedVariations = this.processVariationForest(variationInputs, merged);
+
+      const variationsByScar = processedVariations.reduce<Record<string, ProcessedVariation[]>>(
+        (acc, variation) => {
+          const scarKey = typeof variation.entangledScar === "string" ? variation.entangledScar : undefined;
+          const bucketKey = scarKey ?? "__ungrouped__";
+          if (!acc[bucketKey]) {
+            acc[bucketKey] = [];
+          }
+          acc[bucketKey].push(variation);
+          return acc;
+        },
+        {}
+      );
+
+      merged.variations = processedVariations;
+      merged.variationsByScar = variationsByScar;
+
+      if (Array.isArray(merged.scars)) {
+        const scarIndex = merged.scars.reduce<Record<string, ProcessedScar>>((acc, scar) => {
+          acc[scar.key] = scar;
+          return acc;
+        }, {});
+        merged.scarsByKey = scarIndex;
+      }
     }
 
-    // console.log("💾 DATA", JSON.stringify(merged.willpower, null, 2));
     return merged;
   }
 
@@ -973,6 +1002,146 @@ export class PCSheet {
     if (key === "stability") return data.stability as TraitDataDerived;
 
     return undefined;
+  }
+
+  private processMeritTree(
+    meritJsons: MeritJSON[],
+    pcData: PCSheetData
+  ): { merits: ProcessedMerit[]; emittedVariations: VariationInput[] } {
+    const merits: ProcessedMerit[] = [];
+    const emittedVariations: VariationInput[] = [];
+    const queue: Array<{ json: MeritJSON; parentKey?: string }> = meritJsons.map((meritJson) => ({
+      json: this.cloneAdvantageJson(meritJson)
+    }));
+
+    while (queue.length > 0) {
+      const { json, parentKey } = queue.shift()!;
+      const processed = this.meritProcessor.processMerit(json, pcData);
+      if (parentKey) {
+        processed.parentMeritKey = parentKey;
+      }
+
+      const childMerits = this.extractSecondaryMeritDefs(processed);
+      for (const childMerit of childMerits) {
+        queue.push({ json: childMerit, parentKey: processed.key });
+      }
+
+      const childVariationInputs = this.extractSecondaryVariationDefsFromMerit(processed, processed.key);
+      emittedVariations.push(...childVariationInputs);
+
+      merits.push(processed);
+    }
+
+    return { merits, emittedVariations };
+  }
+
+  private extractSecondaryMeritDefs(merit: ProcessedMerit): MeritJSON[] {
+    const defs = (merit as Record<string, unknown>).secondaryMerits;
+    delete (merit as Record<string, unknown>).secondaryMerits;
+    if (!Array.isArray(defs)) {
+      return [];
+    }
+    return defs.map((def) => this.cloneAdvantageJson(def));
+  }
+
+  private extractSecondaryVariationDefsFromMerit(
+    merit: ProcessedMerit,
+    parentKey: string
+  ): VariationInput[] {
+    const defs = (merit as Record<string, unknown>).secondaryVariations;
+    delete (merit as Record<string, unknown>).secondaryVariations;
+    if (!Array.isArray(defs)) {
+      return [];
+    }
+    return defs.map((def) => ({
+      variation: this.cloneAdvantageJson(def),
+      parentMeritKey: parentKey,
+      requireContext: true
+    }));
+  }
+
+  private processVariationForest(
+    inputs: VariationInput[],
+    pcData: PCSheetData
+  ): ProcessedVariation[] {
+    const results: ProcessedVariation[] = [];
+    for (const input of inputs) {
+      results.push(...this.processVariationNode(input, pcData));
+    }
+    return results;
+  }
+
+  private processVariationNode(
+    input: VariationInput,
+    pcData: PCSheetData
+  ): ProcessedVariation[] {
+    const clone = this.cloneAdvantageJson(input.variation);
+    if (!clone.entangledScar && input.inheritedScar) {
+      clone.entangledScar = input.inheritedScar;
+    }
+    if (!clone.type && input.inheritedType) {
+      clone.type = input.inheritedType;
+    }
+    if (input.requireContext && !clone.entangledScar && !clone.type) {
+      throw new Error(
+        `Secondary variation "${clone.key ?? "unknown"}" must define either "entangledScar" or "type".`
+      );
+    }
+
+    const processed = this.variationProcessor.processVariation(clone, pcData);
+
+    if (input.parentVariationKey) {
+      processed.parentVariationKey = input.parentVariationKey;
+    }
+    if (input.parentMeritKey) {
+      processed.parentMeritKey = input.parentMeritKey;
+    }
+
+    const childInputs = this.extractSecondaryVariationInputs(
+      processed,
+      processed.parentMeritKey
+    );
+
+    const descendants = childInputs.flatMap((childInput) => this.processVariationNode(childInput, pcData));
+    return [processed, ...descendants];
+  }
+
+  private extractSecondaryVariationInputs(
+    variation: ProcessedVariation,
+    parentMeritKey?: string
+  ): VariationInput[] {
+    const defs = this.extractSecondaryVariationDefs(variation);
+    if (defs.length === 0) {
+      return [];
+    }
+    const inheritedScar = typeof variation.entangledScar === "string"
+      ? variation.entangledScar
+      : undefined;
+    const inheritedType = typeof (variation as Record<string, unknown>).type === "string"
+      ? (variation as Record<string, string>).type as VariationCategory
+      : undefined;
+
+    return defs.map((def) => ({
+      variation: def,
+      parentVariationKey: variation.key,
+      parentMeritKey,
+      inheritedScar,
+      inheritedType,
+      requireContext: true
+    }));
+  }
+
+  private extractSecondaryVariationDefs(variation: ProcessedVariation): VariationJSON[] {
+    const defs = (variation as Record<string, unknown>).secondaryVariations;
+    delete (variation as Record<string, unknown>).secondaryVariations;
+    if (!Array.isArray(defs)) {
+      return [];
+    }
+    return defs.map((def) => this.cloneAdvantageJson(def));
+  }
+
+  private cloneAdvantageJson<T>(value: T): T {
+    return JSON.parse(JSON.stringify(value)) as T;
   }
 
   /**

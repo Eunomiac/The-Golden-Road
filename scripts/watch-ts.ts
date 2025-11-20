@@ -11,6 +11,9 @@ import * as http from "http";
 // Resolve and normalize paths
 const tsSourceDir: string = path.resolve("wiki-src/ts");
 const jsOutputDir: string = path.resolve("wiki/scripts");
+const additionalTsDirs: string[] = [
+  path.resolve("scripts")
+];
 
 /**
  * Trigger BrowserSync reload via HTTP API or fallback to trigger file
@@ -56,6 +59,9 @@ function findTsFiles(dir: string): string[] {
       const fullPath: string = path.join(dir, entry);
       const stat = fs.statSync(fullPath);
       if (stat.isDirectory()) {
+        if (entry === "node_modules") {
+          continue;
+        }
         results.push(...findTsFiles(fullPath));
       } else if (fullPath.endsWith(".ts") && !fullPath.endsWith(".d.ts")) {
         results.push(fullPath);
@@ -78,13 +84,17 @@ function getJsPath(tsPath: string): string {
 
 // Find all TypeScript source files
 let tsFiles: string[] = findTsFiles(tsSourceDir);
+let additionalTsFiles: string[] = collectAdditionalTsFiles();
 // eslint-disable-next-line no-console
-console.log(`[TS] Found ${tsFiles.length} TypeScript files to watch`);
+console.log(`[TS] Found ${tsFiles.length} TypeScript files in ${path.relative(process.cwd(), tsSourceDir)} to watch`);
+// eslint-disable-next-line no-console
+console.log(`[TS] Found ${additionalTsFiles.length} additional TypeScript files to watch across ${additionalTsDirs.length} directories`);
 
 // Store file modification times for TypeScript source files
 const tsFileTimestamps: Map<string, number> = new Map();
 // Store file modification times for compiled JavaScript files
 const jsFileTimestamps: Map<string, number> = new Map();
+const additionalTsFileTimestamps: Map<string, number> = new Map();
 
 /**
  * Update timestamps for all watched files
@@ -112,6 +122,16 @@ function updateTimestamps(): void {
       // File might not exist yet
     }
   }
+
+  // Update additional TS file timestamps
+  for (const tsPath of additionalTsFiles) {
+    try {
+      const stats = fs.statSync(tsPath);
+      additionalTsFileTimestamps.set(tsPath, stats.mtimeMs);
+    } catch {
+      // ignore
+    }
+  }
 }
 
 // Initial timestamp check
@@ -120,6 +140,7 @@ updateTimestamps();
 // Manual polling loop - check file modification times every 500ms
 setInterval(() => {
   let hasChanges: boolean = false;
+  let shouldReload: boolean = false;
 
   // Check for new TypeScript files
   const currentTsFiles: string[] = findTsFiles(tsSourceDir);
@@ -145,6 +166,7 @@ setInterval(() => {
           // eslint-disable-next-line no-console
           console.log(`[TS] Detected TypeScript source change: ${path.relative(process.cwd(), tsPath)}`);
           hasChanges = true;
+          shouldReload = true;
         }
       }
     } catch {
@@ -158,6 +180,7 @@ setInterval(() => {
         // eslint-disable-next-line no-console
         console.log(`[TS] Detected deleted TypeScript file: ${path.relative(process.cwd(), tsPath)}`);
         hasChanges = true;
+        shouldReload = true;
       }
     }
   }
@@ -176,9 +199,7 @@ setInterval(() => {
           if (lastMtime !== undefined) {
             // eslint-disable-next-line no-console
             console.log(`[TS] Detected compiled JavaScript change: ${path.relative(process.cwd(), jsPath)}`);
-            // eslint-disable-next-line no-console
-            console.log(`[TS] Triggering BrowserSync reload...`);
-            triggerBrowserSyncReload();
+            shouldReload = true;
           }
         }
       }
@@ -187,9 +208,54 @@ setInterval(() => {
     }
   }
 
+  // Check additional TypeScript directories
+  const currentAdditionalFiles: string[] = collectAdditionalTsFiles();
+  for (const tsPath of currentAdditionalFiles) {
+    if (!additionalTsFiles.includes(tsPath)) {
+      // eslint-disable-next-line no-console
+      console.log(`[TS] Detected new TypeScript file: ${path.relative(process.cwd(), tsPath)}`);
+      additionalTsFiles.push(tsPath);
+      hasChanges = true;
+    }
+  }
+
+  for (const tsPath of additionalTsFiles.slice()) {
+    try {
+      const stats = fs.statSync(tsPath);
+      const currentMtime: number = stats.mtimeMs;
+      const lastMtime: number | undefined = additionalTsFileTimestamps.get(tsPath);
+
+      if (lastMtime === undefined || currentMtime > lastMtime) {
+        additionalTsFileTimestamps.set(tsPath, currentMtime);
+        if (lastMtime !== undefined) {
+          // eslint-disable-next-line no-console
+          console.log(`[TS] Detected TypeScript change: ${path.relative(process.cwd(), tsPath)}`);
+          hasChanges = true;
+          shouldReload = true;
+        }
+      }
+    } catch {
+      const index = additionalTsFiles.indexOf(tsPath);
+      if (index > -1) {
+        additionalTsFiles.splice(index, 1);
+        additionalTsFileTimestamps.delete(tsPath);
+        // eslint-disable-next-line no-console
+        console.log(`[TS] Detected deleted TypeScript file: ${path.relative(process.cwd(), tsPath)}`);
+        hasChanges = true;
+        shouldReload = true;
+      }
+    }
+  }
+
   // Update timestamps if there were changes
   if (hasChanges) {
     updateTimestamps();
+  }
+
+  if (shouldReload) {
+    // eslint-disable-next-line no-console
+    console.log("[TS] Triggering BrowserSync reload...");
+    triggerBrowserSyncReload();
   }
 }, 500); // Poll every 500ms
 
@@ -197,6 +263,8 @@ setInterval(() => {
 console.log(`[TS] Watching TypeScript files in ${path.relative(process.cwd(), tsSourceDir)}`);
 // eslint-disable-next-line no-console
 console.log(`[TS] Monitoring compiled output in ${path.relative(process.cwd(), jsOutputDir)}`);
+// eslint-disable-next-line no-console
+console.log(`[TS] Additional watch directories: ${additionalTsDirs.map((dir) => path.relative(process.cwd(), dir)).join(", ")}`);
 
 // Keep process alive - prevent exit
 process.on("unhandledRejection", (reason: unknown) => {
@@ -211,3 +279,11 @@ process.on("uncaughtException", (error: Error) => {
 });
 
 // Process stays alive via setInterval polling loop
+
+function collectAdditionalTsFiles(): string[] {
+  const files = new Set<string>();
+  for (const dir of additionalTsDirs) {
+    findTsFiles(dir).forEach((file) => files.add(file));
+  }
+  return Array.from(files);
+}

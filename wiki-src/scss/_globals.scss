@@ -53,6 +53,7 @@
     display: inline-block;
     flex-basis: var(--dotline-size);
     height: var(--dotline-size);
+    width: var(--dotline-size);
     vertical-align: middle;
     box-sizing: border-box;
     flex-shrink: 1;
@@ -115,4 +116,11 @@
       content: ",";
     }
   }
+}
+
+strong.super-strong {
+  background: #141414;
+  color: #ff7676;
+  padding: 0 8px;
+  border-radius: 4px;
 }
