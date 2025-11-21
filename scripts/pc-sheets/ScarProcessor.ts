@@ -1,7 +1,7 @@
 import type { PCSheetData } from "./types";
 import type { ProcessingContext } from "./curly-notations/ProcessingContext";
 import type { ProcessedScar, ScarJSON, ScarValue } from "./shared/advantage/types";
-import { scarPurchaseStrategy } from "./shared/advantage/helpers";
+import { buildAdvantageDotline, hasDotlineStructure, scarPurchaseStrategy } from "./shared/advantage/helpers";
 import { BaseAdvantageProcessor } from "./shared/advantage/BaseAdvantageProcessor";
 
 export class ScarProcessor extends BaseAdvantageProcessor<ScarJSON> {
@@ -22,6 +22,7 @@ export class ScarProcessor extends BaseAdvantageProcessor<ScarJSON> {
     const mergedScar = prepared.mergedAdvantage;
     const purchaseLevel = prepared.purchaseLevel;
     const finalLevel = prepared.adjustedValue;
+    const replacements = prepared.regexpReplacements;
     if (selectedDeviationKeys.length > 0) {
       mergedScar.selectedDeviations = selectedDeviationKeys;
     }
@@ -33,12 +34,14 @@ export class ScarProcessor extends BaseAdvantageProcessor<ScarJSON> {
       strict: true
     };
 
-    const effect = this.textRenderer.process(prepared.effectTemplate, processingContext, { prefix: "Effect:" }) ?? "";
+    let effect = this.textRenderer.process(prepared.effectTemplate, processingContext, { prefix: "Effect:" }) ?? "";
+    effect = this.applyRegexpReplacements(effect, replacements, processingContext) ?? effect;
 
     const narrativeSource = this.pickString(scarJson.narrative, mergedScar.narrative);
-    const narrative = narrativeSource
+    let narrative = narrativeSource
       ? this.textRenderer.process(narrativeSource, processingContext)
       : undefined;
+    narrative = this.applyRegexpReplacements(narrative, replacements, processingContext);
 
     const displaySource = this.pickString(
       scarJson.display,
@@ -54,6 +57,14 @@ export class ScarProcessor extends BaseAdvantageProcessor<ScarJSON> {
       mergedScar.type as "physical" | "mental" | "social" | undefined
     ) ?? "physical";
     const scarEntangled = (scarJson as { entangledVariations?: string[] }).entangledVariations;
+    const activation = this.pickString(
+      (scarJson as { activation?: string }).activation,
+      typeof mergedScar.activation === "string" ? (mergedScar.activation as string) : undefined
+    ) ?? "unknown";
+    const dotlineSource = typeof scarJson.value !== "undefined"
+      ? scarJson.value
+      : (hasDotlineStructure(prepared.rawValue) ? prepared.rawValue : undefined);
+    const valueDots = buildAdvantageDotline(dotlineSource ?? finalLevel);
 
     return {
       key: scarJson.key,
@@ -62,10 +73,12 @@ export class ScarProcessor extends BaseAdvantageProcessor<ScarJSON> {
       narrative,
       effect,
       purchaseLevel: finalLevel,
+      ...(valueDots ? { valueDots } : {}),
       entangledVariations: scarEntangled ??
         (Array.isArray(mergedScar.entangledVariations)
           ? (mergedScar.entangledVariations as string[])
           : undefined),
+      activation,
       source: (scarJson.source ?? mergedScar.source) as { book: string; page: number } | undefined
     };
   }

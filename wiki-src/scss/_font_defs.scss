@@ -124,3 +124,68 @@
   font-weight: 700;
   font-display: swap;
 }
+
+/* Tilt & Condition Card Fonts */
+
+@font-face {
+  font-family: "Chromoxome";
+  src: url("../assets/fonts/Chromoxome.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "FuturaPT";
+  src: url("../assets/fonts/FuturaPT Bold.otf") format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GoudyOldStyle";
+  src: url("../assets/fonts/GoudyOldStyle Reg.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GoudyOldStyle";
+  src: url("../assets/fonts/GoudyOldStyle Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GoudyOldStyle";
+  src: url("../assets/fonts/GoudyOldStyle Reg Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GoudyOldStyle";
+  src: url("../assets/fonts/GoudyOldStyle Med.ttf") format("truetype");
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GoudyOldStyle";
+  src: url("../assets/fonts/GoudyOldStyle Bold Italic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Rulebook Fonts */
+
+@font-face {
+  font-family: "GFHaldaSmashed";
+  src: url("../assets/fonts/GFHaldaSmashed.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GFHaldaSmashed";
+  src: url("../assets/fonts/GFHaldaSmashed.ttf") format("truetype");
+  font-display: swap;
+}

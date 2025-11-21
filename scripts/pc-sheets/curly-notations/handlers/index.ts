@@ -13,6 +13,7 @@ export { DisplayHandler } from "./DisplayHandler";
 export { InlineListHandler } from "./InlineListHandler";
 export { RawHandler } from "./RawHandler";
 export { IfTrueHandler, IfFalseHandler } from "./IfHandler";
+export { IfNaHandler } from "./IfNaHandler";
 export { IfInHandler, IfNotInHandler } from "./IfInHandler";
 export { SwitchHandler } from "./SwitchHandler";
 export { OptionListHandler } from "./OptionListHandler";

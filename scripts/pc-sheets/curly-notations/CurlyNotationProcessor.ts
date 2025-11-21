@@ -22,6 +22,7 @@ import {
   RawHandler,
   IfTrueHandler,
   IfFalseHandler,
+  IfNaHandler,
   IfInHandler,
   IfNotInHandler,
   SwitchHandler,
@@ -460,6 +461,7 @@ export class CurlyNotationProcessor {
     this.registerNotation("RAW", new RawHandler(this.referenceResolver));
     this.registerNotation("IFTRUE", new IfTrueHandler());
     this.registerNotation("IFFALSE", new IfFalseHandler());
+    this.registerNotation("IFNA", new IfNaHandler());
     this.registerNotation("IFIN", new IfInHandler(this.referenceResolver));
     this.registerNotation("IFNOTIN", new IfNotInHandler(this.referenceResolver));
     this.registerNotation("SWITCH", new SwitchHandler(this.referenceResolver));

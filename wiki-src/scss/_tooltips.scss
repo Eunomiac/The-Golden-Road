@@ -22,8 +22,8 @@
   }
 
   // Show tooltip on hover with delay, or when hovering the tooltip itself
-  &:hover + .tooltip,
-  &:focus-visible + .tooltip {
+  &:hover+.tooltip,
+  &:focus-visible+.tooltip {
     visibility: visible;
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -136,7 +136,7 @@
       border: none;
       background: none;
 
-      + .tooltip-subtitle {
+      +.tooltip-subtitle {
         margin-top: -8px;
       }
     }
@@ -156,5 +156,129 @@
   .trait-desc-general {
     margin: 16px 16px;
     font-style: italic;
+  }
+
+  &.tilt-card,
+  &.condition-card,
+  &.rules-card {
+    background: white;
+    color: black;
+    min-width: unset;
+    width: 480px;
+    padding: 0;
+    border-radius: 20px;
+    /* outline: 2px solid magenta; */
+    overflow: hidden;
+
+    .tooltip-title {
+      color: white;
+      font-family: "Chromoxome";
+      font-size: 48px;
+      line-height: 48px;
+      font-weight: normal;
+      text-shadow:
+        0 0 2px black,
+        0 0 2px black,
+        0 0 2px black,
+        0 0 2px black,
+        0 0 2px black,
+        0 0 2px black,
+        0 0 2px black,
+        0 0 2px black,
+        0 0 2px black,
+        0 0 2px black,
+        0 0 2px black,
+        0 0 2px black,
+        0 0 2px black,
+        0 0 2px black;
+      background: url("../assets/images/backgrounds/tilt-condition-header.webp") no-repeat center center;
+      background-size: 100% auto;
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+
+    .tooltip-subtitle {
+      font-family: "FuturaPT";
+      font-weight: normal;
+      font-size: 24px;
+      letter-spacing: 0px;
+    }
+
+    &.rules-card {
+      padding: 10px;
+      font-size: 18px;
+      filter: drop-shadow(0px 0px 4px rgb(0, 0, 0)) drop-shadow(8px 8px 4px rgb(0, 0, 0));
+      border-radius: 0;
+
+      strong {
+        font-weight: 500;
+      }
+
+      .tooltip-title {
+        background: transparent;
+        font-family: "GFHaldaSmashed";
+        text-transform: unset;
+        text-shadow: none;
+        color: #141414;
+        font-size: 36px;
+        letter-spacing: 0;
+        font-weight: normal;
+        text-align: left;
+        margin: 0px 0px 0px 0px;
+      }
+
+      .tooltip-subtitle {
+        font-family: GoudyOldStyle;
+        text-transform: unset;
+        text-align: left;
+        font-weight: 500;
+        font-size: 22px;
+        margin: 6px 0px 12px 0px;
+        letter-spacing: 1px;
+      }
+
+      .tooltip-block {
+        padding: 0;
+      }
+    }
+
+    .tooltip-block {
+      font-family: "GoudyOldStyle";
+      font-size: 19px;
+      text-indent: 25px;
+      hyphens: auto;
+      padding: 0 10px;
+    }
+
+    ul, ol {
+      font-family: GoudyOldStyle;
+      margin: 10px 0px;
+      padding-left: 0px;
+      list-style-position: inside;
+
+      li {
+        padding: 5px 0px;
+        margin: 5px 0px;
+        padding-left: 45px;
+        text-indent: -26px;
+
+        &:nth-child(2n - 1) {
+          background-color: rgba(0, 0, 0, 0.1);
+        }
+      }
+    }
+
+    .source-citation {
+      text-align: right;
+      width: 100%;
+      margin-right: 20px;
+      display: block;
+
+      &::before,
+      &::after {
+        margin-right: 0;
+        margin-left: 0;
+      }
+    }
   }
 }

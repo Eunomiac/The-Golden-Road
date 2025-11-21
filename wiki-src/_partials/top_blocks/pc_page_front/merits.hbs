@@ -1,52 +1,42 @@
 {{!-- Variables to Pass (from PCSheetData):
-- `merits`: ProcessedMerit[] array, each containing:
-  - `key`: string
-  - `name`: string
-  - `value`: number (purchased level/dots)
-  - `narrative`: string (HTML content)
-  - `effect`: string (HTML content - processed)
-  - `levels`: Record<number, LevelData> (for style-type merits)
-  - `tags`: string[] (includes "style" for style-type merits)
-  - `source`: { book: string, page: number }
-  - Other properties...
- --}}
+- `merits`: ProcessedMerit[] array (already processed and formatted)
+--}}
 
-<div class="block top-block merits-block">
-  <div class="form-label form-label-title">Merits:</div>
-  {{#each merits}}
-    <div class="merit-item{{#if cssClasses}} {{cssClasses}}{{/if}}" data-merit-key="{{key}}">
+{{#*inline "meritCard"}}
+  {{#with this as |entry|}}
+    <div class="merit-item{{#if isSub}} sub-merit{{/if}}{{#if entry.cssClasses}} {{entry.cssClasses}}{{/if}}" data-merit-key="{{entry.key}}">
       <div class="merit-header" role="button" tabindex="0" aria-expanded="false">
         <div class="merit-name-row">
-          <span class="merit-name">{{name}}</span>
-          {{#if value}}
+          <span class="merit-name">{{entry.name}}</span>
+          {{#if entry.value}}
             <span class="merit-value dotline">
-              {{#each (range 1 value)}}
+              {{#each (range 1 entry.value)}}
                 <span class="dot full-dot"></span>
               {{/each}}
             </span>
           {{/if}}
         </div>
-        {{#if narrative}}
+        {{#if entry.narrative}}
           <div class="merit-narrative">
-            {{{narrative}}}
+            {{{entry.narrative}}}
           </div>
         {{/if}}
       </div>
       <div class="merit-content" style="display: none;">
-        {{#if effect}}
+        {{#if entry.effect}}
           <div class="merit-effect">
-            {{{inlineLabel effect "Effect:"}}}
+            {{{inlineLabel entry.effect "Effect:"}}}
           </div>
         {{/if}}
-        {{#if drawback}}
+        {{#if entry.drawback}}
           <div class="merit-drawback">
-            {{{inlineLabel drawback "Drawback:"}}}
+            {{{inlineLabel entry.drawback "Drawback:"}}}
           </div>
         {{/if}}
-        {{#if levels}}
+        {{#if entry.levels}}
           <ul class="merit-levels">
-            {{#each (range 1 value)}}
-              {{#with (lookup ../levels (toString this))}}
+            {{#each (range 1 entry.value)}}
+              {{#with (lookup entry.levels (toString this))}}
                 <li class="merit-level">
                   <div class="merit-level-effect">
                     {{{inlineLabel effect (meritLevelLabel name ../this)}}}
@@ -61,154 +51,285 @@
             {{/each}}
           </ul>
         {{/if}}
-        {{#if source}}
+        {{#if entry.source}}
           <div class="merit-source">
-            {{> _partials/source-citation source=source}}
+            {{> _partials/source-citation source=entry.source}}
           </div>
         {{/if}}
       </div>
+      {{#if entry.secondaryVariations}}
+        <div class="merit-children merit-children--variations" data-variation-group>
+          {{#each entry.secondaryVariations}}
+            {{> _partials/advantage/variation-card variation=this isSub=true}}
+          {{/each}}
+        </div>
+      {{/if}}
+      {{#if entry.secondaryMerits}}
+        <div class="merit-children merit-children--merits">
+          {{#each entry.secondaryMerits}}
+            {{> meritCard this isSub=true}}
+          {{/each}}
+        </div>
+      {{/if}}
     </div>
-  {{/each}}
+  {{/with}}
+{{/inline}}
+
+<div class="block top-block merits-block">
+  <div class="form-label form-label-title">Merits:</div>
+  {{#if merits}}
+    {{#each merits}}
+      {{> meritCard this}}
+    {{/each}}
+  {{else}}
+    <p class="merit-empty">No recorded merits.</p>
+  {{/if}}
 </div>
 
 <script type="module">
   import { gsap } from "gsap";
 
-  // Handle merit expansion/collapse with GSAP animations
-  const meritItems = document.querySelectorAll('.merit-item');
+  const meritItems = document.querySelectorAll(".merit-item");
   let currentlyOpenItem = null;
 
-  meritItems.forEach(meritItem => {
-    const header = meritItem.querySelector('.merit-header');
-    const content = meritItem.querySelector('.merit-content');
-    const narrative = meritItem.querySelector('.merit-narrative');
+  const closePanel = (item) => {
+    const itemHeader = item.querySelector(".merit-header");
+    const itemContent = item.querySelector(".merit-content");
+    const itemNarrative = item.querySelector(".merit-narrative");
 
-    if (!header || !content) return;
+    if (!itemHeader || !itemContent) {
+      return;
+    }
 
-    const openPanel = () => {
-      // Close any currently open panel
-      if (currentlyOpenItem && currentlyOpenItem !== meritItem) {
-        closePanel(currentlyOpenItem);
+    itemHeader.setAttribute("aria-expanded", "false");
+
+    const contentHeight = itemContent.offsetHeight;
+    itemContent.style.height = `${contentHeight}px`;
+    itemContent.style.overflow = "hidden";
+
+    const timeline = gsap.timeline({
+      onComplete: () => {
+        itemContent.style.display = "none";
+        itemContent.style.height = "";
+        itemContent.style.overflow = "";
       }
+    });
 
-      // Set as currently open
-      currentlyOpenItem = meritItem;
-      header.setAttribute('aria-expanded', 'true');
+    timeline.to(itemContent, {
+      opacity: 0,
+      height: 0,
+      duration: 0.3,
+      ease: "power2.in"
+    });
 
-      // Show content (hidden by default) and set initial state
-      content.style.display = 'block';
-      content.style.opacity = '0';
-      content.style.height = '0';
-      content.style.overflow = 'hidden';
+    if (itemNarrative) {
+      itemNarrative.style.display = "block";
+      itemNarrative.style.opacity = "0";
+      itemNarrative.style.height = "0";
+      itemNarrative.style.overflow = "hidden";
 
-      // Create timeline for opening animation
-      const tl = gsap.timeline();
-
-      // Animate narrative out (fade + height collapse) if it exists
-      if (narrative) {
-        const narrativeHeight = narrative.offsetHeight;
-        narrative.style.height = narrativeHeight + 'px';
-        narrative.style.overflow = 'hidden';
-
-        tl.to(narrative, {
-          opacity: 0,
-          height: 0,
-          duration: 0.3,
-          ease: 'power2.in',
-          onComplete: () => {
-            narrative.style.display = 'none';
-            narrative.style.height = '';
-            narrative.style.overflow = '';
-          }
-        });
-      }
-
-      // Animate content in (height expand + fade)
-      const contentHeight = content.scrollHeight;
-      tl.to(content, {
+      const narrativeHeight = itemNarrative.scrollHeight;
+      timeline.to(itemNarrative, {
         opacity: 1,
-        height: contentHeight,
+        height: narrativeHeight,
         duration: 0.4,
-        ease: 'power2.out',
+        ease: "power2.out",
         onComplete: () => {
-          content.style.height = 'auto';
-          content.style.overflow = '';
+          itemNarrative.style.height = "auto";
+          itemNarrative.style.overflow = "";
         }
-      }, narrative ? '-=0.1' : 0);
-    };
+      }, "-=0.1");
+    }
 
-    const closePanel = (item) => {
-      const itemHeader = item.querySelector('.merit-header');
-      const itemContent = item.querySelector('.merit-content');
-      const itemNarrative = item.querySelector('.merit-narrative');
+    if (currentlyOpenItem === item) {
+      currentlyOpenItem = null;
+    }
+  };
 
-      if (!itemHeader || !itemContent) return;
+  const openPanel = (meritItem, header, content, narrative) => {
+    if (currentlyOpenItem && currentlyOpenItem !== meritItem) {
+      closePanel(currentlyOpenItem);
+    }
 
-      itemHeader.setAttribute('aria-expanded', 'false');
+    currentlyOpenItem = meritItem;
+    header.setAttribute("aria-expanded", "true");
 
-      // Set up content for height animation
-      const contentHeight = itemContent.offsetHeight;
-      itemContent.style.height = contentHeight + 'px';
-      itemContent.style.overflow = 'hidden';
+    content.style.display = "block";
+    content.style.opacity = "0";
+    content.style.height = "0";
+    content.style.overflow = "hidden";
 
-      // Create timeline for closing animation
-      const tl = gsap.timeline({
-        onComplete: () => {
-          itemContent.style.display = 'none';
-          itemContent.style.height = '';
-          itemContent.style.overflow = '';
-        }
-      });
+    const timeline = gsap.timeline();
 
-      // Animate content out (height collapse + fade)
-      tl.to(itemContent, {
+    if (narrative) {
+      const narrativeHeight = narrative.offsetHeight;
+      narrative.style.height = `${narrativeHeight}px`;
+      narrative.style.overflow = "hidden";
+
+      timeline.to(narrative, {
         opacity: 0,
         height: 0,
         duration: 0.3,
-        ease: 'power2.in'
+        ease: "power2.in",
+        onComplete: () => {
+          narrative.style.display = "none";
+          narrative.style.height = "";
+          narrative.style.overflow = "";
+        }
       });
+    }
 
-      // Animate narrative in (height expand + fade) if it exists
-      if (itemNarrative) {
-        itemNarrative.style.display = 'block';
-        itemNarrative.style.opacity = '0';
-        itemNarrative.style.height = '0';
-        itemNarrative.style.overflow = 'hidden';
-
-        const narrativeHeight = itemNarrative.scrollHeight;
-        tl.to(itemNarrative, {
-          opacity: 1,
-          height: narrativeHeight,
-          duration: 0.4,
-          ease: 'power2.out',
-          onComplete: () => {
-            itemNarrative.style.height = 'auto';
-            itemNarrative.style.overflow = '';
-          }
-        }, '-=0.1');
+    const contentHeight = content.scrollHeight;
+    timeline.to(content, {
+      opacity: 1,
+      height: contentHeight,
+      duration: 0.4,
+      ease: "power2.out",
+      onComplete: () => {
+        content.style.height = "auto";
+        content.style.overflow = "";
       }
+    }, narrative ? "-=0.1" : 0);
+  };
 
-      // Clear currently open if this was it
-      if (currentlyOpenItem === item) {
-        currentlyOpenItem = null;
-      }
-    };
+  meritItems.forEach((meritItem) => {
+    const header = meritItem.querySelector(".merit-header");
+    const content = meritItem.querySelector(".merit-content");
+    const narrative = meritItem.querySelector(".merit-narrative");
+
+    if (!header || !content) {
+      return;
+    }
 
     const toggleExpanded = () => {
-      const isExpanded = header.getAttribute('aria-expanded') === 'true';
+      const isExpanded = header.getAttribute("aria-expanded") === "true";
       if (isExpanded) {
         closePanel(meritItem);
       } else {
-        openPanel();
+        openPanel(meritItem, header, content, narrative);
       }
     };
 
-    header.addEventListener('click', toggleExpanded);
-    header.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
+    header.addEventListener("click", toggleExpanded);
+    header.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
         toggleExpanded();
       }
     });
   });
+
+  const setupVariationCard = (card) => {
+    const header = card.querySelector(".variation-header");
+    const content = card.querySelector(".variation-content");
+    const narrative = card.querySelector(".variation-narrative");
+
+    if (!header || !content) {
+      return;
+    }
+
+    const closeVariation = () => {
+      header.setAttribute("aria-expanded", "false");
+
+      const contentHeight = content.offsetHeight;
+      content.style.height = `${contentHeight}px`;
+      content.style.overflow = "hidden";
+
+      const timeline = gsap.timeline({
+        onComplete: () => {
+          content.style.display = "none";
+          content.style.height = "";
+          content.style.overflow = "";
+        }
+      });
+
+      timeline.to(content, {
+        opacity: 0,
+        height: 0,
+        duration: 0.3,
+        ease: "power2.in"
+      });
+
+      if (narrative) {
+        narrative.style.display = "block";
+        narrative.style.opacity = "0";
+        narrative.style.height = "0";
+        narrative.style.overflow = "hidden";
+
+        const narrativeHeight = narrative.scrollHeight;
+        timeline.to(narrative, {
+          opacity: 1,
+          height: narrativeHeight,
+          duration: 0.4,
+          ease: "power2.out",
+          onComplete: () => {
+            narrative.style.height = "auto";
+            narrative.style.overflow = "";
+          }
+        }, "-=0.1");
+      }
+    };
+
+    const openVariation = () => {
+      header.setAttribute("aria-expanded", "true");
+
+      content.style.display = "block";
+      content.style.opacity = "0";
+      content.style.height = "0";
+      content.style.overflow = "hidden";
+
+      const timeline = gsap.timeline();
+
+      if (narrative) {
+        const narrativeHeight = narrative.offsetHeight;
+        narrative.style.height = `${narrativeHeight}px`;
+        narrative.style.overflow = "hidden";
+
+        timeline.to(narrative, {
+          opacity: 0,
+          height: 0,
+          duration: 0.3,
+          ease: "power2.in",
+          onComplete: () => {
+            narrative.style.display = "none";
+            narrative.style.height = "";
+            narrative.style.overflow = "";
+          }
+        });
+      }
+
+      const contentHeight = content.scrollHeight;
+      timeline.to(content, {
+        opacity: 1,
+        height: contentHeight,
+        duration: 0.4,
+        ease: "power2.out",
+        onComplete: () => {
+          content.style.height = "auto";
+          content.style.overflow = "";
+        }
+      }, narrative ? "-=0.1" : 0);
+    };
+
+    const toggleVariation = () => {
+      const isExpanded = header.getAttribute("aria-expanded") === "true";
+      if (isExpanded) {
+        closeVariation();
+      } else {
+        openVariation();
+      }
+    };
+
+    header.addEventListener("click", toggleVariation);
+    header.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        toggleVariation();
+      }
+    });
+  };
+
+  document
+    .querySelectorAll(".merits-block .variation-entry")
+    .forEach((card) => setupVariationCard(card));
 </script>

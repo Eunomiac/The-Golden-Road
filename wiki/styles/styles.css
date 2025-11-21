@@ -112,6 +112,60 @@
   font-weight: 700;
   font-display: swap;
 }
+/* Tilt & Condition Card Fonts */
+@font-face {
+  font-family: "Chromoxome";
+  src: url("../assets/fonts/Chromoxome.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: "FuturaPT";
+  src: url("../assets/fonts/FuturaPT Bold.otf") format("opentype");
+  font-display: swap;
+}
+@font-face {
+  font-family: "GoudyOldStyle";
+  src: url("../assets/fonts/GoudyOldStyle Reg.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "GoudyOldStyle";
+  src: url("../assets/fonts/GoudyOldStyle Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "GoudyOldStyle";
+  src: url("../assets/fonts/GoudyOldStyle Reg Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "GoudyOldStyle";
+  src: url("../assets/fonts/GoudyOldStyle Med.ttf") format("truetype");
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "GoudyOldStyle";
+  src: url("../assets/fonts/GoudyOldStyle Bold Italic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+/* Rulebook Fonts */
+@font-face {
+  font-family: "GFHaldaSmashed";
+  src: url("../assets/fonts/GFHaldaSmashed.ttf") format("truetype");
+  font-display: swap;
+}
+@font-face {
+  font-family: "GFHaldaSmashed";
+  src: url("../assets/fonts/GFHaldaSmashed.ttf") format("truetype");
+  font-display: swap;
+}
 html body, .header-text-general, .form-label, .header-text-title, .body-text-bold, .body-text-black, .body-text-light {
   font-size: 14px;
   font-family: "Typewriter", serif;
@@ -506,6 +560,99 @@ strong.super-strong {
 .tooltip .trait-desc-general {
   margin: 16px 16px;
   font-style: italic;
+}
+.tooltip.tilt-card, .tooltip.condition-card, .tooltip.rules-card {
+  background: white;
+  color: black;
+  min-width: unset;
+  width: 480px;
+  padding: 0;
+  border-radius: 20px;
+  /* outline: 2px solid magenta; */
+  overflow: hidden;
+}
+.tooltip.tilt-card .tooltip-title, .tooltip.condition-card .tooltip-title, .tooltip.rules-card .tooltip-title {
+  color: white;
+  font-family: "Chromoxome";
+  font-size: 48px;
+  line-height: 48px;
+  font-weight: normal;
+  text-shadow: 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black;
+  background: url("../assets/images/backgrounds/tilt-condition-header.webp") no-repeat center center;
+  background-size: 100% auto;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+.tooltip.tilt-card .tooltip-subtitle, .tooltip.condition-card .tooltip-subtitle, .tooltip.rules-card .tooltip-subtitle {
+  font-family: "FuturaPT";
+  font-weight: normal;
+  font-size: 24px;
+  letter-spacing: 0px;
+}
+.tooltip.tilt-card.rules-card, .tooltip.condition-card.rules-card, .tooltip.rules-card.rules-card {
+  padding: 10px;
+  font-size: 18px;
+  filter: drop-shadow(0px 0px 4px rgb(0, 0, 0)) drop-shadow(8px 8px 4px rgb(0, 0, 0));
+  border-radius: 0;
+}
+.tooltip.tilt-card.rules-card strong, .tooltip.condition-card.rules-card strong, .tooltip.rules-card.rules-card strong {
+  font-weight: 500;
+}
+.tooltip.tilt-card.rules-card .tooltip-title, .tooltip.condition-card.rules-card .tooltip-title, .tooltip.rules-card.rules-card .tooltip-title {
+  background: transparent;
+  font-family: "GFHaldaSmashed";
+  text-transform: unset;
+  text-shadow: none;
+  color: #141414;
+  font-size: 36px;
+  letter-spacing: 0;
+  font-weight: normal;
+  text-align: left;
+  margin: 0px 0px 0px 0px;
+}
+.tooltip.tilt-card.rules-card .tooltip-subtitle, .tooltip.condition-card.rules-card .tooltip-subtitle, .tooltip.rules-card.rules-card .tooltip-subtitle {
+  font-family: GoudyOldStyle;
+  text-transform: unset;
+  text-align: left;
+  font-weight: 500;
+  font-size: 22px;
+  margin: 6px 0px 12px 0px;
+  letter-spacing: 1px;
+}
+.tooltip.tilt-card.rules-card .tooltip-block, .tooltip.condition-card.rules-card .tooltip-block, .tooltip.rules-card.rules-card .tooltip-block {
+  padding: 0;
+}
+.tooltip.tilt-card .tooltip-block, .tooltip.condition-card .tooltip-block, .tooltip.rules-card .tooltip-block {
+  font-family: "GoudyOldStyle";
+  font-size: 19px;
+  text-indent: 25px;
+  hyphens: auto;
+  padding: 0 10px;
+}
+.tooltip.tilt-card ul, .tooltip.tilt-card ol, .tooltip.condition-card ul, .tooltip.condition-card ol, .tooltip.rules-card ul, .tooltip.rules-card ol {
+  font-family: GoudyOldStyle;
+  margin: 10px 0px;
+  padding-left: 0px;
+  list-style-position: inside;
+}
+.tooltip.tilt-card ul li, .tooltip.tilt-card ol li, .tooltip.condition-card ul li, .tooltip.condition-card ol li, .tooltip.rules-card ul li, .tooltip.rules-card ol li {
+  padding: 5px 0px;
+  margin: 5px 0px;
+  padding-left: 45px;
+  text-indent: -26px;
+}
+.tooltip.tilt-card ul li:nth-child(2n-1), .tooltip.tilt-card ol li:nth-child(2n-1), .tooltip.condition-card ul li:nth-child(2n-1), .tooltip.condition-card ol li:nth-child(2n-1), .tooltip.rules-card ul li:nth-child(2n-1), .tooltip.rules-card ol li:nth-child(2n-1) {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.tooltip.tilt-card .source-citation, .tooltip.condition-card .source-citation, .tooltip.rules-card .source-citation {
+  text-align: right;
+  width: 100%;
+  margin-right: 20px;
+  display: block;
+}
+.tooltip.tilt-card .source-citation::before, .tooltip.tilt-card .source-citation::after, .tooltip.condition-card .source-citation::before, .tooltip.condition-card .source-citation::after, .tooltip.rules-card .source-citation::before, .tooltip.rules-card .source-citation::after {
+  margin-right: 0;
+  margin-left: 0;
 }
 
 /**
@@ -1550,7 +1697,7 @@ strong.super-strong {
   text-rendering: optimizeLegibility;
   font-size: 13px;
   background: #1B1A17;
-  padding: 8px;
+  padding: 4px 8px;
   margin: 0 24px;
   margin-top: -8px;
   position: relative;
@@ -1635,6 +1782,19 @@ strong.super-strong {
   margin-top: -16px;
   text-align: right;
 }
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-children {
+  margin: 0px 24px;
+  margin-top: 0;
+  padding-left: 24px;
+  border-left: 1px solid rgba(27, 26, 23, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+}
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-children .merit-item,
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-children .variation-entry {
+  margin: 0;
+}
 .page.pc-page[name=merits] .top-block.merits-block > .merit-item.sub-merit {
   margin-left: 32px;
   width: calc(100% - 32px);
@@ -1647,12 +1807,121 @@ strong.super-strong {
 .page.pc-page[name=merits] .top-block.merits-block > .merit-item.sub-merit .merit-header .merit-name-row .merit-value.dotline .dot {
   filter: none;
 }
+.page.pc-page[name=merits] .variation-entry {
+  margin: 12px 0;
+  border: 0;
+  box-shadow: none;
+  background: rgba(243, 239, 230, 0.08);
+}
+.page.pc-page[name=merits] .variation-entry.sub-advantage {
+  margin: 0 0 0 32px;
+  width: calc(100% - 32px);
+}
+.page.pc-page[name=merits] .variation-entry.sub-advantage .variation-header .variation-name-row {
+  padding-left: 0;
+  background: transparent;
+  color: #6B0F1A;
+}
+.page.pc-page[name=merits] .variation-entry.sub-advantage .variation-header .variation-name-row .variation-value.dotline .dot {
+  filter: none;
+}
+.page.pc-page[name=merits] .variation-entry.sub-advantage .variation-header .variation-narrative {
+  padding: 0 8px;
+}
+.page.pc-page[name=merits] .variation-header {
+  cursor: pointer;
+}
+.page.pc-page[name=merits] .variation-header .variation-name-row {
+  display: flex;
+  justify-content: stretch;
+  align-items: center;
+  gap: 8px;
+  background: url("../assets/images/backgrounds/red-header.webp") no-repeat center center;
+  background-size: 100% 100%;
+  font-size: 18px;
+  line-height: 20px;
+  font-family: "Repent", sans-serif;
+  text-transform: uppercase;
+  color: #F3EFE6;
+  padding: 4px 24px;
+  margin: 8px 0 4px 0;
+}
+.page.pc-page[name=merits] .variation-header .variation-name-row > * {
+  white-space: nowrap;
+}
+.page.pc-page[name=merits] .variation-header .variation-name-row .variation-name {
+  flex-grow: 1;
+}
+.page.pc-page[name=merits] .variation-header .variation-name-row .variation-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+.page.pc-page[name=merits] .variation-header .variation-name-row .variation-tier,
+.page.pc-page[name=merits] .variation-header .variation-name-row .variation-final {
+  font-family: "Repent", sans-serif;
+}
+.page.pc-page[name=merits] .variation-narrative {
+  font-size: 14px;
+  font-family: "Typewriter", serif;
+  font-kerning: normal;
+  color: #1B1A17;
+  line-height: 1.2;
+  text-rendering: optimizeLegibility;
+  font-size: 13px;
+  background: #1B1A17;
+  padding: 4px 8px;
+  margin: 0 24px;
+  margin-top: -8px;
+  position: relative;
+  z-index: -1;
+  color: #F3EFE6;
+  letter-spacing: 0.5px;
+  display: block;
+  text-wrap: pretty;
+  text-align: justify;
+  hyphens: auto;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+.page.pc-page[name=merits] .variation-narrative strong {
+  background: #F3EFE6;
+  color: #1B1A17;
+  padding: 0 4px;
+}
+.page.pc-page[name=merits] .variation-narrative p:first-child {
+  margin-top: 0;
+}
+.page.pc-page[name=merits] .variation-narrative p:last-child {
+  margin-bottom: 0;
+}
+.page.pc-page[name=merits] .variation-content {
+  hyphens: auto;
+  text-wrap: pretty;
+  text-align: justify;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  padding: 0 24px;
+}
+.page.pc-page[name=merits] .variation-content .variation-effect {
+  margin: 8px 0;
+}
+.page.pc-page[name=merits] .variation-source {
+  margin-top: -16px;
+  text-align: right;
+}
+.page.pc-page[name=merits] .variation-children {
+  margin: 0px 0 0 0;
+  padding-left: 24px;
+  border-left: 1px solid rgba(27, 26, 23, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+}
 
 .page.pc-page[name=deviation] {
   padding-top: 16px;
-}
-.page.pc-page[name=deviation] .top-block.deviation-block {
-  overflow: hidden;
 }
 .page.pc-page[name=deviation] .top-block.deviation-block .form-label-title {
   margin-bottom: 8px;
@@ -1670,7 +1939,7 @@ strong.super-strong {
   background: rgba(243, 239, 230, 0.08);
 }
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-entry.sub-advantage {
-  margin-left: 32px;
+  margin: 0 0 0 32px;
   width: calc(100% - 32px);
 }
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-entry.sub-advantage .scar-header .scar-title-row,
@@ -1696,6 +1965,15 @@ strong.super-strong {
   background: transparent;
   color: #1B1A17;
   font-style: italic;
+  padding: 0 8px;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-children {
+  margin: 0px 0 0 0;
+  padding-left: 24px;
+  border-left: 1px solid rgba(27, 26, 23, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
 }
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-header,
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-header {
@@ -1729,9 +2007,16 @@ strong.super-strong {
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-header .variation-name-row.scar-title-row,
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-header .scar-title-row.scar-title-row,
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row.scar-title-row {
+  position: relative;
   background: url("../assets/images/backgrounds/black-header.webp") no-repeat center center;
   color: red;
   background-size: 100% 100%;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row.scar-title-row .scar-name,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .variation-name-row.scar-title-row .scar-name,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .scar-title-row.scar-title-row .scar-name,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row.scar-title-row .scar-name {
+  text-indent: 20px;
 }
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .scar-activation-icon,
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .variation-activation-icon,
@@ -1742,6 +2027,49 @@ strong.super-strong {
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .scar-activation-icon,
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .variation-activation-icon {
   flex-grow: 0;
+  display: block;
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  background: #F3EFE6;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 15px;
+  border-radius: 20px;
+  outline: 2px solid #F3EFE6;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .scar-activation-icon.scar-activation-controlled,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .variation-activation-icon.scar-activation-controlled,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .variation-name-row .scar-activation-icon.scar-activation-controlled,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .variation-name-row .variation-activation-icon.scar-activation-controlled,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .scar-title-row .scar-activation-icon.scar-activation-controlled,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .scar-title-row .variation-activation-icon.scar-activation-controlled,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .scar-activation-icon.scar-activation-controlled,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .variation-activation-icon.scar-activation-controlled {
+  background-image: url("../assets/images/icons/activation-controlled-ink.webp");
+  background-size: 100% 100%;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .scar-activation-icon.scar-activation-involuntary,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .variation-activation-icon.scar-activation-involuntary,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .variation-name-row .scar-activation-icon.scar-activation-involuntary,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .variation-name-row .variation-activation-icon.scar-activation-involuntary,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .scar-title-row .scar-activation-icon.scar-activation-involuntary,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .scar-title-row .variation-activation-icon.scar-activation-involuntary,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .scar-activation-icon.scar-activation-involuntary,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .variation-activation-icon.scar-activation-involuntary {
+  background-image: url("../assets/images/icons/activation-involuntary-ink.webp");
+  background-size: 100% 100%;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .scar-activation-icon.scar-activation-persistent,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .variation-activation-icon.scar-activation-persistent,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .variation-name-row .scar-activation-icon.scar-activation-persistent,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .variation-name-row .variation-activation-icon.scar-activation-persistent,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .scar-title-row .scar-activation-icon.scar-activation-persistent,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .scar-title-row .variation-activation-icon.scar-activation-persistent,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .scar-activation-icon.scar-activation-persistent,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .variation-activation-icon.scar-activation-persistent {
+  background-image: url("../assets/images/icons/activation-persistent-ink.webp");
+  background-size: 100% 100%;
 }
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .scar-name,
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .variation-name,
@@ -1762,6 +2090,27 @@ strong.super-strong {
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .scar-meta,
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .variation-meta {
   flex-grow: 0;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .scar-meta .dotline,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .variation-meta .dotline,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .variation-name-row .scar-meta .dotline,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .variation-name-row .variation-meta .dotline,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .scar-title-row .scar-meta .dotline,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .scar-title-row .variation-meta .dotline,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .scar-meta .dotline,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .variation-meta .dotline {
+  --dotline-size: 20px;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .scar-meta .dotline .dot,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .variation-meta .dotline .dot,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .variation-name-row .scar-meta .dotline .dot,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .variation-name-row .variation-meta .dotline .dot,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .scar-title-row .scar-meta .dotline .dot,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .scar-title-row .variation-meta .dotline .dot,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .scar-meta .dotline .dot,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .variation-meta .dotline .dot {
+  filter: invert(1);
+  margin: 0;
 }
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-meta,
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-meta {
@@ -1789,7 +2138,7 @@ strong.super-strong {
   text-rendering: optimizeLegibility;
   font-size: 13px;
   background: #1B1A17;
-  padding: 8px;
+  padding: 4px 8px;
   margin: 0 24px;
   margin-top: -8px;
   position: relative;
@@ -1838,7 +2187,7 @@ strong.super-strong {
   text-align: right;
 }
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-variations {
-  margin: 16px 0 0 0;
+  margin: 16px 0 0 16px;
   padding: 0;
 }
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-variations > *:first-child {

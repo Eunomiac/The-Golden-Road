@@ -195,7 +195,7 @@
     {
       "key": "monstrousTransformation",
       "value": {
-        "base": 4,
+        "base": 5,
         "free": 1,
         "total": 5
       },
@@ -257,7 +257,7 @@
     {
       "key": "predatorsCunning",
       "value": 1,
-      "display": "Vein's Instincts (Predator's Cunning)",
+      "display": "Vein's Vision (Predator's Cunning)",
       "narrative": "Vein's alien instincts are honed to a razor's edge, and Micah has learned to listen to the whispers in the back of his mind -- despite the constant cost of cedeing control to the alien within.",
       "entangledScar": "alternatePersona",
       "activation": "perpetual",
@@ -268,7 +268,7 @@
     {
       "key": "hyper-competence",
       "value": 1,
-      "display": "Vein's Momentum (Hyper-Competence -- Athletics)",
+      "display": "Vein's Velocity (Hyper-Competence -- Athletics)",
       "narrative": "Vein's symbiotic adaptations grant Micah superhuman agility and reflexes, allowing him to perform feats of athleticism that would be impossible for a human.",
       "entangledScar": "alternatePersona",
       "activation": "perpetual",

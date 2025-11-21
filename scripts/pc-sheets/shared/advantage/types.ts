@@ -100,7 +100,8 @@ export interface ProcessedVariation extends ProcessedAdvantage {
   finalMagnitude: number;
   parentVariationKey?: string;
   parentMeritKey?: string;
-  secondaryVariations?: VariationJSON[];
+  secondaryVariations?: ProcessedVariation[];
+  valueDots?: string[];
 }
 
 export interface ScarValueObject extends AdvantageValueRange {
@@ -113,6 +114,7 @@ export interface ScarJSONAdditionalFields extends Record<string, unknown> {
   type: "physical" | "mental" | "social";
   entangledVariations?: string[];
   selectedDeviations?: string[];
+  activation?: string;
 }
 
 export type ScarJSON = AdvantageJSON<ScarValue, ScarJSONAdditionalFields>;
@@ -122,6 +124,8 @@ export interface ProcessedScar extends ProcessedAdvantage {
   effect: string;
   purchaseLevel: number;
   entangledVariations?: string[];
+  activation?: string;
+  valueDots?: string[];
 }
 
 export interface MeritLevelDefinition {
@@ -149,6 +153,6 @@ export interface ProcessedMerit extends ProcessedAdvantage {
   tags?: string[];
   cssClasses?: string | string[];
   parentMeritKey?: string;
-  secondaryMerits?: MeritJSON[];
-  secondaryVariations?: VariationJSON[];
+  secondaryMerits?: ProcessedMerit[];
+  secondaryVariations?: ProcessedVariation[];
 }

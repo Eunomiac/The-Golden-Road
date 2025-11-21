@@ -1,0 +1,45 @@
+{{#with variation as |variant|}}
+<article class="variation-entry{{#if ../isSub}} sub-advantage{{/if}}" data-variation-key="{{variant.key}}">
+  <div class="variation-header" role="button" tabindex="0" aria-expanded="false">
+    <div class="variation-name-row">
+      <span class="variation-name">{{variant.display}}</span>
+      <span class="variation-meta">
+        {{#if variant.valueDots}}
+          <span class="variation-value dotline">
+            {{#each variant.valueDots}}
+              <span class="dot {{this}}"></span>
+            {{/each}}
+          </span>
+        {{else}}
+          <span class="variation-tier">Tier {{variant.purchaseLevel}}</span>
+          {{#if variant.finalMagnitude}}
+            <span class="variation-final">Final {{variant.finalMagnitude}}</span>
+          {{/if}}
+        {{/if}}
+      </span>
+    </div>
+    {{#if variant.narrative}}
+      <div class="variation-narrative">
+        {{{variant.narrative}}}
+      </div>
+    {{/if}}
+  </div>
+  <div class="variation-content" style="display: none;">
+    <div class="variation-effect">
+      {{{variant.effect}}}
+    </div>
+    {{#if variant.source}}
+      <div class="variation-source">
+        {{> _partials/source-citation source=variant.source}}
+      </div>
+    {{/if}}
+  </div>
+  {{#if variant.secondaryVariations}}
+    <div class="variation-children" data-variation-group>
+      {{#each variant.secondaryVariations}}
+        {{> _partials/advantage/variation-card variation=this isSub=true}}
+      {{/each}}
+    </div>
+  {{/if}}
+</article>
+{{/with}}

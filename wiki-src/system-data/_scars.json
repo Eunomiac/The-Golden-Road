@@ -72,10 +72,15 @@
     },
     "options": {
       "invoked": "<strong>Deviation -- Invoked:</strong> {{NAME}} may voluntary yield control of her body to {{DISPLAY:vars.alterEgoName}} as an action. This requires a turn in action scenes (a minute, in non-action scenes) and lasts the normal length of time based on Magnitude. This doesn't count toward the Storyteller's once-per-chapter limit.",
+      "forgetfulPersona": null,
+      "perfectRecall": null,
+      "partner": null,
+      "awarePersona": null,
+      "blackouts": null,
+      "crossPurposes": null,
       "inferiorPersona": "<strong>Deviation -- Inferior Persona:</strong> {{DISPLAY:vars.alterEgoName}} cannot activate Variations other than those entangled with this Scar.",
       "superiorPersona": "<strong>Deviation -- Superior Persona:</strong> {{NAME}} cannot activate any Variations entangled with this Scar. These are only accessible when {{DISPLAY:vars.alterEgoName}} takes the reins.",
-      "bestial": "<strong>Deviation -- Bestial:</strong> When {{DISPLAY:vars.alterEgoName}} takes control, {{NAME}} loses touch with {{his}} humanity. Sapient thought eludes {{him}}, and {{his}} higher brain functions erode. At best, this causes stronger fight-or-flight instincts; at worst, it turns {{NAME}} into a mindless beast. {{DISPLAY:vars.alterEgoName}} suffers the {{TOOLTIP:Bestial Condition,json.conditions.bestial}}, which does not resolve until the end of the scene. {{He}} can't build equipment or plan ahead for a scene beyond the current one.",
-      "blackouts": "<strong>Deviation -- Blackouts:</strong> {{NAME}} doesn't remember anything {{DISPLAY:vars.alterEgoName}} does while it is dominant."
+      "bestial": "<strong>Deviation -- Bestial:</strong> When {{DISPLAY:vars.alterEgoName}} takes control, {{NAME}} loses touch with {{his}} humanity. Sapient thought eludes {{him}}, and {{his}} higher brain functions erode. At best, this causes stronger fight-or-flight instincts; at worst, it turns {{NAME}} into a mindless beast. {{DISPLAY:vars.alterEgoName}} suffers the {{TOOLTIP:tilt-card,Bestial Condition,json.conditions.bestial}}, which does not resolve until the end of the scene. {{He}} can't build equipment or plan ahead for a scene beyond the current one."
     },
     "deviations": {
       "invoked": {
@@ -193,7 +198,7 @@
       "max": 5
     },
     "effect": {
-      "1": "{{NAME}} has a low pain threshold, and even the threat of physical injury may give {{him}} pause. {{NAME}} may accept a Beat when {{he}} caves at the prospect of pain or responds more dramatically to an injury than its seriousness seems to demand, if this creates a complication for {{him}} or {{his}} cohort.",
+      "1": "{{NAME}} is especially injury-averse: Even the threat of physical injury may give {{him}} pause. {{NAME}} may accept a Beat when {{he}} caves at the prospect of pain or responds more dramatically to an injury than its seriousness seems to demand, if this creates a complication for {{him}} or {{his}} cohort.",
       "2": "{{NAME}}'s skin is paper-thin, and {{he}} bruises easily. Wounds and physical trauma have noticeably dramatic effects. {{NAME}} has one fewer Health box.",
       "3": "{{NAME}}'s skin is paper-thin, and {{he}} bruises easily. Wounds and physical trauma have noticeably dramatic effects. {{NAME}} has two fewer Health boxes.",
       "4": "{{NAME}}'s skin is paper-thin, and {{he}} bruises easily. Wounds and physical trauma have noticeably dramatic effects. {{NAME}} has four fewer Health boxes.",

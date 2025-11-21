@@ -1,7 +1,9 @@
 import type { AdvantageJSON } from "./types";
 import { SystemDataLoader } from "../../curly-notations/SystemDataLoader";
+import type { ProcessingContext } from "../../curly-notations/ProcessingContext";
 import type { PurchaseLevelStrategy } from "./helpers";
 import {
+  AdvantageRegexpReplacement,
   applyAdvantageDeviations,
   mergeAdvantageData,
   selectEffectTemplate
@@ -20,6 +22,8 @@ export interface PreparedAdvantage {
   purchaseLevel: number;
   adjustedValue: number;
   effectTemplate: string;
+  regexpReplacements: AdvantageRegexpReplacement[];
+  rawValue: unknown;
 }
 
 export abstract class BaseAdvantageProcessor<
@@ -45,7 +49,9 @@ export abstract class BaseAdvantageProcessor<
       systemData as Record<string, unknown> | null
     );
 
-    const rawValue = (json.value ?? merged.value) as TJSON["value"] | undefined;
+    const rawValue = (typeof json.value !== "undefined"
+      ? json.value
+      : (merged.value as TJSON["value"] | undefined)) as TJSON["value"] | undefined;
     const purchaseLevel = options.purchaseStrategy(rawValue);
     merged.value = purchaseLevel;
 
@@ -54,6 +60,8 @@ export abstract class BaseAdvantageProcessor<
 
     let adjustedValue = purchaseLevel;
     let mergedWithDeviations = merged;
+
+    let regexpReplacements: AdvantageRegexpReplacement[] = [];
 
     if (shouldApplyDeviations) {
       const result = applyAdvantageDeviations({
@@ -65,6 +73,7 @@ export abstract class BaseAdvantageProcessor<
       });
       adjustedValue = result.adjustedValue;
       mergedWithDeviations = result.mergedData;
+      regexpReplacements = result.regexpReplacements;
     }
 
     const effectTemplate = selectEffectTemplate(
@@ -77,7 +86,42 @@ export abstract class BaseAdvantageProcessor<
       mergedAdvantage: mergedWithDeviations,
       purchaseLevel,
       adjustedValue,
-      effectTemplate
+      effectTemplate,
+      regexpReplacements,
+      rawValue
     };
+  }
+
+  protected applyRegexpReplacements(
+    value: string | undefined,
+    replacements: AdvantageRegexpReplacement[],
+    context: ProcessingContext
+  ): string | undefined {
+    if (typeof value !== "string" || replacements.length === 0) {
+      return value;
+    }
+
+    let updated = value;
+    for (const rule of replacements) {
+      const patternText = this.textRenderer.process(rule.pattern, context, { wrap: false }) ?? "";
+      const replaceText = this.textRenderer.process(rule.replace, context, { wrap: false }) ?? "";
+
+      if (patternText.length === 0) {
+        throw new Error(
+          `regexpReplace from deviation "${rule.sourceDeviation}" produced an empty pattern.`
+        );
+      }
+
+      try {
+        const regex = new RegExp(patternText, "g");
+        updated = updated.replace(regex, replaceText);
+      } catch (error) {
+        throw new Error(
+          `Invalid regexpReplace pattern "${patternText}" from deviation "${rule.sourceDeviation}".`
+        );
+      }
+    }
+
+    return updated;
   }
 }

@@ -17,7 +17,7 @@
     "tags": ["mental"],
     "prerequisites": "Deviant",
     "value": 1,
-    "effect": "{{NAME}} can weaponize invasive memories of {{his}} Divergence. Once per chapter {{he}} may voluntarily take the {{TOOLTIP:Shaken Condition,json.conditions.shaken}} to trigger a vivid flashback about {{his}} transformation, revealing code phrases, diagrams, or overheard exchanges that will prove relevant even if their meaning is not immediately obvious.",
+    "effect": "{{NAME}} can weaponize invasive memories of {{his}} Divergence. Once per chapter {{he}} may voluntarily take the {{TOOLTIP:tilt-card,Shaken Condition,json.conditions.shaken}} to trigger a vivid flashback about {{his}} transformation, revealing code phrases, diagrams, or overheard exchanges that will prove relevant even if their meaning is not immediately obvious.",
     "source": {
       "book": "DtR",
       "page": 96
@@ -29,7 +29,7 @@
     "tags": ["mental"],
     "value": 1,
     "effect": "{{NAME}} constantly scans for the curling of fingers, the flash of a barrel, or the shift in a raised voice. Any reflexive {{NAMEVALUE:wit}} + {{NAMEVALUE:com}} roll {{he}} makes to detect an impending ambush, snare, or trap gains the <strong>8-again</strong> quality.",
-    "drawback": "If such a detection roll produces an exceptional success, {{NAME}} suffers the {{TOOLTIP:Spooked Condition,json.conditions.spooked}} from recognizing the danger too clearly.",
+    "drawback": "If such a detection roll produces an exceptional success, {{NAME}} suffers the {{TOOLTIP:tilt-card,Spooked Condition,json.conditions.spooked}} from recognizing the danger too clearly.",
     "source": {
       "book": "DtR",
       "page": 97

@@ -1,6 +1,6 @@
 import type { PCSheetData } from "./types";
 import type { ProcessingContext } from "./curly-notations/ProcessingContext";
-import { variationPurchaseStrategy } from "./shared/advantage/helpers";
+import { buildAdvantageDotline, hasDotlineStructure, variationPurchaseStrategy } from "./shared/advantage/helpers";
 import type {
   ProcessedVariation,
   VariationJSON
@@ -28,6 +28,7 @@ export class VariationProcessor extends BaseAdvantageProcessor<VariationJSON> {
     const mergedVariation = prepared.mergedAdvantage;
     const purchaseLevel = prepared.purchaseLevel;
     const finalMagnitude = prepared.adjustedValue;
+    const replacements = prepared.regexpReplacements;
     if (selectedDeviationKeys.length > 0) {
       mergedVariation.selectedDeviations = selectedDeviationKeys;
     }
@@ -51,11 +52,12 @@ export class VariationProcessor extends BaseAdvantageProcessor<VariationJSON> {
       strict: true
     };
 
-    const effect = this.textRenderer.process(
+    let effect = this.textRenderer.process(
       prepared.effectTemplate,
       effectContext,
       { prefix: "Effect:" }
     ) ?? "";
+    effect = this.applyRegexpReplacements(effect, replacements, effectContext) ?? effect;
 
     // Step 6: Build processed variation
     const narrativeSource = this.pickFirstString(
@@ -63,9 +65,10 @@ export class VariationProcessor extends BaseAdvantageProcessor<VariationJSON> {
       mergedVariation.narrative
     );
 
-    const narrative = narrativeSource
+    let narrative = narrativeSource
       ? this.processTextField(narrativeSource, effectContext, true)
       : undefined;
+    narrative = this.applyRegexpReplacements(narrative, replacements, effectContext);
 
     const displaySource = this.pickFirstString(
       variationJson.display,
@@ -78,6 +81,11 @@ export class VariationProcessor extends BaseAdvantageProcessor<VariationJSON> {
       ? this.processTextField(displaySource, effectContext, false)
       : undefined;
 
+    const dotlineSource = typeof variationJson.value !== "undefined"
+      ? variationJson.value
+      : (hasDotlineStructure(prepared.rawValue) ? prepared.rawValue : undefined);
+    const valueDots = buildAdvantageDotline(dotlineSource ?? prepared.adjustedValue);
+
     const processed: ProcessedVariation = {
       key: variationJson.key,
       display: processedDisplay ?? variationJson.key,
@@ -85,6 +93,7 @@ export class VariationProcessor extends BaseAdvantageProcessor<VariationJSON> {
       effect,
       purchaseLevel,
       finalMagnitude,
+      ...(valueDots ? { valueDots } : {}),
       ...this.copyOtherProperties(mergedVariation, variationJson)
     };
 

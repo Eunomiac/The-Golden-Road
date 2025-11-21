@@ -5,7 +5,7 @@
   padding-top: 16px;
 
   .top-block.deviation-block {
-    overflow: hidden;
+    // overflow: hidden;
 
     .form-label-title {
       margin-bottom: 8px;
@@ -28,7 +28,7 @@
       background: rgba($color-parchment, 0.08);
 
       &.sub-advantage {
-        margin-left: 32px;
+        margin: 0 0 0 32px;
         width: calc(100% - 32px);
 
         .scar-header,
@@ -52,9 +52,19 @@
             background: transparent;
             color: $color-ink;
             font-style: italic;
+            padding: 0 8px;
           }
         }
       }
+    }
+
+    .variation-children {
+      margin: 0px 0 0 0;
+      padding-left: 24px;
+      border-left: 1px solid rgba($color-ink, 0.2);
+      display: flex;
+      flex-direction: column;
+      gap: 0px;
     }
 
     .scar-header,
@@ -82,15 +92,43 @@
         }
 
         &.scar-title-row {
+          position: relative;
           background: url("../assets/images/backgrounds/black-header.webp") no-repeat center center;
           color: red;
           background-size: 100% 100%;
+
+          .scar-name {
+            text-indent: 20px;
+          }
 
         }
 
         .scar-activation-icon,
         .variation-activation-icon {
           flex-grow: 0;
+          display: block;
+          position: absolute;
+          height: 40px;
+          width: 40px;
+          background: $color-parchment;
+          transform: translate(-50%, -50%);
+          top: 50%;
+          left: 15px;
+          border-radius: 20px;
+          outline: 2px solid $color-parchment;
+
+          &.scar-activation-controlled {
+            background-image: url("../assets/images/icons/activation-controlled-ink.webp");
+            background-size: 100% 100%;
+          }
+          &.scar-activation-involuntary {
+            background-image: url("../assets/images/icons/activation-involuntary-ink.webp");
+            background-size: 100% 100%;
+          }
+          &.scar-activation-persistent {
+            background-image: url("../assets/images/icons/activation-persistent-ink.webp");
+            background-size: 100% 100%;
+          }
         }
         .scar-name,
         .variation-name {
@@ -99,6 +137,14 @@
         .scar-meta,
         .variation-meta {
           flex-grow: 0;
+
+          .dotline {
+          --dotline-size: 20px;
+          .dot {
+            filter: invert(1);
+            margin: 0;
+          }
+        }
         }
       }
     }
@@ -128,7 +174,7 @@
 
       font-size: 13px;
       background: $color-ink;
-      padding: 8px;
+      padding: 4px 8px;
       margin: 0 24px;
       margin-top: -8px;
       position: relative;
@@ -181,7 +227,7 @@
     }
 
     .scar-variations {
-      margin: 16px 0 0 0;
+      margin: 16px 0 0 16px;
       padding: 0;
 
       > *:first-child {

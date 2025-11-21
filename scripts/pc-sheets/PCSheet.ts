@@ -880,6 +880,7 @@ export class PCSheet {
     const processed: Partial<PCSheetData> = this.processJSONData();
     const merged: PCSheetData = this.mergeData(defaults, processed);
     const variationInputsFromMerits: VariationInput[] = [];
+    let meritIndex: Record<string, ProcessedMerit[]> = {};
 
     // Build tooltips now that we have complete data
     this.buildAllTooltips(merged);
@@ -888,7 +889,9 @@ export class PCSheet {
     const rawMerits = (processed as any)._meritsRaw;
     if (rawMerits !== undefined && Array.isArray(rawMerits)) {
       const { merits: processedMerits, emittedVariations } = this.processMeritTree(rawMerits, merged);
-      merged.merits = processedMerits;
+      const hierarchy = this.organizeMeritHierarchy(processedMerits);
+      merged.merits = hierarchy.roots;
+      meritIndex = hierarchy.index;
       variationInputsFromMerits.push(...emittedVariations);
     }
 
@@ -909,19 +912,8 @@ export class PCSheet {
 
     if (variationInputs.length > 0) {
       const processedVariations = this.processVariationForest(variationInputs, merged);
-
-      const variationsByScar = processedVariations.reduce<Record<string, ProcessedVariation[]>>(
-        (acc, variation) => {
-          const scarKey = typeof variation.entangledScar === "string" ? variation.entangledScar : undefined;
-          const bucketKey = scarKey ?? "__ungrouped__";
-          if (!acc[bucketKey]) {
-            acc[bucketKey] = [];
-          }
-          acc[bucketKey].push(variation);
-          return acc;
-        },
-        {}
-      );
+      const topLevelVariations = this.attachVariationsToParents(processedVariations, meritIndex);
+      const variationsByScar = this.groupVariationsByScar(topLevelVariations);
 
       merged.variations = processedVariations;
       merged.variationsByScar = variationsByScar;
@@ -1139,6 +1131,124 @@ export class PCSheet {
       return [];
     }
     return defs.map((def) => this.cloneAdvantageJson(def));
+  }
+
+  private organizeMeritHierarchy(
+    merits: ProcessedMerit[]
+  ): { roots: ProcessedMerit[]; index: Record<string, ProcessedMerit[]> } {
+    const index: Record<string, ProcessedMerit[]> = {};
+    for (const merit of merits) {
+      if (!merit.key) {
+        throw new Error("Processed merit is missing a required key.");
+      }
+      if (!index[merit.key]) {
+        index[merit.key] = [];
+      }
+      index[merit.key].push(merit);
+      delete (merit as Record<string, unknown>).secondaryMerits;
+      delete (merit as Record<string, unknown>).secondaryVariations;
+    }
+
+    const roots: ProcessedMerit[] = [];
+    for (const merit of merits) {
+      if (merit.parentMeritKey) {
+        const parentCandidates = index[merit.parentMeritKey];
+        if (!parentCandidates || parentCandidates.length === 0) {
+          throw new Error(
+            `Merit "${merit.key}" references missing parent merit "${merit.parentMeritKey}".`
+          );
+        }
+        if (parentCandidates.length > 1) {
+          throw new Error(
+            `Merit "${merit.key}" cannot resolve parent "${merit.parentMeritKey}" because multiple merits share that key.`
+          );
+        }
+        const parent = parentCandidates[0];
+        if (!Array.isArray(parent.secondaryMerits)) {
+          parent.secondaryMerits = [];
+        }
+        parent.secondaryMerits.push(merit);
+      } else {
+        roots.push(merit);
+      }
+    }
+
+    return { roots, index };
+  }
+
+  private attachVariationsToParents(
+    variations: ProcessedVariation[],
+    meritIndex: Record<string, ProcessedMerit[]>
+  ): ProcessedVariation[] {
+    const variationIndex: Record<string, ProcessedVariation> = {};
+    for (const variation of variations) {
+      if (!variation.key) {
+        throw new Error("Processed variation is missing a required key.");
+      }
+      if (variationIndex[variation.key]) {
+        throw new Error(`Duplicate processed variation key "${variation.key}" detected.`);
+      }
+      variationIndex[variation.key] = variation;
+      delete (variation as Record<string, unknown>).secondaryVariations;
+    }
+
+    const topLevel: ProcessedVariation[] = [];
+    for (const variation of variations) {
+      if (variation.parentVariationKey) {
+        const parentVariation = variationIndex[variation.parentVariationKey];
+        if (!parentVariation) {
+          throw new Error(
+            `Variation "${variation.key}" references missing parent variation "${variation.parentVariationKey}".`
+          );
+        }
+        if (!Array.isArray(parentVariation.secondaryVariations)) {
+          parentVariation.secondaryVariations = [];
+        }
+        parentVariation.secondaryVariations.push(variation);
+        continue;
+      }
+
+      if (variation.parentMeritKey) {
+        const parentMeritCandidates = meritIndex[variation.parentMeritKey];
+        if (!parentMeritCandidates || parentMeritCandidates.length === 0) {
+          throw new Error(
+            `Variation "${variation.key}" references missing parent merit "${variation.parentMeritKey}".`
+          );
+        }
+        if (parentMeritCandidates.length > 1) {
+          throw new Error(
+            `Variation "${variation.key}" cannot resolve parent merit "${variation.parentMeritKey}" because multiple merits share that key.`
+          );
+        }
+        const parentMerit = parentMeritCandidates[0];
+        if (!Array.isArray(parentMerit.secondaryVariations)) {
+          parentMerit.secondaryVariations = [];
+        }
+        parentMerit.secondaryVariations.push(variation);
+        continue;
+      }
+
+      topLevel.push(variation);
+    }
+
+    return topLevel;
+  }
+
+  private groupVariationsByScar(
+    variations: ProcessedVariation[]
+  ): Record<string, ProcessedVariation[]> {
+    return variations.reduce<Record<string, ProcessedVariation[]>>(
+      (acc, variation) => {
+        const scarKey = typeof variation.entangledScar === "string" ? variation.entangledScar : undefined;
+        const bucketKey = scarKey ?? "__ungrouped__";
+        if (!acc[bucketKey]) {
+          acc[bucketKey] = [];
+        }
+        acc[bucketKey].push(variation);
+        return acc;
+      },
+      {}
+    );
   }
 
   private cloneAdvantageJson<T>(value: T): T {

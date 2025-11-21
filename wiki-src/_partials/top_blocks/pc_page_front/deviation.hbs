@@ -1,34 +1,3 @@
-{{#*inline "variationCard"}}
-  <article class="variation-entry" data-variation-key="{{key}}">
-    <div class="variation-header" role="button" tabindex="0" aria-expanded="false">
-      <div class="variation-name-row">
-        <span class="variation-name">{{display}}</span>
-        <span class="variation-meta">
-          <span class="variation-tier">Tier {{purchaseLevel}}</span>
-          {{#if finalMagnitude}}
-            <span class="variation-final">Final {{finalMagnitude}}</span>
-          {{/if}}
-        </span>
-      </div>
-      {{#if narrative}}
-        <div class="variation-narrative">
-          {{{narrative}}}
-        </div>
-      {{/if}}
-    </div>
-    <div class="variation-content" style="display: none;">
-      <div class="variation-effect">
-        {{{effect}}}
-      </div>
-      {{#if source}}
-        <div class="variation-source">
-          {{> _partials/source-citation source=source}}
-        </div>
-      {{/if}}
-    </div>
-  </article>
-{{/inline}}
-
 <div class="block top-block deviation-block">
   <div class="form-label form-label-title">Deviation</div>
 
@@ -41,8 +10,15 @@
                 <span class="scar-activation-icon scar-activation-{{activation}}"></span>
                 <span class="scar-name">{{display}}</span>
                 <span class="scar-meta">
-                  <span class="scar-type">{{type}}</span>
-                  <span class="scar-level">Tier {{purchaseLevel}}</span>
+                  {{#if valueDots}}
+                    <span class="scar-value dotline">
+                      {{#each valueDots}}
+                        <span class="dot {{this}}"></span>
+                      {{/each}}
+                    </span>
+                  {{else}}
+                    <span class="scar-level">Tier {{purchaseLevel}}</span>
+                  {{/if}}
                 </span>
               </div>
               {{#if narrative}}
@@ -62,16 +38,16 @@
                   {{> _partials/source-citation source=source}}
                 </div>
               {{/if}}
-              {{#with (lookup ../variationsByScar key) as |scarVariations|}}
-                {{#if scarVariations}}
-                  <div class="scar-variations" data-variation-group>
-                    {{#each scarVariations}}
-                      {{> variationCard}}
-                    {{/each}}
-                  </div>
-                {{/if}}
-              {{/with}}
             </div>
+            {{#with (lookup ../variationsByScar key) as |scarVariations|}}
+              {{#if scarVariations}}
+                <div class="scar-variations" data-variation-group>
+                  {{#each scarVariations}}
+                    {{> _partials/advantage/variation-card variation=this isSub=false}}
+                  {{/each}}
+                </div>
+              {{/if}}
+            {{/with}}
           </article>
         {{/each}}
       {{/if}}
@@ -252,8 +228,11 @@
     const variationControllers = new WeakMap();
     const variationGroups = deviationBlock.querySelectorAll("[data-variation-group]");
     variationGroups.forEach((group) => {
+      const directVariationEntries = Array.from(group.children).filter((child) =>
+        child.classList.contains("variation-entry")
+      );
       const controller = createAccordion(
-        group.querySelectorAll(".variation-entry"),
+        directVariationEntries,
         { header: ".variation-header", content: ".variation-content", narrative: ".variation-narrative" }
       );
       if (controller) {

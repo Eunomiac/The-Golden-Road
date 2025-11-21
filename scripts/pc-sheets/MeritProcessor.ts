@@ -35,7 +35,9 @@ export class MeritProcessor extends BaseAdvantageProcessor<MeritJSON> {
       strict: true
     };
 
-    const effect = this.textRenderer.process(prepared.effectTemplate, processingContext, { prefix: "Effect:" });
+    const replacements = prepared.regexpReplacements;
+    let effect = this.textRenderer.process(prepared.effectTemplate, processingContext, { prefix: "Effect:" }) ?? "";
+    effect = this.applyRegexpReplacements(effect, replacements, processingContext) ?? effect;
 
     let narrative: string | undefined;
     if (typeof meritJson.narrative === "string") {
@@ -43,6 +45,7 @@ export class MeritProcessor extends BaseAdvantageProcessor<MeritJSON> {
     } else if (typeof mergedMerit.narrative === "string") {
       narrative = this.textRenderer.process(mergedMerit.narrative, processingContext);
     }
+    narrative = this.applyRegexpReplacements(narrative, replacements, processingContext);
 
     // Step 5: Process levels for style-type merits
     let levels: Record<number, MeritLevelDefinition> | undefined;
@@ -57,14 +60,17 @@ export class MeritProcessor extends BaseAdvantageProcessor<MeritJSON> {
         const level = levelData as Record<string, unknown>;
         const levelName = typeof level.name === "string" ? level.name : "";
         const levelLabel = this.formatLevelLabel(levelName, levelNum);
+        const levelEffect = typeof level.effect === "string"
+          ? this.textRenderer.process(level.effect, processingContext, { prefix: levelLabel }) ?? ""
+          : "";
+        const levelDrawback = typeof level.drawback === "string"
+          ? this.textRenderer.process(level.drawback, processingContext, { prefix: "Drawback:" })
+          : undefined;
+
         const processedLevel: MeritLevelDefinition = {
           name: levelName,
-          effect: typeof level.effect === "string"
-            ? this.textRenderer.process(level.effect, processingContext, { prefix: levelLabel }) ?? ""
-            : "",
-          drawback: typeof level.drawback === "string"
-            ? this.textRenderer.process(level.drawback, processingContext, { prefix: "Drawback:" })
-            : undefined
+          effect: this.applyRegexpReplacements(levelEffect, replacements, processingContext) ?? levelEffect,
+          drawback: this.applyRegexpReplacements(levelDrawback, replacements, processingContext)
         };
 
         levels[levelNum] = processedLevel;
@@ -89,6 +95,7 @@ export class MeritProcessor extends BaseAdvantageProcessor<MeritJSON> {
     if (typeof drawbackSource === "string") {
       processedDrawback = this.textRenderer.process(drawbackSource, processingContext, { prefix: "Drawback:" });
     }
+    processedDrawback = this.applyRegexpReplacements(processedDrawback, replacements, processingContext);
 
     // Step 7: Build processed merit
     const processed: ProcessedMerit = {

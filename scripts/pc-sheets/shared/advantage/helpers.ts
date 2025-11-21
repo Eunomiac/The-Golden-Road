@@ -116,6 +116,12 @@ export const scarPurchaseStrategy: PurchaseLevelStrategy<ScarValue | undefined> 
   return 1;
 };
 
+export interface AdvantageRegexpReplacement {
+  pattern: string;
+  replace: string;
+  sourceDeviation: string;
+}
+
 export interface ApplyDeviationParams {
   baseValue: number;
   mergedAdvantage: Record<string, unknown>;
@@ -127,6 +133,7 @@ export interface ApplyDeviationParams {
 export interface DeviationApplicationResult {
   adjustedValue: number;
   mergedData: Record<string, unknown>;
+  regexpReplacements: AdvantageRegexpReplacement[];
 }
 
 export function applyAdvantageDeviations(
@@ -137,6 +144,7 @@ export function applyAdvantageDeviations(
   const systemDeviations = (params.mergedAdvantage.deviations as Record<string, AdvantageDeviationDefinition> | undefined) ?? {};
   const replacedKeys = new Map<string, string>();
   let adjustedValue = params.baseValue;
+  const regexpReplacements: AdvantageRegexpReplacement[] = [];
 
   for (const deviationKey of params.deviationKeys) {
     const deviation = systemDeviations[deviationKey];
@@ -161,11 +169,27 @@ export function applyAdvantageDeviations(
         mergedResult[prop] = replaceObj[prop];
       }
     }
+
+    if (Array.isArray(deviation.regexpReplace)) {
+      for (const rule of deviation.regexpReplace) {
+        if (typeof rule.pattern !== "string" || typeof rule.replace !== "string") {
+          throw new Error(
+            `Advantage "${params.contextKey}" deviation "${deviationKey}" defines an invalid regexpReplace entry.`
+          );
+        }
+        regexpReplacements.push({
+          pattern: rule.pattern,
+          replace: rule.replace,
+          sourceDeviation: deviationKey
+        });
+      }
+    }
   }
 
   return {
     adjustedValue,
-    mergedData: mergedResult
+    mergedData: mergedResult,
+    regexpReplacements
   };
 }
 
@@ -193,4 +217,101 @@ export function selectEffectTemplate(
   throw new Error(
     `Advantage "${contextKey}" is missing effect data entirely; cannot resolve purchase level ${purchaseLevel}.`
   );
+}
+
+function toPositiveInteger(value: unknown): number {
+  if (typeof value !== "number" || !Number.isFinite(value)) {
+    return 0;
+  }
+  if (value <= 0) {
+    return 0;
+  }
+  return Math.floor(value);
+}
+
+function toSignedInteger(value: unknown): number {
+  if (typeof value !== "number" || !Number.isFinite(value)) {
+    return 0;
+  }
+  if (value === 0) {
+    return 0;
+  }
+  return value > 0 ? Math.floor(value) : -Math.floor(Math.abs(value));
+}
+
+function hasStructuredMagnitude(value: unknown): boolean {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+  const record = value as Record<string, unknown>;
+  return "base" in record || "deviation" in record || "free" in record;
+}
+
+export function hasDotlineStructure(value: unknown): boolean {
+  return hasStructuredMagnitude(value);
+}
+
+export function buildAdvantageDotline(rawValue: unknown): string[] | undefined {
+  if (rawValue === undefined || rawValue === null) {
+    return undefined;
+  }
+
+  let baseCount = 0;
+  let deviationCount = 0;
+  let freeCount = 0;
+
+  if (typeof rawValue === "number") {
+    baseCount = toPositiveInteger(rawValue);
+  } else if (typeof rawValue === "object") {
+    const record = rawValue as Record<string, unknown>;
+    if ("base" in record) {
+      baseCount = toPositiveInteger(record["base"]);
+    } else if ("total" in record) {
+      baseCount = toPositiveInteger(record["total"]);
+    } else if ("min" in record) {
+      baseCount = toPositiveInteger(record["min"]);
+    } else if ("max" in record) {
+      baseCount = toPositiveInteger(record["max"]);
+    }
+    deviationCount = toSignedInteger(record["deviation"]);
+    freeCount = Math.min(1, toPositiveInteger(record["free"]));
+  } else {
+    return undefined;
+  }
+
+  const dots: string[][] = [];
+  for (let i = 0; i < baseCount; i++) {
+    dots.push(["full-dot"]);
+  }
+
+  if (deviationCount < 0) {
+    const convertCount = Math.min(dots.length, Math.abs(deviationCount));
+    for (let i = 0; i < convertCount; i++) {
+      const idx = dots.length - 1 - i;
+      if (idx >= 0) {
+        dots[idx] = ["ghost-dot"];
+      }
+    }
+  } else if (deviationCount > 0) {
+    for (let i = 0; i < deviationCount; i++) {
+      dots.push(["deviation-dot"]);
+    }
+  }
+
+  if (freeCount > 0) {
+    for (let i = dots.length - 1; i >= 0; i--) {
+      if (!dots[i].includes("ghost-dot")) {
+        if (!dots[i].includes("free-dot")) {
+          dots[i].push("free-dot");
+        }
+        break;
+      }
+    }
+  }
+
+  if (dots.length === 0) {
+    return undefined;
+  }
+
+  return dots.map((classes) => classes.join(" ").trim());
 }
