@@ -15,10 +15,6 @@
       display: block;
     }
 
-    .deviation-section {
-      padding: 0 8px 16px 8px;
-    }
-
     .scar-entry {
       margin: 12px 0;
       // background: rgba($color-parchment, 0.04);
@@ -30,6 +26,35 @@
       border: 0;
       box-shadow: none;
       background: rgba($color-parchment, 0.08);
+
+      &.sub-advantage {
+        margin-left: 32px;
+        width: calc(100% - 32px);
+
+        .scar-header,
+        .variation-header {
+          .scar-title-row,
+          .variation-name-row {
+            padding-left: 0;
+            background: transparent;
+            color: $color-blood;
+
+            .scar-value.dotline,
+            .variation-value.dotline {
+
+              .dot {
+                filter: none;
+              }
+            }
+          }
+
+          .variation-narrative {
+            background: transparent;
+            color: $color-ink;
+            font-style: italic;
+          }
+        }
+      }
     }
 
     .scar-header,
@@ -39,10 +64,10 @@
       .scar-title-row,
       .variation-name-row {
         display: flex;
-        justify-content: space-between;
+        justify-content: stretch;
         align-items: center;
         gap: 8px;
-        background: url("../../assets/images/backgrounds/red-header.webp") no-repeat center center;
+        background: url("../assets/images/backgrounds/red-header.webp") no-repeat center center;
         background-size: 100% 100%;
         font-size: 18px;
         line-height: 20px;
@@ -52,11 +77,28 @@
         padding: 4px 24px;
         margin: 8px 0 4px 0;
 
+        > * {
+          white-space: nowrap;
+        }
+
         &.scar-title-row {
-          background: url("../../assets/images/backgrounds/black-header.webp") no-repeat center center;
+          background: url("../assets/images/backgrounds/black-header.webp") no-repeat center center;
           color: red;
           background-size: 100% 100%;
 
+        }
+
+        .scar-activation-icon,
+        .variation-activation-icon {
+          flex-grow: 0;
+        }
+        .scar-name,
+        .variation-name {
+          flex-grow: 1;
+        }
+        .scar-meta,
+        .variation-meta {
+          flex-grow: 0;
         }
       }
     }
@@ -88,8 +130,12 @@
       background: $color-ink;
       padding: 8px;
       margin: 0 24px;
+      margin-top: -8px;
+      position: relative;
+      z-index: -1;
       color: $color-parchment;
       letter-spacing: 0.5px;
+      display: block;
       text-wrap: pretty;
       text-align: justify;
       hyphens: auto;
@@ -100,6 +146,13 @@
         background: $color-parchment;
         color: $color-ink;
         padding: 0 4px;
+      }
+
+      p:first-child {
+        margin-top: 0;
+      }
+      p:last-child {
+        margin-bottom: 0;
       }
     }
 
@@ -118,6 +171,8 @@
         margin: 8px 0;
       }
     }
+
+
 
     .scar-source,
     .variation-source {

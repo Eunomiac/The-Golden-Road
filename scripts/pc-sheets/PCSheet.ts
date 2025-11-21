@@ -777,6 +777,7 @@ export class PCSheet {
     if (source.name !== undefined) result.name = source.name;
     if (source.sex !== undefined) result.sex = source.sex;
     if (source.dob !== undefined) result.dob = source.dob;
+    if (source.ddv !== undefined) result.ddv = source.ddv;
     if (source.imageUrl !== undefined) result.imageUrl = source.imageUrl;
     if (source.concept !== undefined) result.concept = source.concept;
     if (source.origin !== undefined) result.origin = source.origin;

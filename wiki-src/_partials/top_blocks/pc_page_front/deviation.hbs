@@ -33,7 +33,6 @@
   <div class="form-label form-label-title">Deviation</div>
 
   <div class="deviation-columns">
-    <section class="deviation-section scars-section">
       {{#if scars}}
         {{#each scars}}
           <article class="scar-entry" data-scar-key="{{key}}">
@@ -75,10 +74,7 @@
             </div>
           </article>
         {{/each}}
-      {{else}}
-        <p class="scar-empty">No recorded scars.</p>
       {{/if}}
-    </section>
   </div>
 </div>
 

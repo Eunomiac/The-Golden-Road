@@ -54,6 +54,9 @@
           background: $color-ink;
           padding: 8px;
           margin: 0 24px;
+          margin-top: -8px;
+          position: relative;
+          z-index: -1;
           color: $color-parchment;
           letter-spacing: 0.5px;
           display: block;
@@ -68,6 +71,13 @@
             color: $color-ink;
             padding: 0 4px;
           }
+
+          p:first-child {
+            margin-top: 0;
+          }
+          p:last-child {
+            margin-bottom: 0;
+          }
         }
       }
 
@@ -77,6 +87,7 @@
         text-wrap: pretty;
         text-align: justify;
         opacity: 0;
+        padding: 0 24px;
         transition: opacity 0.3s ease;
 
         .merit-effect,

@@ -1552,6 +1552,9 @@ strong.super-strong {
   background: #1B1A17;
   padding: 8px;
   margin: 0 24px;
+  margin-top: -8px;
+  position: relative;
+  z-index: -1;
   color: #F3EFE6;
   letter-spacing: 0.5px;
   display: block;
@@ -1566,11 +1569,18 @@ strong.super-strong {
   color: #1B1A17;
   padding: 0 4px;
 }
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-header .merit-narrative p:first-child {
+  margin-top: 0;
+}
+.page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-header .merit-narrative p:last-child {
+  margin-bottom: 0;
+}
 .page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content {
   hyphens: auto;
   text-wrap: pretty;
   text-align: justify;
   opacity: 0;
+  padding: 0 24px;
   transition: opacity 0.3s ease;
 }
 .page.pc-page[name=merits] .top-block.merits-block > .merit-item .merit-content .merit-effect,
@@ -1650,9 +1660,6 @@ strong.super-strong {
 .page.pc-page[name=deviation] .top-block.deviation-block .deviation-columns {
   display: block;
 }
-.page.pc-page[name=deviation] .top-block.deviation-block .deviation-section {
-  padding: 0 8px 16px 8px;
-}
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-entry {
   margin: 12px 0;
 }
@@ -1661,6 +1668,34 @@ strong.super-strong {
   border: 0;
   box-shadow: none;
   background: rgba(243, 239, 230, 0.08);
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-entry.sub-advantage {
+  margin-left: 32px;
+  width: calc(100% - 32px);
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-entry.sub-advantage .scar-header .scar-title-row,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-entry.sub-advantage .scar-header .variation-name-row,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-entry.sub-advantage .variation-header .scar-title-row,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-entry.sub-advantage .variation-header .variation-name-row {
+  padding-left: 0;
+  background: transparent;
+  color: #6B0F1A;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-entry.sub-advantage .scar-header .scar-title-row .scar-value.dotline .dot,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-entry.sub-advantage .scar-header .scar-title-row .variation-value.dotline .dot,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-entry.sub-advantage .scar-header .variation-name-row .scar-value.dotline .dot,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-entry.sub-advantage .scar-header .variation-name-row .variation-value.dotline .dot,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-entry.sub-advantage .variation-header .scar-title-row .scar-value.dotline .dot,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-entry.sub-advantage .variation-header .scar-title-row .variation-value.dotline .dot,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-entry.sub-advantage .variation-header .variation-name-row .scar-value.dotline .dot,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-entry.sub-advantage .variation-header .variation-name-row .variation-value.dotline .dot {
+  filter: none;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-entry.sub-advantage .scar-header .variation-narrative,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-entry.sub-advantage .variation-header .variation-narrative {
+  background: transparent;
+  color: #1B1A17;
+  font-style: italic;
 }
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-header,
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-header {
@@ -1671,10 +1706,10 @@ strong.super-strong {
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-header .scar-title-row,
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row {
   display: flex;
-  justify-content: space-between;
+  justify-content: stretch;
   align-items: center;
   gap: 8px;
-  background: url("../../assets/images/backgrounds/red-header.webp") no-repeat center center;
+  background: url("../assets/images/backgrounds/red-header.webp") no-repeat center center;
   background-size: 100% 100%;
   font-size: 18px;
   line-height: 20px;
@@ -1684,13 +1719,49 @@ strong.super-strong {
   padding: 4px 24px;
   margin: 8px 0 4px 0;
 }
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row > *,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .variation-name-row > *,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .scar-title-row > *,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row > * {
+  white-space: nowrap;
+}
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row.scar-title-row,
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-header .variation-name-row.scar-title-row,
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-header .scar-title-row.scar-title-row,
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row.scar-title-row {
-  background: url("../../assets/images/backgrounds/black-header.webp") no-repeat center center;
+  background: url("../assets/images/backgrounds/black-header.webp") no-repeat center center;
   color: red;
   background-size: 100% 100%;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .scar-activation-icon,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .variation-activation-icon,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .variation-name-row .scar-activation-icon,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .variation-name-row .variation-activation-icon,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .scar-title-row .scar-activation-icon,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .scar-title-row .variation-activation-icon,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .scar-activation-icon,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .variation-activation-icon {
+  flex-grow: 0;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .scar-name,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .variation-name,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .variation-name-row .scar-name,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .variation-name-row .variation-name,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .scar-title-row .scar-name,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .scar-title-row .variation-name,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .scar-name,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .variation-name {
+  flex-grow: 1;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .scar-meta,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .variation-meta,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .variation-name-row .scar-meta,
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-header .variation-name-row .variation-meta,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .scar-title-row .scar-meta,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .scar-title-row .variation-meta,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .scar-meta,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .variation-meta {
+  flex-grow: 0;
 }
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-meta,
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-meta {
@@ -1720,8 +1791,12 @@ strong.super-strong {
   background: #1B1A17;
   padding: 8px;
   margin: 0 24px;
+  margin-top: -8px;
+  position: relative;
+  z-index: -1;
   color: #F3EFE6;
   letter-spacing: 0.5px;
+  display: block;
   text-wrap: pretty;
   text-align: justify;
   hyphens: auto;
@@ -1733,6 +1808,14 @@ strong.super-strong {
   background: #F3EFE6;
   color: #1B1A17;
   padding: 0 4px;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-narrative p:first-child,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-narrative p:first-child {
+  margin-top: 0;
+}
+.page.pc-page[name=deviation] .top-block.deviation-block .scar-narrative p:last-child,
+.page.pc-page[name=deviation] .top-block.deviation-block .variation-narrative p:last-child {
+  margin-bottom: 0;
 }
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-content,
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-content {

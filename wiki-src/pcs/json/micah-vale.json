@@ -153,8 +153,7 @@
         "total": 4
       },
       "type": "physical",
-      "display": "Involuntary Stimulus",
-      "subtitle": "When Micah Bleeds, Vein Is Free",
+      "display": "Containment Bleed (Involuntary Stimulus)",
       "narrative": "Vein <em>is</em> Micah's blood, and Micah's body is all that contains the symbiote. When Micah bleeds, whether willingly (by cutting himself to voluntarily transform into Vein) or unwillingly (by suffering an injury), the transformation into Vein is governed entirely by blood escaping the containment of Micah's body.",
       "entangledVariations": [
         "monstrousTransformation"
@@ -170,16 +169,32 @@
       "key": "thinSkin",
       "type": "physical",
       "value": 1,
-      "display": "Thin Skin",
-      "subtitle": "Fear of Losing Containment",
+      "display": "Autohemophobia (Thin Skin)",
       "narrative": "Given how easily Vein can escape, and how unpredictable Vein is when he does, Micah is understandably wary of suffering even mild wounds -- wounds that might release the symbiote whether Micah wants it or not. This leads to caution at best, cowardice at worst.",
       "entangledVariations": [
         "carapace"
+      ]
+    },
+    {
+      "key": "alternatePersona",
+      "type": "mental",
+      "value": {
+        "base": 1,
+        "deviation": 1,
+        "total": 2
+      },
+      "display": "Vein's Voice (Alternate Persona)",
+      "narrative": "As Micah's innate (i.e. permanent/perpetual) abilities grow, they come at a cost: Vein's <em>lessons</em> come with increasing <em>influence</em>, and recently Vein has managed to seize control of Micah's body entirely, relegating Micah to backseat driver in his own body. Fortunately, these events are rare and short-lived, but Vein is always offering more power if Micah will cede just a little more of his control...",
+      "entangledVariations": [
+        "predatorsCunning",
+        "hyper-competence"
       ],
-      "source": {
-        "book": "DtR",
-        "page": 170
-      }
+      "vars": {
+        "alterEgoName": "Vein"
+      },
+      "selectedDeviations": [
+        "blackouts"
+      ]
     }
   ],
   "variations": [
@@ -190,19 +205,20 @@
         "free": 1,
         "total": 5
       },
-      "display": "Monstrous Transformation - Vein",
-      "narrative": "",
+      "display": "Vein Unleashed (Monstrous Transformation)",
+      "narrative": "When Vein escapes his containment, every drop of blood in Micah's body rushes out to consume him in an all-encompassing torrent, drowning the adolescent in crimson. What remains is a nightmare of coagulated blood only vaguely human in shape, a lethal instrument of stealth and destruction.",
       "entangledScar": "involuntaryStimulus",
       "secondaryVariations": [
         {
           "key": "brachiation",
           "value": 3,
-          "display": "Liquid Movement (Brachiation)",
-          "narrative": "",
+          "display": "Liquid Motion (Brachiation)",
+          "narrative": "In liquid form, Vein moves with a fluidity and grace that defies gravity: the distinctions between ceilings, walls and floors become merely academic.",
           "tags": ["secondary"],
           "vars": {
             "options": ["leaper", "spider"]
-          }
+          },
+          "cssClasses": ["sub-advantage"]
         },
         {
           "key": "cuttingLash",
@@ -211,8 +227,8 @@
             "deviation": 1,
             "total": 3
           },
-          "display": "Septic Tendrils (Cutting Lash)",
-          "narrative": "",
+          "display": "Septic Lash (Cutting Lash)",
+          "narrative": "Vein's blood is anathema to human biology, and under the symbiote's perfect control it becomes a weapon: an explosion of deadly tendrils of caustic red poison.",
           "tags": ["secondary"],
           "selectedDeviations": [
             "burst"
@@ -224,8 +240,8 @@
         {
           "key": "telekinesis",
           "value": 3,
-          "display": "Grasping Strands (Telekinesis)",
-          "narrative": "Not a psychic phenomena at all, 'Telekinesis' merely provides convenient mechanical effects for Vein's ability to extend multiple strong tendrils of coagulated blood, capable of ensnaring, grappling, and even throwing heavy objects.",
+          "display": "Crimson Vice (Telekinesis)",
+          "narrative": "Vein's weaponized blood ensnares and strangles even as its alien pathogens assault human tissue and corrode inorganic matter.",
           "tags": ["secondary"],
           "vars": {
             "options": ["throw"]
@@ -236,12 +252,34 @@
     {
       "key": "carapace",
       "value": 1,
-      "display": "Vein's Physiology (Carapace)",
-      "narrative": "Micah does not possess a hardened 'carapace', per se. Rather, even when Vein is safely contained, he is able to quickly staunch internal bleeding and effectively heal bullet wounds (and even melee wounds, albeit to a lesser extent). The armor provided by Carapace does not represent reflecting or absorbing bullets, but rather the bullets passing through Micah (painfully, and dangerously as bullets tend to cause Micah to bleed) but being healed by Vein from within almost instantly.",
+      "display": "Hemorrhagic Hemostasis (Carapace)",
+      "narrative": "Even when Vein is safely contained, the symbiote can quickly staunch internal bleeding and mend wounds in an instant. Micah still feels the pain, though, and -- worst of all -- he still bleeds.",
       "entangledScar": "thinSkin",
       "activation": "persistent",
       "vars": {
         "armorChoice": "kevlar"
+      }
+    },
+    {
+      "key": "predatorsCunning",
+      "value": 1,
+      "display": "Vein's Instincts (Predator's Cunning)",
+      "narrative": "Vein's alien instincts are honed to a razor's edge, and Micah has learned to listen to the whispers in the back of his mind -- despite the constant cost of cedeing control to the alien within.",
+      "entangledScar": "alternatePersona",
+      "activation": "perpetual",
+      "vars": {
+        "options": ["elusive"]
+      }
+    },
+    {
+      "key": "hyper-competence",
+      "value": 1,
+      "display": "Vein's Momentum (Hyper-Competence -- Athletics)",
+      "narrative": "Vein's symbiotic adaptations grant Micah superhuman agility and reflexes, allowing him to perform feats of athleticism that would be impossible for a human.",
+      "entangledScar": "alternatePersona",
+      "activation": "perpetual",
+      "vars": {
+        "skill": "athletics"
       }
     }
   ],
