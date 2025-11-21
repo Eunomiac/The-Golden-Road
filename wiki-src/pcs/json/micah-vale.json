@@ -29,13 +29,7 @@
     "wit": 3,
     "res": 2,
     "str": 3,
-    "dex": {
-      "value": {
-        "base": 3,
-        "bonus": 5,
-        "total": 8
-      }
-    },
+    "dex": 3,
     "sta": 2,
     "pre": 1,
     "man": 2,

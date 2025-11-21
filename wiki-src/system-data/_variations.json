@@ -308,7 +308,7 @@
       "min": 1,
       "max": 5
     },
-    "effect": "{{NAME}} possesses an uncanny situational awareness. {{He}} always manages to stand with some object between {{himself}} and the enemy sniper. Guards searching for {{him}} always seem to arrive moments after {{he}} turns a corner and ducks out of sight. And {{his}} gun clears the holster a split second before the ambush.",
+    "effect": "{{NAME}} possesses an uncanny situational awareness. {{He}} always manages to stand with some object between {{himself}} and the enemy sniper. Guards searching for {{him}} always seem to arrive moments after {{he}} turns a corner and ducks out of sight. And {{his}} gun clears the holster a split second before the ambush.{{OPTIONLIST:vars.options}}",
     "options": {
       "elusive": "If a guard or searcher would make a roll to notice, find, or tail {{NAME}}, the roll suffers a -2 penalty. In addition, {{NAME}} enjoys a {{TOOLTIP:tiny-tooltip,+{{ROUNDUP:{{CALC:0.5 * {{VALUE:scarPower}}}}}},Half Scar Power ({{VALUE:scarPower}}) = <strong>+{{ROUNDUP:{{CALC:0.5 * {{VALUE:scarPower}}}}}}</strong>}} bonus to rolls to avoid surprise and identify, avoid, and disarm traps — whether it is a trip wire that sets off a rockslide or an improvised explosive device."
     },
