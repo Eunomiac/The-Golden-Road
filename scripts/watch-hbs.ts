@@ -39,7 +39,7 @@ try {
   console.warn("[HBS] Could not get realpath, using resolved path");
 }
 // eslint-disable-next-line no-console
-console.log(`[HBS] Watching ${srcDir} for .hbs and .json file changes...`);
+console.log(`[HBS] Watching ${srcDir} for .hbs and .json5 file changes...`);
 // eslint-disable-next-line no-console
 console.log(`[HBS] Watching directory: ${srcDir}`);
 
@@ -87,7 +87,7 @@ function findJsonFilesRecursive(dir: string): string[] {
       const stat = fs.statSync(fullPath);
       if (stat.isDirectory()) {
         results.push(...findJsonFilesRecursive(fullPath));
-      } else if (stat.isFile() && fullPath.endsWith(".json")) {
+      } else if (stat.isFile() && fullPath.endsWith(".json5")) {
         results.push(fullPath);
       }
     }
@@ -187,7 +187,7 @@ setInterval(() => {
       if (index > -1) {
         allWatchedFiles.splice(index, 1);
         fileTimestamps.delete(filePath);
-        if (filePath.endsWith(".json")) {
+        if (filePath.endsWith(".json5")) {
           const jsonIndex = jsonFiles.indexOf(filePath);
           if (jsonIndex > -1) {
             jsonFiles.splice(jsonIndex, 1);
@@ -304,10 +304,10 @@ function getFileTypeLabel(filePath: string): string {
     return "HBS";
   }
   if (filePath.includes(`${path.sep}system-data${path.sep}`)) {
-    return "System JSON";
+    return "System JSON5";
   }
-  if (filePath.endsWith(".json")) {
-    return "JSON";
+  if (filePath.endsWith(".json5")) {
+    return "JSON5";
   }
   return "file";
 }

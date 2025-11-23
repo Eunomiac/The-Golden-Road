@@ -1,6 +1,7 @@
 import Handlebars = require("handlebars");
 import * as fs from "fs";
 import * as path from "path";
+import * as JSON5 from "json5";
 import type {
   PCJSONData,
   PCSheetData,
@@ -28,6 +29,7 @@ import {
   SkillPhysical,
   SkillSocial
 } from "./types";
+import { NotationError } from "./curly-notations/NotationError";
 import { CurlyNotationProcessor } from "./curly-notations/CurlyNotationProcessor";
 import type { ProcessingContext } from "./curly-notations/ProcessingContext";
 import { MeritProcessor } from "./MeritProcessor";
@@ -86,8 +88,22 @@ interface TraitDefinition {
  */
 export class PCSheet {
   protected jsonData: PCJSONData;
-  private static attributesCache: Record<string, TraitDefinition> | null = null;
-  private static skillsCache: Record<string, TraitDefinition> | null = null;
+  private static attributesCache?: Record<string, TraitDefinition>;
+  private static skillsCache?: Record<string, TraitDefinition>;
+  private static readonly mentalAttributeKeys: ReadonlySet<string> = new Set(
+    Object.values(AttributeMental)
+  );
+  private static readonly physicalAttributeKeys: ReadonlySet<string> = new Set(
+    Object.values(AttributePhysical)
+  );
+  private static readonly socialAttributeKeys: ReadonlySet<string> = new Set(
+    Object.values(AttributeSocial)
+  );
+  private static readonly mentalSkillKeys: ReadonlySet<string> = new Set(Object.values(SkillMental));
+  private static readonly physicalSkillKeys: ReadonlySet<string> = new Set(
+    Object.values(SkillPhysical)
+  );
+  private static readonly socialSkillKeys: ReadonlySet<string> = new Set(Object.values(SkillSocial));
   private notationProcessor: CurlyNotationProcessor;
   private meritProcessor: MeritProcessor;
   private variationProcessor: VariationProcessor;
@@ -105,10 +121,8 @@ export class PCSheet {
    * Loads and caches attributes JSON file
    */
   private static loadAttributes(): Record<string, TraitDefinition> {
-    if (this.attributesCache === null) {
-      const jsonPath = path.resolve("wiki-src", "system-data", "_attributes.json");
-      const jsonContent = fs.readFileSync(jsonPath, { encoding: "utf8" });
-      this.attributesCache = JSON.parse(jsonContent);
+    if (!this.attributesCache) {
+      this.attributesCache = this.readTraitDefinitionFile("_attributes.json5");
     }
     return this.attributesCache;
   }
@@ -117,12 +131,24 @@ export class PCSheet {
    * Loads and caches skills JSON file
    */
   private static loadSkills(): Record<string, TraitDefinition> {
-    if (this.skillsCache === null) {
-      const jsonPath = path.resolve("wiki-src", "system-data", "_skills.json");
-      const jsonContent = fs.readFileSync(jsonPath, { encoding: "utf8" });
-      this.skillsCache = JSON.parse(jsonContent);
+    if (!this.skillsCache) {
+      this.skillsCache = this.readTraitDefinitionFile("_skills.json5");
     }
     return this.skillsCache;
+  }
+
+  private static readTraitDefinitionFile(fileName: string): Record<string, TraitDefinition> {
+    const jsonPath = path.resolve("wiki-src", "system-data", fileName);
+    const jsonContent = fs.readFileSync(jsonPath, { encoding: "utf8" });
+    const parsed = JSON5.parse(jsonContent);
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+      throw new NotationError(
+        `Trait definition file "${fileName}" is malformed.`,
+        "trait-definition",
+        jsonPath
+      );
+    }
+    return parsed as Record<string, TraitDefinition>;
   }
 
 
@@ -194,13 +220,10 @@ export class PCSheet {
    * Determines which category an attribute belongs to
    */
   protected getAttributeCategory(attr: Attribute): TraitCategory {
-    const mentalAttrs = Object.values(AttributeMental) as string[];
-    const physicalAttrs = Object.values(AttributePhysical) as string[];
-
-    if (mentalAttrs.includes(attr)) {
+    if (PCSheet.mentalAttributeKeys.has(attr)) {
       return TraitCategory.mental;
     }
-    if (physicalAttrs.includes(attr)) {
+    if (PCSheet.physicalAttributeKeys.has(attr)) {
       return TraitCategory.physical;
     }
     return TraitCategory.social;
@@ -210,13 +233,10 @@ export class PCSheet {
    * Determines which category a skill belongs to
    */
   protected getSkillCategory(skill: Skill): TraitCategory {
-    const mentalSkills = Object.values(SkillMental) as string[];
-    const physicalSkills = Object.values(SkillPhysical) as string[];
-
-    if (mentalSkills.includes(skill)) {
+    if (PCSheet.mentalSkillKeys.has(skill)) {
       return TraitCategory.mental;
     }
-    if (physicalSkills.includes(skill)) {
+    if (PCSheet.physicalSkillKeys.has(skill)) {
       return TraitCategory.physical;
     }
     return TraitCategory.social;
@@ -415,10 +435,23 @@ export class PCSheet {
    * Type guard to check if a value is an Attribute
    */
   protected isAttribute(value: Attribute | Skill): value is Attribute {
-    const mentalAttrs = Object.values(AttributeMental) as string[];
-    const physicalAttrs = Object.values(AttributePhysical) as string[];
-    const socialAttrs = Object.values(AttributeSocial) as string[];
-    return mentalAttrs.includes(value) || physicalAttrs.includes(value) || socialAttrs.includes(value);
+    return (
+      PCSheet.mentalAttributeKeys.has(value) ||
+      PCSheet.physicalAttributeKeys.has(value) ||
+      PCSheet.socialAttributeKeys.has(value)
+    );
+  }
+
+  protected isMentalSkill(skill: Skill): skill is SkillMental {
+    return PCSheet.mentalSkillKeys.has(skill);
+  }
+
+  protected isPhysicalSkill(skill: Skill): skill is SkillPhysical {
+    return PCSheet.physicalSkillKeys.has(skill);
+  }
+
+  protected isSocialSkill(skill: Skill): skill is SkillSocial {
+    return PCSheet.socialSkillKeys.has(skill);
   }
 
   /**
@@ -492,7 +525,8 @@ export class PCSheet {
     const dotline = this.resolveDotline(valueData);
     const cssClasses = this.buildCssClasses(tags);
     // Tooltip will be built later when we have full PCSheetData
-    const tooltip: {tooltipHTML: string, tooltipID: string} | undefined = undefined;
+    const tooltipHTML: string | undefined = undefined;
+    const tooltipID: string | undefined = undefined;
 
     return {
       key,
@@ -501,8 +535,8 @@ export class PCSheet {
       tags,
       specs,
       cssClasses,
-      tooltip: tooltip?.tooltipHTML,
-      tooltipID: tooltip?.tooltipID
+      tooltip: tooltipHTML,
+      tooltipID
     };
   }
 
@@ -584,7 +618,8 @@ export class PCSheet {
     const dotline = this.resolveDotline(valueData);
     const cssClasses = this.buildCssClasses(tags, priority);
     // Tooltip will be built later when we have full PCSheetData
-    const tooltip: {tooltipHTML: string, tooltipID: string} | undefined = undefined;
+    const tooltipHTML: string | undefined = undefined;
+    const tooltipID: string | undefined = undefined;
 
     // Type guard narrows the key type, allowing us to construct the appropriate type
     if (this.isAttribute(key)) {
@@ -595,8 +630,8 @@ export class PCSheet {
         tags,
         specs,
         cssClasses,
-        tooltip: tooltip?.tooltipHTML,
-        tooltipID: tooltip?.tooltipID
+        tooltip: tooltipHTML,
+        tooltipID
       };
       return result as TraitData<T>;
     } else {
@@ -607,8 +642,8 @@ export class PCSheet {
         tags,
         specs,
         cssClasses,
-        tooltip: tooltip?.tooltipHTML,
-        tooltipID: tooltip?.tooltipID
+        tooltip: tooltipHTML,
+        tooltipID
       };
       return result as TraitData<T>;
     }
@@ -734,7 +769,15 @@ export class PCSheet {
         const category = this.getSkillCategory(skillKey);
         const priority = skillPriorities?.[category];
         const traitData = this.extractTraitData(skillKey, skillValue, priority);
-        skills[category][skillKey] = traitData;
+        if (this.isMentalSkill(skillKey)) {
+          skills.mental[skillKey] = traitData;
+        } else if (this.isPhysicalSkill(skillKey)) {
+          skills.physical[skillKey] = traitData;
+        } else if (this.isSocialSkill(skillKey)) {
+          skills.social[skillKey] = traitData;
+        } else {
+          throw new Error(`Unknown skill category for key "${skillKey}".`);
+        }
       }
 
       result.skills = skills as Required<typeof result.skills>;
@@ -972,19 +1015,25 @@ export class PCSheet {
    * Gets trait data by key from PCSheetData
    */
   protected getTraitData(key: string, data: PCSheetData): TraitDataAttribute | TraitDataSkill | TraitDataDerived | undefined {
-    // Check attributes
-    for (const category of [TraitCategory.mental, TraitCategory.physical, TraitCategory.social]) {
-      const attrs = data.attributes[category];
-      if (attrs && key in attrs) {
-        return attrs[key as Attribute] as TraitDataAttribute;
+    const attributeGroups: Array<Record<string, TraitDataAttribute>> = [
+      data.attributes.mental as Record<string, TraitDataAttribute>,
+      data.attributes.physical as Record<string, TraitDataAttribute>,
+      data.attributes.social as Record<string, TraitDataAttribute>
+    ];
+    for (const group of attributeGroups) {
+      if (Object.prototype.hasOwnProperty.call(group, key)) {
+        return group[key] as TraitDataAttribute;
       }
     }
 
-    // Check skills
-    for (const category of [TraitCategory.mental, TraitCategory.physical, TraitCategory.social]) {
-      const skills = data.skills[category];
-      if (skills && key in skills) {
-        return skills[key as Skill] as TraitDataSkill;
+    const skillGroups: Array<Record<string, TraitDataSkill>> = [
+      data.skills.mental as Record<string, TraitDataSkill>,
+      data.skills.physical as Record<string, TraitDataSkill>,
+      data.skills.social as Record<string, TraitDataSkill>
+    ];
+    for (const group of skillGroups) {
+      if (Object.prototype.hasOwnProperty.call(group, key)) {
+        return group[key] as TraitDataSkill;
       }
     }
 

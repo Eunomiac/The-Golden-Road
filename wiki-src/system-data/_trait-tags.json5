@@ -1,0 +1,108 @@
+{
+  "asset": {
+    "key": "asset",
+    "icon": "../assets/images/icons/asset.webp",
+    "size": 20,
+    "gap": 2,
+    "tooltip": {
+      "title": "Asset Skill",
+      "format": "tiny-tooltip",
+      "subtitle": "Professional Training Merit",
+      "blocks": [
+        "This Skill is an Asset Skill of {{NAME}}'s Professional Training Merit.",
+        "<em>(See 'Merits' tab for details.)</em>",
+      ],
+      "citation": {
+        "book": "DtR",
+        "page": 98
+      }
+    }
+  },
+  "hypercompetent": {
+    "key": "hypercompetent",
+    "icon": "../assets/images/icons/hypercompetence.webp",
+    "size": 20,
+    "gap": 2,
+    "tooltip": {
+      "title": "Hyper-Competence",
+      "format": "tiny-tooltip",
+      "blocks": [
+        "This Skill is the target of the Hyper-Competence Variation.",
+        "<em>(See 'Deviations' tab for details.)</em>",
+      ],
+      "citation": {
+        "book": "DtR",
+        "page": 122
+      }
+    }
+  },
+  "activationControlled": {
+    "key": "activationControlled",
+    "icon": "../assets/images/icons/activation-controlled.webp",
+    "size": 32,
+    "gap": 8,
+    "tooltip": {
+      "title": "Controlled Activation",
+      "format": "rules-card",
+      "blocks": [
+        "Variations entangled with this Controlled Scar only activate when {{NAME}} wishes to use them, but require a successful <strong>Scar Finesse</strong> roll. Once activated, they remain active until the end of the scene or until {{NAME}} deactivates them as an instant action.",
+        "<ul> \
+      <li>Dice Pool — {{NAMEVALUE:scarFinesse}} + {{NAMEVALUE:acclimation}} + {{DISPLAY:Variation Magnitude}} \
+        <ul> \
+          <li>If the target is an <strong>unwilling character</strong> or one who <strong>doesn't know they are being targeted</strong>, the intended victim makes a Contested <strong>{{DISPLAY:vars.scarResistanceAttribute}}</strong> + <strong>Supernatural Tolerance</strong> roll to avoid its effects. (If the Variation specifies that it is instead Resisted by the target, they do not generally get to Contest the roll as well.)</li> \
+        </ul> \
+      <li>Action — <strong>Simple</strong> ◆ <strong>Instant</strong> or <strong>Contested</strong> <em>(see above)</em></li> \
+      <li>Roll Results — \
+        <ul> \
+          <li><strong>Success:</strong> The Variation activates, and {{NAME}} suffers the effects of the entangled Scar. \
+          <li><strong>Exceptional Success:</strong> As a success, and {{NAME}} may heal a <strong>minor Instability</strong>. \
+          <li><strong>Failure:</strong> The Variation fails to activate. \
+          <li><strong>Dramatic Failure:</strong> The Variation fails to activate, and {{NAME}} suffers a <strong>minor Instability</strong>. \
+        </ul> \
+      </li> \
+    </ul>"
+      ]
+    }
+  },
+  "activationInvoluntary": {
+    "key": "activationInvoluntary",
+    "icon": "../assets/images/icons/activation-involuntary.webp",
+    "size": 32,
+    "gap": 8,
+    "tooltip": {
+      "title": "Involuntary Activation",
+      "format": "rules-card",
+      "blocks": [
+        "The Variation may activate without {{NAME}}'s consent, when certain triggering conditions are met. Nevertheless, {{NAME}} is generally able to activate the same Variations voluntarily, with a successful Scar Finesse roll.",
+        "<ul> \
+      <li>Dice Pool — {{NAMEVALUE:scarFinesse}} + {{NAMEVALUE:acclimation}} + {{DISPLAY:Variation Magnitude}} \
+        <ul> \
+          <li>If the target is an <strong>unwilling character</strong> or one who <strong>doesn't know they are being targeted</strong>, the intended victim makes a Contested <strong>{{DISPLAY:vars.scarResistanceAttribute}}</strong> + <strong>Supernatural Tolerance</strong> roll to avoid its effects. (If the Variation specifies that it is instead Resisted by the target, they do not generally get to Contest the roll as well.)</li> \
+        </ul> \
+      <li>Action — <strong>Simple</strong> ◆ <strong>Instant</strong> or <strong>Contested</strong> <em>(see above)</em></li> \
+      <li>Roll Results — \
+        <ul> \
+          <li><strong>Success:</strong> The Variation activates, and {{NAME}} suffers the effects of the entangled Scar. \
+          <li><strong>Exceptional Success:</strong> As a success, and {{NAME}} may heal a <strong>minor Instability</strong>. \
+          <li><strong>Failure:</strong> The Variation fails to activate. \
+          <li><strong>Dramatic Failure:</strong> The Variation fails to activate, and {{NAME}} suffers a <strong>minor Instability</strong>. \
+        </ul> \
+      </li> \
+    </ul>"
+      ]
+    }
+  },
+  "activationPersistent": {
+    "key": "activationPersistent",
+    "icon": "../assets/images/icons/activation-persistent.webp",
+    "size": 32,
+    "gap": 8,
+    "tooltip": {
+      "title": "Persistent",
+      "format": "rules-card",
+      "blocks": [
+        "All entangled Variations are either always active, or can be activated reflexively by {{NAME}} (without a roll).  Once activated, they remain active until the end of the scene or until {{NAME}} deactivates them as an instant action."
+      ]
+    }
+  }
+}

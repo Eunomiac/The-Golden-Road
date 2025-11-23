@@ -1,4 +1,4 @@
-import type { AdvantageJSON } from "./types";
+import type { AdvantageJSON, AdvantageValueRange, ScarValue, VariationValue } from "./types";
 import { SystemDataLoader } from "../../curly-notations/SystemDataLoader";
 import type { ProcessingContext } from "../../curly-notations/ProcessingContext";
 import type { PurchaseLevelStrategy } from "./helpers";
@@ -10,7 +10,11 @@ import {
 } from "./helpers";
 import { AdvantageTextRenderer } from "./textRenderer";
 
-export interface AdvantagePreparationOptions<TJSON extends AdvantageJSON> {
+type SupportedAdvantageValue = number | AdvantageValueRange | VariationValue | ScarValue;
+
+export interface AdvantagePreparationOptions<
+  TJSON extends AdvantageJSON<SupportedAdvantageValue, Record<string, unknown>>
+> {
   purchaseStrategy: PurchaseLevelStrategy<TJSON["value"] | undefined>;
   deviationKeys?: string[];
   applyDeviations?: boolean;
@@ -27,7 +31,7 @@ export interface PreparedAdvantage {
 }
 
 export abstract class BaseAdvantageProcessor<
-  TJSON extends AdvantageJSON<unknown, Record<string, unknown>>
+  TJSON extends AdvantageJSON<SupportedAdvantageValue, Record<string, unknown>>
 > {
   protected systemDataLoader: SystemDataLoader;
   protected textRenderer: AdvantageTextRenderer;

@@ -54,6 +54,7 @@ Attributes (nested by category):
     </script>
       <script type="module" src="../scripts/stat-label-animations.js"></script>
       <script type="module" src="../scripts/tab-navigation.js"></script>
+      <script type="module" src="../scripts/tooltip-positioning.js"></script>
     </head>
 
     <body class="layout-viewport">
@@ -63,6 +64,7 @@ Attributes (nested by category):
             {{> _partials/tab-navigation-pc }}
           </section>
           <main class="container paper-stack">
+            <div class="paper-stack-scroll">
             <section class="page pc-page" name="front">
 
               {{!-- Header Block --}}
@@ -131,6 +133,7 @@ Attributes (nested by category):
               variationsByScar=variationsByScar
               }}
             </section>
+            </div>
           </main>
         </div>
 

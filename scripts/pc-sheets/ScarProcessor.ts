@@ -4,6 +4,12 @@ import type { ProcessedScar, ScarJSON, ScarValue } from "./shared/advantage/type
 import { buildAdvantageDotline, hasDotlineStructure, scarPurchaseStrategy } from "./shared/advantage/helpers";
 import { BaseAdvantageProcessor } from "./shared/advantage/BaseAdvantageProcessor";
 
+const ACTIVATION_TAG_MAP: Record<string, string> = {
+  controlled: "activationControlled",
+  involuntary: "activationInvoluntary",
+  persistent: "activationPersistent"
+};
+
 export class ScarProcessor extends BaseAdvantageProcessor<ScarJSON> {
   constructor() {
     super("scars");
@@ -27,10 +33,12 @@ export class ScarProcessor extends BaseAdvantageProcessor<ScarJSON> {
       mergedScar.selectedDeviations = selectedDeviationKeys;
     }
 
+    const mergedVars = this.mergeVars(mergedScar.vars, scarJson.vars);
+
     const processingContext: ProcessingContext = {
       context: pcData,
       thisEntity: mergedScar,
-      vars: scarJson.vars,
+      vars: mergedVars,
       strict: true
     };
 
@@ -61,6 +69,7 @@ export class ScarProcessor extends BaseAdvantageProcessor<ScarJSON> {
       (scarJson as { activation?: string }).activation,
       typeof mergedScar.activation === "string" ? (mergedScar.activation as string) : undefined
     ) ?? "unknown";
+    const activationTags = this.buildActivationTags(activation);
     const dotlineSource = typeof scarJson.value !== "undefined"
       ? scarJson.value
       : (hasDotlineStructure(prepared.rawValue) ? prepared.rawValue : undefined);
@@ -79,7 +88,32 @@ export class ScarProcessor extends BaseAdvantageProcessor<ScarJSON> {
           ? (mergedScar.entangledVariations as string[])
           : undefined),
       activation,
+      activationTags: activationTags.length > 0 ? activationTags : undefined,
       source: (scarJson.source ?? mergedScar.source) as { book: string; page: number } | undefined
+    };
+  }
+
+  private mergeVars(
+    systemVars: unknown,
+    playerVars: unknown
+  ): Record<string, unknown> | undefined {
+    const normalize = (value: unknown): Record<string, unknown> | null => {
+      if (!value || typeof value !== "object" || Array.isArray(value)) {
+        return null;
+      }
+      return value as Record<string, unknown>;
+    };
+
+    const baseVars = normalize(systemVars);
+    const overrideVars = normalize(playerVars);
+
+    if (!baseVars && !overrideVars) {
+      return undefined;
+    }
+
+    return {
+      ...(baseVars ?? {}),
+      ...(overrideVars ?? {})
     };
   }
 
@@ -122,5 +156,16 @@ export class ScarProcessor extends BaseAdvantageProcessor<ScarJSON> {
       .map((entry) => (typeof entry === "string" ? entry.trim() : ""))
       .filter((entry) => entry.length > 0);
     return normalized.length > 0 ? normalized : [];
+  }
+
+  private buildActivationTags(value: string): string[] {
+    if (typeof value !== "string" || value.trim().length === 0) {
+      return [];
+    }
+    return value
+      .split(/[^a-zA-Z]+/)
+      .map((entry) => entry.toLowerCase())
+      .map((entry) => ACTIVATION_TAG_MAP[entry])
+      .filter((entry): entry is string => Boolean(entry));
   }
 }

@@ -1,18 +1,23 @@
 import * as fs from "fs";
 import * as path from "path";
+import * as JSON5 from "json5";
 
 /**
  * Maps logical aliases to their corresponding system data files.
  */
 const DATA_FILE_MAP: Record<string, string> = {
-  skills: "_skills.json",
-  attributes: "_attributes.json",
-  merits: "_merits.json",
-  variations: "_variations.json",
-  adaptations: "_adaptations.json",
-  scars: "_scars.json",
-  conditions: "_conditions.json",
-  tilts: "_tilts.json"
+  skills: "_skills.json5",
+  attributes: "_attributes.json5",
+  merits: "_merits.json5",
+  variations: "_variations.json5",
+  adaptations: "_adaptations.json5",
+  scars: "_scars.json5",
+  conditions: "_conditions.json5",
+  tilts: "_tilts.json5",
+  rules: "_rules.json5",
+  techniques: "_techniques.json5",
+  deviations: "_deviations.json5"
+
 };
 
 /**
@@ -70,7 +75,7 @@ export class SystemDataLoader {
 
     try {
       const jsonContent = fs.readFileSync(jsonPath, { encoding: "utf8" });
-      const parsed = JSON.parse(jsonContent) as Record<string, unknown>;
+      const parsed = JSON5.parse(jsonContent) as Record<string, unknown>;
       this.cache.set(alias, parsed);
       return parsed;
     } catch {

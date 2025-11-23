@@ -17,7 +17,7 @@
     "tags": ["mental"],
     "prerequisites": "Deviant",
     "value": 1,
-    "effect": "{{NAME}} can weaponize invasive memories of {{his}} Divergence. Once per chapter {{he}} may voluntarily take the {{TOOLTIP:tilt-card,Shaken Condition,json.conditions.shaken}} to trigger a vivid flashback about {{his}} transformation, revealing code phrases, diagrams, or overheard exchanges that will prove relevant even if their meaning is not immediately obvious.",
+    "effect": "{{NAME}} can weaponize invasive memories of {{his}} Divergence. Once per chapter {{he}} may voluntarily take the {{TOOLTIP:Shaken Condition,json.conditions.shaken}} to trigger a vivid flashback about {{his}} transformation, revealing code phrases, diagrams, or overheard exchanges that will prove relevant even if their meaning is not immediately obvious.",
     "source": {
       "book": "DtR",
       "page": 96
@@ -29,7 +29,7 @@
     "tags": ["mental"],
     "value": 1,
     "effect": "{{NAME}} constantly scans for the curling of fingers, the flash of a barrel, or the shift in a raised voice. Any reflexive {{NAMEVALUE:wit}} + {{NAMEVALUE:com}} roll {{he}} makes to detect an impending ambush, snare, or trap gains the <strong>8-again</strong> quality.",
-    "drawback": "If such a detection roll produces an exceptional success, {{NAME}} suffers the {{TOOLTIP:tilt-card,Spooked Condition,json.conditions.spooked}} from recognizing the danger too clearly.",
+    "drawback": "If such a detection roll produces an exceptional success, {{NAME}} suffers the {{TOOLTIP:Spooked Condition,json.conditions.spooked}} from recognizing the danger too clearly.",
     "source": {
       "book": "DtR",
       "page": 97
@@ -69,7 +69,7 @@
       },
       "2": {
         "name": "Continuing Education",
-        "effect": "Whenever {{NAME}} rolls one of the Asset Skills tied to this Merit, the test gains the <strong>9-again</strong> quality."
+        "effect": "Whenever {{NAME}} rolls one of the Asset Skills tied to this Merit, the test gains the {{TOOLTIP:9-again,json.rules.9again}} quality."
       },
       "3": {
         "name": "Breadth of Knowledge",
@@ -81,7 +81,7 @@
       },
       "5": {
         "name": "The Routine",
-        "effect": "Before rolling an Asset Skill tied to this Merit, {{NAME}} may spend 1 Willpower to treat the roll as rote (reroll all failed dice once)."
+        "effect": "Before rolling an Asset Skill tied to this Merit, {{NAME}} may spend 1 Willpower to treat the roll as a {{TOOLTIP:rote action,json.rules.roteAction}}."
       }
     },
     "source": {
@@ -102,24 +102,25 @@
     "levels": {
       "1": {
         "name": "Flow",
-        "effect": "{{NAME}} reacts instinctively to any obstacles with leaps, jumps, and scaling techniques. When in a foot chase, subtract <strong>{{VALUE:this.value}}</strong> from the successes needed to pursue or evade. Also, ignore up to <strong>-{{VALUE:this.value}}</strong> from environmental penalties to Athletics rolls."
+        "effect": "{{NAME}} reacts instinctively to any obstacles with leaps, jumps, and scaling techniques. When in a foot chase, subtract <strong>{{VALUE:this.value}}</strong> from the successes needed to pursue or evade.{{BR}}Also, ignore up to <strong>-{{VALUE:this.value}}</strong> from environmental penalties to Athletics rolls."
       },
       "2": {
         "name": "Cat Leap",
-        "effect": "{{NAME}} falls with outstanding grace. When using a {{NAMEVALUE:dex}} + {{NAMEVALUE:athletics}} roll to mitigate damage from falling, {{he}} gains one automatic success. Additionally, {{he}} adds <strong>{{VALUE:this.value}}</strong> to the amount of damage removed through this roll. Parkour will not mitigate damage from a terminal-velocity fall."
+        "effect": "{{NAME}} falls with outstanding grace. When using a {{NAMEVALUE:dex}} + {{NAMEVALUE:athletics}} roll to mitigate damage from falling, {{he}} gains one automatic success. Additionally, {{he}} adds <strong>{{VALUE:this.value}}</strong> to the amount of damage removed through this roll.",
+        "drawback": "Parkour will not mitigate damage from a terminal-velocity fall."
       },
       "3": {
         "name": "Wall Run",
-        "effect": "When climbing, {{NAME}} can run upward for some distance before having to traditionally climb. Without rolling, {{NAME}} scales <strong>{{CALC:10 + (5 * {{VALUE:athletics}})}} feet</strong> as an instant action, rather than the normal 10 feet."
+        "effect": "When climbing, {{NAME}} can run upward for some distance before having to traditionally climb. Without rolling, {{NAME}} scales <strong>{{TOOLTIP:tiny-tooltip,{{CALC:10 + (5 * {{VALUE:athletics}})}} feet,10 + 5 × {{NAMEVALUE:athletics}} = {{CALC:10 + (5 * {{VALUE:athletics}})}}}}</strong> as an instant action, rather than the normal 10 feet."
       },
       "4": {
         "name": "Expert Traceur",
-        "effect": "Parkour has become second nature for {{NAME}}. By spending a Willpower point, {{he}} may designate one Athletics roll to run, jump, or climb as a <strong>rote action</strong> (reroll all failed dice once).",
+        "effect": "Parkour has become second nature for {{NAME}}. By spending a Willpower point, {{he}} may designate one Athletics roll to run, jump, or climb as a {{TOOLTIP:rote action,json.rules.roteAction}} (reroll all failed dice once).",
         "drawback": "On any turn during which {{NAME}} uses this ability, {{he}} may not apply {{his}} Defense to oncoming attacks."
       },
       "5": {
         "name": "Freeflow",
-        "effect": "{{NAME}}'s Parkour is now muscle memory. {{He}} can move without thinking, in a Zenlike state. {{NAME}} must successfully meditate {{SOURCE:CoD/75}} in order to establish Freeflow. Once established, {{he}} is capable of taking Athletics actions reflexively once per turn. By spending a point of Willpower on an Athletics roll in a foot chase, {{he}} gains three <em>successes</em> instead of three dice."
+        "effect": "{{NAME}}'s Parkour is now muscle memory. {{He}} can move without thinking, in a Zenlike state. {{NAME}} must successfully {{TOOLTIP:meditate,json.rules.meditation}} in order to establish Freeflow. Once established, {{he}} is capable of taking Athletics actions reflexively once per turn.{{BR}}By spending a point of Willpower on an Athletics roll in a foot chase, {{he}} gains three <em>successes</em> instead of three dice."
       }
     },
     "source": {

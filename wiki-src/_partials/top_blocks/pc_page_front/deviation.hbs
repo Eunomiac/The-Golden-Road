@@ -1,6 +1,13 @@
 <div class="block top-block deviation-block">
 
   <div class="deviation-columns">
+      {{#with (lookup variationsByScar "__ungrouped__") as |standaloneVariations|}}
+        {{#if standaloneVariations}}
+              {{#each standaloneVariations}}
+                {{> _partials/advantage/variation-card variation=this isSub=false}}
+              {{/each}}
+        {{/if}}
+      {{/with}}
       {{#if scars}}
         {{#each scars}}
           <article class="scar-entry" data-scar-key="{{key}}">
@@ -11,8 +18,11 @@
                 {{/each}}
               </div>
               <div class="scar-title-row">
-                <span class="scar-activation-icon scar-activation-{{activation}}"></span>
-                <span class="scar-name">{{display}}</span>
+                <span class="scar-name">
+                  {{#tagged tags=activationTags}}
+                    {{display}}
+                  {{/tagged}}
+                </span>
                 <span class="scar-meta">
                   {{#if valueDots}}
                     <span class="scar-value dotline">
@@ -64,7 +74,24 @@
   const deviationBlock = document.querySelector(".deviation-block");
 
   if (deviationBlock) {
-    const createAccordion = (items, selectors, options = {}) => {
+    const accordionRegistry = (() => {
+      let currentEntry = null;
+      return {
+        requestOpen(item, closeFn) {
+          if (currentEntry && currentEntry.item !== item) {
+            currentEntry.close(false);
+          }
+          currentEntry = { item, close: closeFn };
+        },
+        notifyClosed(item) {
+          if (currentEntry && currentEntry.item === item) {
+            currentEntry = null;
+          }
+        }
+      };
+    })();
+
+    const createAccordion = (items, selectors, options = {}, registry = null) => {
       const groupItems = Array.from(items);
       if (groupItems.length === 0) {
         return null;
@@ -100,6 +127,9 @@
           if (typeof options.onClose === "function") {
             options.onClose(item, true);
           }
+          if (registry) {
+            registry.notifyClosed(item);
+          }
           return;
         }
 
@@ -112,8 +142,14 @@
             content.style.display = "none";
             content.style.height = "";
             content.style.overflow = "";
+            if (openItem === item) {
+              openItem = null;
+            }
             if (typeof options.onClose === "function") {
               options.onClose(item, false);
+            }
+            if (registry) {
+              registry.notifyClosed(item);
             }
           }
         });
@@ -142,10 +178,6 @@
             }
           }, "-=0.1");
         }
-
-        if (openItem === item) {
-          openItem = null;
-        }
       };
 
       const openPanel = (item, header, content, narrative) => {
@@ -155,6 +187,10 @@
 
         openItem = item;
         header.setAttribute("aria-expanded", "true");
+
+        if (registry) {
+          registry.requestOpen(item, (instantClose = false) => closePanel(item, instantClose));
+        }
 
         content.style.display = "block";
         content.style.opacity = "0";
@@ -237,12 +273,26 @@
       );
       const controller = createAccordion(
         directVariationEntries,
-        { header: ".variation-header", content: ".variation-content", narrative: ".variation-narrative" }
+        { header: ".variation-header", content: ".variation-content", narrative: ".variation-narrative" },
+        undefined,
+        accordionRegistry
       );
       if (controller) {
         variationControllers.set(group, controller);
       }
     });
+
+    const standaloneVariations = Array.from(
+      deviationBlock.querySelectorAll(".deviation-columns > .variation-entry")
+    );
+    if (standaloneVariations.length > 0) {
+      createAccordion(
+        standaloneVariations,
+        { header: ".variation-header", content: ".variation-content", narrative: ".variation-narrative" },
+        undefined,
+        accordionRegistry
+      );
+    }
 
     createAccordion(
       deviationBlock.querySelectorAll(".scar-entry"),
@@ -253,7 +303,8 @@
             variationControllers.get(group)?.closeAll({ instant: true });
           });
         }
-      }
+      },
+      accordionRegistry
     );
   }
 </script>

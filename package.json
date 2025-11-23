@@ -27,6 +27,7 @@
     "chokidar": "^3.6.0",
     "concurrently": "^8.2.2",
     "handlebars": "^4.7.8",
+    "json5": "^2.2.3",
     "sass": "^1.80.0",
     "tsx": "^4.19.0",
     "typescript": "^5.9.3"

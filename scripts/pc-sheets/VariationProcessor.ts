@@ -34,12 +34,14 @@ export class VariationProcessor extends BaseAdvantageProcessor<VariationJSON> {
     }
 
     const mergedVars = this.combineVars(mergedVariation, variationJson);
+    const entangledScarKey = this.getEntangledScarKey(variationJson, mergedVariation);
 
     // Step 5: Select and process effect
     const resolvedType = this.resolveVariationType(
       variationJson,
       mergedVariation,
-      pcData
+      pcData,
+      entangledScarKey
     );
     if (resolvedType) {
       mergedVariation.type = resolvedType;
@@ -96,6 +98,12 @@ export class VariationProcessor extends BaseAdvantageProcessor<VariationJSON> {
       ...(valueDots ? { valueDots } : {}),
       ...this.copyOtherProperties(mergedVariation, variationJson)
     };
+
+    if (entangledScarKey) {
+      processed.entangledScar = entangledScarKey;
+    } else if ("entangledScar" in processed) {
+      delete (processed as Record<string, unknown>).entangledScar;
+    }
 
     return processed;
   }
@@ -208,7 +216,8 @@ export class VariationProcessor extends BaseAdvantageProcessor<VariationJSON> {
   private resolveVariationType(
     variationJson: VariationJSON,
     mergedVariation: Record<string, unknown>,
-    pcData: PCSheetData
+    pcData: PCSheetData,
+    entangledScarKey?: string
   ): "physical" | "mental" | "social" | undefined {
     const directType = this.normalizeScarType(
       (variationJson as { type?: unknown }).type ?? mergedVariation.type
@@ -217,22 +226,22 @@ export class VariationProcessor extends BaseAdvantageProcessor<VariationJSON> {
       return directType;
     }
 
-    const entangledScarKey = this.getEntangledScarKey(variationJson, mergedVariation);
-    if (!entangledScarKey) {
+    const normalizedScarKey = entangledScarKey ?? this.getEntangledScarKey(variationJson, mergedVariation);
+    if (!normalizedScarKey) {
       return undefined;
     }
 
-    const scar = this.findScarInContext(entangledScarKey, pcData);
+    const scar = this.findScarInContext(normalizedScarKey, pcData);
     if (!scar) {
       throw new Error(
-        `Variation "${variationJson.key}" references entangled scar "${entangledScarKey}", but that scar was not found.`
+        `Variation "${variationJson.key}" references entangled scar "${normalizedScarKey}", but that scar was not found.`
       );
     }
 
     const scarType = this.normalizeScarType((scar as Record<string, unknown>).type);
     if (!scarType) {
       throw new Error(
-        `Entangled scar "${entangledScarKey}" (referenced by variation "${variationJson.key}") is missing a valid type ("physical", "mental", or "social").`
+        `Entangled scar "${normalizedScarKey}" (referenced by variation "${variationJson.key}") is missing a valid type ("physical", "mental", or "social").`
       );
     }
 
@@ -255,7 +264,15 @@ export class VariationProcessor extends BaseAdvantageProcessor<VariationJSON> {
     }
 
     const trimmed = candidate.trim();
-    return trimmed.length > 0 ? trimmed : undefined;
+    if (trimmed.length === 0) {
+      return undefined;
+    }
+
+    if (trimmed.toLowerCase() === "none") {
+      return undefined;
+    }
+
+    return trimmed;
   }
 
   private findScarInContext(

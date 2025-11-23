@@ -125,6 +125,7 @@ export interface ProcessedScar extends ProcessedAdvantage {
   purchaseLevel: number;
   entangledVariations?: string[];
   activation?: string;
+  activationTags?: string[];
   valueDots?: string[];
 }
 

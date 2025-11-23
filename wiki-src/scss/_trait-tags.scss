@@ -1,0 +1,40 @@
+.trait-tagged-block {
+  --trait-tag-parent-height: var(--trait-tag-parent-height, 1em);
+  display: inline-flex;
+  align-items: center;
+  column-gap: var(--trait-tag-gap, 4px);
+  vertical-align: middle;
+  // position: relative;
+  // top: calc(
+  //   (
+  //     var(--trait-tag-parent-height, 1em) -
+  //     var(--trait-tag-icon-max, var(--trait-tag-parent-height, 1em))
+  //   ) / 2
+  // );
+}
+
+.trait-tag-icon-row {
+  display: inline-flex;
+  align-items: center;
+  column-gap: var(--trait-tag-gap, 4px);
+}
+
+.trait-tag-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.trait-tag-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+.tagged-trait {
+  display: inline-flex;
+  align-items: center;
+}

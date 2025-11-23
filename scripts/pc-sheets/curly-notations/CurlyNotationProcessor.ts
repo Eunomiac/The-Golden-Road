@@ -89,24 +89,26 @@ export class CurlyNotationProcessor {
 
       this.tooltipReplacementStack.push([]);
 
-      const pattern = /\{\{([^{}]+)\}\}/;
       let result = text;
-      let match;
+      let searchIndex = 0;
 
       // Loop until no more notations found
-      while ((match = pattern.exec(result)) !== null) {
-        const fullMatch = match[0];  // e.g., "{{VALUE:athletics}}"
-        const content = match[1];    // e.g., "VALUE:athletics"
-        const matchIndex = match.index;
+      while (true) {
+        const notation = this.findNextNotation(result, searchIndex);
+        if (!notation) {
+          break;
+        }
+
+        const { start, end, content, raw } = notation;
 
         try {
           // Process the notation
-          const processed = this.processNotation(content, processingContext, result, fullMatch);
+          const processed = this.processNotation(content, processingContext, result, raw);
 
           // Replace at specific position
-          result = result.substring(0, matchIndex) +
+          result = result.substring(0, start) +
                    String(processed) +
-                   result.substring(matchIndex + fullMatch.length);
+                   result.substring(end);
           this.currentContainerSnapshot = result;
         } catch (error) {
           if (error instanceof NotationError) {
@@ -115,9 +117,9 @@ export class CurlyNotationProcessor {
             } else {
               // Replace with inline error
               const errorHtml = error.toInlineError();
-              result = result.substring(0, matchIndex) +
+              result = result.substring(0, start) +
                        errorHtml +
-                       result.substring(matchIndex + fullMatch.length);
+                       result.substring(end);
               this.currentContainerSnapshot = result;
             }
           } else {
@@ -126,8 +128,8 @@ export class CurlyNotationProcessor {
           }
         }
 
-        // Reset regex to start from beginning (string changed)
-        pattern.lastIndex = 0;
+        // Continue scanning from the start of the replacement to catch newly inserted notations
+        searchIndex = Math.max(0, start);
       }
 
       const currentQueue = this.tooltipReplacementStack.pop() ?? [];
@@ -543,6 +545,57 @@ export class CurlyNotationProcessor {
     return match ? match[0] : "";
   }
 
+  private findNextNotation(
+    text: string,
+    fromIndex: number
+  ): { start: number; end: number; content: string; raw: string } | null {
+    const length = text.length;
+
+    for (let i = fromIndex; i < length - 1; i++) {
+      if (text[i] === "{" && text[i + 1] === "{") {
+        let depth = 1;
+        let j = i + 2;
+
+        while (j < length - 1) {
+          if (text[j] === "{" && text[j + 1] === "{") {
+            depth += 1;
+            j += 2;
+            continue;
+          }
+
+          if (text[j] === "}" && text[j + 1] === "}") {
+            depth -= 1;
+            j += 2;
+
+            if (depth === 0) {
+              const raw = text.slice(i, j);
+              return {
+                start: i,
+                end: j,
+                raw,
+                content: raw.substring(2, raw.length - 2)
+              };
+            }
+            continue;
+          }
+
+          j += 1;
+        }
+
+        const snippet = text.slice(i, Math.min(length, i + 120));
+        throw new NotationError(
+          `Unclosed curly notation detected near "${snippet}".`,
+          snippet,
+          undefined,
+          undefined,
+          "Parser could not find matching '}}'."
+        );
+      }
+    }
+
+    return null;
+  }
+
   private extractTooltipMarkup(text: string): string {
     const pattern = /<span[^>]*class="[^"]*has-tooltip[^"]*"[^>]*>[\s\S]*?<div[^>]*>[\s\S]*?<\/div>/i;
     const match = text.match(pattern);
@@ -585,12 +638,18 @@ export class CurlyNotationProcessor {
     }
 
     if (typeof text === "string" && /\{\{[^{}]+\}\}/.test(text)) {
+      const matchIndex = text.indexOf("{{");
+      const contextRadius = 80;
+      const start = Math.max(0, matchIndex - contextRadius);
+      const end = Math.min(text.length, matchIndex + contextRadius);
+      const snippet = text.slice(start, end);
+      const preview = `${start > 0 ? "…" : ""}${snippet}${end < text.length ? "…" : ""}`;
       throw new NotationError(
-        "General replacement attempted before all curly notations were resolved.",
+        `General replacement attempted before all curly notations were resolved. Context: "${preview}"`,
         "GENERAL_REPLACEMENT",
         undefined,
         undefined,
-        `Remaining snippet: ${text.slice(0, 120)}`
+        `Remaining snippet: ${preview}`
       );
     }
     return text;

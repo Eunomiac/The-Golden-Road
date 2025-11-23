@@ -16,7 +16,7 @@ export class IfNaHandler implements NotationHandler {
     context: ProcessingContext,
     processor: CurlyNotationProcessor
   ): string {
-    const {
+    let {
       argument: primaryExpression,
       remainder: fallbackExpression
     } = extractFirstTopLevelArg(content);
@@ -31,12 +31,7 @@ export class IfNaHandler implements NotationHandler {
     }
 
     if (fallbackExpression === null) {
-      throw new NotationError(
-        "IFNA requires a fallback argument.",
-        `IFNA:${content}`,
-        context.filePath,
-        context.lineNumber
-      );
+      fallbackExpression = "";
     }
 
     try {

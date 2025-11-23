@@ -1,0 +1,108 @@
+{
+  "8again": {
+    "format": "rules-card",
+    "title": "8 Again",
+    "subtitle": "Roll Quality",
+    "blocks": [
+      "Reroll dice that show 8, 9 or 10 (i.e. all successful dice). Keep rerolling until you get a failing result, accumulating successes as you go.",
+      "If you gain 8-again on a roll that already had that quality, it may become a <strong>rote action</strong> at the Storyteller's discretion."
+    ],
+    "citation": {
+      "book": "DtR",
+      "page": 189
+    }
+  },
+  "9again": {
+    "format": "rules-card",
+    "title": "9 Again",
+    "subtitle": "Roll Quality",
+    "blocks": [
+      "Reroll dice that show 9 or 10, as opposed to just 10. Keep rerolling until you get a result that isn't a 9 or 10, accumulating successes as you go.",
+      "If you gain 9-again on a roll that already had that quality, it becomes <strong>8-again</strong> instead."
+    ],
+    "citation": {
+      "book": "DtR",
+      "page": 188
+    }
+  },
+  "meditation": {
+    "format": "rules-card",
+    "title": "Meditation",
+    "subtitle": "Extended Action",
+    "blocks": [
+      "Meditation is an <strong>extended action</strong>.",
+      "Dice Pool - {{NAMEVALUE:com}} + {{NAMEVALUE:wit}}",
+      "Target Successes - <strong>4</strong>",
+      "Interval - <strong>30 minutes</strong>",
+      "After successfully meditating, {{NAME}} gains a +1 bonus to {{his}} next breaking point roll.",
+      "Once this bonus is used or {{NAME}} sleeps, the benefits of meditation end and must be regained by meditating again.",
+      "Soothing music or relaxation tapes can provide a <strong>+1</strong> to <strong>+2</strong> equipment bonus. A dedicated meditation room provides <strong>+3</strong>. Loud noises, an uncomfortable environment, or lack of sleep inflict a <strong>&minus;1</strong> penalty each. Lack of food inflicts a <strong>&minus;1</strong> to <strong>&minus;3</strong> penalty."
+    ]
+  },
+  "mediumBurst": {
+    "format": "rules-card", // Apply as a CSS class to the tooltip content container.
+    "title": "Medium Burst", // Wrap in <span class='tooltip-title'>...</span>
+    "subtitle": "Firearms Attack", // Wrap in <span class='tooltip-subtitle'>...</span>
+    "blocks": [ // Wrap each element in <span class='tooltip-block'>...</span>
+      "Uses 10 bullets. +2 bonus to attack action. Can attack up to three targets, rolling individually against each and suffering a -1 penalty per target after the first.",
+    ],
+    "citation": { // Wrap in <span class='source-citation'>...</span>, with two children: (full) book name in <span class='source-title'>...</span> and page number in <span class='source-page'>...</span>
+      "book": "DtR", // Use the book abbreviation to look up the full book name in the system data.
+      "page": 198
+    }
+  },
+  "overt": {
+    "format": "rules-card",
+    "title": "Overt",
+    "subtitle": "Advantage Keyword",
+    "blocks": [
+      "The use of this Advantage is particularly blatant or obvious. Usage increases the likelihood of a conspiracy noting your activity. It may also trigger breaking points in Baselines, particularly if the Advantage is supernatural.",
+      "At the Storyteller's discretion, Overt Advantages used in seclusion (out of sight of witnesses and out of reach of mundane surveillance) may not attract additional conspiracy attention."
+    ]
+  },
+  "roteAction": {
+    "format": "rules-card",
+    "title": "Rote Actions",
+    "subtitle": "Roll Quality",
+    "blocks": [
+      "Reroll any dice that do not show an 8, 9, or 10, unless you're reduced to a chance die on a rote action and roll a dramatic failure.",
+      "You may only reroll each die once."
+    ],
+    "citation": {
+      "book": "DtR",
+      "page": 189
+    }
+  },
+  "scarFinesseRoll": {
+    "format": "tiny-tooltip",
+    "blocks": [
+      "{{NAMEVALUE:scarFinesse}} + {{NAMEVALUE:acclimation}} + <strong>Variation Magnitude</strong>",
+    ]
+  },
+  "scarFinesseRollHere": {
+    "format": "tiny-tooltip",
+    "blocks": [
+      "{{NAMEVALUE:scarFinesse}} + {{NAMEVALUE:acclimation}} + <strong>Magnitude (+{{VALUE:this.value}})</strong> = <strong>{{CALC:{{VALUE:scarFinesse}} + {{VALUE:acclimation}} + {{VALUE:this.value}}}} Dice</strong>",
+    ]
+  },
+  "scarResistanceRoll": {
+    "format": "tiny-tooltip",
+    "blocks": [
+      "{{NAMEVALUE:scarResistance}} + {{NAMEVALUE:acclimation}} &minus; <strong>Instability Penalty</strong>",
+    ]
+  }
+}
+
+/** Excample of final HTML for the tooltip content element for above 'mediumBurst' tooltip:
+
+    <span class="tooltip rules-card">
+      <span class="tooltip-title">Medium Burst</span>
+      <span class="tooltip-subtitle">Firearms Attack</span>
+      <span class="tooltip-block">Uses 10 bullets. +2 bonus to attack action. Can attack up to three targets, rolling individually against each and suffering a -1 penalty per target after the first.</span>
+      <span class="source-citation">
+        <span class="source-title">Deviant: the Renegades</span>
+        <span class="source-page">p.198</span>
+      </span>
+    </span>
+
+**/

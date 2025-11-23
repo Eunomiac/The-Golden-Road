@@ -3,6 +3,7 @@ import type { ProcessingContext } from "../ProcessingContext";
 import type { CurlyNotationProcessor } from "../CurlyNotationProcessor";
 import { ReferenceResolver } from "../ReferenceResolver";
 import { NotationError } from "../NotationError";
+import { splitTopLevelArgs } from "../utils/splitTopLevel";
 
 /**
  * Handles {{VALUE:<curlyreference>[:<default>]}} notation
@@ -20,13 +21,23 @@ export class ValueHandler implements NotationHandler {
     context: ProcessingContext,
     processor: CurlyNotationProcessor
   ): string | number {
-    // Parse content: may have default value after colon
-    const segments = content.split(",").map((segment) => segment.trim());
+    const segments = splitTopLevelArgs(content);
     const referencePart = segments.shift() ?? "";
-    const optionTokens = segments;
+    const options = this.parseOptions(segments);
 
-    const [reference, defaultValue] = this.parseReferenceAndDefault(referencePart);
-    const options = this.parseOptions(optionTokens);
+    const { reference: rawReference, defaultValue: rawDefault } = this.parseReferenceAndDefault(referencePart);
+
+    const reference = this.evaluateArgument(rawReference, processor, context);
+    const defaultValue = rawDefault ? this.evaluateArgument(rawDefault, processor, context) : undefined;
+
+    if (reference.length === 0) {
+      throw new NotationError(
+        "VALUE requires a reference argument.",
+        `VALUE:${content}`,
+        context.filePath,
+        context.lineNumber
+      );
+    }
 
     try {
       const resolved = this.referenceResolver.resolve(reference, context);
@@ -54,11 +65,38 @@ export class ValueHandler implements NotationHandler {
   /**
    * Extracts numeric value from an object
    */
-  private parseReferenceAndDefault(referencePart: string): [string, string | undefined] {
-    const parts = referencePart.split(":");
-    const reference = parts[0]?.trim() ?? "";
-    const defaultValue = parts[1]?.trim();
-    return [reference, defaultValue?.length ? defaultValue : undefined];
+  private parseReferenceAndDefault(referencePart: string): { reference: string; defaultValue?: string } {
+    let depth = 0;
+
+    for (let i = 0; i < referencePart.length; i++) {
+      const char = referencePart[i];
+      const next = referencePart[i + 1];
+
+      if (char === "{" && next === "{") {
+        depth += 1;
+        i += 1;
+        continue;
+      }
+
+      if (char === "}" && next === "}") {
+        depth = Math.max(depth - 1, 0);
+        i += 1;
+        continue;
+      }
+
+      if (char === ":" && depth === 0) {
+        const reference = referencePart.slice(0, i).trim();
+        const defaultValue = referencePart.slice(i + 1).trim();
+        return {
+          reference,
+          defaultValue: defaultValue.length > 0 ? defaultValue : undefined
+        };
+      }
+    }
+
+    return {
+      reference: referencePart.trim()
+    };
   }
 
   private coerceToNumber(
@@ -182,5 +220,23 @@ export class ValueHandler implements NotationHandler {
       return `−${Math.abs(value)}`;
     }
     return `+${value}`;
+  }
+
+  private evaluateArgument(
+    argument: string,
+    processor: CurlyNotationProcessor,
+    context: ProcessingContext
+  ): string {
+    const trimmed = argument.trim();
+    if (trimmed.length === 0) {
+      return "";
+    }
+
+    if (!trimmed.includes("{{")) {
+      return trimmed;
+    }
+
+    const evaluated = processor.process(trimmed, context, { finalizeTooltips: false });
+    return evaluated.trim();
   }
 }

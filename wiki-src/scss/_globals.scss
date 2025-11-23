@@ -5,9 +5,9 @@
 
 :root {
   // Fixed dimensions keep the faux paper consistent across resolutions.
-  --paper-height: 1080px;
+  --paper-height: 115vh;
   --paper-width: calc(var(--paper-height) * 8.5 / 11);
-  --scrollbar-width: 30px;
+  --scrollbar-width: 3px;
 }
 
 .block {
@@ -43,11 +43,24 @@
   --dotline-dot-bonus: url("../assets/images/dots/dot-bonus.webp");
   --dotline-dot-broken: url("../assets/images/dots/dot-broken.webp");
   --dotline-dot-ghost: url("../assets/images/dots/dot-ghost.webp");
+  --dotline-dot-entangled-scar: url("../assets/images/dots/dot-entangled-scar.webp");
+  --dotline-dot-entangled-variation: url("../assets/images/dots/dot-entangled-variation.webp");
   --dotline-dot-deviation-scar: url("../assets/images/dots/dot-deviant-scar.webp");
   --dotline-dot-open-deviation-scar: url("../assets/images/dots/dot-deviant-open-scar.webp");
   --dotline-dot-open-scar: url("../assets/images/dots/dot-open-scar.webp");
   --dotline-dot-deviation-variation: url("../assets/images/dots/dot-deviant-variation.webp");
   --dotline-dot-free: url("../assets/images/dots/dot-free.webp");
+
+  --dotline-dot-general: url("../assets/images/dots/dot-general.webp");
+  --dotline-dot-ghost-general: url("../assets/images/dots/dot-general-ghost.webp");
+  --dotline-dot-ghost: var(--dotline-dot-ghost-general);
+  --dotline-dot-entangled-scar: var(--dotline-dot-general);
+  --dotline-dot-entangled-variation: var(--dotline-dot-general);
+  --dotline-dot-deviation-scar: var(--dotline-dot-general);
+  --dotline-dot-open-deviation-scar: var(--dotline-dot-general);
+  --dotline-dot-open-scar: var(--dotline-dot-general);
+  --dotline-dot-deviation-variation: var(--dotline-dot-general);
+  --dotline-dot-free: var(--dotline-dot-general);
 
   &.attribute-dotline,
   &.skill-dotline {
@@ -56,7 +69,7 @@
   }
 
   &.scar-value.dotline {
-    --dotline-dot-full: url("../assets/images/dots/dot-entangled-scar.webp");
+    --dotline-dot-full: var(--dotline-dot-entangled-scar);
 
     .dot {
       &.deviation-dot {
@@ -72,7 +85,7 @@
   }
 
   &.variation-value.dotline {
-    --dotline-dot-full: url("../assets/images/dots/dot-entangled-variation.webp");
+    --dotline-dot-full: var(--dotline-dot-entangled-variation);
 
     .dot {
       &.deviation-dot {
@@ -122,7 +135,8 @@
       // transform-origin: center center;
       // transform: scale(4);
       // filter: grayscale(1);
-      background-image: var(--dotline-dot-ghost);
+      // background-image: var(--dotline-dot-ghost);
+      background-image: var(--dotline-dot-ghost-general);
     }
 
     &.deviation-dot {

@@ -264,14 +264,19 @@ export function buildAdvantageDotline(rawValue: unknown): string[] | undefined {
     baseCount = toPositiveInteger(rawValue);
   } else if (typeof rawValue === "object") {
     const record = rawValue as Record<string, unknown>;
-    if ("base" in record) {
-      baseCount = toPositiveInteger(record["base"]);
-    } else if ("total" in record) {
-      baseCount = toPositiveInteger(record["total"]);
-    } else if ("min" in record) {
-      baseCount = toPositiveInteger(record["min"]);
-    } else if ("max" in record) {
-      baseCount = toPositiveInteger(record["max"]);
+    const totalCount = toPositiveInteger(record["total"]);
+    const explicitBase = toPositiveInteger(record["base"]);
+    const maxCount = toPositiveInteger(record["max"]);
+    const minCount = toPositiveInteger(record["min"]);
+
+    if (totalCount > 0) {
+      baseCount = totalCount;
+    } else if (explicitBase > 0) {
+      baseCount = explicitBase;
+    } else if (maxCount > 0) {
+      baseCount = maxCount;
+    } else if (minCount > 0) {
+      baseCount = minCount;
     }
     deviationCount = toSignedInteger(record["deviation"]);
     freeCount = Math.min(1, toPositiveInteger(record["free"]));

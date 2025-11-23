@@ -184,7 +184,8 @@
         "monstrousTransformation"
       ],
       "vars": {
-        "stimulus": "when Micah bleeds"
+        "stimulus": "when Micah bleeds",
+        "activationInsistent": "All entangled Variations activate involuntarily <strong class='super-strong'>{{USE:vars.stimulus}}</strong>, unless {{NAME}} succeeds at a {{TOOLTIP:Scar Resistance,json.rules.scarResistanceRoll}} roll. If exposure continues, the Storyteller might call for more Scar Resistance rolls — no more often than once per turn in action scenes, once every several minutes in non-action scenes — with a penalty equal to the number of consecutive successful Scar Resistance rolls {{NAME}} has made this scene."
       },
       "selectedDeviations": [
         "uncontrollable"

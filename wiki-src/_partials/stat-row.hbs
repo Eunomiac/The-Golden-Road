@@ -22,7 +22,9 @@
 
 
   <div class="stat-label {{type}}-row stat-row-{{trait.value.total}} {{~#each trait.cssClasses}} {{this}}{{~/each~}}">
-    {{~ name ~}}
+    {{#tagged tags=trait.tags}}
+      {{~ name ~}}
+    {{/tagged}}
   </div>
 
   <div class="dotline {{type}}-dotline {{~#if trait.tooltipID}} has-tooltip{{~/if~}}" {{#if trait.tooltipID}} style="anchor-name: --{{trait.tooltipID}};"{{/if}}>

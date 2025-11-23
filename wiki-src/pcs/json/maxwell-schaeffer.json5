@@ -1,0 +1,201 @@
+{
+  "player": "Thaumaterge",
+  "name": "Maxwell Schaeffer",
+  "type": "pc",
+  "sex": "m",
+  "dob": "?? / ?? / ??",
+  "imageUrl": "assets/images/pc/maxwell.webp",
+  "concept": "the FIREMIND",
+  "origin": "Epimorph",
+  "clade": "Invasive",
+  "forms": ["Self-Made"],
+  "overview": "<strong>FIELD SYNOPSIS:</strong> Researcher formerly aligned with sanctioned <strong>Lamplighter</strong> operations, now classified as a Renegade after unauthorized self-experimentation. Neural architecture exhibits chronic overclocking, granting accelerated analysis and long-horizon tactical planning at the cost of volatility and psychological drift. Subject appears to operate as strategist and quartermaster for associated Deviants, repurposing Conspiracy techniques and hardware against prior handlers. Threat assessment: <strong class='threat-assessment'>UMBER</strong>; recovery or neutralization prioritized due to subject's intimate familiarity with internal protocols and failure modes.",
+  "health": 7,
+  "willpower": 3,
+  "acclimation": 0,
+  "stability": 5,
+  "size": 5,
+  "defense": 3,
+  "initiative": 4,
+  "speed": 10,
+  "attributePriorities": {
+    "mental": "primary",
+    "physical": "secondary",
+    "social": "tertiary"
+  },
+  "attributes": {
+    "int": {
+      "value": {
+        "base": 4,
+        "bonus": 3,
+        "total": 7
+      }
+    },
+    "wit": 2,
+    "res": 2,
+    "str": 2,
+    "dex": 3,
+    "sta": 2,
+    "pre": 3,
+    "man": 2,
+    "com": 1
+  },
+  "skillPriorities": {
+    "mental": "primary",
+    "physical": "tertiary",
+    "social": "secondary"
+  },
+  "skills": {
+    "academics": {
+      "value": 1,
+      "tags": ["asset"],
+      "specs": ["Research"]
+    },
+    "computer": 1,
+    "crafts": {
+      "value": 3,
+      "tags": ["asset"],
+      "specs": ["Cars"]
+    },
+    "occult": {
+      "value": 2,
+      "specs": ["Azoth"]
+    },
+    "science": {
+      "value": 4,
+      "tags": ["asset"],
+      "specs": ["Electricity,interdisciplinary,expert"]
+    },
+    "athletics": 1,
+    "drive": 1,
+    "firearms": 1,
+    "larceny": 1,
+    "expression": {
+      "value": 3,
+      "specs": ["Monologues"]
+    },
+    "intimidation": 2,
+    "persuasion": 1,
+    "subterfuge": 1
+  },
+  "adaptations": {},
+  "merits": [
+    {
+      "key": "areaOfExpertise",
+      "narrative": "Subject’s grasp of electrical systems is not learned so much as intrinsic. He reads power grids like prose, predicts overloads minutes in advance, and improvises containment rigs from household scrap that outperform his former Lamplighter lab’s equipment.",
+      "vars": {
+        "specialty": "Electricity"
+      }
+    },
+    {
+      "key": "interdisciplinarySpecialty",
+      "narrative": "Maxwell compulsively recasts every problem as an electrical model. Nervous systems, building security, even group dynamics become circuits to be rerouted or overloaded. This abstraction lets him “debug” unfamiliar fields quickly, at the cost of treating people as replaceable components.",
+      "vars": {
+        "specialty": "Electricity"
+      }
+    },
+    {
+      "key": "multilingual",
+      "narrative": "Operational necessity, not interest, drove his language acquisition. Spanish handles cartel contractors and Mexican infrastructure; German grants access to legacy occult physics papers. When excited, he code-switches mid-sentence, using whichever tongue carries the concept with least resistance.",
+      "vars": {
+        "lang1": "Spanish",
+        "lang2": "German"
+      }
+    },
+    {
+      "key": "professionalTraining",
+      "narrative": "Lamplighter conditioning persists as ritualized lab habits. He documents variables, schedules experiments like military operations, and maintains contact lists for specialists. Under pressure, this training surfaces automatically, turning improvised motel rooms and stolen vans into research environments within minutes.",
+      "value": 3,
+      "vars": {
+        "profession": "Scientist",
+        "assetSkills": ["Academics", "Crafts", "Science"]
+      },
+      "secondaryMerits": [
+        {
+          "key": "contacts",
+          "vars": {
+            "subtype": "electrical engineering academia"
+          },
+          "narrative": "University contacts remember Dr. Schaeffer as brilliant, intense, and chronically late to ethics briefings. He still trades on that reputation through encrypted mail, requesting data sets, equipment specs, or peer review from people who never realize what they’re enabling."
+        },
+        {
+          "key": "contacts",
+          "vars": {
+            "subtype": "drone hobbyists"
+          },
+          "narrative": "His so-called “drone forum friends” function as an informal logistics cell. They beta-test custom firmware, forward surplus parts, and unknowingly supply aerial reconnaissance over Lamplighter assets, believing they are participating in an eccentric civilian mapping project."
+        }
+      ]
+    },
+    {
+      "key": "formPrototype",
+      "value": 4,
+      "narrative": "The procedure that remade him was not destroyed. It lives in notebooks, improvised schematics, and muscle memory. Given time, tools, and a willing or desperate subject, Maxwell can patiently reassemble the apparatus and invite lightning into another unshielded brain."
+    }
+  ],
+  "scars": [
+    {
+      "key": "hubris",
+      "display": "Icarus Complex (Hubris)",
+      "type": "mental",
+      "value": 3,
+      "narrative": "Post-Divergence, subject exhibits malignant self-certainty. He narrates his plans to opponents, demands acknowledgment of his genius, and frequently releases defeated enemies as “proof” of superiority. Only designated ideological targets trigger hesitation; even then, a structured resistance check is required.",
+      "entangledVariations": [
+        "superhumanAttribute"
+      ],
+      "vars": {
+        "options": ["gloat"]
+      }
+    },
+    {
+      "key": "involuntaryStimulus",
+      "display": "Electrifying Inspiration (Involuntary Stimulus)",
+      "type": "mental",
+      "value": 2,
+      "narrative": "Cognitive breakthroughs correlate with uncontrolled discharge. When inspiration strikes—novel solution, elegant proof, unexpected pattern—entangled phenomena manifest spontaneously, electrical activity spiking around him. He cannot fully suppress these episodes, only attempt to exit the triggering context before collateral damage escalates.",
+      "entangledVariations": [
+        "electrokinesis"
+      ],
+      "vars": {
+        "stimulus": "when Maxwell is inspired",
+        "options": ["reactive"]
+      }
+    }
+  ],
+  "variations": [
+    {
+      "key": "electrokinesis",
+      "display": "Mind On Fire (Electrokinesis)",
+      "value": 2,
+      "narrative": "Local electromagnetic fields distort in Schaeffer’s presence once inspiration thresholds are crossed. He redirects current, suppresses surges, or weaponizes existing power lines, cooking circuitry or flesh. Direct contact with networked devices produces rapid, invasive analysis resembling a hostile forensic audit.",
+      "entangledScar": "involuntaryStimulus",
+      "vars": {
+        "options": ["conductivity", "research"]
+      }
+    },
+    {
+      "key": "superhumanAttribute",
+      "display": "Azoth Overclocking (Superhuman Intelligence)",
+      "value": 3,
+      "narrative": "Azoth exposure has overclocked Schaeffer’s cognition beyond human tolerances. He navigates contingencies effortlessly, infers missing data from sparse cues, and produces correct “guesses” that evade explanation. Observers report the unsettling impression he remembers conversations that have not occurred.",
+      "entangledScar": "hubris",
+      "vars": {
+        "attribute": "int"
+      }
+    },
+    {
+      "key": "omnicompetence",
+      "display": "Azoth Multi-Modality (Omnicompetence)",
+      "value": {
+        "base": 0,
+        "free": 1,
+        "total": 1
+      },
+      "narrative": "Subject displays a broad procedural fluency inconsistent with his documented training. Given tools and a demonstration, he can approximate unfamiliar tasks on the first attempt, from emergency surgery to stage magic, with competence sufficient to be dangerous, not reassuring.",
+      "entangledScar": "none"
+    }
+  ],
+  "touchstones": {},
+  "ambitions": {},
+  "bio": "<p>HTML content with <strong>formatting</strong> and 🎭 emojis</p>"
+}

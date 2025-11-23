@@ -26,7 +26,7 @@
   &:focus-visible+.tooltip {
     visibility: visible;
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translate(var(--tooltip-shift-x, 0px), var(--tooltip-shift-y, 0px)) scale(1);
     // Apply 1s delay when showing, with slightly longer animation
     // Visibility becomes visible immediately (no delay) so the fade can be seen
     transition-property: opacity, transform, visibility;
@@ -40,6 +40,8 @@
   position: absolute;
   position-area: top center;
   display: inline-block;
+  --tooltip-shift-x: 0px;
+  --tooltip-shift-y: 0px;
 
   background: url("../assets/images/backgrounds/ink-block.webp") no-repeat center center;
   background-size: 100% 100%;
@@ -55,6 +57,7 @@
   z-index: 10;
 
   margin-bottom: 16px;
+  margin-top: 0;
   padding: 24px 40px;
 
   color: $color-parchment;
@@ -64,7 +67,11 @@
   // Initial hidden state
   visibility: hidden;
   opacity: 0;
-  transform: translateY(8px) scale(0.98);
+  transform: translate(
+      var(--tooltip-shift-x, 0px),
+      calc(var(--tooltip-shift-y, 0px) + 8px)
+    )
+    scale(0.98);
   pointer-events: none;
   user-select: none;
   font-size: 16px;
@@ -76,11 +83,18 @@
   transition-timing-function: ease-out, ease-out, step-end; // Snappier feel for hiding
   transition-delay: 0s, 0s, 150ms; // Delay visibility until after fade completes
 
+  // When forced to render beneath the anchor, invert the margin + anchor area.
+  &.tooltip--below {
+    position-area: bottom center;
+    margin-bottom: 0;
+    margin-top: 16px;
+  }
+
   // Keep tooltip visible when hovering it directly
   &:hover {
     visibility: visible;
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translate(var(--tooltip-shift-x, 0px), var(--tooltip-shift-y, 0px)) scale(1);
     // pointer-events: auto;
     // No delay when hovering tooltip directly, but keep same transition setup
     transition-property: opacity, transform, visibility;
@@ -94,6 +108,10 @@
     min-height: unset;
     min-width: unset;
     white-space: nowrap;
+
+    .tooltip-block {
+      white-space: nowrap;
+    }
   }
 
   .tooltip-title,
@@ -164,7 +182,7 @@
     background: white;
     color: black;
     min-width: unset;
-    width: 480px;
+    width: 400px;
     padding: 0;
     border-radius: 20px;
     /* outline: 2px solid magenta; */
@@ -173,8 +191,8 @@
     .tooltip-title {
       color: white;
       font-family: "Chromoxome";
-      font-size: 48px;
-      line-height: 48px;
+      font-size: 32px;
+      line-height: 32px;
       font-weight: normal;
       text-shadow:
         0 0 2px black,
@@ -194,7 +212,15 @@
       background: url("../assets/images/backgrounds/tilt-condition-header.webp") no-repeat center center;
       background-size: 100% auto;
       margin-top: 0;
+    }
+
+    &.tilt-card .tooltip-title,
+    &.rules-card .tooltip-title{
       margin-bottom: 20px;
+    }
+
+    &.condition-card .tooltip-title {
+      margin-bottom: 5px;
     }
 
     .tooltip-subtitle {
@@ -206,7 +232,7 @@
 
     &.rules-card {
       padding: 10px;
-      font-size: 18px;
+      font-size: 14px;
       filter: drop-shadow(0px 0px 4px rgb(0, 0, 0)) drop-shadow(8px 8px 4px rgb(0, 0, 0));
       border-radius: 0;
 
@@ -244,7 +270,8 @@
 
     .tooltip-block {
       font-family: "GoudyOldStyle";
-      font-size: 19px;
+      font-size: 14px;
+      letter-spacing: 0.25px;
       text-indent: 25px;
       hyphens: auto;
       padding: 0 10px;
@@ -269,16 +296,19 @@
     }
 
     .source-citation {
-      text-align: right;
       width: 100%;
-      margin-right: 20px;
-      display: block;
-
-      &::before,
-      &::after {
-        margin-right: 0;
-        margin-left: 0;
-      }
+      justify-content: flex-end;
+      font-family: GoudyOldStyle;
     }
+  }
+}
+.trait-tag-tooltip {
+  .tooltip-title,
+  .tooltip-subtitle,
+  .tooltip-block {
+    text-transform: none;
+    letter-spacing: normal;
+    font-family: inherit;
+    color: inherit;
   }
 }

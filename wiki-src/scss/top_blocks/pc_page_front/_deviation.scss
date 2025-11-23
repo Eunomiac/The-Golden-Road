@@ -2,7 +2,7 @@
 @use "../../_typography" as *;
 
 .page.pc-page[name='deviation'] {
-  padding-top: 16px;
+  // padding-top: 16px;
 
   .top-block.deviation-block {
     // overflow: hidden;
@@ -17,6 +17,10 @@
 
     .scar-entry {
       margin: 12px 0;
+
+      &:first-child {
+        margin-top: 0;
+      }
       // background: rgba($color-parchment, 0.04);
       // box-shadow: 0 2px 4px rgba($color-ink, 0.15);
     }
@@ -87,7 +91,7 @@
         font-family: $font-tab;
         text-transform: uppercase;
         color: $color-parchment;
-        padding: 4px 24px;
+        padding: 4px 24px 4px 4px;
         margin: 8px 0 4px 0;
 
         > * {
@@ -98,48 +102,19 @@
           position: relative;
           background: url("../assets/images/backgrounds/black-header.webp") no-repeat center center;
           color: red;
-        background-size: 120% 120%;
-
-          .scar-name {
-            text-indent: 20px;
-          }
-
+          background-size: 120% 120%;
         }
 
-        .scar-activation-icon,
-        .variation-activation-icon {
-          flex-grow: 0;
-          display: block;
-          position: absolute;
-          height: 40px;
-          width: 40px;
-          background: $color-paper-stack;
-          transform: translate(-50%, -50%);
-          top: 50%;
-          left: 15px;
-          border-radius: 20px;
-          // outline: 2px solid $color-parchment;
-
-          &.scar-activation-controlled {
-            background-image: url("../assets/images/icons/activation-controlled-ink.webp");
-            background-size: 100% 100%;
-          }
-          &.scar-activation-involuntary {
-            background-image: url("../assets/images/icons/activation-involuntary-ink.webp");
-            background-size: 75% 75%;
-            background-position: center center;
-            background-repeat: no-repeat;
-          }
-          &.scar-activation-persistent {
-            background-image: url("../assets/images/icons/activation-persistent-ink.webp");
-            background-size: 75% 75%;
-            background-position: center center;
-            background-repeat: no-repeat;
-          }
-        }
         .scar-name,
         .variation-name {
           flex-grow: 1;
+          display: flex;
+          align-items: center;
+          min-width: 0;
+
+          .trait-tagged-block {
+            --trait-tag-parent-height: 20px;
+          }
         }
         .scar-meta,
         .variation-meta {
@@ -184,7 +159,7 @@
       background: $color-ink;
       padding: 4px 8px;
       margin: 0 24px;
-      margin-top: -8px;
+      margin-top: -18px;
       position: relative;
       z-index: -1;
       color: $color-parchment;
@@ -195,6 +170,7 @@
       hyphens: auto;
       opacity: 1;
       transition: opacity 0.2s ease;
+      padding-top: 12px;
 
       strong {
         background: $color-parchment;
@@ -223,6 +199,20 @@
       .scar-effect,
       .variation-effect {
         margin: 8px 0;
+
+
+        ul {
+          margin: 0;
+
+          li {
+            text-align: left;
+            margin: 4px 0;
+
+            br {
+              line-height: 0.5;
+            }
+          }
+        }
       }
     }
 
@@ -230,7 +220,7 @@
 
     .scar-source,
     .variation-source {
-      margin-top: -16px;
+      margin-top: -8px;
       text-align: right;
     }
 

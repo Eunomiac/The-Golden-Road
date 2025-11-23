@@ -1,9 +1,13 @@
 import * as fs from "fs";
 import * as path from "path";
 import { promisify } from "util";
+import type { HelperOptions } from "handlebars";
 import Handlebars = require("handlebars");
+import * as JSON5 from "json5";
 import { PCSheet } from "./pc-sheets";
 import type { PCJSONData } from "./pc-sheets";
+import type { PCSheetData } from "./pc-sheets/types";
+import { CurlyNotationProcessor } from "./pc-sheets/curly-notations/CurlyNotationProcessor";
 import { NotationError } from "./pc-sheets/curly-notations/NotationError";
 
 const readFile = promisify(fs.readFile);
@@ -28,6 +32,47 @@ interface NavigationItem {
 interface NavigationData {
   [type: string]: NavigationItem[];
 }
+
+interface TraitTagTooltipCitation {
+  book?: string;
+  page?: string | number;
+  text?: string;
+}
+
+interface TraitTagTooltipDefinition {
+  format?: string;
+  title?: string;
+  subtitle?: string;
+  blocks?: string[];
+  citation?: TraitTagTooltipCitation;
+}
+
+interface TraitTagDefinition {
+  key: string;
+  icon: string;
+  size: number;
+  gap?: number;
+  tooltipTitle?: string;
+  tooltipSubtitle?: string;
+  tooltipBody?: string;
+  tooltipCitation?: string;
+  tooltip?: TraitTagTooltipDefinition;
+}
+
+interface RenderedTraitTagIcon {
+  html: string;
+  gap: number;
+  size: number;
+}
+
+interface TraitTagRenderContext {
+  sheetContext?: PCSheetData;
+}
+
+type TraitTagDefinitionMap = Record<string, TraitTagDefinition>;
+
+let cachedTraitTagDefinitions: TraitTagDefinitionMap | null = null;
+const traitTagNotationProcessor = new CurlyNotationProcessor(false);
 
 /**
  * Compile all Handlebars templates from wiki-src (excluding _partials) into HTML in wiki
@@ -178,7 +223,7 @@ async function findNavigationJsonFiles(rootDir: string): Promise<string[]> {
 
       if (st.isDirectory()) {
         await walk(fullPath);
-      } else if (st.isFile() && fullPath.endsWith(".json")) {
+      } else if (st.isFile() && fullPath.endsWith(".json5")) {
         // Exclude files that start with underscore
         const basename: string = path.basename(entry);
         if (!basename.startsWith("_")) {
@@ -202,14 +247,14 @@ async function buildNavigationData(srcDir: string): Promise<NavigationData> {
   for (const jsonPath of jsonFiles) {
     try {
       const jsonContent: string = await readFile(jsonPath, { encoding: "utf8" });
-      const jsonData: { name?: string; type?: string } = JSON.parse(jsonContent);
+      const jsonData: { name?: string; type?: string } = JSON5.parse(jsonContent);
 
       // Skip if missing required properties
       if (!jsonData.name || !jsonData.type) {
         continue;
       }
 
-      const filename: string = path.basename(jsonPath, ".json");
+      const filename: string = path.basename(jsonPath, ".json5");
       const itemPath: string = getNavItemPath(jsonData.type, filename);
       const item: NavigationItem = {
         name: jsonData.name,
@@ -481,6 +526,58 @@ function registerHelpers(navigationData: NavigationData): void {
   Handlebars.registerHelper("meritLevelLabel", (name: unknown, level: unknown) => {
     return buildMeritLevelLabel(name, level);
   });
+
+  Handlebars.registerHelper("tagged", function taggedHelper(
+    this: unknown,
+    options: HelperOptions & { hash: { tags?: unknown; class?: unknown } }
+  ) {
+    const tags: string[] = normalizeTagKeys(options.hash?.tags);
+    const content = options.fn ? options.fn(this) : "";
+    if (tags.length === 0 || content.length === 0) {
+      return new Handlebars.SafeString(content);
+    }
+
+    const definitions = loadTraitTagDefinitions();
+    const sheetContext = options.data?.root as PCSheetData | undefined;
+    const renderedIcons: RenderedTraitTagIcon[] = tags
+      .map((tagKey) => definitions[tagKey])
+      .filter((definition): definition is TraitTagDefinition => Boolean(definition))
+      .map((definition) => renderTraitTagIcon(definition, sheetContext));
+
+    if (renderedIcons.length === 0) {
+      return new Handlebars.SafeString(content);
+    }
+
+    const gap = renderedIcons.reduce<number>((currentGap, icon) => {
+      return Math.max(currentGap, icon.gap);
+    }, 0);
+    const maxIconSize = renderedIcons.reduce<number>((currentMax, icon) => {
+      return Math.max(currentMax, icon.size);
+    }, 0);
+
+    const classNames: string[] = ["tagged-trait"];
+    if (typeof options.hash?.class === "string") {
+      const trimmed = options.hash.class.trim();
+      if (trimmed.length > 0) {
+        classNames.push(trimmed);
+      }
+    }
+
+    const iconMarkup = renderedIcons.map((icon) => icon.html).join("");
+    const taggedContent = `<span class="${classNames.join(" ")}">${content}</span>`;
+
+    const wrapper = [
+      `<span class="trait-tagged-block" data-trait-tag-count="${renderedIcons.length}"`,
+      ` style="--trait-tag-gap:${gap}px; --trait-tag-icon-max:${maxIconSize}px;">`,
+      `<span class="trait-tag-icon-row">`,
+      iconMarkup,
+      "</span>",
+      taggedContent,
+      "</span>"
+    ].join("");
+
+    return new Handlebars.SafeString(wrapper);
+  });
 }
 
 function injectInlineLabel(html: string, label: string): string {
@@ -504,6 +601,282 @@ function buildLabelPattern(label: string): RegExp {
 
 function escapeRegExp(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function loadTraitTagDefinitions(): TraitTagDefinitionMap {
+  if (cachedTraitTagDefinitions) {
+    return cachedTraitTagDefinitions;
+  }
+
+  const jsonPath: string = path.resolve("wiki-src", "system-data", "_trait-tags.json5");
+  if (!fs.existsSync(jsonPath)) {
+    cachedTraitTagDefinitions = {};
+    return cachedTraitTagDefinitions;
+  }
+
+  try {
+    const jsonContent: string = fs.readFileSync(jsonPath, { encoding: "utf8" });
+    const parsed = JSON5.parse(jsonContent) as Record<string, TraitTagDefinition>;
+    cachedTraitTagDefinitions = Object.keys(parsed).reduce<TraitTagDefinitionMap>((acc, key) => {
+      const definition = parsed[key];
+      if (
+        definition
+        && typeof definition.key === "string"
+        && typeof definition.icon === "string"
+        && typeof definition.size === "number"
+        && definition.size > 0
+      ) {
+        acc[key] = {
+          key: definition.key,
+          icon: definition.icon,
+          size: definition.size,
+          gap: typeof definition.gap === "number" && definition.gap >= 0 ? definition.gap : 0,
+          tooltipTitle: toTrimmedString(definition.tooltipTitle),
+          tooltipSubtitle: toTrimmedString(definition.tooltipSubtitle),
+          tooltipBody: toTrimmedString(definition.tooltipBody),
+          tooltipCitation: toTrimmedString(definition.tooltipCitation),
+          tooltip: sanitizeTraitTagTooltip(definition.tooltip)
+        };
+      }
+      return acc;
+    }, {});
+    return cachedTraitTagDefinitions;
+  } catch {
+    cachedTraitTagDefinitions = {};
+    return cachedTraitTagDefinitions;
+  }
+}
+
+function normalizeTagKeys(value: unknown): string[] {
+  if (Array.isArray(value)) {
+    return value
+      .map((entry) => (typeof entry === "string" ? entry.trim() : ""))
+      .filter((entry) => entry.length > 0);
+  }
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    return trimmed.length > 0 ? [trimmed] : [];
+  }
+  return [];
+}
+
+function renderTraitTagIcon(
+  definition: TraitTagDefinition,
+  sheetContext?: PCSheetData
+): RenderedTraitTagIcon {
+  const anchorId = generateTooltipAnchor();
+  const escapedIcon = Handlebars.escapeExpression(definition.icon);
+  const fallbackLabel =
+    definition.tooltip?.title
+    ?? definition.tooltipTitle
+    ?? definition.key;
+  const labelText = stripHtmlTags(processTraitTagText(fallbackLabel, { sheetContext }));
+  const escapedLabel = Handlebars.escapeExpression(labelText.length > 0 ? labelText : fallbackLabel);
+
+  const tooltipHtml = buildTraitTagTooltipContent(definition, { sheetContext });
+  const tooltipClasses = buildTraitTagTooltipClasses(definition);
+
+  const iconHtml = [
+    `<span class="trait-tag-icon has-tooltip" style="width:${definition.size}px;height:${definition.size}px; anchor-name: --${anchorId};" aria-label="${escapedLabel}">`,
+    `<img src="${escapedIcon}" alt="" role="presentation" />`,
+    "</span>",
+    `<div class="${tooltipClasses}" style="position-anchor: --${anchorId};">`,
+    tooltipHtml,
+    "</div>"
+  ].join("");
+
+  return {
+    html: iconHtml,
+    gap: typeof definition.gap === "number" && definition.gap >= 0 ? definition.gap : 0,
+    size: definition.size
+  };
+}
+
+function generateTooltipAnchor(): string {
+  return Math.random().toString(36).substring(2, 10);
+}
+
+function sanitizeTraitTagTooltip(raw: unknown): TraitTagTooltipDefinition | undefined {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) {
+    return undefined;
+  }
+
+  const record = raw as Record<string, unknown>;
+  const format = sanitizeClassList(record.format);
+  const title = toTrimmedString(record.title);
+  const subtitle = toTrimmedString(record.subtitle);
+  const blocks = Array.isArray(record.blocks)
+    ? record.blocks
+      .map((entry) => (typeof entry === "string" ? entry.trim() : ""))
+      .filter((entry) => entry.length > 0)
+    : undefined;
+  const citation = sanitizeTraitTagTooltipCitation(record.citation);
+
+  if (!format && !title && !subtitle && (!blocks || blocks.length === 0) && !citation) {
+    return undefined;
+  }
+
+  return {
+    format: format ?? undefined,
+    title,
+    subtitle,
+    blocks,
+    citation
+  };
+}
+
+function sanitizeTraitTagTooltipCitation(raw: unknown): TraitTagTooltipCitation | undefined {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) {
+    return undefined;
+  }
+  const record = raw as Record<string, unknown>;
+  const book = toTrimmedString(record.book);
+  const pageValue = record.page;
+  const page = typeof pageValue === "number" || typeof pageValue === "string"
+    ? String(pageValue).trim()
+    : undefined;
+  const text = toTrimmedString(record.text);
+
+  if (!book && !page && !text) {
+    return undefined;
+  }
+
+  return { book, page, text };
+}
+
+function sanitizeClassList(value: unknown): string | undefined {
+  if (typeof value === "string") {
+    const tokens = value.split(/\s+/).filter((token) => token.length > 0);
+    return tokens.length > 0 ? tokens.join(" ") : undefined;
+  }
+  if (Array.isArray(value)) {
+    const tokens = value
+      .map((entry) => (typeof entry === "string" ? entry.trim() : ""))
+      .filter((token) => token.length > 0);
+    return tokens.length > 0 ? tokens.join(" ") : undefined;
+  }
+  return undefined;
+}
+
+function buildTraitTagTooltipContent(
+  definition: TraitTagDefinition,
+  context: TraitTagRenderContext
+): string {
+  const tooltip = definition.tooltip;
+  const segments: string[] = [];
+
+  if (tooltip) {
+    if (tooltip.title) {
+      segments.push(
+        `<span class='tooltip-title'>${processTraitTagText(tooltip.title, context)}</span>`
+      );
+    }
+    if (tooltip.subtitle) {
+      segments.push(
+        `<span class='tooltip-subtitle'>${processTraitTagText(tooltip.subtitle, context)}</span>`
+      );
+    }
+    if (Array.isArray(tooltip.blocks)) {
+      tooltip.blocks.forEach((block) => {
+        segments.push(
+          `<span class='tooltip-block'>${processTraitTagText(block, context)}</span>`
+        );
+      });
+    }
+    if (tooltip.citation) {
+      const citationMarkup = renderTraitTagCitation(tooltip.citation, context);
+      if (citationMarkup) {
+        segments.push(citationMarkup);
+      }
+    }
+    if (segments.length > 0) {
+      return segments.join("");
+    }
+  }
+
+  if (definition.tooltipTitle) {
+    segments.push(
+      `<span class='tooltip-title'>${processTraitTagText(definition.tooltipTitle, context)}</span>`
+    );
+  }
+  if (definition.tooltipSubtitle) {
+    segments.push(
+      `<span class='tooltip-subtitle'>${processTraitTagText(definition.tooltipSubtitle, context)}</span>`
+    );
+  }
+  if (definition.tooltipBody) {
+    segments.push(
+      `<span class='tooltip-block'>${processTraitTagText(definition.tooltipBody, context)}</span>`
+    );
+  }
+  if (definition.tooltipCitation) {
+    segments.push(
+      `<span class='tooltip-block tooltip-citation'>${processTraitTagText(definition.tooltipCitation, context)}</span>`
+    );
+  }
+
+  return segments.join("");
+}
+
+function buildTraitTagTooltipClasses(definition: TraitTagDefinition): string {
+  const classes = ["tooltip", "trait-tag-tooltip"];
+  if (definition.tooltip?.format) {
+    const tokens = definition.tooltip.format.split(/\s+/).filter((token) => token.length > 0);
+    classes.push(...tokens);
+  }
+  return classes.join(" ");
+}
+
+function renderTraitTagCitation(
+  citation: TraitTagTooltipCitation,
+  context: TraitTagRenderContext
+): string {
+  const citationParts: string[] = [];
+  if (citation.book) {
+    citationParts.push(
+      `<span class="source-title">${processTraitTagText(citation.book, context)}</span>`
+    );
+  }
+  if (citation.page) {
+    citationParts.push(
+      `<span class="source-page">${processTraitTagText(`p.${citation.page}`, context)}</span>`
+    );
+  }
+  if (citation.text) {
+    citationParts.push(
+      `<span class="source-page">${processTraitTagText(citation.text, context)}</span>`
+    );
+  }
+
+  if (citationParts.length === 0) {
+    return "";
+  }
+
+  return `<span class="tooltip-block tooltip-citation">${citationParts.join("")}</span>`;
+}
+
+function processTraitTagText(text: string, context: TraitTagRenderContext): string {
+  if (!text) {
+    return "";
+  }
+
+  const sheetContext = context.sheetContext;
+  if (!sheetContext) {
+    return text;
+  }
+
+  try {
+    return traitTagNotationProcessor.process(text, {
+      context: sheetContext,
+      strict: false
+    });
+  } catch {
+    return text;
+  }
+}
+
+function stripHtmlTags(value: string): string {
+  return value.replace(/<[^>]*>/g, "").trim();
 }
 
 function toTrimmedString(value: unknown): string | undefined {
@@ -549,7 +922,7 @@ async function findJsonFiles(dir: string): Promise<string[]> {
   for (const entry of entries) {
     const fullPath: string = path.join(dir, entry);
     const st = await stat(fullPath);
-    if (st.isFile() && fullPath.endsWith(".json")) {
+    if (st.isFile() && fullPath.endsWith(".json5")) {
       results.push(fullPath);
     }
   }
@@ -576,11 +949,11 @@ async function compilePCTemplates(
   for (const jsonPath of jsonFiles) {
     try {
       const jsonContent: string = await readFile(jsonPath, { encoding: "utf8" });
-      const jsonData: PCJSONData = JSON.parse(jsonContent);
+      const jsonData: PCJSONData = JSON5.parse(jsonContent);
       const sheet: PCSheet = new PCSheet(jsonData);
       const context = sheet.getData();
 
-      const characterName: string = path.basename(jsonPath, ".json");
+      const characterName: string = path.basename(jsonPath, ".json5");
       const outPath: string = path.join(outDir, "pcs", `${characterName}.html`);
 
       // Calculate current page path relative to wiki root for navigation

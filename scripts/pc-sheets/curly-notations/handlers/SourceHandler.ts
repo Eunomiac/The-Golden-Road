@@ -1,17 +1,7 @@
 import type { NotationHandler } from "../NotationHandler";
 import type { ProcessingContext } from "../ProcessingContext";
 import type { CurlyNotationProcessor } from "../CurlyNotationProcessor";
-
-/**
- * Book abbreviation to full title mapping
- */
-const BOOK_MAP: Record<string, string> = {
-  CoD: "Chronicles of Darkness",
-  HL: "Hurt Locker",
-  DtR: "Deviant: the Renegades",
-  SG: "Shallow Graves",
-  CC: "The Clade Companion"
-};
+import { resolveBookTitle } from "../utils/bookMap";
 
 /**
  * Handles {{SOURCE:<book>/<page>}} notation
@@ -32,7 +22,7 @@ export class SourceHandler implements NotationHandler {
     const bookKey = parts[0]?.trim() ?? "";
     const page = parts[1]?.trim() ?? "";
 
-    const bookTitle = BOOK_MAP[bookKey] ?? bookKey;
+    const bookTitle = resolveBookTitle(bookKey);
 
     return `<span class='source-citation'><span class='source-title'>${bookTitle}</span><span class='source-page'>p.${page}</span></span>`;
   }
