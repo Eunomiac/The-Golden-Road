@@ -30,15 +30,14 @@
 
             font-weight: bold;
             &::before {
+              margin-right: 3px;
               content: "";
               background: url("../assets/images/icons/asset.webp") no-repeat center center;
-              width: 16px;
-              height: 16px;
+              width: 14px;
+              height: 14px;
               display: inline-block;
-              vertical-align: middle;
-              margin-right: 0;
+              vertical-align: top;
               background-size: contain;
-              margin-top: -1.5px;
               position: relative;
             }
           }
@@ -47,15 +46,14 @@
 
             font-weight: bold;
             &::before {
+              margin-right: 3px;
               content: "";
               background: url("../assets/images/icons/hypercompetence.webp") no-repeat center center;
-              width: 16px;
-              height: 16px;
+              width: 14px;
+              height: 14px;
               display: inline-block;
-              vertical-align: middle;
-              margin-right: 0;
+              vertical-align: top;
               background-size: contain;
-              margin-top: -1.5px;
               position: relative;
             }
           }

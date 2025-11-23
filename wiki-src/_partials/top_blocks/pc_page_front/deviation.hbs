@@ -1,11 +1,15 @@
 <div class="block top-block deviation-block">
-  <div class="form-label form-label-title">Deviation</div>
 
   <div class="deviation-columns">
       {{#if scars}}
         {{#each scars}}
           <article class="scar-entry" data-scar-key="{{key}}">
             <div class="scar-header" role="button" tabindex="0" aria-expanded="false">
+              <div class="scar-deviation-tags">
+                {{#each tags}}
+                  <span class="scar-deviation-tag" magMod="{{magMod}}">{{display}}</span>
+                {{/each}}
+              </div>
               <div class="scar-title-row">
                 <span class="scar-activation-icon scar-activation-{{activation}}"></span>
                 <span class="scar-name">{{display}}</span>

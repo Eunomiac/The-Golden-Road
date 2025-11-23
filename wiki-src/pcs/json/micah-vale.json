@@ -10,7 +10,7 @@
   "origin": "Exomorph",
   "clade": "Chimeric",
   "forms": ["Symbiote (Vein)"],
-  "overview": "<strong>FIELD SYNOPSIS:</strong> Unhoused adolescent recovered from gang activity, now permanently bonded to parasitic entity codename <strong>VEIN</strong>. Symbiote enables full-body mass conversion and multiple secondary combat adaptations; entity displays independent cognition and overt predatory affect while remaining highly protective of host. Subject favors vertical terrain, ambush, and rapid exfiltration, using the symbiote as both shock weapon and intimidation tool. Threat assessment: <strong class='threat-assessment'>EMBER</strong> in dense urban environments; control vectors likely limited to emotional leverage on host.",
+  "overview": "<strong>FIELD SYNOPSIS:</strong> Unhoused adolescent recovered from gang activity, now permanently bonded to parasitic entity codename <strong class='red-strong'>VEIN</strong>. Symbiote enables full-body mass conversion and multiple secondary combat adaptations; entity displays independent cognition and overt predatory affect while remaining highly protective of host. Subject favors vertical terrain, ambush, and rapid exfiltration, using the symbiote as both shock weapon and intimidation tool. Threat assessment: <strong class='threat-assessment'>EMBER</strong> in dense urban environments; control vectors likely limited to emotional leverage on host.",
   "health": 6,
   "willpower": 5,
   "acclimation": 0,
@@ -140,36 +140,6 @@
   ],
   "scars": [
     {
-      "key": "involuntaryStimulus",
-      "value": {
-        "base": 3,
-        "deviation": 1,
-        "total": 4
-      },
-      "type": "physical",
-      "display": "Containment Bleed (Involuntary Stimulus)",
-      "narrative": "Vein <em>is</em> Micah's blood, and Micah's body is all that contains the symbiote. When Micah bleeds, whether willingly (by cutting himself to voluntarily transform into Vein) or unwillingly (by suffering an injury), the transformation into Vein is governed entirely by blood escaping the containment of Micah's body.",
-      "entangledVariations": [
-        "monstrousTransformation"
-      ],
-      "vars": {
-        "stimulus": "when Micah bleeds"
-      },
-      "selectedDeviations": [
-        "uncontrollable"
-      ]
-    },
-    {
-      "key": "thinSkin",
-      "type": "physical",
-      "value": 1,
-      "display": "Autohemophobia (Thin Skin)",
-      "narrative": "Given how easily Vein can escape, and how unpredictable Vein is when he does, Micah is understandably wary of suffering even mild wounds -- wounds that might release the symbiote whether Micah wants it or not. This leads to caution at best, cowardice at worst.",
-      "entangledVariations": [
-        "carapace"
-      ]
-    },
-    {
       "key": "alternatePersona",
       "type": "mental",
       "value": {
@@ -178,7 +148,7 @@
         "total": 2
       },
       "display": "Vein's Voice (Alternate Persona)",
-      "narrative": "As Micah's innate (i.e. permanent/perpetual) abilities grow, they come at a cost: Vein's <em>lessons</em> come with increasing <em>influence</em>, and recently Vein has managed to seize control of Micah's body entirely, relegating Micah to backseat driver in his own body. Fortunately, these events are rare and short-lived, but Vein is always offering more power if Micah will cede just a little more of his control...",
+      "narrative": "Micah shares his head with a parasitic alien entity designated <strong class='red-strong'>VEIN</strong>. It offers clear, tactical advice—how to move, how to survive—in exchange for more agency. <strong class='red-strong'>VEIN</strong> is constantly pushing for “just a little more” freedom; there have even been brief incidents where <strong class='red-strong'>VEIN</strong> took full control over their shared body.",
       "entangledVariations": [
         "predatorsCunning",
         "hyper-competence"
@@ -188,6 +158,36 @@
       },
       "selectedDeviations": [
         "blackouts"
+      ]
+    },
+    {
+      "key": "thinSkin",
+      "type": "physical",
+      "value": 1,
+      "display": "Autohemophobia (Thin Skin)",
+      "narrative": "Micah knows his “blood” isn't blood anymore—every drop in his body has been replaced by <strong class='red-strong'>VEIN</strong>, who paces within Micah's circulatory system as if it were a prison. As long as Micah's skin holds, <strong class='red-strong'>VEIN</strong> stays contained. But any cut, scrape, or bullet hole is a direct leak in that prison and a chance for <strong class='red-strong'>VEIN</strong> to get out. Because of this, Micah shows a strong fear of being hurt and shedding blood: Keeping <strong class='red-strong'>VEIN</strong> contained comes first, even if it means freezing or backing down.",
+      "entangledVariations": [
+        "carapace"
+      ]
+    },
+    {
+      "key": "involuntaryStimulus",
+      "value": {
+        "base": 3,
+        "deviation": 1,
+        "total": 4
+      },
+      "type": "physical",
+      "display": "Containment Bleed (Involuntary Stimulus)",
+      "narrative": "<strong class='red-strong'>VEIN</strong> has fully replaced all five liters of Micah's blood: the host body is all that keeps the alien symbiote contained. Any bleeding—whether self-inflicted or accidental—creates a gap in that container. Once exposed, the blood begins to move on its own and push toward full transformation. Micah's intent matters less than the simple fact that his blood is now outside his skin.",
+      "entangledVariations": [
+        "monstrousTransformation"
+      ],
+      "vars": {
+        "stimulus": "when Micah bleeds"
+      },
+      "selectedDeviations": [
+        "uncontrollable"
       ]
     }
   ],
@@ -200,14 +200,14 @@
         "total": 5
       },
       "display": "Vein Unleashed (Monstrous Transformation)",
-      "narrative": "When Vein escapes his containment, every drop of blood in Micah's body rushes out to consume him in an all-encompassing torrent, drowning the adolescent in crimson. What remains is a nightmare of coagulated blood only vaguely human in shape, a lethal instrument of stealth and destruction.",
+      "narrative": "A full breach replaces Micah’s human shape with a mobile shell of living clot. Every drop of blood in Micah's body flood out in a crimson torrent, consuming him entirely. Micah claims he retains full control during such losses of containment, raising the question of what <strong class='red-strong'>VEIN</strong> hopes to achieve by seeking such hollow freedom.",
       "entangledScar": "involuntaryStimulus",
       "secondaryVariations": [
         {
           "key": "brachiation",
           "value": 3,
           "display": "Liquid Motion (Brachiation)",
-          "narrative": "In liquid form, Vein moves with a fluidity and grace that defies gravity: the distinctions between ceilings, walls and floors become merely academic.",
+          "narrative": "When unleashed, <strong class='red-strong'>VEIN</strong> treats the environment as a climbing frame. It stretches along beams, ceilings, and walls, anchoring itself with thin strands and hauling the body after them. Gravity becomes just another factor to work around. The resulting movement pattern is fast, quiet, and designed for closing distance without warning.",
           "tags": ["secondary"],
           "vars": {
             "options": ["leaper", "spider"]
@@ -222,20 +222,23 @@
             "total": 3
           },
           "display": "Septic Lash (Cutting Lash)",
-          "narrative": "Vein's blood is anathema to human biology, and under the symbiote's perfect control it becomes a weapon: an explosion of deadly tendrils of caustic red poison.",
+          "narrative": "<strong class='red-strong'>VEIN</strong> can extend parts of itself into narrow blood-whips under high tension. These tendrils strike quickly, slice flesh, and inject alien pathogens anathema to human biology. Victims often mistake the first hit for a minor cut. Symptoms escalate only after <strong class='red-strong'>VEIN</strong> has already taken hold inside their tissues.",
           "tags": ["secondary"],
           "selectedDeviations": [
             "burst"
           ],
           "vars": {
-            "options": ["channel", "deadly", "soporific"]
+            "options": ["channel", "deadly", "soporific"],
+            "combatSkill": "athletics",
+            "channelVariation": "telekinesis",
+            "defenseAttribute": "Defense"
           }
         },
         {
           "key": "telekinesis",
           "value": 3,
           "display": "Crimson Vice (Telekinesis)",
-          "narrative": "Vein's weaponized blood ensnares and strangles even as its alien pathogens assault human tissue and corrode inorganic matter.",
+          "narrative": "Any surface marked with <strong class='red-strong'>VEIN</strong>'s blood is no longer neutral ground. Whether with cable-thick red tendrils or intricate webs of thin filaments, the symbiote can tighten, pull, or lift anything it touches by its mastery over the viscosity of its own blood.",
           "tags": ["secondary"],
           "vars": {
             "options": ["throw"]
@@ -247,7 +250,7 @@
       "key": "carapace",
       "value": 1,
       "display": "Hemorrhagic Hemostasis (Carapace)",
-      "narrative": "Even when Vein is safely contained, the symbiote can quickly staunch internal bleeding and mend wounds in an instant. Micah still feels the pain, though, and -- worst of all -- he still bleeds.",
+      "narrative": "When Micah is injured, <strong class='red-strong'>VEIN</strong> reacts immediately. Alien blood surges to the wound, seals it, and stabilizes Micah far faster than normal medicine could. The process is effective, but does nothing to dampen the pain of injury, nor prevent the bloodletting that <strong class='red-strong'>VEIN</strong> will seize as a means of escape.",
       "entangledScar": "thinSkin",
       "activation": "persistent",
       "vars": {
@@ -258,7 +261,7 @@
       "key": "predatorsCunning",
       "value": 1,
       "display": "Vein's Vision (Predator's Cunning)",
-      "narrative": "Vein's alien instincts are honed to a razor's edge, and Micah has learned to listen to the whispers in the back of his mind -- despite the constant cost of cedeing control to the alien within.",
+      "narrative": "<strong class='red-strong'>VEIN</strong>'s constant presence augments Micah's instincts. Threats, escape routes, and ambush angles stand out to him as if highlighted. The guidance usually comes as quiet, accurate whispers that are hard to ignore. Over time, Micah has learned that trusting the voice keeps him alive—even as he grows increasingly wary of ceding too much control to the alien.",
       "entangledScar": "alternatePersona",
       "activation": "perpetual",
       "vars": {
@@ -269,7 +272,7 @@
       "key": "hyper-competence",
       "value": 1,
       "display": "Vein's Velocity (Hyper-Competence -- Athletics)",
-      "narrative": "Vein's symbiotic adaptations grant Micah superhuman agility and reflexes, allowing him to perform feats of athleticism that would be impossible for a human.",
+      "narrative": "In addition to perceptive enhancements, the symbiote has tuned Micah's body for motion. He runs, jumps, and climbs with precision well beyond human limits, treating risky stunts like routine maneuvers. To observers, Micah looks like a scared kid moving with impossible grace. To <strong class='red-strong'>VEIN</strong>, he is a mobile platform performing as designed.",
       "entangledScar": "alternatePersona",
       "activation": "perpetual",
       "vars": {

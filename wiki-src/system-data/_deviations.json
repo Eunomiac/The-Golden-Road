@@ -1,0 +1,14 @@
+{
+  "shortCircuit": {
+    "key": "shortCircuit",
+    "name": "Short Circuit - {{DISPLAY:vars.secondaryScarName}}",
+    "magMod": {
+      "min": 1,
+      "max": 4
+    },
+    "append": {
+      "effect": "<ul><li><strong>Deviation - Short Circuit ({{DISPLAY:vars.secondaryScarName}}):</strong> All entangled Variations carry an additional Scar: {{DISPLAY:vars.secondaryScarName}}, whose effects apply {{SWITCH:vars.whenActivation,involuntary,only when the entangled Variations are activated involuntarily,voluntary,only when the entangled Variations are activated voluntarily,both,whenever those Variations are activated}}.</li></ul>"
+    }
+
+  }
+}

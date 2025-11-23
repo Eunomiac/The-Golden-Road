@@ -95,27 +95,25 @@
       "min": 1,
       "max": 5
     },
-    "effect": "This is the fairly complex effect text for the Cutting Lash variation. It will rely largely on the options-list to follow, but this paragraph will also need to be operated on by a series of regexp replace handlers.{{BR}}The Lash deals lethal damage as an attack, with a damage rating of {{IFIN:deadly,vars.options,{{USE:vars.damageDeadly}}}}{{IFNOTIN:deadly,vars.options,{{USE:vars.damage}}}}. {{OPTIONLIST:vars.options,this.selectedDeviations}}",
+    "effect": "<p>This Variation allows {{NAME}} to attack enemies with an arsenal other than a Baseline’s punches and kicks. The manifestations of this Variation are as varied as the Broken themselves, and may be purchased any number of times to represent different means of attack. Although Discrete, effects that increase or decrease a Variation’s Magnitude can be used on this Variation.</p><ul><li>The Lash is a {{SWITCH:vars.combatSkill,athletics,<strong>ranged weapon</strong> with a range of {{USE:vars.range}} meters,brawl,<strong>melee weapon</strong>,firearms,<strong>ranged weapon</strong> with a range of {{USE:vars.range}} meters,weaponry,<strong>melee weapon</strong>}}.</li><li>Activating the Lash {{IFIN:quick,vars.options,is a <strong>reflexive action</strong>}}{{IFNOTIN:quick,vars.options,requires an <strong>instant action</strong>}}. Once activated, the Lash remains active until the end of the scene.</li><li>Attacking with the Lash is a (separate) instant action, and is resolved with a roll of {{USE:vars.dicePoolFront}} - {{USE:vars.dicePoolBack}}.</li><li>The Lash deals lethal damage with a base damage rating of {{IFIN:deadly,vars.options,{{USE:vars.deadlyDamage}}}}{{IFNOTIN:deadly,vars.options,{{USE:vars.baseDamage}}}}.</li></ul>",
     "options": {
-      "channel": "<strong>Channel:</strong> Text for channel",
+      "channel": "<strong>Channel:</strong> On a successful attack with the Lash that deals at least one point of Lethal damage after armor, {{NAME}} reflexively activates the {{DISPLAY:vars.channelVariation}} and applies its effect to the target. The victim may contest {{NAME}}'s successes on the attack roll with the appropriate Resistance + Supernatural Tolerance roll. This activation of {{DISPLAY:vars.channelVariation}} can only affect the target(s) of the Lash, and even if the Lash can target multiple opponents in a turn, {{DISPLAY:vars.channelVariation}} cannot affect more targets than it normally could. If the {{DISPLAY:vars.channelVariation}} is Controlled, the Lash suffers from {{DISPLAY:vars.channelVariation}}’s entangled Scar in addition to its own.",
+      "conjured": null,
       "deadly": null,
-      "soporific": "<strong>Soporific:</strong> The Lash inflicts the {{TOOLTIP:tilt-card,Drugged Tilt,json.tilts.drugged}} if it deals at least one damage after armor.",
-      "burst": "<strong>Deviation - Burst:</strong> The Lash behaves as a {{TOOLTIP:rules-card,medium burst,<span class='tooltip-title'>Medium Burst</span><span class='tooltip-block'>Uses 10 bullets. +2 bonus to attack action. Can attack up to three targets&comma; rolling individually against each and suffering a &minus;1&nbsp;penalty per target after the first.</span> {{SOURCE:DtR/198}}}}."
+      "insidious": null,
+      "quick": null,
+      "soporific": "<strong>Soporific:</strong> On a successful attack with the Lash that deals at least one point of Lethal damage after armor, the Lash inflicts the {{TOOLTIP:tilt-card,Drugged Tilt,json.tilts.drugged}}.",
+      "burst": "<strong>Deviation - Burst:</strong> The Lash behaves as a {{TOOLTIP:rules-card,medium burst,<span class='tooltip-title'>Medium Burst</span><span class='tooltip-subtitle'>Firearms Attack</span><span class='tooltip-block'>Uses 10 bullets. +2 bonus to attack action. Can attack up to three targets&comma; rolling individually against each and suffering a &minus;1&nbsp;penalty per target after the first.</span> {{SOURCE:DtR/198}}}}."
     },
     "vars": {
-      "damage": "{{TOOLTIP:tiny-tooltip,0,Base}}",
-      "damageDeadly": "{{TOOLTIP:tiny-tooltip,{{MIN:{{VALUE:scarPower}},{{VALUE:this.value}}}},Lower of {{NAMEVALUE:scarPower}} or <strong>Magnitude ({{VALUE:this.value}})</strong> = <strong>{{MIN:{{VALUE:scarPower}},{{VALUE:this.value}}}}</strong>}}"
+      "baseDamage": "{{TOOLTIP:tiny-tooltip,0,Base}}",
+      "deadlyDamage": "{{TOOLTIP:tiny-tooltip,{{MIN:{{VALUE:scarPower}},{{VALUE:this.value}}}},Lower of {{NAMEVALUE:scarPower,unsigned}} or <strong>Magnitude ({{VALUE:this.value}})</strong> = <strong>{{MIN:{{VALUE:scarPower}},{{VALUE:this.value}}}}</strong>}}",
+      "damage": "{{IFIN:deadly,vars.options,{{USE:vars.deadlyDamage}}}{{IFNOTIN:deadly,vars.options,{{USE:vars.baseDamage}}}}",
+      "range": "<strong>{{IFIN:reach,vars.options,100/200/400}}{{IFNOTIN:reach,vars.options,30/60/120}}</strong>",
+      "dicePoolFront": "{{IFIN:conjured,vars.options,{{NAMEVALUE:scarFinesse}} + {{NAMEVALUE:acclimation}} + <strong>Magnitude (+{{VALUE:this.value}})</strong>}}{{IFNOTIN:conjured,vars.options,{{SWITCH:vars.combatSkill,athletics,{{NAMEVALUE:dex}} + {{NAMEVALUE:athletics}},brawl,{{NAMEVALUE:str}} + {{NAMEVALUE:brawl}},firearms,{{NAMEVALUE:dex}} + {{NAMEVALUE:firearms}},weaponry,{{NAMEVALUE:str}} + {{NAMEVALUE:weaponry}}}}}}",
+      "dicePoolBack": "{{IFIN:insidious,vars.options,<strong>target's {{DISPLAY:vars.defenseAttribute}}</strong>}}{{IFNOTIN:insidious,vars.options,<strong>target's Defense</strong>}}"
     },
     "deviations": {
-      "blinding": {
-        "key": "",
-        "name": "",
-        "magMod": 1,
-        "tooltip": "",
-        "replace": {
-          "effect": {}
-        }
-      },
       "burst": {
         "key": "burst",
         "name": "Burst",

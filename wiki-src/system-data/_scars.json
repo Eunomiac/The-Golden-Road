@@ -1,4 +1,51 @@
 {
+  "concentration": {
+    "key": "concentration",
+    "name": "Concentration",
+    "activation": "controlled",
+    "keywords": ["mental", "subtle", "repeatable"],
+    "value": {
+      "min": 1,
+      "max": 5
+    },
+    "effect": {
+      "1": "Entangled Variations demand constant, intense concentration to maintain, and any distraction can interfere with their operation.{{BR}}Whenever an unexpected surprise or other distraction causes the entangled Variation to shut down (or prevents {{NAME}} from activating it) in a way that creates a complication for {{him}}, {{he}} may take a Beat.{{OPTIONLIST:vars.options,this.selectedDeviations}}",
+      "2": "Entangled Variations demand constant, intense concentration to maintain, and any distraction can interfere with their operation.{{BR}}Whenever {{NAME}} suffers lethal (or aggravated) damage not caused by a Scar or Adaptation, whenever {{he}} Falters, or whenever {{he}} suffers the {{TOOLTIP:tilt-card,Stunned Tilt,json.tilts.stunned}} or the {{TOOLTIP:tilt-card,Distracted Condition,json.conditions.distracted}}, the entangled Variations deactivate unless {{he}} succeeds on a {{TOOLTIP:tiny-tooltip,Scar Resistance,{{NAMEVALUE:scarResistance}} + {{NAMEVALUE:acclimation}} - <strong>Instability Penalty</strong>}} roll. {{He}} may activate the Variation again on a future turn.",
+      "3": "Entangled Variations demand constant, intense concentration to maintain, and any distraction can interfere with their operation.{{BR}}Whenever {{NAME}} suffers lethal (or aggravated) damage not caused by a Scar or Adaptation, whenever {{he}} Falters, or whenever {{he}} suffers the {{TOOLTIP:tilt-card,Stunned Tilt,json.tilts.stunned}} or the {{TOOLTIP:tilt-card,Distracted Condition,json.conditions.distracted}}, the entangled Variations deactivate unless {{he}} succeeds on a {{TOOLTIP:tiny-tooltip,Scar Resistance,{{NAMEVALUE:scarResistance}} + {{NAMEVALUE:acclimation}} - <strong>Instability Penalty</strong>}} roll. {{He}} may activate the Variation again on a future turn.{{OPTIONLIST:vars.options,this.selectedDeviations}}",
+      "4": "Entangled Variations demand constant, intense concentration to maintain, and any distraction can interfere with their operation.{{BR}}Whenever {{NAME}} suffers lethal (or aggravated) damage not caused by a Scar or Adaptation, whenever {{he}} Falters, or whenever {{he}} suffers the {{TOOLTIP:tilt-card,Stunned Tilt,json.tilts.stunned}} or the {{TOOLTIP:tilt-card,Distracted Condition,json.conditions.distracted}}, the entangled Variations deactivate unless {{he}} succeeds on a {{TOOLTIP:tiny-tooltip,Scar Resistance,{{NAMEVALUE:scarResistance}} + {{NAMEVALUE:acclimation}} - <strong>Instability Penalty</strong>}} roll. {{He}} may activate the Variation again on a future turn.{{OPTIONLIST:tenuous,unfocused,this.selectedDeviations}}"
+    },
+    "options": {
+      "tenuous": "<strong>Tenuous:</strong> Whenever an attack or hostile action successfully targets {{NAME}} and either deals damage or imposes a deleterious Tilt, Condition, or other unwelcome effect, the entangled Variations deactivate unless {{he}} succeeds on a {{TOOLTIP:tiny-tooltip,Scar Resistance,{{NAMEVALUE:scarResistance}} + {{NAMEVALUE:acclimation}} - <strong>Instability Penalty</strong>}} roll.",
+      "unfocused": "<strong>Unfocused:</strong> {{NAME}} cannot attempt to activate an entangled Variation if under the influence of a distracting Tilt or Condition (such as {{TOOLTIP:tilt-card,Deprived,json.conditions.deprived}}, {{TOOLTIP:tilt-card,Distracted,json.conditions.distracted}}, {{TOOLTIP:tilt-card,Frightened,json.conditions.frightened}}, {{TOOLTIP:tilt-card,Deprived,json.conditions.intoxicated}}, {{TOOLTIP:tilt-card,Insane,json.tilts.insane}}, {{TOOLTIP:tilt-card,Insensate,json.tilts.insensate}} or  {{TOOLTIP:tilt-card,Stunned,json.tilts.stunned}}) without first succeeding on a {{TOOLTIP:tiny-tooltip,Scar Resistance,{{NAMEVALUE:scarResistance}} + {{NAMEVALUE:acclimation}} - <strong>Instability Penalty</strong>}} roll, which is allowed once per minute (once per turn, in action scenes).",
+      "afterEffect": "<strong>Deviation - After-Effect:</strong> If {{NAME}} concentrates on directing the entangled Variation(s) for more than {{TOOLTIP:tiny-tooltip,{{VALUE:scarResistance}} turns,= {{NAMEVALUE:scarResistance,unsigned}}}}, {{he}} suffers the {{TOOLTIP:tilt-card,{{DISPLAY:vars.afterEffectCondition}} Condition,json.conditions.{{USE:vars.afterEffectCondition}}}} when the Variation(s) deactivate.",
+      "selfDoubt": "<strong>Deviation - Self-Doubt:</strong> If an entangled Variation deactivates because something broke {{NAME}}'s concentration, {{he}} may not attempt to activate it again until the end of the scene.",
+      "singleMinded": "<strong>Deviation - Single-Minded:</strong> If {{NAME}} does not direct the Variation's effect at least once per minute (once per turn, in action scenes), it deactivates unless {{he}} succeeds on a {{TOOLTIP:tiny-tooltip,Scar Resistance,{{NAMEVALUE:scarResistance}} + {{NAMEVALUE:acclimation}} - <strong>Instability Penalty</strong>}} roll."
+    },
+    "deviations": {
+      "afterEffect": {
+        "key": "afterEffect",
+        "name": "After-Effect",
+        "magMod": 1,
+        "tooltip": "Concentrating on directing the entangled Variation(s) for more than {{VALUE:scarResistance}} turns inflicts the <strong>{{DISPLAY:vars.afterEffectCondition}} Condition</strong>."
+      },
+      "selfDoubt": {
+        "key": "selfDoubt",
+        "name": "Self-Doubt",
+        "magMod": 1,
+        "tooltip": "If an entangled Variation deactivates because something broke {{NAME}}'s concentration, {{he}} may not attempt to activate it again until the end of the scene."
+      },
+      "singleMinded": {
+        "key": "singleMinded",
+        "name": "Single-Minded",
+        "magMod": 1,
+        "tooltip": "If {{NAME}} does not direct the Variation's effect at least once per minute (once per turn, in action scenes), it deactivates unless {{he}} succeeds on a <strong>Scar Resistance</strong> roll."
+      }
+    },
+    "source": {
+      "book": "DtR",
+      "page": 152
+    }
+  },
   "involuntaryStimulus": {
     "key": "involuntaryStimulus",
     "activation": "involuntary",
@@ -50,6 +97,36 @@
     "source": {
       "book": "DtR",
       "page": 156
+    }
+  },
+  "powerBuildUp": {
+    "key": "powerBuildUp",
+    "name": "Power Build-Up",
+    "activation": "involuntary",
+    "keywords": ["any", "subtle", "repeatable"],
+    "value": {
+      "min": 1,
+      "max": 4
+    },
+    "effect": {
+      "1": "{{NAME}}'s power wants to spill out at every opportunity, and it's all {{he}} can do to keep it bottled up inside. If {{he}} holds it back for too long, {{his}} internal volcano erupts and {{his}} power lashes out in catastrophic fashion.{{BR}}{{NAME}} can accept a Beat to make {{his}} power erupt in a way that hurts someone {{he}} doesn't want to hurt or causes significant setbacks. If the Variation is Directed, the Storyteller may offer a Beat to take direction of the Variation for a single turn on which {{NAME}} does not do so (or to select its target and effect at random).{{BR}}Once activated, {{NAME}} can deactivate an entangled Variation as an instant action.",
+      "2": "{{NAME}}'s power wants to spill out at every opportunity, and it's all {{he}} can do to keep it bottled up inside. If {{he}} holds it back for too long, {{his}} internal volcano erupts and {{his}} power lashes out in catastrophic fashion.{{BR}}All Variations entangled with this Scar are considered <strong>Overt</strong>.{{BR}}{{NAME}} can accept a Beat to make {{his}} power erupt in a way that hurts someone {{he}} doesn't want to hurt or causes significant setbacks. If the Variation is Directed, the Storyteller may offer a Beat to take direction of the Variation for a single turn on which {{NAME}} does not do so (or to select its target and effect at random).{{BR}}{{IFIN:volcanic,vars.options,Once activated, entangled Variations are difficult to bring back under control, requiring a successful {{TOOLTIP:tiny-tooltip,Scar Resistance,{{NAMEVALUE:scarResistance}} + {{NAMEVALUE:acclimation}} - <strong>Instability Penalty</strong>}} roll to deactivate prior to the end of the scene. This roll is allowed once every several minutes (once per turn, in action scenes) and enjoys a bonus equal to the number of consecutive, failed Scar Resistance rolls that preceded it this scene.}}{{IFNOTIN:volcanic,vars.options,Once activated, {{NAME}} can deactivate an entangled Variation as an instant action.}}{{OPTIONLIST:vars.options}}"
+    },
+    "options": {
+      "insistent": "<strong>Insistent:</strong> The Storyteller may activate one of the entangled Variations up to once per chapter. {{NAME}} may refuse this activation with a successful {{TOOLTIP:tiny-tooltip,Scar Resistance,{{NAMEVALUE:scarResistance}} + {{NAMEVALUE:acclimation}} - <strong>Instability Penalty</strong>}} roll. If this roll succeeds, the Storyteller may make another activation attempt in a later scene but may not attempt to trigger this Scar again during the current scene. Each consecutive successful roll to resist activation imposes a -1 penalty on future rolls to resist involuntary activation.",
+      "volcanic": null,
+      "shortCircuit": "<strong>Deviation - Short Circuit ({{DISPLAY:vars.secondaryScarName}}):</strong> All entangled Variations carry an additional Scar: {{DISPLAY:vars.secondaryScarName}}, whose effects apply {{SWITCH:vars.whenActivation,involuntary,only when the entangled Variations are activated involuntarily,voluntary,only when the entangled Variations are activated voluntarily,both,whenever those Variations are activated}}."
+    },
+    "deviations": {
+      "shortCircuit": {
+        "key": "shortCircuit",
+        "name": "Short Circuit - {{DISPLAY:vars.secondaryScarName}}",
+        "magMod": "{{CALC:{{VALUE:vars.secondaryScarValue}} - 1}}"
+      }
+    },
+    "source": {
+      "book": "DtR",
+      "page": 157
     }
   },
   "alternatePersona": {
@@ -185,6 +262,7 @@
       "page": 158
     }
   },
+
   "thinSkin": {
     "key": "thinSkin",
     "name": "Thin Skin",

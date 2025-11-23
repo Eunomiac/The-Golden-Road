@@ -350,10 +350,34 @@ html {
   --dotline-dot-empty: url("../assets/images/dots/dot-empty.webp");
   --dotline-dot-bonus: url("../assets/images/dots/dot-bonus.webp");
   --dotline-dot-broken: url("../assets/images/dots/dot-broken.webp");
+  --dotline-dot-ghost: url("../assets/images/dots/dot-ghost.webp");
+  --dotline-dot-deviation-scar: url("../assets/images/dots/dot-deviant-scar.webp");
+  --dotline-dot-open-deviation-scar: url("../assets/images/dots/dot-deviant-open-scar.webp");
+  --dotline-dot-open-scar: url("../assets/images/dots/dot-open-scar.webp");
+  --dotline-dot-deviation-variation: url("../assets/images/dots/dot-deviant-variation.webp");
+  --dotline-dot-free: url("../assets/images/dots/dot-free.webp");
 }
 .dotline.attribute-dotline, .dotline.skill-dotline {
   --dotline-size: 12px;
   --dotline-gap: 0.75px;
+}
+.dotline.scar-value.dotline {
+  --dotline-dot-full: url("../assets/images/dots/dot-entangled-scar.webp");
+}
+.dotline.scar-value.dotline .dot.deviation-dot {
+  background-image: var(--dotline-dot-deviation-scar);
+}
+.dotline.scar-value.dotline .dot.open-dot {
+  background-image: var(--dotline-dot-open-scar);
+}
+.dotline.scar-value.dotline .dot.open-dot.deviation-dot {
+  background-image: var(--dotline-dot-open-deviation-scar);
+}
+.dotline.variation-value.dotline {
+  --dotline-dot-full: url("../assets/images/dots/dot-entangled-variation.webp");
+}
+.dotline.variation-value.dotline .dot.deviation-dot {
+  background-image: var(--dotline-dot-deviation-variation);
 }
 .dotline .dot {
   display: inline-block;
@@ -369,6 +393,7 @@ html {
   background-repeat: no-repeat;
   transform-origin: center center;
   transform: scale(1.1);
+  order: 2;
 }
 .dotline .dot.full-dot {
   background-image: var(--dotline-dot-full);
@@ -386,6 +411,16 @@ html {
 }
 .dotline .dot.blank-dot {
   opacity: 0;
+}
+.dotline .dot.ghost-dot {
+  background-image: var(--dotline-dot-ghost);
+}
+.dotline .dot.deviation-dot {
+  background-image: var(--dotline-dot-deviation);
+}
+.dotline .dot.free-dot {
+  background-image: var(--dotline-dot-free);
+  order: 1;
 }
 .dotline .dot:nth-child(5n) {
   margin-right: calc(var(--dotline-size) * 2 + 2.5px);
@@ -432,9 +467,6 @@ strong.super-strong {
   cursor: pointer;
 }
 .has-tooltip:not(.dotline) {
-  background: rgba(255, 0, 0, 0.2);
-  padding: 0 3px;
-  border-radius: 8px;
   font-weight: bold;
   text-decoration-style: dotted;
   text-decoration-line: underline;
@@ -1007,10 +1039,34 @@ strong.super-strong {
   --dotline-dot-empty: url("../assets/images/dots/dot-empty.webp");
   --dotline-dot-bonus: url("../assets/images/dots/dot-bonus.webp");
   --dotline-dot-broken: url("../assets/images/dots/dot-broken.webp");
+  --dotline-dot-ghost: url("../assets/images/dots/dot-ghost.webp");
+  --dotline-dot-deviation-scar: url("../assets/images/dots/dot-deviant-scar.webp");
+  --dotline-dot-open-deviation-scar: url("../assets/images/dots/dot-deviant-open-scar.webp");
+  --dotline-dot-open-scar: url("../assets/images/dots/dot-open-scar.webp");
+  --dotline-dot-deviation-variation: url("../assets/images/dots/dot-deviant-variation.webp");
+  --dotline-dot-free: url("../assets/images/dots/dot-free.webp");
 }
 .page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .dotline.attribute-dotline, .page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .dotline.skill-dotline {
   --dotline-size: 12px;
   --dotline-gap: 0.75px;
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .dotline.scar-value.dotline {
+  --dotline-dot-full: url("../assets/images/dots/dot-entangled-scar.webp");
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .dotline.scar-value.dotline .dot.deviation-dot {
+  background-image: var(--dotline-dot-deviation-scar);
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .dotline.scar-value.dotline .dot.open-dot {
+  background-image: var(--dotline-dot-open-scar);
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .dotline.scar-value.dotline .dot.open-dot.deviation-dot {
+  background-image: var(--dotline-dot-open-deviation-scar);
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .dotline.variation-value.dotline {
+  --dotline-dot-full: url("../assets/images/dots/dot-entangled-variation.webp");
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .dotline.variation-value.dotline .dot.deviation-dot {
+  background-image: var(--dotline-dot-deviation-variation);
 }
 .page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .dotline .dot {
   display: inline-block;
@@ -1042,6 +1098,15 @@ strong.super-strong {
 }
 .page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .dotline .dot.blank-dot {
   opacity: 0;
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .dotline .dot.ghost-dot {
+  background-image: var(--dotline-dot-ghost);
+}
+.page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .dotline .dot.deviation-dot {
+  position: relative;
+  transform-origin: center center;
+  transform: scale(2);
+  background-image: var(--dotline-dot-deviation);
 }
 .page.pc-page[name=front] .top-block.attribute-block .attributes-block > .sub-block .dotline .dot:nth-child(5n) {
   margin-right: calc(var(--dotline-size) * 2 + 2.5px);
@@ -1231,10 +1296,34 @@ strong.super-strong {
   --dotline-dot-empty: url("../assets/images/dots/dot-empty.webp");
   --dotline-dot-bonus: url("../assets/images/dots/dot-bonus.webp");
   --dotline-dot-broken: url("../assets/images/dots/dot-broken.webp");
+  --dotline-dot-ghost: url("../assets/images/dots/dot-ghost.webp");
+  --dotline-dot-deviation-scar: url("../assets/images/dots/dot-deviant-scar.webp");
+  --dotline-dot-open-deviation-scar: url("../assets/images/dots/dot-deviant-open-scar.webp");
+  --dotline-dot-open-scar: url("../assets/images/dots/dot-open-scar.webp");
+  --dotline-dot-deviation-variation: url("../assets/images/dots/dot-deviant-variation.webp");
+  --dotline-dot-free: url("../assets/images/dots/dot-free.webp");
 }
 .page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .dotline.attribute-dotline, .page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .dotline.skill-dotline {
   --dotline-size: 12px;
   --dotline-gap: 0.75px;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .dotline.scar-value.dotline {
+  --dotline-dot-full: url("../assets/images/dots/dot-entangled-scar.webp");
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .dotline.scar-value.dotline .dot.deviation-dot {
+  background-image: var(--dotline-dot-deviation-scar);
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .dotline.scar-value.dotline .dot.open-dot {
+  background-image: var(--dotline-dot-open-scar);
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .dotline.scar-value.dotline .dot.open-dot.deviation-dot {
+  background-image: var(--dotline-dot-open-deviation-scar);
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .dotline.variation-value.dotline {
+  --dotline-dot-full: url("../assets/images/dots/dot-entangled-variation.webp");
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .dotline.variation-value.dotline .dot.deviation-dot {
+  background-image: var(--dotline-dot-deviation-variation);
 }
 .page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .dotline .dot {
   display: inline-block;
@@ -1266,6 +1355,15 @@ strong.super-strong {
 }
 .page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .dotline .dot.blank-dot {
   opacity: 0;
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .dotline .dot.ghost-dot {
+  background-image: var(--dotline-dot-ghost);
+}
+.page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .dotline .dot.deviation-dot {
+  position: relative;
+  transform-origin: center center;
+  transform: scale(2);
+  background-image: var(--dotline-dot-deviation);
 }
 .page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .dotline .dot:nth-child(5n) {
   margin-right: calc(var(--dotline-size) * 2 + 2.5px);
@@ -1338,30 +1436,28 @@ strong.super-strong {
   font-weight: bold;
 }
 .page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .skill-row.trait-asset::before {
+  margin-right: 3px;
   content: "";
   background: url("../assets/images/icons/asset.webp") no-repeat center center;
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   display: inline-block;
-  vertical-align: middle;
-  margin-right: 0;
+  vertical-align: top;
   background-size: contain;
-  margin-top: -1.5px;
   position: relative;
 }
 .page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .skill-row.trait-hypercompetent {
   font-weight: bold;
 }
 .page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .skill-row.trait-hypercompetent::before {
+  margin-right: 3px;
   content: "";
   background: url("../assets/images/icons/hypercompetence.webp") no-repeat center center;
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   display: inline-block;
-  vertical-align: middle;
-  margin-right: 0;
+  vertical-align: top;
   background-size: contain;
-  margin-top: -1.5px;
   position: relative;
 }
 .page.pc-page[name=front] .top-block.skill-block .skills-block > .sub-block .dotline .dot {
@@ -1480,10 +1576,34 @@ strong.super-strong {
   --dotline-dot-empty: url("../assets/images/dots/dot-empty.webp");
   --dotline-dot-bonus: url("../assets/images/dots/dot-bonus.webp");
   --dotline-dot-broken: url("../assets/images/dots/dot-broken.webp");
+  --dotline-dot-ghost: url("../assets/images/dots/dot-ghost.webp");
+  --dotline-dot-deviation-scar: url("../assets/images/dots/dot-deviant-scar.webp");
+  --dotline-dot-open-deviation-scar: url("../assets/images/dots/dot-deviant-open-scar.webp");
+  --dotline-dot-open-scar: url("../assets/images/dots/dot-open-scar.webp");
+  --dotline-dot-deviation-variation: url("../assets/images/dots/dot-deviant-variation.webp");
+  --dotline-dot-free: url("../assets/images/dots/dot-free.webp");
 }
 .page.pc-page[name=front] .derived-traits-block > .sub-block .dotline.attribute-dotline, .page.pc-page[name=front] .derived-traits-block > .sub-block .dotline.skill-dotline {
   --dotline-size: 12px;
   --dotline-gap: 0.75px;
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .dotline.scar-value.dotline {
+  --dotline-dot-full: url("../assets/images/dots/dot-entangled-scar.webp");
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .dotline.scar-value.dotline .dot.deviation-dot {
+  background-image: var(--dotline-dot-deviation-scar);
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .dotline.scar-value.dotline .dot.open-dot {
+  background-image: var(--dotline-dot-open-scar);
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .dotline.scar-value.dotline .dot.open-dot.deviation-dot {
+  background-image: var(--dotline-dot-open-deviation-scar);
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .dotline.variation-value.dotline {
+  --dotline-dot-full: url("../assets/images/dots/dot-entangled-variation.webp");
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .dotline.variation-value.dotline .dot.deviation-dot {
+  background-image: var(--dotline-dot-deviation-variation);
 }
 .page.pc-page[name=front] .derived-traits-block > .sub-block .dotline .dot {
   display: inline-block;
@@ -1515,6 +1635,15 @@ strong.super-strong {
 }
 .page.pc-page[name=front] .derived-traits-block > .sub-block .dotline .dot.blank-dot {
   opacity: 0;
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .dotline .dot.ghost-dot {
+  background-image: var(--dotline-dot-ghost);
+}
+.page.pc-page[name=front] .derived-traits-block > .sub-block .dotline .dot.deviation-dot {
+  position: relative;
+  transform-origin: center center;
+  transform: scale(2);
+  background-image: var(--dotline-dot-deviation);
 }
 .page.pc-page[name=front] .derived-traits-block > .sub-block .dotline .dot:nth-child(5n) {
   margin-right: calc(var(--dotline-size) * 2 + 2.5px);
@@ -1811,7 +1940,6 @@ strong.super-strong {
   margin: 12px 0;
   border: 0;
   box-shadow: none;
-  background: rgba(243, 239, 230, 0.08);
 }
 .page.pc-page[name=merits] .variation-entry.sub-advantage {
   margin: 0 0 0 32px;
@@ -1933,10 +2061,9 @@ strong.super-strong {
   margin: 12px 0;
 }
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-entry {
-  margin: 12px 0;
+  margin: 2px 0;
   border: 0;
   box-shadow: none;
-  background: rgba(243, 239, 230, 0.08);
 }
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-entry.sub-advantage {
   margin: 0 0 0 32px;
@@ -1947,7 +2074,7 @@ strong.super-strong {
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-entry.sub-advantage .variation-header .scar-title-row,
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-entry.sub-advantage .variation-header .variation-name-row {
   padding-left: 0;
-  background: transparent;
+  background-image: linear-gradient(45deg, #fdfcfa 75%, transparent 80%), url("../assets/images/backgrounds/red-header.webp");
   color: #6B0F1A;
 }
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-entry.sub-advantage .scar-header .scar-title-row .scar-value.dotline .dot,
@@ -1966,6 +2093,7 @@ strong.super-strong {
   color: #1B1A17;
   font-style: italic;
   padding: 0 8px;
+  margin-top: -4px;
 }
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-children {
   margin: 0px 0 0 0;
@@ -1988,7 +2116,7 @@ strong.super-strong {
   align-items: center;
   gap: 8px;
   background: url("../assets/images/backgrounds/red-header.webp") no-repeat center center;
-  background-size: 100% 100%;
+  background-size: 120% 120%;
   font-size: 18px;
   line-height: 20px;
   font-family: "Repent", sans-serif;
@@ -2010,7 +2138,7 @@ strong.super-strong {
   position: relative;
   background: url("../assets/images/backgrounds/black-header.webp") no-repeat center center;
   color: red;
-  background-size: 100% 100%;
+  background-size: 120% 120%;
 }
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row.scar-title-row .scar-name,
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-header .variation-name-row.scar-title-row .scar-name,
@@ -2031,12 +2159,11 @@ strong.super-strong {
   position: absolute;
   height: 40px;
   width: 40px;
-  background: #F3EFE6;
+  background: #fdfcfa;
   transform: translate(-50%, -50%);
   top: 50%;
   left: 15px;
   border-radius: 20px;
-  outline: 2px solid #F3EFE6;
 }
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .scar-activation-icon.scar-activation-controlled,
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .variation-activation-icon.scar-activation-controlled,
@@ -2058,7 +2185,9 @@ strong.super-strong {
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .scar-activation-icon.scar-activation-involuntary,
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .variation-activation-icon.scar-activation-involuntary {
   background-image: url("../assets/images/icons/activation-involuntary-ink.webp");
-  background-size: 100% 100%;
+  background-size: 75% 75%;
+  background-position: center center;
+  background-repeat: no-repeat;
 }
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .scar-activation-icon.scar-activation-persistent,
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .variation-activation-icon.scar-activation-persistent,
@@ -2069,7 +2198,9 @@ strong.super-strong {
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .scar-activation-icon.scar-activation-persistent,
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .variation-activation-icon.scar-activation-persistent {
   background-image: url("../assets/images/icons/activation-persistent-ink.webp");
-  background-size: 100% 100%;
+  background-size: 75% 75%;
+  background-position: center center;
+  background-repeat: no-repeat;
 }
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .scar-name,
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .variation-name,
@@ -2099,7 +2230,7 @@ strong.super-strong {
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-header .scar-title-row .variation-meta .dotline,
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .scar-meta .dotline,
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .variation-meta .dotline {
-  --dotline-size: 20px;
+  --dotline-size: 16px;
 }
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .scar-meta .dotline .dot,
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-header .scar-title-row .variation-meta .dotline .dot,
@@ -2109,7 +2240,6 @@ strong.super-strong {
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-header .scar-title-row .variation-meta .dotline .dot,
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .scar-meta .dotline .dot,
 .page.pc-page[name=deviation] .top-block.deviation-block .variation-header .variation-name-row .variation-meta .dotline .dot {
-  filter: invert(1);
   margin: 0;
 }
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-meta,
@@ -2187,7 +2317,7 @@ strong.super-strong {
   text-align: right;
 }
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-variations {
-  margin: 16px 0 0 16px;
+  margin: 4px 0 20px 26px;
   padding: 0;
 }
 .page.pc-page[name=deviation] .top-block.deviation-block .scar-variations > *:first-child {

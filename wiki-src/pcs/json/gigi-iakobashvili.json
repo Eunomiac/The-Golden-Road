@@ -4,6 +4,7 @@
   "type": "pc",
   "sex": "f",
   "dob": "10 / 31 / 89",
+  "ddv": "12 / 08 / 11",
   "imageUrl": "assets/images/pc/gigi.webp",
   "concept": "the REALITY HACKER",
   "origin": "Autourgic",
@@ -100,8 +101,66 @@
       }
     }
   ],
-  "scars": {},
-  "variations": {},
+  "scars": [
+    {
+      "key": "powerBuildUp",
+      "type": "social",
+      "value": {
+        "base": 2,
+        "deviation": 1,
+        "total": 3
+      },
+      "keywords": ["social", "subtle", "repeatable"],
+      "display": "Acid Flashbacks (Power Build-Up)",
+      "narrative": "Unfortunately whenever these spirits are summoned voluntarily or involuntarily this restarts the effects the initial ritual had on her: making the traces of LSD in her body become much much more potent.",
+      "entangledVariations": [
+        "cuttingLash"
+      ],
+      "selectedDeviations": [
+        "shortCircuit"
+      ],
+      "secondaryScars": [
+        {
+          "key": "concentration",
+          "type": "mental",
+          "value": 2,
+          "display": "Concentration",
+          "narrative": "Gigi has to focus through the remnants of LSD in her body when she calls upon the Khevsureti Spectres to aid her."
+        }
+      ],
+      "vars": {
+        "options": ["insistent"],
+        "secondaryScarName": "concentration",
+        "secondaryScarValue": 2,
+        "whenActivation": "voluntary"
+      }
+    },
+    {
+      "key": "concentration",
+      "type": "mental",
+      "value": 2,
+      "display": "Concentration",
+      "narrative": "Gigi has to focus through the remnants of LSD in her body when she calls upon the Khevsureti Spectres to aid her.",
+      "vars": {
+        "options": []
+      },
+      "selectedDeviations": []
+    }
+  ],
+  "variations": [
+    {
+      "key": "cuttingLash",
+      "value": 2,
+      "display": "Khevsureti Spectres (Cutting Lash)",
+      "narrative": "Not quite ghosts and yet not quite figments of imagination either, the spectral warriors that Gigi can draw forth from the shard of the blade lodged in her bare a striking resemblance to the warriors from Khevsureti that her parents used to tell her about so long ago. While they are able to apply an impressive amount of swordplay that can cut people down from a distance, she has to focus very hard to keep them physically present or else they threaten to evaporate. Of course, if the spirits feel they’re needed they can simply summon themselves. Unfortunately whenever these spirits are summoned voluntarily or involuntarily this restarts the effects the initial ritual had on her: making the traces of LSD in her body become much much more potent.",
+      "entangledScar": "powerBuildUp",
+      "vars": {
+        "options": ["quick", "conjured", "insidious"],
+        "combatSkill": "firearms",
+        "defenseAttribute": "res"
+      }
+    }
+  ],
   "touchstones": {},
   "ambitions": {},
   "bio": "<p>HTML content with <strong>formatting</strong> and 🎭 emojis</p>"

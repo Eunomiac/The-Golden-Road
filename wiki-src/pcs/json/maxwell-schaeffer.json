@@ -133,8 +133,67 @@
       "narrative": ""
     }
   ],
-  "scars": {},
-  "variations": {},
+  "scars": [
+    {
+      "key": "hubris",
+      "display": "Hubris",
+      "type": "mental",
+      "value": 3,
+      "narrative": "",
+      "entangledVariations": [
+        "superhumanAttribute"
+      ],
+      "vars": {
+        "options": ["toy", "gloat"]
+      }
+    },
+    {
+      "key": "involuntaryStimulus",
+      "display": "Electric Inspiration (Involuntary Stimulus)",
+      "type": "mental",
+      "value": 2,
+      "narrative": "",
+      "entangledVariations": [
+        "electrokinesis"
+      ],
+      "vars": {
+        "stimulus": "when Maxwell is inspired"
+      }
+    }
+  ],
+  "variations": [
+    {
+      "key": "electrokinesis",
+      "display": "Mind On Fire (Electrokinesis)",
+      "value": 2,
+      "narrative": "",
+      "entangledScar": "involuntaryStimulus",
+      "vars": {
+        "options": ["conductivity", "research"]
+      }
+    },
+    {
+      "key": "superhumanAttribute",
+      "display": "Superhuman Intelligence",
+      "value": 3,
+      "narrative": "",
+      "entangledScar": "hubris",
+      "vars": {
+        "attribute": "int"
+      }
+    },
+    {
+      "key": "omnicompetence",
+      "display": "Omnicompetence",
+      "value": {
+        "base": 0,
+        "free": 1,
+        "total": 1
+      },
+      "narrative": "",
+      "entangledScar": "none"
+    }
+  ],
   "touchstones": {},
   "ambitions": {},
   "bio": "<p>HTML content with <strong>formatting</strong> and 🎭 emojis</p>"
