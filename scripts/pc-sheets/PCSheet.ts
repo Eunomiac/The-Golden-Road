@@ -283,22 +283,10 @@ export class PCSheet {
     return { dots };
   }
 
-  protected buildSpecializationTooltip(anchorContent: string, tooltipContent: string): string {
-    // Generate a random 16-character anchor ID
-    const anchorID = Math.random().toString(36).substring(2, 15);
-    return `
-      <span class="has-tooltip" style="anchor-name: --${anchorID};">
-        ${anchorContent}
-      </span>
-      <div class="tooltip tiny-tooltip" style="position-anchor: --${anchorID};">
-        ${tooltipContent}
-      </div>
-    `;
-  }
-
   /**
    * Parses specialization string array into SpecializationData array
    * Each string is comma-separated: "Text,tag1,tag2" where tags are optional
+   * Tags are now handled by the trait tag system (interdisciplinary, areaOfExpertise)
    */
   protected parseSpecializations(specs: string[] | undefined): SpecializationData[] {
     if (!specs || specs.length === 0) {
@@ -308,22 +296,24 @@ export class PCSheet {
     return specs.map((specStr) => {
       const parts = specStr.split(",").map((p) => p.trim()).filter((p) => p.length > 0);
       const text = parts[0] ?? "";
-      const tags: SpecializationTag[] = [];
-      const tagStrings: string[] = [];
+      const tagKeys: string[] = [];
 
       // Check remaining parts for specialization tags
+      // Map to trait tag keys: "interdisciplinary" and "areaOfExpertise"
+      // Accept both enum values ("expert") and trait tag keys ("areaOfExpertise") for flexibility
       for (let i = 1; i < parts.length; i++) {
-        const part = parts[i];
-        if (part === SpecializationTag.interdisciplinary) {
-          tags.push(SpecializationTag.interdisciplinary);
-          tagStrings.push(this.buildSpecializationTooltip("⁂", "<center>Interdisciplinary</center>"));
-        } else if (part === SpecializationTag.expert) {
-          tags.push(SpecializationTag.expert);
-          tagStrings.push(this.buildSpecializationTooltip("+2", "<center>Area of Expertise</center>"));
+        const part = parts[i]?.toLowerCase().trim();
+        if (!part) continue;
+
+        // Map to trait tag keys directly
+        if (part === "interdisciplinary" || part === SpecializationTag.interdisciplinary.toLowerCase()) {
+          tagKeys.push("interdisciplinary");
+        } else if (part === "areaofexpertise" || part === "expert" || part === SpecializationTag.expert.toLowerCase()) {
+          tagKeys.push("areaOfExpertise");
         }
       }
 
-      return { text, tags, tagString: tagStrings.join(", ") };
+      return { text, tags: tagKeys };
     });
   }
 

@@ -55,12 +55,9 @@
       <div class="skill-specs">
         {{~#each trait.specs~}}
           <span class="skill-spec">
-            {{~ this.text ~}}
-            {{~#if this.tagString~}}
-              <span class="spec-tag-string">
-                ({{{this.tagString}}})
-              </span>
-            {{~/if~}}
+            {{~#tagged tags=tags~}}
+              {{~ text ~}}
+            {{~/tagged~}}
           </span>
         {{~/each~}}
       </div>

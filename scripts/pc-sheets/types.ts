@@ -83,8 +83,7 @@ export interface TraitValueData {
  */
 export interface SpecializationData {
   text: string;
-  tags: SpecializationTag[];
-  tagString: string; // Text to display for the tags (e.g. "⁂, +2")
+  tags: string[]; // Tag keys that map to trait tag definitions (e.g., "interdisciplinary", "areaOfExpertise")
 }
 /**
  * Dot types within a dotline

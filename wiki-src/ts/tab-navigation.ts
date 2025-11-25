@@ -63,15 +63,24 @@ function initTabNavigation(): void {
     // Adjust overflow for paper-stack-scroll based on active tab
     // Front page needs overflow unset for polaroid, other pages need overflow for scrolling
     const scrollContainer: HTMLElement | null = document.querySelector(".paper-stack-scroll");
+    const paperStack: HTMLElement | null = document.querySelector(".paper-stack");
     if (scrollContainer) {
       if (tabName === "front") {
         // Remove overflow restrictions for front page (allows polaroid to overflow)
         scrollContainer.style.overflowX = "unset";
         scrollContainer.style.overflowY = "unset";
+        // Remove gradient overlay class for front page
+        if (paperStack) {
+          paperStack.classList.add("front-page-active");
+        }
       } else {
         // Restore overflow for other pages (enables proper scrolling)
         scrollContainer.style.overflowX = "hidden";
         scrollContainer.style.overflowY = "auto";
+        // Remove gradient overlay class for non-front pages
+        if (paperStack) {
+          paperStack.classList.remove("front-page-active");
+        }
       }
     }
   }

@@ -359,6 +359,20 @@
         @include label-specialty($tags: ["interdisciplinary", "expert"]);
       }
 
+      .trait-tagged-block {
+        .trait-tag-icon-row {
+          order: 2;
+          gap: 5px;
+
+          &::before {
+            content: "(";
+          }
+
+          &::after {
+            content: ")";
+          }
+        }
+      }
 
     }
   }

@@ -1,4 +1,5 @@
 <div class="block top-block deviation-block">
+  <div class="form-label form-label-title">Scars & Variations:</div>
 
   <div class="deviation-columns">
       {{#with (lookup variationsByScar "__ungrouped__") as |standaloneVariations|}}
@@ -255,6 +256,7 @@
 
       /**
        * Scrolls an accordion item into view within the paper-stack-scroll container.
+       * Only scrolls if the item is near the top or bottom of the viewport, moving it towards the center.
        */
       const scrollItemIntoView = (item) => {
         const scrollContainer = document.querySelector(".paper-stack-scroll");
@@ -262,41 +264,67 @@
           return;
         }
 
-        // Get the item's position relative to the scroll container
+        // Get the item's position relative to the viewport
         const itemRect = item.getBoundingClientRect();
         const containerRect = scrollContainer.getBoundingClientRect();
 
-        // Calculate if the item is partially or fully outside the visible area
-        const itemTop = itemRect.top - containerRect.top + scrollContainer.scrollTop;
-        const itemBottom = itemTop + itemRect.height;
         const containerHeight = containerRect.height;
         const currentScrollTop = scrollContainer.scrollTop;
-        const visibleTop = currentScrollTop;
-        const visibleBottom = currentScrollTop + containerHeight;
 
-        // Add some padding to ensure the item isn't right at the edge
-        const padding = 32;
+        // Calculate item position relative to the viewport
+        const itemTopRelative = itemRect.top - containerRect.top;
+        const itemBottomRelative = itemRect.bottom - containerRect.top;
+        const itemHeight = itemRect.height;
+
+        // Threshold for "near the edge" - if item is within this distance from top or bottom, scroll it
+        const edgeThreshold = 150; // pixels from top/bottom edge
+        const centerOffset = 50; // Extra pixels to scroll when at bottom (moves towards center)
+        const topPadding = 32; // Padding when scrolling from top
 
         let targetScroll = currentScrollTop;
+        let shouldScroll = false;
 
-        // If item is above the visible area, scroll to show it at the top (with padding)
-        if (itemTop < visibleTop) {
-          targetScroll = itemTop - padding;
+        // Check if item is near the top of the viewport
+        if (itemTopRelative < edgeThreshold && itemTopRelative >= 0) {
+          // Item is near the top - scroll it towards center
+          // Calculate how much to scroll to move item closer to center
+          const scrollAmount = edgeThreshold - itemTopRelative + topPadding;
+          targetScroll = currentScrollTop - scrollAmount;
+          shouldScroll = true;
         }
-        // If item extends below the visible area, scroll to show the bottom (with padding)
-        else if (itemBottom > visibleBottom) {
-          targetScroll = itemBottom - containerHeight + padding;
+        // Check if item is near the bottom of the viewport
+        else if (itemBottomRelative > containerHeight - edgeThreshold && itemBottomRelative <= containerHeight) {
+          // Item is near the bottom - scroll it towards center with extra offset
+          // Calculate how much to scroll to move item closer to center
+          const scrollAmount = (containerHeight - itemBottomRelative) + edgeThreshold + centerOffset;
+          targetScroll = currentScrollTop + scrollAmount;
+          shouldScroll = true;
         }
-        // If item is already fully visible, no need to scroll
-        else {
-          return;
+        // Check if item extends beyond the viewport (partially or fully outside)
+        else if (itemTopRelative < 0) {
+          // Item is above the visible area - scroll to show it at the top
+          const itemTopAbsolute = itemRect.top - containerRect.top + currentScrollTop;
+          targetScroll = itemTopAbsolute - topPadding;
+          shouldScroll = true;
+        }
+        else if (itemBottomRelative > containerHeight) {
+          // Item extends below the visible area - scroll to show it with extra offset
+          const itemTopAbsolute = itemRect.top - containerRect.top + currentScrollTop;
+          targetScroll = itemTopAbsolute - (containerHeight / 2) + (itemHeight / 2) + centerOffset;
+          shouldScroll = true;
         }
 
-        // Smoothly scroll to the target position
-        scrollContainer.scrollTo({
-          top: Math.max(0, targetScroll),
-          behavior: "smooth"
-        });
+        // Only scroll if needed and if the target is valid
+        if (shouldScroll) {
+          const maxScroll = scrollContainer.scrollHeight - containerHeight;
+          const clampedScroll = Math.max(0, Math.min(maxScroll, targetScroll));
+
+          // Smoothly scroll to the target position
+          scrollContainer.scrollTo({
+            top: clampedScroll,
+            behavior: "smooth"
+          });
+        }
       };
 
       groupItems.forEach((item) => {

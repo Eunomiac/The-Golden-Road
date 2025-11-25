@@ -36,6 +36,38 @@
       }
     }
   },
+  "interdisciplinary": {
+    "key": "interdisciplinary",
+    "icon": "../assets/images/icons/interdisciplinary.webp",
+    "size": 20,
+    "gap": 1,
+    "tooltip": {
+      "title": "Interdisciplinary Specialty",
+      "blocks": [
+        "{{NAME}} can apply the bonus from this Specialty to any Skill in which {{he}} has at least one dot, whenever it is justifiable within the fiction."
+      ],
+      "source": {
+        "book": "DtR",
+        "page": 97
+      }
+    }
+  },
+  "areaOfExpertise": {
+    "key": "areaOfExpertise",
+    "icon": "../assets/images/icons/areaOfExpertise.webp",
+    "size": 20,
+    "gap": 1,
+    "tooltip": {
+      "title": "Area of Expertise",
+      "blocks": [
+        "{{NAME}} is exceptionally specialized in this area. Whenever this Specialty applies, it grants a <strong>+2</strong> bonus instead of the usual +1."
+      ],
+      "source": {
+        "book": "DtR",
+        "page": 96
+      }
+    }
+  },
   "activationControlled": {
     "key": "activationControlled",
     "icon": "../assets/images/icons/activation-controlled.webp",

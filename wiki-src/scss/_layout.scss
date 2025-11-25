@@ -48,6 +48,29 @@
       overflow: visible; // Allow polaroid to overflow without clipping
       max-height: 100vh;
 
+      // Gradient fade overlay at bottom of viewport (only on non-front pages)
+      &:not(.front-page-active) {
+        position: relative;
+
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: 25px;
+          left: 45px;
+          right: 45px;
+          height: 100px;
+          pointer-events: none;
+          background: linear-gradient(
+            to bottom,
+            transparent 0%,
+            rgba($color-paper-stack, 0.3) 10%,
+            rgba($color-paper-stack, 0.7) 50%,
+            rgba($color-paper-stack, 0.95) 100%
+          );
+          z-index: 10;
+        }
+      }
+
 
       .paper-stack-scroll {
         position: static; // Don't create positioning context - allows polaroid to overflow
