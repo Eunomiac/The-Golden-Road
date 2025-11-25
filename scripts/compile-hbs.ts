@@ -33,10 +33,9 @@ interface NavigationData {
   [type: string]: NavigationItem[];
 }
 
-interface TraitTagTooltipCitation {
-  book?: string;
-  page?: string | number;
-  text?: string;
+interface TraitTagTooltipSource {
+  book: string;
+  page: number;
 }
 
 interface TraitTagTooltipDefinition {
@@ -44,7 +43,7 @@ interface TraitTagTooltipDefinition {
   title?: string;
   subtitle?: string;
   blocks?: string[];
-  citation?: TraitTagTooltipCitation;
+  source?: TraitTagTooltipSource;
 }
 
 interface TraitTagDefinition {
@@ -67,6 +66,8 @@ interface RenderedTraitTagIcon {
 
 interface TraitTagRenderContext {
   sheetContext?: PCSheetData;
+  thisEntity?: Record<string, unknown>;
+  vars?: Record<string, unknown>;
 }
 
 type TraitTagDefinitionMap = Record<string, TraitTagDefinition>;
@@ -539,10 +540,21 @@ function registerHelpers(navigationData: NavigationData): void {
 
     const definitions = loadTraitTagDefinitions();
     const sheetContext = options.data?.root as PCSheetData | undefined;
+
+    // Extract thisEntity and vars from the current context (e.g., scar or variation)
+    // The 'this' context in Handlebars helpers refers to the current scope
+    const currentContext = this as Record<string, unknown> | undefined;
+    const thisEntity = currentContext && typeof currentContext === "object" && !Array.isArray(currentContext)
+      ? currentContext as Record<string, unknown>
+      : undefined;
+    const vars = thisEntity && typeof thisEntity.vars === "object" && thisEntity.vars !== null && !Array.isArray(thisEntity.vars)
+      ? thisEntity.vars as Record<string, unknown>
+      : undefined;
+
     const renderedIcons: RenderedTraitTagIcon[] = tags
       .map((tagKey) => definitions[tagKey])
       .filter((definition): definition is TraitTagDefinition => Boolean(definition))
-      .map((definition) => renderTraitTagIcon(definition, sheetContext));
+      .map((definition) => renderTraitTagIcon(definition, sheetContext, thisEntity, vars));
 
     if (renderedIcons.length === 0) {
       return new Handlebars.SafeString(content);
@@ -662,7 +674,9 @@ function normalizeTagKeys(value: unknown): string[] {
 
 function renderTraitTagIcon(
   definition: TraitTagDefinition,
-  sheetContext?: PCSheetData
+  sheetContext?: PCSheetData,
+  thisEntity?: Record<string, unknown>,
+  vars?: Record<string, unknown>
 ): RenderedTraitTagIcon {
   const anchorId = generateTooltipAnchor();
   const escapedIcon = Handlebars.escapeExpression(definition.icon);
@@ -670,10 +684,10 @@ function renderTraitTagIcon(
     definition.tooltip?.title
     ?? definition.tooltipTitle
     ?? definition.key;
-  const labelText = stripHtmlTags(processTraitTagText(fallbackLabel, { sheetContext }));
+  const labelText = stripHtmlTags(processTraitTagText(fallbackLabel, { sheetContext, thisEntity, vars }));
   const escapedLabel = Handlebars.escapeExpression(labelText.length > 0 ? labelText : fallbackLabel);
 
-  const tooltipHtml = buildTraitTagTooltipContent(definition, { sheetContext });
+  const tooltipHtml = buildTraitTagTooltipContent(definition, { sheetContext, thisEntity, vars });
   const tooltipClasses = buildTraitTagTooltipClasses(definition);
 
   const iconHtml = [
@@ -710,39 +724,38 @@ function sanitizeTraitTagTooltip(raw: unknown): TraitTagTooltipDefinition | unde
       .map((entry) => (typeof entry === "string" ? entry.trim() : ""))
       .filter((entry) => entry.length > 0)
     : undefined;
-  const citation = sanitizeTraitTagTooltipCitation(record.citation);
+    const source = sanitizeTraitTagTooltipSource(record.source);
 
-  if (!format && !title && !subtitle && (!blocks || blocks.length === 0) && !citation) {
-    return undefined;
+    if (!format && !title && !subtitle && (!blocks || blocks.length === 0) && !source) {
+      return undefined;
+    }
+
+    return {
+      format: format ?? undefined,
+      title,
+      subtitle,
+      blocks,
+      source
+    };
   }
 
-  return {
-    format: format ?? undefined,
-    title,
-    subtitle,
-    blocks,
-    citation
-  };
-}
+  function sanitizeTraitTagTooltipSource(raw: unknown): TraitTagTooltipSource | undefined {
+    if (!raw || typeof raw !== "object" || Array.isArray(raw)) {
+      return undefined;
+    }
+    const record = raw as Record<string, unknown>;
+    const book = toTrimmedString(record.book);
+    const pageValue = record.page;
+    const page = typeof pageValue === "number"
+      ? pageValue
+      : (typeof pageValue === "string" ? parseInt(pageValue.trim(), 10) : undefined);
 
-function sanitizeTraitTagTooltipCitation(raw: unknown): TraitTagTooltipCitation | undefined {
-  if (!raw || typeof raw !== "object" || Array.isArray(raw)) {
-    return undefined;
+    if (!book || !page || isNaN(page)) {
+      return undefined;
+    }
+
+    return { book, page };
   }
-  const record = raw as Record<string, unknown>;
-  const book = toTrimmedString(record.book);
-  const pageValue = record.page;
-  const page = typeof pageValue === "number" || typeof pageValue === "string"
-    ? String(pageValue).trim()
-    : undefined;
-  const text = toTrimmedString(record.text);
-
-  if (!book && !page && !text) {
-    return undefined;
-  }
-
-  return { book, page, text };
-}
 
 function sanitizeClassList(value: unknown): string | undefined {
   if (typeof value === "string") {
@@ -783,10 +796,11 @@ function buildTraitTagTooltipContent(
         );
       });
     }
-    if (tooltip.citation) {
-      const citationMarkup = renderTraitTagCitation(tooltip.citation, context);
-      if (citationMarkup) {
-        segments.push(citationMarkup);
+    if (tooltip.source) {
+      // Use the same source-citation partial as scars/variations
+      const sourceMarkup = renderTraitTagSource(tooltip.source, context);
+      if (sourceMarkup) {
+        segments.push(sourceMarkup);
       }
     }
     if (segments.length > 0) {
@@ -827,32 +841,28 @@ function buildTraitTagTooltipClasses(definition: TraitTagDefinition): string {
   return classes.join(" ");
 }
 
-function renderTraitTagCitation(
-  citation: TraitTagTooltipCitation,
+function renderTraitTagSource(
+  source: TraitTagTooltipSource,
   context: TraitTagRenderContext
 ): string {
-  const citationParts: string[] = [];
-  if (citation.book) {
-    citationParts.push(
-      `<span class="source-title">${processTraitTagText(citation.book, context)}</span>`
-    );
-  }
-  if (citation.page) {
-    citationParts.push(
-      `<span class="source-page">${processTraitTagText(`p.${citation.page}`, context)}</span>`
-    );
-  }
-  if (citation.text) {
-    citationParts.push(
-      `<span class="source-page">${processTraitTagText(citation.text, context)}</span>`
-    );
-  }
+  // Get the book name using the same mapping as getBookName helper
+  // This matches the bookNameMap in registerHelpers
+  const bookNameMap: Record<string, string> = {
+    CoD: "Chronicles of Darkness",
+    HL: "Hurt Locker",
+    DtR: "Deviant: the Renegades",
+    SG: "Shallow Graves",
+    CC: "The Clade Companion"
+  };
+  const bookName = bookNameMap[source.book] ?? source.book;
 
-  if (citationParts.length === 0) {
-    return "";
-  }
-
-  return `<span class="tooltip-block tooltip-citation">${citationParts.join("")}</span>`;
+  // Format the source citation the same way as scars/variations use in source-citation.hbs
+  return `<span class="tooltip-block tooltip-citation">
+    <span class="source-citation">
+      <span class="source-title">${bookName}</span>
+      <span class="source-page">p.${source.page}</span>
+    </span>
+  </span>`;
 }
 
 function processTraitTagText(text: string, context: TraitTagRenderContext): string {
@@ -866,11 +876,36 @@ function processTraitTagText(text: string, context: TraitTagRenderContext): stri
   }
 
   try {
-    return traitTagNotationProcessor.process(text, {
+    // Build processing context with thisEntity and vars if available
+    const processingContext = {
       context: sheetContext,
+      thisEntity: context.thisEntity,
+      vars: context.vars,
       strict: false
-    });
-  } catch {
+    };
+
+    // Process with finalizeTooltips=true to ensure all tooltip placeholders are resolved
+    // The processor's internal loop should handle all nested notations
+    let processed = traitTagNotationProcessor.process(text, processingContext, { finalizeTooltips: true });
+
+    // Ensure any remaining tooltip placeholders are finalized
+    const finalized = traitTagNotationProcessor.finalizeTooltipPlaceholders(processed, processingContext) ?? processed;
+
+    // Check if there are still unresolved curly notations and process again if needed
+    // This handles cases where tooltip placeholders contained notations
+    if (finalized.includes("{{") && finalized.includes("}}")) {
+      const reprocessed = traitTagNotationProcessor.process(finalized, processingContext, { finalizeTooltips: true });
+      // Only use reprocessed if it actually changed something
+      if (reprocessed !== finalized) {
+        return reprocessed;
+      }
+    }
+
+    return finalized;
+  } catch (error) {
+    // Log error but return the text to prevent breaking the build
+    // In strict mode, this would throw, but we're in non-strict mode for tooltips
+    console.warn("Error processing trait tag text:", error, text);
     return text;
   }
 }

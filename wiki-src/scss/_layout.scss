@@ -14,11 +14,7 @@
 .layout {
   position: absolute;
   inset: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-  margin-right: calc(-1 * var(--scrollbar-width));
-  padding-right: var(--scrollbar-width);
-  padding-bottom: 16px;
+  overflow: hidden; // Prevent scrollbars - all scrolling happens in .paper-stack-scroll
   display: flex;
   justify-content: center;
   align-items: stretch;
@@ -49,12 +45,12 @@
       align-items: stretch;
       height: var(--paper-height);
       width: var(--paper-width);
-      overflow: hidden;
+      overflow: visible; // Allow polaroid to overflow without clipping
       max-height: 100vh;
 
 
       .paper-stack-scroll {
-        position: relative;
+        position: static; // Don't create positioning context - allows polaroid to overflow
         flex: 1 1 auto;
         height: 100%;
         width: 100%;

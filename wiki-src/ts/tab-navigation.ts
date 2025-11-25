@@ -59,6 +59,21 @@ function initTabNavigation(): void {
         section.setAttribute("aria-hidden", "true");
       }
     });
+
+    // Adjust overflow for paper-stack-scroll based on active tab
+    // Front page needs overflow unset for polaroid, other pages need overflow for scrolling
+    const scrollContainer: HTMLElement | null = document.querySelector(".paper-stack-scroll");
+    if (scrollContainer) {
+      if (tabName === "front") {
+        // Remove overflow restrictions for front page (allows polaroid to overflow)
+        scrollContainer.style.overflowX = "unset";
+        scrollContainer.style.overflowY = "unset";
+      } else {
+        // Restore overflow for other pages (enables proper scrolling)
+        scrollContainer.style.overflowX = "hidden";
+        scrollContainer.style.overflowY = "auto";
+      }
+    }
   }
 
   // Set up click handlers for tab buttons

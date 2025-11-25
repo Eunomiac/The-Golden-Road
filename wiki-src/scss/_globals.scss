@@ -54,13 +54,13 @@
   --dotline-dot-general: url("../assets/images/dots/dot-general.webp");
   --dotline-dot-ghost-general: url("../assets/images/dots/dot-general-ghost.webp");
   --dotline-dot-ghost: var(--dotline-dot-ghost-general);
-  --dotline-dot-entangled-scar: var(--dotline-dot-general);
-  --dotline-dot-entangled-variation: var(--dotline-dot-general);
-  --dotline-dot-deviation-scar: var(--dotline-dot-general);
-  --dotline-dot-open-deviation-scar: var(--dotline-dot-general);
-  --dotline-dot-open-scar: var(--dotline-dot-general);
-  --dotline-dot-deviation-variation: var(--dotline-dot-general);
-  --dotline-dot-free: var(--dotline-dot-general);
+  --dotline-dot-entangled-scar: url("../assets/images/dots/dot-general-ink.webp");
+  --dotline-dot-entangled-variation: url("../assets/images/dots/dot-general-red.webp");
+  --dotline-dot-deviation-scar: var(--dotline-dot-entangled-scar);
+  --dotline-dot-open-deviation-scar: var(--dotline-dot-entangled-scar);
+  --dotline-dot-open-scar: var(--dotline-dot-entangled-scar);
+  --dotline-dot-deviation-variation: var(--dotline-dot-entangled-variation);
+  --dotline-dot-free: url("../assets/images/dots/dot-free.webp");
 
   &.attribute-dotline,
   &.skill-dotline {

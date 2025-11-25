@@ -21,19 +21,8 @@
     text-decoration-line: underline;
   }
 
-  // Show tooltip on hover with delay, or when hovering the tooltip itself
-  &:hover+.tooltip,
-  &:focus-visible+.tooltip {
-    visibility: visible;
-    opacity: 1;
-    transform: translate(var(--tooltip-shift-x, 0px), var(--tooltip-shift-y, 0px)) scale(1);
-    // Apply 1s delay when showing, with slightly longer animation
-    // Visibility becomes visible immediately (no delay) so the fade can be seen
-    transition-property: opacity, transform, visibility;
-    transition-duration: 200ms, 200ms, 0s;
-    transition-timing-function: ease, ease, step-start;
-    transition-delay: 1s, 1s, 0s; // Delay opacity/transform, but visibility is immediate
-  }
+  // Tooltip visibility is now controlled by JavaScript via .tooltip--active class
+  // CSS hover no longer directly shows tooltips
 }
 
 .tooltip {
@@ -64,24 +53,16 @@
 
   filter: drop-shadow(8px 8px 4px rgba(0, 0, 0, 1));
 
-  // Initial hidden state
+  // Initial hidden state - GSAP will control visibility, opacity, scale, and transform
   visibility: hidden;
   opacity: 0;
-  transform: translate(
-      var(--tooltip-shift-x, 0px),
-      calc(var(--tooltip-shift-y, 0px) + 8px)
-    )
-    scale(0.98);
+  // Transform is controlled by GSAP (x, y, scale)
   pointer-events: none;
   user-select: none;
   font-size: 16px;
 
-  // Smooth animation with 1s delay on show, quick hide animation
-  // Transition opacity and transform immediately, but delay visibility change
-  transition-property: opacity, transform, visibility;
-  transition-duration: 150ms, 150ms, 0s; // Quick hide animation for opacity/transform, instant for visibility
-  transition-timing-function: ease-out, ease-out, step-end; // Snappier feel for hiding
-  transition-delay: 0s, 0s, 150ms; // Delay visibility until after fade completes
+  // No CSS transitions - GSAP handles all animations
+  // This allows positioning to happen before visibility changes
 
   // When forced to render beneath the anchor, invert the margin + anchor area.
   &.tooltip--below {
@@ -90,18 +71,25 @@
     margin-top: 16px;
   }
 
-  // Keep tooltip visible when hovering it directly
-  &:hover {
-    visibility: visible;
-    opacity: 1;
-    transform: translate(var(--tooltip-shift-x, 0px), var(--tooltip-shift-y, 0px)) scale(1);
-    // pointer-events: auto;
-    // No delay when hovering tooltip directly, but keep same transition setup
-    transition-property: opacity, transform, visibility;
-    transition-duration: 200ms, 200ms, 0s;
-    transition-timing-function: ease, ease, step-start;
-    transition-delay: 0s, 0s, 0s;
+  // When forced to render to the right of the anchor
+  &.tooltip--right {
+    position-area: right center;
+    margin-bottom: 0;
+    margin-top: 0;
+    margin-left: 16px;
+    margin-right: 0;
   }
+
+  // When forced to render to the left of the anchor
+  &.tooltip--left {
+    position-area: left center;
+    margin-bottom: 0;
+    margin-top: 0;
+    margin-left: 0;
+    margin-right: 16px;
+  }
+
+  // Keep tooltip visible when hovering it directly (GSAP maintains state)
 
   &.tiny-tooltip {
     padding: 2px 32px;
@@ -188,6 +176,10 @@
     /* outline: 2px solid magenta; */
     overflow: hidden;
 
+    &.big-rules-card {
+      width: 600px;
+    }
+
     .tooltip-title {
       color: white;
       font-family: "Chromoxome";
@@ -243,7 +235,7 @@
       .tooltip-title {
         background: transparent;
         font-family: "GFHaldaSmashed";
-        text-transform: unset;
+        text-transform: none;
         text-shadow: none;
         color: #141414;
         font-size: 36px;
@@ -255,7 +247,7 @@
 
       .tooltip-subtitle {
         font-family: GoudyOldStyle;
-        text-transform: unset;
+        text-transform: none;
         text-align: left;
         font-weight: 500;
         font-size: 22px;
@@ -285,9 +277,10 @@
 
       li {
         padding: 5px 0px;
-        margin: 5px 0px;
+        margin: 0px 0px;
         padding-left: 45px;
         text-indent: -26px;
+        text-align: left;
 
         &:nth-child(2n - 1) {
           background-color: rgba(0, 0, 0, 0.1);

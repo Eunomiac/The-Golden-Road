@@ -65,6 +65,13 @@
       }
     }
 
+    .standalone-variation-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
     .variation-children {
       margin: 0px 0 0 0;
       padding-left: 24px;

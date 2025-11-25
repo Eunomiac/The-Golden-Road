@@ -541,6 +541,89 @@ export class PCSheet {
   }
 
   /**
+   * Gets the maximum magnitude value from top-level variations (excluding secondary variations).
+   * Returns the "total" value from each variation's value, or finalMagnitude if available.
+   * Returns 0 if no variations exist.
+   */
+  protected getMaxVariationMagnitude(pcData: PCSheetData): number {
+    if (!pcData.variationsByScar) {
+      return 0;
+    }
+
+    let maxMagnitude = 0;
+
+    // Check all variations in variationsByScar (these are top-level variations)
+    for (const variations of Object.values(pcData.variationsByScar)) {
+      if (!Array.isArray(variations)) {
+        continue;
+      }
+
+      for (const variation of variations) {
+        // Skip secondary variations (they have parentVariationKey)
+        if (variation.parentVariationKey) {
+          continue;
+        }
+
+        // Get the magnitude value - prioritize "total" from value object
+        let magnitude = 0;
+
+        // First, try to get "total" from the value property
+        const variationRecord = variation as Record<string, unknown>;
+        if (variationRecord.value) {
+          if (typeof variationRecord.value === "number") {
+            magnitude = variationRecord.value;
+          } else if (typeof variationRecord.value === "object" && variationRecord.value !== null) {
+            const valueObj = variationRecord.value as Record<string, unknown>;
+            const total = typeof valueObj.total === "number" ? valueObj.total : 0;
+            if (total > 0) {
+              magnitude = total;
+            }
+          }
+        }
+
+        // Fall back to finalMagnitude if we didn't get a value from the value property
+        if (magnitude === 0 && typeof variation.finalMagnitude === "number") {
+          magnitude = variation.finalMagnitude;
+        }
+
+        if (magnitude > maxMagnitude) {
+          maxMagnitude = magnitude;
+        }
+      }
+    }
+
+    return maxMagnitude;
+  }
+
+  /**
+   * Modifies the Stability dotline to add broken dots based on variation magnitude.
+   * Replaces the first N full dots with broken dots, where N is the max variation magnitude.
+   */
+  private applyVariationMagnitudeToStability(
+    stability: TraitDataDerived,
+    maxVariationMagnitude: number
+  ): void {
+    if (!stability.dotline || !Array.isArray(stability.dotline.dots)) {
+      return;
+    }
+
+    const dots = stability.dotline.dots;
+    const brokenCount = Math.min(maxVariationMagnitude, dots.length);
+
+    // Replace the first N full dots with broken dots
+    for (let i = 0; i < brokenCount; i++) {
+      if (dots[i] === DotType.full) {
+        // Add broken class while keeping full class
+        // The template will render both classes, showing a broken dot
+        dots[i] = DotType.broken;
+      } else if (dots[i] === DotType.bonus) {
+        // Bonus dots should also become broken
+        dots[i] = DotType.broken;
+      }
+    }
+  }
+
+  /**
    * Extracts and converts TraitJSON to TraitData with all required fields
    * Overloaded to properly handle Attribute and Skill types
    */
@@ -967,6 +1050,14 @@ export class PCSheet {
           return acc;
         }, {});
         merged.scarsByKey = scarIndex;
+      }
+
+      // Modify Stability dotline to add broken dots based on max variation magnitude
+      if (merged.stability) {
+        const maxVariationMagnitude = this.getMaxVariationMagnitude(merged);
+        if (maxVariationMagnitude > 0) {
+          this.applyVariationMagnitudeToStability(merged.stability, maxVariationMagnitude);
+        }
       }
     }
 

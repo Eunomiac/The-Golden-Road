@@ -229,7 +229,7 @@
             "burst"
           ],
           "vars": {
-            "options": ["channel", "deadly", "soporific"],
+            "options": ["channel", "deadly", "soporific", "burst"],
             "combatSkill": "athletics",
             "channelVariation": "telekinesis",
             "defenseAttribute": "Defense"

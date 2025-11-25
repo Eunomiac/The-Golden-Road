@@ -34,7 +34,15 @@
       {{else if (eq this "bonus")}}
         <span class="dot full-dot bonus-dot"></span>
       {{else if (eq this "broken")}}
-        <span class="dot broken-dot"></span>
+        {{#if (eq ../type "derived")}}
+          {{#if (eq ../trait.key "stability")}}
+            <span class="dot full-dot broken-dot"></span>
+          {{else}}
+            <span class="dot broken-dot"></span>
+          {{/if}}
+        {{else}}
+          <span class="dot broken-dot"></span>
+        {{/if}}
       {{else if (eq this "empty")}}
         <span class="dot empty-dot"></span>
       {{/if}}

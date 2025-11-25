@@ -268,17 +268,21 @@ export function buildAdvantageDotline(rawValue: unknown): string[] | undefined {
     const explicitBase = toPositiveInteger(record["base"]);
     const maxCount = toPositiveInteger(record["max"]);
     const minCount = toPositiveInteger(record["min"]);
+    deviationCount = toSignedInteger(record["deviation"]);
 
-    if (totalCount > 0) {
-      baseCount = totalCount;
-    } else if (explicitBase > 0) {
+    // Prioritize explicit base over total, since total = base + deviation dots
+    if (explicitBase > 0) {
       baseCount = explicitBase;
+    } else if (totalCount > 0) {
+      // If no explicit base, calculate it from total minus positive deviation
+      // (negative deviation converts full dots to ghost dots, so doesn't affect base count)
+      const positiveDeviation = deviationCount > 0 ? deviationCount : 0;
+      baseCount = Math.max(0, totalCount - positiveDeviation);
     } else if (maxCount > 0) {
       baseCount = maxCount;
     } else if (minCount > 0) {
       baseCount = minCount;
     }
-    deviationCount = toSignedInteger(record["deviation"]);
     freeCount = Math.min(1, toPositiveInteger(record["free"]));
   } else {
     return undefined;

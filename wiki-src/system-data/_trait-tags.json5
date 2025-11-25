@@ -30,7 +30,7 @@
         "This Skill is the target of the Hyper-Competence Variation.",
         "<em>(See 'Deviations' tab for details.)</em>",
       ],
-      "citation": {
+      "source": {
         "book": "DtR",
         "page": 122
       }
@@ -43,21 +43,21 @@
     "gap": 8,
     "tooltip": {
       "title": "Controlled Activation",
-      "format": "rules-card",
+      "format": "rules-card big-rules-card",
       "blocks": [
         "Variations entangled with this Controlled Scar only activate when {{NAME}} wishes to use them, but require a successful <strong>Scar Finesse</strong> roll. Once activated, they remain active until the end of the scene or until {{NAME}} deactivates them as an instant action.",
         "<ul> \
-      <li>Dice Pool — {{NAMEVALUE:scarFinesse}} + {{NAMEVALUE:acclimation}} + {{DISPLAY:Variation Magnitude}} \
+      <li>Dice Pool — {{NAMEVALUE:scarFinesse}} + {{NAMEVALUE:acclimation}} + <strong>Variation Magnitude</strong> \
         <ul> \
-          <li>If the target is an <strong>unwilling character</strong> or one who <strong>doesn't know they are being targeted</strong>, the intended victim makes a Contested <strong>{{DISPLAY:vars.scarResistanceAttribute}}</strong> + <strong>Supernatural Tolerance</strong> roll to avoid its effects. (If the Variation specifies that it is instead Resisted by the target, they do not generally get to Contest the roll as well.)</li> \
-        </ul> \
+          <li>If the target is an <strong>unwilling character</strong> or one who <strong>doesn't know they are being targeted</strong>, the intended victim makes a Contested <strong>{{DISPLAY:scarResistanceAttribute}}</strong> + <strong>Supernatural Tolerance</strong> roll to avoid its effects. (If the Variation specifies that it is instead Resisted by the target, they do not generally get to Contest the roll as well.)</li> \
+        </ul></li> \
       <li>Action — <strong>Simple</strong> ◆ <strong>Instant</strong> or <strong>Contested</strong> <em>(see above)</em></li> \
       <li>Roll Results — \
         <ul> \
-          <li><strong>Success:</strong> The Variation activates, and {{NAME}} suffers the effects of the entangled Scar. \
-          <li><strong>Exceptional Success:</strong> As a success, and {{NAME}} may heal a <strong>minor Instability</strong>. \
-          <li><strong>Failure:</strong> The Variation fails to activate. \
-          <li><strong>Dramatic Failure:</strong> The Variation fails to activate, and {{NAME}} suffers a <strong>minor Instability</strong>. \
+          <li><strong>Success:</strong> The Variation activates, and {{NAME}} suffers the effects of the entangled Scar.</li> \
+          <li><strong>Exceptional Success:</strong> As a success, and {{NAME}} may heal a <strong>minor Instability</strong>.</li> \
+          <li><strong>Failure:</strong> The Variation fails to activate.</li> \
+          <li><strong>Dramatic Failure:</strong> The Variation fails to activate, and {{NAME}} suffers a <strong>minor Instability</strong>.</li> \
         </ul> \
       </li> \
     </ul>"
@@ -71,21 +71,21 @@
     "gap": 8,
     "tooltip": {
       "title": "Involuntary Activation",
-      "format": "rules-card",
+      "format": "rules-card big-rules-card",
       "blocks": [
         "The Variation may activate without {{NAME}}'s consent, when certain triggering conditions are met. Nevertheless, {{NAME}} is generally able to activate the same Variations voluntarily, with a successful Scar Finesse roll.",
         "<ul> \
-      <li>Dice Pool — {{NAMEVALUE:scarFinesse}} + {{NAMEVALUE:acclimation}} + {{DISPLAY:Variation Magnitude}} \
+      <li>Dice Pool — {{NAMEVALUE:scarFinesse}} + {{NAMEVALUE:acclimation}} + <strong>Variation Magnitude</strong> \
         <ul> \
-          <li>If the target is an <strong>unwilling character</strong> or one who <strong>doesn't know they are being targeted</strong>, the intended victim makes a Contested <strong>{{DISPLAY:vars.scarResistanceAttribute}}</strong> + <strong>Supernatural Tolerance</strong> roll to avoid its effects. (If the Variation specifies that it is instead Resisted by the target, they do not generally get to Contest the roll as well.)</li> \
-        </ul> \
+          <li>If the target is an <strong>unwilling character</strong> or one who <strong>doesn't know they are being targeted</strong>, the intended victim makes a Contested <strong>{{DISPLAY:scarResistanceAttribute}}</strong> + <strong>Supernatural Tolerance</strong> roll to avoid its effects. (If the Variation specifies that it is instead Resisted by the target, they do not generally get to Contest the roll as well.)</li> \
+        </ul></li> \
       <li>Action — <strong>Simple</strong> ◆ <strong>Instant</strong> or <strong>Contested</strong> <em>(see above)</em></li> \
       <li>Roll Results — \
         <ul> \
-          <li><strong>Success:</strong> The Variation activates, and {{NAME}} suffers the effects of the entangled Scar. \
-          <li><strong>Exceptional Success:</strong> As a success, and {{NAME}} may heal a <strong>minor Instability</strong>. \
-          <li><strong>Failure:</strong> The Variation fails to activate. \
-          <li><strong>Dramatic Failure:</strong> The Variation fails to activate, and {{NAME}} suffers a <strong>minor Instability</strong>. \
+          <li><strong>Success:</strong> The Variation activates, and {{NAME}} suffers the effects of the entangled Scar.</li> \
+          <li><strong>Exceptional Success:</strong> As a success, and {{NAME}} may heal a <strong>minor Instability</strong>.</li> \
+          <li><strong>Failure:</strong> The Variation fails to activate.</li> \
+          <li><strong>Dramatic Failure:</strong> The Variation fails to activate, and {{NAME}} suffers a <strong>minor Instability</strong>.</li> \
         </ul> \
       </li> \
     </ul>"

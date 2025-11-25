@@ -6,7 +6,7 @@ import { ShorthandResolver } from "./ShorthandResolver";
 import { NotationError } from "./NotationError";
 
 type ScarType = "physical" | "mental" | "social";
-type ScarStatName = "scarPower" | "scarFinesse" | "scarResistance";
+type ScarStatName = "scarPower" | "scarFinesse" | "scarResistance" | "scarResistanceAttribute";
 type AttributeKey = AttributeMental | AttributePhysical | AttributeSocial;
 
 const SCAR_STAT_METADATA: Record<ScarStatName, {
@@ -31,6 +31,14 @@ const SCAR_STAT_METADATA: Record<ScarStatName, {
   },
   scarResistance: {
     display: "Scar Resistance",
+    attributeMap: {
+      physical: AttributePhysical.sta,
+      mental: AttributeMental.res,
+      social: AttributeSocial.com
+    }
+  },
+  scarResistanceAttribute: {
+    display: "Scar Resistance Attribute",
     attributeMap: {
       physical: AttributePhysical.sta,
       mental: AttributeMental.res,
@@ -69,7 +77,7 @@ const BASE_ATTRIBUTE_REFERENCES: Record<string, AttributeKey> = {
 export class ReferenceResolver {
   private systemDataLoader: SystemDataLoader;
   private shorthandResolver: ShorthandResolver;
-  private readonly scarStatNames = new Set<ScarStatName>(["scarPower", "scarFinesse", "scarResistance"]);
+  private readonly scarStatNames = new Set<ScarStatName>(["scarPower", "scarFinesse", "scarResistance", "scarResistanceAttribute"]);
   private readonly mentalAttributes = new Set<AttributeMental>(Object.values(AttributeMental) as AttributeMental[]);
   private readonly physicalAttributes = new Set<AttributePhysical>(Object.values(AttributePhysical) as AttributePhysical[]);
   private readonly socialAttributes = new Set<AttributeSocial>(Object.values(AttributeSocial) as AttributeSocial[]);
@@ -223,7 +231,7 @@ export class ReferenceResolver {
   private tryResolveScarStat(
     reference: string,
     context: ProcessingContext
-  ): { handled: boolean; value?: Record<string, unknown> } {
+  ): { handled: boolean; value?: unknown } {
     if (!this.scarStatNames.has(reference as ScarStatName)) {
       return { handled: false };
     }
@@ -235,6 +243,12 @@ export class ReferenceResolver {
         context.filePath,
         context.lineNumber
       );
+    }
+
+    // scarResistanceAttribute returns the attribute key string directly, not an entity
+    if (reference === "scarResistanceAttribute") {
+      const attributeKey = this.computeScarResistanceAttributeKey(context);
+      return { handled: true, value: attributeKey };
     }
 
     const value = this.computeScarStat(reference as ScarStatName, context);
@@ -282,6 +296,31 @@ export class ReferenceResolver {
     const attributeKey = SCAR_STAT_METADATA[statName].attributeMap[scarType];
     const baseValue = this.getAttributeBaseValue(attributeKey, context.context, statName, context);
     return this.buildScarStatEntity(statName, baseValue);
+  }
+
+  /**
+   * Computes the attribute key string for scarResistanceAttribute.
+   * Returns "sta", "res", or "com" based on the scar type.
+   */
+  private computeScarResistanceAttributeKey(context: ProcessingContext): string {
+    if (!context.thisEntity) {
+      throw new NotationError(
+        "Cannot resolve 'scarResistanceAttribute' without an entity context.",
+        "scarResistanceAttribute",
+        context.filePath,
+        context.lineNumber
+      );
+    }
+
+    const scarType = this.resolveScarType(
+      context.thisEntity as Record<string, unknown>,
+      context,
+      "scarResistanceAttribute"
+    );
+    const attributeKey = SCAR_STAT_METADATA.scarResistanceAttribute.attributeMap[scarType];
+
+    // Return the attribute key as a string
+    return attributeKey;
   }
 
   private resolveScarType(

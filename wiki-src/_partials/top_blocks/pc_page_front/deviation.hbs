@@ -3,9 +3,11 @@
   <div class="deviation-columns">
       {{#with (lookup variationsByScar "__ungrouped__") as |standaloneVariations|}}
         {{#if standaloneVariations}}
-              {{#each standaloneVariations}}
-                {{> _partials/advantage/variation-card variation=this isSub=false}}
-              {{/each}}
+          <div class="standalone-variation-list" data-variation-group>
+            {{#each standaloneVariations}}
+              {{> _partials/advantage/variation-card variation=this isSub=false}}
+            {{/each}}
+          </div>
         {{/if}}
       {{/with}}
       {{#if scars}}
@@ -78,15 +80,30 @@
       let currentEntry = null;
       return {
         requestOpen(item, closeFn) {
+          // If there's a current entry and it's different from the one being opened
           if (currentEntry && currentEntry.item !== item) {
+            // Close the current entry first
             currentEntry.close(false);
           }
+          // Set the new current entry
           currentEntry = { item, close: closeFn };
         },
         notifyClosed(item) {
+          // Only clear currentEntry if it matches the item that was closed
+          // This prevents clearing the entry if a new item was opened while the old one was closing
           if (currentEntry && currentEntry.item === item) {
             currentEntry = null;
           }
+        },
+        getCurrentEntry() {
+          return currentEntry;
+        },
+        isVariationOpen() {
+          // Check if the current entry is a variation (not a scar)
+          if (!currentEntry) {
+            return false;
+          }
+          return currentEntry.item.classList.contains("variation-entry");
         }
       };
     })();
@@ -142,6 +159,8 @@
             content.style.display = "none";
             content.style.height = "";
             content.style.overflow = "";
+            // Only clear openItem if this item is still the one that was being closed
+            // This prevents clearing it if a new item was opened during the closing animation
             if (openItem === item) {
               openItem = null;
             }
@@ -181,16 +200,19 @@
       };
 
       const openPanel = (item, header, content, narrative) => {
-        if (openItem && openItem !== item) {
+        // Register with the registry first - it will handle closing any previous item
+        const closeFn = (instantClose = false) => closePanel(item, instantClose);
+
+        if (registry) {
+          registry.requestOpen(item, closeFn);
+        } else if (openItem && openItem !== item) {
+          // If no registry, close the previous item directly
           closePanel(openItem);
         }
 
+        // Set the open item after registering, so the closing animation knows not to reset it
         openItem = item;
         header.setAttribute("aria-expanded", "true");
-
-        if (registry) {
-          registry.requestOpen(item, (instantClose = false) => closePanel(item, instantClose));
-        }
 
         content.style.display = "block";
         content.style.opacity = "0";
@@ -225,8 +247,56 @@
           onComplete: () => {
             content.style.height = "auto";
             content.style.overflow = "";
+            // Scroll the opened item into view after animation completes
+            scrollItemIntoView(item);
           }
         }, narrative ? "-=0.1" : 0);
+      };
+
+      /**
+       * Scrolls an accordion item into view within the paper-stack-scroll container.
+       */
+      const scrollItemIntoView = (item) => {
+        const scrollContainer = document.querySelector(".paper-stack-scroll");
+        if (!scrollContainer || !item) {
+          return;
+        }
+
+        // Get the item's position relative to the scroll container
+        const itemRect = item.getBoundingClientRect();
+        const containerRect = scrollContainer.getBoundingClientRect();
+
+        // Calculate if the item is partially or fully outside the visible area
+        const itemTop = itemRect.top - containerRect.top + scrollContainer.scrollTop;
+        const itemBottom = itemTop + itemRect.height;
+        const containerHeight = containerRect.height;
+        const currentScrollTop = scrollContainer.scrollTop;
+        const visibleTop = currentScrollTop;
+        const visibleBottom = currentScrollTop + containerHeight;
+
+        // Add some padding to ensure the item isn't right at the edge
+        const padding = 32;
+
+        let targetScroll = currentScrollTop;
+
+        // If item is above the visible area, scroll to show it at the top (with padding)
+        if (itemTop < visibleTop) {
+          targetScroll = itemTop - padding;
+        }
+        // If item extends below the visible area, scroll to show the bottom (with padding)
+        else if (itemBottom > visibleBottom) {
+          targetScroll = itemBottom - containerHeight + padding;
+        }
+        // If item is already fully visible, no need to scroll
+        else {
+          return;
+        }
+
+        // Smoothly scroll to the target position
+        scrollContainer.scrollTo({
+          top: Math.max(0, targetScroll),
+          behavior: "smooth"
+        });
       };
 
       groupItems.forEach((item) => {
@@ -282,26 +352,18 @@
       }
     });
 
-    const standaloneVariations = Array.from(
-      deviationBlock.querySelectorAll(".deviation-columns > .variation-entry")
-    );
-    if (standaloneVariations.length > 0) {
-      createAccordion(
-        standaloneVariations,
-        { header: ".variation-header", content: ".variation-content", narrative: ".variation-narrative" },
-        undefined,
-        accordionRegistry
-      );
-    }
-
     createAccordion(
       deviationBlock.querySelectorAll(".scar-entry"),
       { header: ".scar-header", content: ".scar-content", narrative: ".scar-narrative" },
       {
         onClose: (scarElement) => {
-          scarElement.querySelectorAll("[data-variation-group]").forEach((group) => {
-            variationControllers.get(group)?.closeAll({ instant: true });
-          });
+          // Only close variations if no variation is currently open in the registry
+          // This prevents closing a variation that was just opened when the scar closed
+          if (!accordionRegistry.isVariationOpen()) {
+            scarElement.querySelectorAll("[data-variation-group]").forEach((group) => {
+              variationControllers.get(group)?.closeAll({ instant: true });
+            });
+          }
         }
       },
       accordionRegistry
