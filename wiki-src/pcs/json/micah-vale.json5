@@ -51,7 +51,8 @@
     "science": 1,
     "athletics": {
       "value": 4,
-      "tags": ["hypercompetent"]
+      "tags": ["hypercompetent"],
+      "specs": ["Hyper-Competence"]
     },
     "brawl": 0,
     "drive": 0,

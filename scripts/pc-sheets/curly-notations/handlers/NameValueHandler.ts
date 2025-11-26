@@ -227,7 +227,7 @@ export class NameValueHandler implements NotationHandler {
   private getValue(
     entity: Record<string, unknown>,
     context: ProcessingContext,
-    options: { unsigned?: boolean }
+    options: { signed?: boolean }
   ): string {
     let value: number | undefined;
 
@@ -266,11 +266,12 @@ export class NameValueHandler implements NotationHandler {
       );
     }
 
-    const signedOutput = entity.signedOutput !== undefined ? Boolean(entity.signedOutput) : !options.unsigned;
-    if (!signedOutput) {
-      return String(value);
-    }
-    if (options.unsigned && value >= 0) {
+    // Default to unsigned (no + sign). Only show + sign if "signed" parameter is passed
+    // Entity's signedOutput property can override the default behavior
+    const entityWantsSigned = entity.signedOutput !== undefined ? Boolean(entity.signedOutput) : false;
+    const shouldShowSigned = options.signed === true || entityWantsSigned;
+
+    if (!shouldShowSigned) {
       return String(value);
     }
 
@@ -288,7 +289,7 @@ export class NameValueHandler implements NotationHandler {
     }
   }
 
-  private parseOptions(optionParts: string[]): { unsigned?: boolean } {
+  private parseOptions(optionParts: string[]): { signed?: boolean } {
     if (!optionParts || optionParts.length === 0) {
       return {};
     }
@@ -298,7 +299,7 @@ export class NameValueHandler implements NotationHandler {
       .filter((token) => token.length > 0);
 
     return {
-      unsigned: normalizedTokens.includes("unsigned")
+      signed: normalizedTokens.includes("signed")
     };
   }
 }

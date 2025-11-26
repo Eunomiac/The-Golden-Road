@@ -20,7 +20,8 @@ const VOID_ELEMENTS = new Set<string>([
   "param",
   "source",
   "track",
-  "wbr"
+  "wbr",
+  "img"
 ]);
 
 const CONTEXT_RADIUS = 80;

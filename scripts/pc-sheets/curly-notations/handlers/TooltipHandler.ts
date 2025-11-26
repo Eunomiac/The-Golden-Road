@@ -19,6 +19,7 @@ interface StructuredTooltipDescriptor {
   subtitle?: string;
   blocks?: string[];
   citation?: TooltipCitationDescriptor;
+  source?: TooltipCitationDescriptor;
 }
 
 interface TooltipContentResult {
@@ -56,7 +57,8 @@ export class TooltipHandler implements NotationHandler {
     "br",
     "ul",
     "ol",
-    "li"
+    "li",
+    "img"
   ]);
 
   constructor(referenceResolver: ReferenceResolver) {
@@ -230,7 +232,8 @@ export class TooltipHandler implements NotationHandler {
       Array.isArray(descriptor.blocks) ||
       this.isNonEmptyString(descriptor.format) ||
       Array.isArray(descriptor.format) ||
-      this.isTooltipCitationDescriptor(descriptor.citation);
+      this.isTooltipCitationDescriptor(descriptor.citation) ||
+      this.isTooltipCitationDescriptor(descriptor.source);
   }
 
   private isTooltipCitationDescriptor(value: unknown): value is TooltipCitationDescriptor {
@@ -280,14 +283,29 @@ export class TooltipHandler implements NotationHandler {
       }
     }
 
-    if (descriptor.citation && this.isTooltipCitationDescriptor(descriptor.citation)) {
-      segments.push(this.formatTooltipCitation(descriptor.citation));
+    const citationDescriptor = this.resolveCitationDescriptor(descriptor);
+    if (citationDescriptor) {
+      segments.push(this.formatTooltipCitation(citationDescriptor));
     }
 
     return {
       html: segments.join(""),
       extraClasses: this.extractFormatClasses(descriptor.format)
     };
+  }
+
+  private resolveCitationDescriptor(
+    descriptor: StructuredTooltipDescriptor
+  ): TooltipCitationDescriptor | null {
+    if (descriptor.citation && this.isTooltipCitationDescriptor(descriptor.citation)) {
+      return descriptor.citation;
+    }
+
+    if (descriptor.source && this.isTooltipCitationDescriptor(descriptor.source)) {
+      return descriptor.source;
+    }
+
+    return null;
   }
 
   private extractFormatClasses(formatField: string | string[] | undefined): string[] {
@@ -324,7 +342,7 @@ export class TooltipHandler implements NotationHandler {
       ? citation.page.toString(10)
       : citation.page;
 
-    return `<span class="source-citation"><span class="source-title">${bookTitle}</span><span class="source-page">p.${pageText}</span></span>`;
+    return `<span class="tooltip-block tooltip-citation"><span class="source-citation"><span class="source-title">${bookTitle}</span><span class="source-page">p.${pageText}</span></span></span>`;
   }
 
   /**

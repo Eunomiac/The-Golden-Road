@@ -5,7 +5,7 @@
 
 :root {
   // Fixed dimensions keep the faux paper consistent across resolutions.
-  --paper-height: 115vh;
+  --paper-height: 950px;
   --paper-width: calc(var(--paper-height) * 8.5 / 11);
   --scrollbar-width: 3px;
 }

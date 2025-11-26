@@ -64,6 +64,12 @@ Attributes (nested by category):
             {{> _partials/tab-navigation-pc }}
           </section>
           <main class="container paper-stack">
+            {{!-- Polaroid is rendered outside the scrolling container so it is not clipped by overflow --}}
+            {{> _partials/top_blocks/pc_page_front/polaroid
+              name=name
+              imageUrl=imageUrl
+              concept=concept
+            }}
             <div class="paper-stack-scroll">
             <section class="page pc-page" name="front">
 

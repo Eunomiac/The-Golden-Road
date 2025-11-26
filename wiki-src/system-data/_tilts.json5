@@ -8,7 +8,7 @@
       "<strong>Effect (moderate):</strong> A generic narcotic can be represented with one set of modifiers; the character suffers a -2 modifier to Speed (and static Defense, if used) and a -3 penalty to all rolls in combat. The character ignores wound penalties.",
       "<strong>Ending the Tilt:</strong> A drugged character can shake off the effects for a turn by succeeding on a reflexive Stamina + Resolve roll, with a -1 to -3 penalty based the potency of the drug (use -2 as the default).",
     ],
-    "citation": {
+    "source": {
       "book": "DtR",
       "page": 316
     }
@@ -22,7 +22,7 @@
       "<strong>Effect (moderate):</strong> You gain a +1 bonus to all combat rolls, but take actions after everyone else. You cannot spend Willpower in combat, and you suffers a &minus;3 penalty to all Social rolls.",
       "<strong>Ending the Tilt:</strong> The specific effects of this Tilt don't normally last beyond the end of the scene. To end earlier, roll Resolve + Composure as an instant action, contested by a dice pool of (10 &minus; your Resolve + Composure). Take no other actions this turn, and don't apply Defense to attacks.",
     ],
-    "citation": {
+    "source": {
       "book": "DtR",
       "page": 317
     }
@@ -36,7 +36,7 @@
       "<strong>Effect (severe):</strong> You can't take any actions until the Tilt is resolved. You can apply Defense to incoming attacks, and if you takes any damage from an attack, the Tilt ends.",
       "<strong>Ending the Tilt:</strong> The Tilt wears off at the end of the scene. You can spend a point of Willpower before then to act normally for one turn. A successful attack will also end the Tilt. If you have been knocked insensible by drugs, then when this Tilt ends it is replaced with the Drugged Tilt.",
     ],
-    "citation": {
+    "source": {
       "book": "DtR",
       "page": 317
     }
@@ -49,7 +49,7 @@
       "<strong>Description:</strong> Something knocks the character to the floor.",
       "<strong>Effect (moderate):</strong> The character is knocked off her feet. If she hasn't already acted this turn, she loses her action. Once she's on the ground, a character is considered prone. The character can still apply Defense against incoming attacks, and can attempt to attack from the ground at a -2 penalty.",
     ],
-    "citation": {
+    "source": {
       "book": "DtR",
       "page": 318
     }
@@ -63,7 +63,7 @@
       "<strong>Effect (moderate):</strong> Anyone trying to keep footing (or drive) to cross the affected area must move slowly. Halve the Speed of any character on the ice. Physical actions such as combat are also impeded by the Trait, with a <strong>-2</strong> penalty to all rolls and Defense. Attempting to move at full speed doubles the dice penalty to <strong>-4</strong> dice.",
       "<strong>Countermeasures:</strong> Cleats (+2; Availability •); tire chains (+2; Availability •••)",
     ],
-    "citation": {
+    "source": {
       "book": "DtR",
       "page": 319
     }
@@ -77,7 +77,7 @@
       "<strong>Effect (severe):</strong> You lose your next action, and halve your Defense until you can next act.",
       "<strong>Ending the Tilt:</strong> The effects of this Tilt last one turn. You can end the Tilt during your own action by reflexively spending a point of Willpower, but a &minus;3 modifier applies to any actions you take that turn.",
     ],
-    "citation": {
+    "source": {
       "book": "DtR",
       "page": 319
     }

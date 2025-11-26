@@ -1,0 +1,13 @@
+{{!-- Polaroid container for PC front page
+  - This is rendered outside the `.paper-stack-scroll` container so it is not clipped by overflow rules.
+  - Visibility is controlled by tab-navigation (only shown on the `name="front"` tab).
+--}}
+
+{{#if imageUrl}}
+<div class="block absolute-block pc-polaroid-container">
+  <img src="../{{imageUrl}}" alt="{{name}}" class="pc-polaroid-image">
+  <img src="../assets/images/polaroid-frame.webp" alt="Polaroid Frame" class="pc-polaroid-frame">
+  <img src="../assets/images/paper-clip.webp" alt="Paper Clip" class="pc-polaroid-paper-clip">
+  <span class="pc-polaroid-caption">{{concept}}</span>
+</div>
+{{/if}}

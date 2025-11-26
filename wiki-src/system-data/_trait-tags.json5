@@ -6,13 +6,13 @@
     "gap": 2,
     "tooltip": {
       "title": "Asset Skill",
-      "format": "tiny-tooltip",
+      "format": "rules-card",
       "subtitle": "Professional Training Merit",
       "blocks": [
         "This Skill is an Asset Skill of {{NAME}}'s Professional Training Merit.",
         "<em>(See 'Merits' tab for details.)</em>",
       ],
-      "citation": {
+      "source": {
         "book": "DtR",
         "page": 98
       }
@@ -25,7 +25,7 @@
     "gap": 2,
     "tooltip": {
       "title": "Hyper-Competence",
-      "format": "tiny-tooltip",
+      "format": "rules-card",
       "blocks": [
         "This Skill is the target of the Hyper-Competence Variation.",
         "<em>(See 'Deviations' tab for details.)</em>",
@@ -43,6 +43,7 @@
     "gap": 1,
     "tooltip": {
       "title": "Interdisciplinary Specialty",
+      "format": "rules-card",
       "blocks": [
         "{{NAME}} can apply the bonus from this Specialty to any Skill in which {{he}} has at least one dot, whenever it is justifiable within the fiction."
       ],
@@ -59,6 +60,7 @@
     "gap": 1,
     "tooltip": {
       "title": "Area of Expertise",
+      "format": "rules-card",
       "blocks": [
         "{{NAME}} is exceptionally specialized in this area. Whenever this Specialty applies, it grants a <strong>+2</strong> bonus instead of the usual +1."
       ],

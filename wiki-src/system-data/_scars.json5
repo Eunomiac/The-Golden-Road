@@ -61,7 +61,7 @@
     "options": {
       "tenuous": "<strong>Tenuous:</strong> Whenever an attack or hostile action successfully targets {{NAME}} and either deals damage or imposes a deleterious Tilt, Condition, or other unwelcome effect, the entangled Variations deactivate unless {{he}} succeeds on a {{TOOLTIP:Scar Resistance,json.rules.scarResistanceRoll}} roll.",
       "unfocused": "<strong>Unfocused:</strong> {{NAME}} cannot attempt to activate an entangled Variation if under the influence of a distracting Tilt or Condition (such as {{TOOLTIP:Deprived,json.conditions.deprived}}, {{TOOLTIP:Distracted,json.conditions.distracted}}, {{TOOLTIP:Frightened,json.conditions.frightened}}, {{TOOLTIP:Deprived,json.conditions.intoxicated}}, {{TOOLTIP:Insane,json.tilts.insane}}, {{TOOLTIP:Insensate,json.tilts.insensate}} or  {{TOOLTIP:Stunned,json.tilts.stunned}}) without first succeeding on a {{TOOLTIP:Scar Resistance,json.rules.scarResistanceRoll}} roll, which is allowed once per minute (once per turn, in action scenes).",
-      "afterEffect": "<strong>Deviation - After-Effect:</strong> If {{NAME}} concentrates on directing the entangled Variation(s) for more than {{TOOLTIP:tiny-tooltip,{{VALUE:scarResistance}} turns,= {{NAMEVALUE:scarResistance,unsigned}}}}, {{he}} suffers the {{TOOLTIP:{{DISPLAY:vars.afterEffectCondition}} Condition,json.conditions.{{USE:vars.afterEffectCondition}}}} when the Variation(s) deactivate.",
+      "afterEffect": "<strong>Deviation - After-Effect:</strong> If {{NAME}} concentrates on directing the entangled Variation(s) for more than {{TOOLTIP:tiny-tooltip,{{VALUE:scarResistance}} turns,= {{NAMEVALUE:scarResistance}}}}, {{he}} suffers the {{TOOLTIP:{{DISPLAY:vars.afterEffectCondition}} Condition,json.conditions.{{USE:vars.afterEffectCondition}}}} when the Variation(s) deactivate.",
       "selfDoubt": "<strong>Deviation - Self-Doubt:</strong> If an entangled Variation deactivates because something broke {{NAME}}'s concentration, {{he}} may not attempt to activate it again until the end of the scene.",
       "singleMinded": "<strong>Deviation - Single-Minded:</strong> If {{NAME}} does not direct the Variation's effect at least once per minute (once per turn, in action scenes), it deactivates unless {{he}} succeeds on a {{TOOLTIP:Scar Resistance,json.rules.scarResistanceRoll}} roll."
     },
@@ -361,7 +361,7 @@
       "max": 5
     },
     "effect": {
-      "1": "{{NAME}} is especially injury-averse: Even the threat of physical injury may give {{him}} pause. {{NAME}} may accept a Beat when {{he}} caves at the prospect of pain or responds more dramatically to an injury than its seriousness seems to demand, if this creates a complication for {{him}} or {{his}} cohort.",
+      "1": "{{NAME}} is especially injury-averse: Even the threat of physical injury may give {{him}} pause.{{BR}}{{NAME}} may accept a Beat when {{he}} caves at the prospect of pain or responds more dramatically to an injury than its seriousness seems to demand, if this creates a complication for {{him}} or {{his}} cohort.",
       "2": "{{NAME}}'s skin is paper-thin, and {{he}} bruises easily. Wounds and physical trauma have noticeably dramatic effects. {{NAME}} has one fewer Health box.",
       "3": "{{NAME}}'s skin is paper-thin, and {{he}} bruises easily. Wounds and physical trauma have noticeably dramatic effects. {{NAME}} has two fewer Health boxes.",
       "4": "{{NAME}}'s skin is paper-thin, and {{he}} bruises easily. Wounds and physical trauma have noticeably dramatic effects. {{NAME}} has four fewer Health boxes.",

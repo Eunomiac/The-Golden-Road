@@ -1,26 +1,26 @@
 {
   "8again": {
     "format": "rules-card",
-    "title": "8 Again",
+    "title": "8-Again",
     "subtitle": "Roll Quality",
     "blocks": [
       "Reroll dice that show 8, 9 or 10 (i.e. all successful dice). Keep rerolling until you get a failing result, accumulating successes as you go.",
       "If you gain 8-again on a roll that already had that quality, it may become a <strong>rote action</strong> at the Storyteller's discretion."
     ],
-    "citation": {
+    "source": {
       "book": "DtR",
       "page": 189
     }
   },
   "9again": {
     "format": "rules-card",
-    "title": "9 Again",
+    "title": "9-Again",
     "subtitle": "Roll Quality",
     "blocks": [
       "Reroll dice that show 9 or 10, as opposed to just 10. Keep rerolling until you get a result that isn't a 9 or 10, accumulating successes as you go.",
       "If you gain 9-again on a roll that already had that quality, it becomes <strong>8-again</strong> instead."
     ],
-    "citation": {
+    "source": {
       "book": "DtR",
       "page": 188
     }
@@ -31,13 +31,17 @@
     "subtitle": "Extended Action",
     "blocks": [
       "Meditation is an <strong>extended action</strong>.",
-      "Dice Pool - {{NAMEVALUE:com}} + {{NAMEVALUE:wit}}",
-      "Target Successes - <strong>4</strong>",
-      "Interval - <strong>30 minutes</strong>",
+      "<span class='tooltip-list-item'><strong>Dice Pool:</strong> {{NAMEVALUE:com}} + {{NAMEVALUE:wit}}</span>",
+      "<span class='tooltip-list-item'><strong>Target Successes:</strong> 4</span>",
+      "<span class='tooltip-list-item'><strong>Interval:</strong> 30 minutes</span>",
       "After successfully meditating, {{NAME}} gains a +1 bonus to {{his}} next breaking point roll.",
       "Once this bonus is used or {{NAME}} sleeps, the benefits of meditation end and must be regained by meditating again.",
       "Soothing music or relaxation tapes can provide a <strong>+1</strong> to <strong>+2</strong> equipment bonus. A dedicated meditation room provides <strong>+3</strong>. Loud noises, an uncomfortable environment, or lack of sleep inflict a <strong>&minus;1</strong> penalty each. Lack of food inflicts a <strong>&minus;1</strong> to <strong>&minus;3</strong> penalty."
-    ]
+    ],
+    "source": {
+      "book": "CoD",
+      "page": 75
+    }
   },
   "mediumBurst": {
     "format": "rules-card", // Apply as a CSS class to the tooltip content container.
@@ -46,19 +50,10 @@
     "blocks": [ // Wrap each element in <span class='tooltip-block'>...</span>
       "Uses 10 bullets. +2 bonus to attack action. Can attack up to three targets, rolling individually against each and suffering a -1 penalty per target after the first.",
     ],
-    "citation": { // Wrap in <span class='source-citation'>...</span>, with two children: (full) book name in <span class='source-title'>...</span> and page number in <span class='source-page'>...</span>
+    "source": { // Wrap in <span class='source-citation'>...</span>, with two children: (full) book name in <span class='source-title'>...</span> and page number in <span class='source-page'>...</span>
       "book": "DtR", // Use the book abbreviation to look up the full book name in the system data.
       "page": 198
     }
-  },
-  "overt": {
-    "format": "rules-card",
-    "title": "Overt",
-    "subtitle": "Advantage Keyword",
-    "blocks": [
-      "The use of this Advantage is particularly blatant or obvious. Usage increases the likelihood of a conspiracy noting your activity. It may also trigger breaking points in Baselines, particularly if the Advantage is supernatural.",
-      "At the Storyteller's discretion, Overt Advantages used in seclusion (out of sight of witnesses and out of reach of mundane surveillance) may not attract additional conspiracy attention."
-    ]
   },
   "roteAction": {
     "format": "rules-card",
@@ -68,7 +63,7 @@
       "Reroll any dice that do not show an 8, 9, or 10, unless you're reduced to a chance die on a rote action and roll a dramatic failure.",
       "You may only reroll each die once."
     ],
-    "citation": {
+    "source": {
       "book": "DtR",
       "page": 189
     }
@@ -82,7 +77,7 @@
   "scarFinesseRollHere": {
     "format": "tiny-tooltip",
     "blocks": [
-      "{{NAMEVALUE:scarFinesse}} + {{NAMEVALUE:acclimation}} + <strong>Magnitude (+{{VALUE:this.value}})</strong> = <strong>{{CALC:{{VALUE:scarFinesse}} + {{VALUE:acclimation}} + {{VALUE:this.value}}}} Dice</strong>",
+      "{{NAMEVALUE:scarFinesse}} + {{NAMEVALUE:acclimation}} + <strong>Magnitude ({{VALUE:this.value}})</strong> = <strong>{{CALC:{{VALUE:scarFinesse}} + {{VALUE:acclimation}} + {{VALUE:this.value}}}} Dice</strong>",
     ]
   },
   "scarResistanceRoll": {
@@ -90,6 +85,340 @@
     "blocks": [
       "{{NAMEVALUE:scarResistance}} + {{NAMEVALUE:acclimation}} &minus; <strong>Instability Penalty</strong>",
     ]
+  },
+  "directed": {},
+  "discrete": {
+    "format": "rules-card",
+    "title": "Discrete",
+    "subtitle": "Variation Keyword",
+    "blocks": [
+      "The Variation only grants the specific abilities of its current Magnitude rating, and does not grant lower-Magnitude benefits. It can often be bought multiple times at different ratings to access those further capabilities.",
+      "Most Discrete Variations cannot have their Magnitude temporarily increased or decreased by Adaptations or Scars. Exceptions to this will be noted in the Variation's description — however, in such a case, {{NAME}} must determine how the Variation functions at <em>every</em> available Magnitude at the time of purchase.",
+      "Scars that would reduce the Magnitude of an active Discrete Variation instead cause the Variation to deactivate after a number of failed Scar Resistance rolls equal to the Variation's Magnitude."
+    ],
+    "source": {
+      "book": "DtR",
+      "page": 110
+    }
+  },
+  "overt": {
+    "format": "rules-card",
+    "title": "Overt",
+    "subtitle": "Advantage Keyword",
+    "blocks": [
+      "The use of this Advantage is particularly blatant or obvious. Usage increases the likelihood of a conspiracy noting your activity. It may also trigger breaking points in Baselines, particularly if the Advantage is supernatural.",
+      "At the Storyteller's discretion, Overt Advantages used in seclusion (out of sight of witnesses and out of reach of mundane surveillance) may not attract additional conspiracy attention."
+    ],
+    "source": {
+      "book": "DtR",
+      "page": 110
+    }
+  },
+  "perpetual": {
+    "format": "rules-card",
+    "title": "Perpetual",
+    "subtitle": "Variation Keyword",
+    "blocks": [
+      "If this Variation is Persistent:",
+      "<span class='tooltip-list-item'>It is always active.</span>",
+      "<span class='tooltip-list-item'>If Overt, it attracts conspiracy attention even if {{NAME}} didn't derive a benefit from it during the chapter.</span>",
+      "<span class='tooltip-list-item'>{{NAME}} gains a +5 bonus on any Clash of Wills rolls involving the Variation.</span>",
+    ],
+    "source": {
+      "book": "DtR",
+      "page": 110
+    }
+  },
+  "reflexive": {
+    "format": "rules-card",
+    "title": "Reflexive",
+    "subtitle": "Variation Keyword",
+    "blocks": [
+      "This Variation can be activated with a reflexive action, rather than an instant action."
+    ],
+    "source": {
+      "book": "DtR",
+      "page": 110
+    }
+  },
+  "subtle": {
+    "format": "rules-card",
+    "title": "Subtle",
+    "subtitle": "Advantage Keyword",
+    "blocks": [
+      "The use of this Variation is easy to conceal. Using it does not increase the likelihood of a conspiracy noticing {{NAME}}'s activity."
+    ],
+    "source": {
+      "book": "DtR",
+      "page": 110
+    }
+  },
+  "tiered": {
+    "format": "rules-card",
+    "title": "Tiered",
+    "subtitle": "Variation Keyword",
+    "blocks": [
+      "This Variation grants {{NAME}} all of its listed benefits up to the Variation's current Magnitude.{{BR}}In some cases, activating the Variation grants all of these abilities at once; in others, each effect requires a separate activation."
+    ],
+    "source": {
+      "book": "DtR",
+      "page": 110
+    }
+  },
+  "toggled": {
+    "format": "rules-card",
+    "title": "Toggled",
+    "subtitle": "Variation Keyword",
+    "blocks": [
+      "If this Variation is Persistent: \
+      <ul> \
+        <li>It is only active when {{NAME}} chooses to activate it, which requires an instant action (unless this Variation is also Reflexive).</li> \
+        <li>Once activated, it remains active until the end of the scene.</li> \
+      </ul>"
+    ],
+    "source": {
+      "book": "DtR",
+      "page": 110
+    }
+  },
+  "secondary": {
+    "format": "rules-card",
+    "title": "Secondary",
+    "subtitle": "Scar Keyword",
+    "blocks": [
+      "This Scar takes the type (mental, physical, or social) of its secondary Scar."
+    ],
+    "source": {
+      "book": "DtR",
+      "page": 111
+    }
+  },
+  "directedOnly": {
+    "format": "rules-card",
+    "title": "Directed-Only",
+    "subtitle": "Scar/Deviation Keyword",
+    "blocks": [
+      "This Scar or Deviation may only entangle Variations with the 'Directed' keyword."
+    ],
+    "source": {
+      "book": "DtR",
+      "page": 111
+    }
+  },
+  "perpetualOnly": {
+    "format": "rules-card",
+    "title": "Perpetual-Only",
+    "subtitle": "Scar/Deviation Keyword",
+    "blocks": [
+      "This Scar or Deviation may only entangle Variations with the 'Perpetual' keyword."
+    ],
+    "source": {
+      "book": "DtR",
+      "page": 111
+    }
+  },
+  "repeatable": {
+    "format": "rules-card",
+    "title": "Repeatable",
+    "subtitle": "Scar Keyword",
+    "blocks": [
+      "This Scar may be developed more than once. This allows several Controlled Variations to exact the same price even if entangled with different Scars. Some Repeatable Scars must apply different criteria each time."
+    ],
+    "source": {
+      "book": "DtR",
+      "page": 111
+    }
+  },
+  "toggledOnly": {
+    "format": "rules-card",
+    "title": "Toggled-Only",
+    "subtitle": "Scar/Deviation Keyword",
+    "blocks": [
+      "This Scar or Deviation may only entangle Variations with the 'Toggled' keyword, none of which may be made Perpetual through Deviations."
+    ],
+    "source": {
+      "book": "DtR",
+      "page": 111
+    }
+  },
+  "autourgic": {},
+  "epimorph": {},
+  "exomorph": {},
+  "genotypal": {},
+  "pathological": {},
+  "cephalist": {},
+  "chimeric": {},
+  "coactive": {},
+  "invasive": {},
+  "mutant": {},
+  "simpleAction": {
+    "format": "rules-card",
+    "title": "Simple Action",
+    "subtitle": "Action Opposition",
+    "blocks": [
+      "A simple action is not opposed. Calculate your dice pool and roll results as normal."
+    ],
+    "source": {
+      "book": "DtR",
+      "page": 189
+    }
+  },
+  "instantAction": {
+    "format": "rules-card",
+    "title": "Instant Action",
+    "subtitle": "Action Time",
+    "blocks": [
+      "An instant action is resolved with a single roll. Unless otherwise noted, an instant action only takes a few seconds and takes up your turn in an action scene."
+    ],
+    "source": {
+      "book": "DtR",
+      "page": 189
+    }
+  },
+  "extendedAction": {
+    "format": "rules-card big-rules-card",
+    "title": "Extended Action",
+    "subtitle": "Action Time",
+    "blocks": [
+      "An extended action is resolved with multiple rolls made over a period of time and, as such, is not usually an option in action scenes unless otherwise noted.",
+      "The Storyteller determines how many total successes are required to succeed at an extended action. The Storyteller also determines the <strong>interval</strong> between rolls.",
+      "Once you determine these factors, make a number of rolls, counting up the total number of successes across all your rolls. If you earn the required number of successes before you run out of time, you accomplish your goal.",
+      "You can make a total number of rolls equal to your base dice pool for the action, before factoring in any modifiers.",
+      "<strong>Roll Results</strong>",
+      "<span class='tooltip-list-item'><strong>Success:</strong> Add the successes earned on the roll to your running total. Work with the Storyteller to determine what steps you have taken towards your goal.</span>",
+      "<span class='tooltip-list-item'><strong>Exceptional Success:</strong> Choose one: reduce the total number of successes required by your Skill dots; reduce the interval between each roll by a quarter; or apply the effects of an exceptional success to the entire action when you complete your goal.</span>",
+      "<span class='tooltip-list-item'><strong>Failure:</strong> You face a setback. The Storyteller offers you a choice: Take a Condition of their choice, or abandon the action. You can offer a different Condition if you think it makes sense. If you refuse or cannot agree on a Condition, you lose all accumulated successes.</span>",
+      "<span class='tooltip-list-item'><strong>Dramatic Failure:</strong> Lose all accumulated successes. In addition, the first roll on a subsequent attempt suffers a &minus;2 die penalty..</span>",
+    ],
+    "source": {
+      "book": "DtR",
+      "page": 189
+    }
+  },
+  "reflexiveAction": {
+    "format": "rules-card",
+    "title": "Reflexive Action",
+    "subtitle": "Action Time",
+    "blocks": [
+      "A reflexive action takes no appreciable time or effort, and resolves in a single roll, or may not require a roll at all.",
+      "In an action scene, you can take reflexive actions on other characters' turns, and reflexive actions don't take up your turn.",
+      "Contesting someone else's action is always reflexive."
+    ],
+    "source": {
+      "book": "DtR",
+      "page": 189
+    }
+  },
+  "resisted": {
+    "format": "rules-card",
+    "title": "Resisted",
+    "subtitle": "Action Opposition",
+    "blocks": [
+      "A resisted action is opposed by one of your target's Resistance Attributes (Stamina, Resolve or Composure), or their Defense.",
+      "Subtract the appropriate trait from your dice pool, then roll and calculate results as normal."
+    ],
+    "source": {
+      "book": "DtR",
+      "page": 189
+    }
+  },
+  "contested": {
+    "format": "rules-card",
+    "title": "Contested",
+    "subtitle": "Action Opposition",
+    "blocks": [
+      "A contested action is opposed by a reflexive roll made by your target.",
+      "Calculate your dice pool and roll results as normal. Then, your target rolls a dice pool specified by how they contest the action.",
+      "If your total successes exceed the target's, your action succeeds; if their total successes exceed yours, your action fails.",
+      "If you and your target roll the same number of successes, both of you reroll the same pools until someone comes out on top."
+    ],
+    "source": {
+      "book": "DtR",
+      "page": 189
+    }
+  },
+  "size": {
+    "format": "rules-card",
+    "title": "Size",
+    "blocks": [
+      "How large an object or character is. Objects smaller than <strong>Size 1</strong> can fit entirely in a person's palm.",
+      "<img src='../assets/images/rules/size.jpg' />"
+    ],
+    "source": {
+      "book": "CoD",
+      "page": 26
+    }
+  },
+  "durability": {
+    "format": "rules-card",
+    "title": "Durability",
+    "subtitle": "Object Trait",
+    "blocks": [
+      "How hard the object is to damage.",
+      "Subtract Durability from any damage inflicted on the object.",
+      "Durability has no effect against attacks that inflict aggravated damage.",
+      "Once an object has taken more damage than its Durability, anyone using the object suffers a &minus;1 die penalty.",
+      "<img src='../assets/images/rules/durability.jpg' />"
+    ],
+    "source": {
+      "book": "DtR",
+      "page": 207
+    }
+  },
+  "structure": {
+    "format": "rules-card",
+    "title": "Structure",
+    "subtitle": "Object Trait",
+    "blocks": [
+      "An object's Structure equals its Durability + Size.",
+      "Each point of damage (after Durability is subtracted) reduces Structure by one point. Objects do not differentiate between bashing and lethal damage.",
+      "When an object's Structure hits 0, it is destroyed."
+    ],
+    "source": {
+      "book": "DtR",
+      "page": 207
+    }
+  },
+  "freeDot": {
+    "format": "rules-card",
+    "title": "Free Dot",
+    "subtitle": "Granted by Origin",
+    "blocks": [
+      "This dot was granted for free by {{NAME}}'s Origin, and does not need to be entangled with a Scar.",
+      "It can be used to increase the Magnitude of a Variation without having to raise the Magnitude of the entangled Scar, or it can be used to possess a one-dot Variation with no entangled Scar at all."
+    ],
+    "source": {
+      "book": "DtR",
+      "page": 107
+    }
+  },
+  "brokenDot": {
+    "format": "rules-card",
+    "title": "Unstable Dot",
+    "subtitle": "Starting Instability",
+    "blocks": [
+      "At the beginning of each story, {{NAME}} suffers a number of minor Instabilities equal to the Magnitude of {{his}} highest-rated Variation. This number is represented by dots marked in this fashion."
+    ],
+    "source": {
+      "book": "DtR",
+      "page": 87
+    }
+  },
+  "armor": {
+    "format": "rules-card",
+    "title": "Armor",
+    "blocks": [
+      "Armor provides protection against attacks, including bullets, knives, and fangs.",
+      "Armor comes in one of two types: <strong>general</strong> and <strong>ballistic</strong>.",
+      "<span class='tooltip-list-item'><strong>General Armor:</strong> Each point of general armor reduces the total damage taken by one point, starting with the most severe type of damage.</span>",
+      "<span class='tooltip-list-item'><strong>Ballistic Armor:</strong> Each point of ballistic armor downgrades one point of lethal damage from firearms to bashing.</span>",
+      "If armor has both ballistic and general ratings, apply the ballistic armor first.",
+      "When applying armor to an attack inflicting lethal damage, you always suffer at least one point of bashing damage from the shock of the blow."
+    ],
+    "source": {
+      "book": "DtR",
+      "page": 199
+    }
   }
 }
 

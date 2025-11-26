@@ -98,7 +98,7 @@
       "min": 1,
       "max": 5
     },
-    "effect": "{{NAME}} is a trained and proficient free runner. Free running is the art of moving fluidly through urban environments with complex leaps, bounds, running tricks, and vaults. This is the type of sport popularized in modern action films, where characters are unhindered by fences, walls, construction equipment, cars, or anything else the city puts in their way.",
+    "effect": "{{NAME}} is a trained and experienced free runner. Free running is the art of moving fluidly through urban environments with complex leaps, bounds, running tricks, and vaults. This is the type of sport popularized in modern action films, where characters are unhindered by fences, walls, construction equipment, cars, or anything else the city puts in their way.",
     "levels": {
       "1": {
         "name": "Flow",
@@ -111,16 +111,16 @@
       },
       "3": {
         "name": "Wall Run",
-        "effect": "When climbing, {{NAME}} can run upward for some distance before having to traditionally climb. Without rolling, {{NAME}} scales <strong>{{TOOLTIP:tiny-tooltip,{{CALC:10 + (5 * {{VALUE:athletics}})}} feet,10 + 5 × {{NAMEVALUE:athletics}} = {{CALC:10 + (5 * {{VALUE:athletics}})}}}}</strong> as an instant action, rather than the normal 10 feet."
+        "effect": "When climbing, {{NAME}} can run upward for some distance before having to traditionally climb. Without rolling, {{NAME}} scales <strong>{{TOOLTIP:tiny-tooltip,{{CALC:10 + (5 * {{VALUE:athletics}})}} feet,10 + 5 × {{NAMEVALUE:athletics}} = {{CALC:10 + (5 * {{VALUE:athletics}})}}}}</strong> as an {{TOOLTIP:instant action,json.rules.instantAction}}, rather than the normal 10 feet."
       },
       "4": {
         "name": "Expert Traceur",
-        "effect": "Parkour has become second nature for {{NAME}}. By spending a Willpower point, {{he}} may designate one Athletics roll to run, jump, or climb as a {{TOOLTIP:rote action,json.rules.roteAction}} (reroll all failed dice once).",
+        "effect": "Parkour has become second nature for {{NAME}}. By spending a Willpower point, {{he}} may designate one Athletics roll to run, jump, or climb as a {{TOOLTIP:rote action,json.rules.roteAction}}.",
         "drawback": "On any turn during which {{NAME}} uses this ability, {{he}} may not apply {{his}} Defense to oncoming attacks."
       },
       "5": {
         "name": "Freeflow",
-        "effect": "{{NAME}}'s Parkour is now muscle memory. {{He}} can move without thinking, in a Zenlike state. {{NAME}} must successfully {{TOOLTIP:meditate,json.rules.meditation}} in order to establish Freeflow. Once established, {{he}} is capable of taking Athletics actions reflexively once per turn.{{BR}}By spending a point of Willpower on an Athletics roll in a foot chase, {{he}} gains three <em>successes</em> instead of three dice."
+        "effect": "{{NAME}}'s Parkour is now muscle memory. {{He}} can move without thinking, in a Zenlike state. {{NAME}} must successfully {{TOOLTIP:meditate,json.rules.meditation}} in order to establish Freeflow. Once established, {{he}} is capable of taking Athletics actions {{TOOLTIP:reflexively,json.rules.reflexiveAction}} once per turn.{{BR}}Additionally, by spending a point of Willpower on an Athletics roll in a foot chase, {{he}} gains three <em>successes</em> instead of three dice."
       }
     },
     "source": {
@@ -148,7 +148,7 @@
     "prerequisites": "Larceny •••",
     "tags": ["physical"],
     "value": 2,
-    "effect": "{{NAME}} can pick locks and pockets without even thinking about it. {{He}} can take one Larceny-based instant action reflexively in a given turn. As well, {{his}} Larceny actions go unnoticed unless someone is trying specifically to catch {{him}}.",
+    "effect": "{{NAME}} can pick locks and pockets without even thinking about it. {{He}} can take one Larceny-based {{TOOLTIP:instant action,json.rules.instantAction}} {{TOOLTIP:reflexively,json.rules.reflexiveAction}} in a given turn.{{BR}}Additionally, {{his}} Larceny actions go unnoticed unless someone is trying specifically to catch {{him}}.",
     "source": {
       "book": "DtR",
       "page": 99
@@ -159,7 +159,7 @@
     "name": "Small-Framed",
     "tags": ["physical"],
     "value": 2,
-    "effect": "{{NAME}} is diminutive. {{He's}} not five feet, and it's easy to walk into {{him}} without noticing. {{He's}} <strong>Size 4</strong>, and thus has one fewer Health box. {{He}} gains <strong>+2</strong> to any rolls to hide or go unnoticed, and this bonus might apply any time being smaller would be an advantage, such as crawling through smaller spaces.",
+    "effect": "{{NAME}} is diminutive. {{He's}} not five feet, and it's easy to walk into {{him}} without noticing. {{He's}} <strong>{{TOOLTIP:rules-card,Size 4,json.rules.size}}</strong>, and thus has one fewer Health box. {{He}} gains <strong>+2</strong> to any rolls to hide or go unnoticed, and this bonus might apply any time being smaller would be an advantage, such as crawling through smaller spaces.",
     "drawback": "Because of {{his}} small stature, {{NAME}} struggles to be taken seriously in social situations.",
     "source": {
       "book": "CoD",

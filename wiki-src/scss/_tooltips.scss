@@ -60,6 +60,7 @@
   pointer-events: none;
   user-select: none;
   font-size: 16px;
+  font-weight: normal;
 
   // No CSS transitions - GSAP handles all animations
   // This allows positioning to happen before visibility changes
@@ -87,6 +88,11 @@
     margin-top: 0;
     margin-left: 0;
     margin-right: 16px;
+  }
+
+  img {
+    width: 100%;
+    margin-left: -24px;
   }
 
   // Keep tooltip visible when hovering it directly (GSAP maintains state)
@@ -156,6 +162,13 @@
 
     &.tooltip-block {
       font-size: 14px;
+
+      .tooltip-list-item {
+        text-align: left;
+        display: list-item;
+        list-style-type: disc;
+        list-style-position: inside;
+      }
     }
   }
 
@@ -204,10 +217,14 @@
       background: url("../assets/images/backgrounds/tilt-condition-header.webp") no-repeat center center;
       background-size: 100% auto;
       margin-top: 0;
+
+      + .tooltip-block {
+        text-indent: 0;
+      }
     }
 
     &.tilt-card .tooltip-title,
-    &.rules-card .tooltip-title{
+    &.rules-card .tooltip-title {
       margin-bottom: 20px;
     }
 
@@ -220,6 +237,29 @@
       font-weight: normal;
       font-size: 24px;
       letter-spacing: 0px;
+
+      + .tooltip-block {
+        text-indent: 0;
+      }
+    }
+
+    .tooltip-citation {
+      text-align: right;
+
+      .source-citation {
+        &::before {
+          margin-right: 0;
+        }
+        &::after {
+          margin-left: 0;
+        }
+        .source-title {
+          width: min-content;
+          white-space: nowrap;
+          text-indent: 0;
+        }
+      }
+
     }
 
     &.rules-card {
@@ -269,6 +309,19 @@
       padding: 0 10px;
     }
 
+
+    .tooltip-list-item {
+      padding: 5px 0px;
+      margin: 0px 0px;
+      padding-left: 45px;
+      text-indent: -26px;
+      text-align: left;
+
+      &:nth-child(2n - 1) {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+    }
+
     ul, ol {
       font-family: GoudyOldStyle;
       margin: 10px 0px;
@@ -289,7 +342,9 @@
     }
 
     .source-citation {
-      width: 100%;
+      // width: 100%;
+      text-indent: 0;
+      gap: 2px;
       justify-content: flex-end;
       font-family: GoudyOldStyle;
     }

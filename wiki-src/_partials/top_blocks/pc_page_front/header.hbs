@@ -100,12 +100,5 @@
     </span>
   </div>
 
-  {{#if imageUrl}}
-  <div class="block absolute-block pc-polaroid-container">
-    <img src="../{{imageUrl}}" alt="{{name}}" class="pc-polaroid-image">
-    <img src="../assets/images/polaroid-frame.webp" alt="Polaroid Frame" class="pc-polaroid-frame">
-    <img src="../assets/images/paper-clip.webp" alt="Paper Clip" class="pc-polaroid-paper-clip">
-    <span class="pc-polaroid-caption">{{concept}}</span>
-  </div>
-  {{/if}}
+  {{!-- Polaroid image moved to its own partial outside the scrolling container --}}
 </div>

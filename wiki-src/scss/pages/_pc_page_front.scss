@@ -1,5 +1,270 @@
-@use "../top_blocks/pc_page_front/header" as *;
-@use "../top_blocks/pc_page_front/overview" as *;
-@use "../top_blocks/pc_page_front/attributes" as *;
-@use "../top_blocks/pc_page_front/skills" as *;
-@use "../top_blocks/pc_page_front/derived-traits" as *;
+@use "../_colors" as *;
+@use "../_typography" as *;
+@use "../_mixins" as *;
+
+.page.pc-page[name='front'] {
+
+  .top-block.pc-header {
+    position: relative; // Create positioning context for absolutely positioned polaroid
+    display: flex;
+    flex-direction: column;
+    // gap: 4px;
+    justify-content: space-between;
+    align-items: stretch;
+    min-height: 250px;
+    padding-top: 0px;
+
+    > .sub-block {
+      display: flex;
+      flex-direction: row;
+      // gap: 4px;
+      justify-content: space-between;
+      align-items: center;
+
+      .form-options {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 34% 0 10px;
+
+        .form-option {
+          @include header-text-general;
+
+          position: relative;
+          .form-option-circle {
+            inset: 50%;
+            transform: translate(-50%, -50%);
+            position: absolute;
+            width: 32px;
+            height: 32px;
+          }
+        }
+      }
+
+      .form-field {
+        text-indent: 20px;
+      }
+
+      &.character-name {
+        @include header-text-title;
+      }
+
+      &.dob-row {
+        width: 65%;
+
+        .form-field {
+          text-indent: 0;
+          text-align: center;
+        }
+
+        .form-label:nth-child(3) {
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+
+  .top-block.overview-block {
+    display: flex;
+    flex-direction: column;
+    margin: 0px 0 0 0;
+    padding: 8px;
+    background: $color-ink;
+
+    .overview-text {
+      @include body-text-general;
+
+      font-size: 13px;
+      color: $color-parchment;
+      letter-spacing: 0.5px;
+      display: block;
+      text-wrap: pretty;
+      text-align: justify;
+      hyphens: auto;
+
+      strong {
+        background: $color-parchment;
+        color: $color-ink;
+        padding: 0 4px;
+      }
+    }
+  }
+
+  .top-block.attribute-block {
+
+    .attributes-block {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr); // Use 1fr instead of auto to respect container width
+      grid-template-rows: repeat(2, auto);
+      gap: 0 4px;
+      width: 100%;
+      min-width: 0; // Allow grid to shrink below content size
+      max-width: 100%; // Prevent expansion beyond container
+
+      > .sub-block {
+        @include stat-row(0);
+        min-width: 0; // Allow grid items to shrink
+
+        .dotline {
+          .dot {
+            flex-grow: 0;
+          }
+        }
+      }
+
+      font-size: 14px;
+    }
+  }
+
+  .top-block.skill-block {
+
+    margin-top: 8px;
+    border-top: 1px solid $color-soot;
+    padding-top: 8px;
+
+    .skills-block {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr); // Use 1fr instead of auto to respect container width
+      grid-template-rows: repeat(2, auto);
+      gap: 0 4px;
+      width: 100%;
+      min-width: 0; // Allow grid to shrink below content size
+      max-width: 100%; // Prevent expansion beyond container
+
+      >.sub-block {
+        @include stat-row(5px);
+        min-width: 0; // Allow grid items to shrink
+
+        .skill-row {
+
+          &.trait-asset {
+
+            font-weight: bold;
+            &::before {
+              margin-right: 3px;
+              content: "";
+              background: url("../assets/images/icons/asset.webp") no-repeat center center;
+              width: 14px;
+              height: 14px;
+              display: none;
+              vertical-align: top;
+              background-size: contain;
+              position: relative;
+            }
+          }
+
+          &.trait-hypercompetent {
+
+            font-weight: bold;
+            &::before {
+              margin-right: 3px;
+              content: "";
+              background: url("../assets/images/icons/hypercompetence.webp") no-repeat center center;
+              width: 14px;
+              height: 14px;
+              display: none;
+              vertical-align: top;
+              background-size: contain;
+              position: relative;
+            }
+          }
+        }
+
+        .dotline {
+          .dot {
+            flex-grow: 0;
+          }
+        }
+      }
+
+      font-size: 14px;
+    }
+  }
+
+  .top-block.derived-traits-block {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    width: 100%;
+    min-width: 0; // Allow flex container to shrink below content size
+    max-width: 100%; // Prevent expansion beyond container
+
+    margin: 0;
+
+    > .sub-block {
+      @include stat-row(0);
+      min-width: 0; // Allow flex items to shrink
+
+      .stat-label {
+        text-align: left;
+      }
+    }
+
+    > .left-column {
+      flex: 1 1 60%;
+      min-width: 0; // Allow flex item to shrink below content size
+      grid-template-columns: min-content auto;
+      place-content: stretch stretch;
+
+      .stat-label {
+        @include form-label;
+      }
+
+      > .sub-block {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+
+      > .dotline {
+          --dotline-size: 24px;
+          justify-content: center;
+          width: min-content;
+          place-self: center;
+
+          .dot {
+            width: var(--dotline-size);
+            flex-grow: 0;
+            // margin: 0 !important;
+
+            &:nth-child(5n) {
+              margin-right: 10px;
+            }
+            &:nth-child(6n) {
+              margin-left: -5px;
+            }
+          }
+
+      }
+    }
+    .right-column {
+      flex: 1 1 20%;
+      min-width: 0; // Allow flex item to shrink below content size
+      grid-template-columns: auto;
+
+      > .sub-block {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+
+        .form-label {
+          width: unset;
+        }
+
+        .form-field {
+          display: block;
+          aspect-ratio: 1 / 1;
+          font-size: 20px;
+          height: 28px;
+          width: 28px;
+          text-align: center;
+          text-indent: 0;
+        }
+
+      }
+    }
+  }
+
+}

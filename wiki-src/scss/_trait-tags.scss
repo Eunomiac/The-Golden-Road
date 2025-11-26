@@ -1,22 +1,15 @@
 .trait-tagged-block {
-  --trait-tag-parent-height: var(--trait-tag-parent-height, 1em);
   display: inline-flex;
   align-items: center;
   column-gap: var(--trait-tag-gap, 4px);
   vertical-align: middle;
-  // position: relative;
-  // top: calc(
-  //   (
-  //     var(--trait-tag-parent-height, 1em) -
-  //     var(--trait-tag-icon-max, var(--trait-tag-parent-height, 1em))
-  //   ) / 2
-  // );
 }
 
 .trait-tag-icon-row {
   display: inline-flex;
   align-items: center;
   column-gap: var(--trait-tag-gap, 4px);
+  margin-top: calc(-0.5 * (var(--trait-tag-icon-max) - var(--trait-tag-parent-height)));
 }
 
 .trait-tag-icon {
