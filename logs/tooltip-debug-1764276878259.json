@@ -1,0 +1,322 @@
+{
+  "timestamp": "2025-11-27T20:54:38.258Z",
+  "totalLogs": 12,
+  "logs": [
+    {
+      "timestamp": 1764276861090,
+      "anchorId": "--nogzdluku9",
+      "stage": "beforeRecalculation",
+      "data": {
+        "anchorCurrentRect": {
+          "top": 115,
+          "left": 446.76092529296875,
+          "bottom": 162,
+          "right": 465.7234191894531,
+          "width": 18.962493896484375,
+          "height": 47
+        },
+        "tooltipCurrentStyle": {
+          "top": "",
+          "left": "",
+          "position": "fixed"
+        }
+      }
+    },
+    {
+      "timestamp": 1764276861090,
+      "anchorId": "--nogzdluku9",
+      "stage": "freshMeasurements",
+      "data": {
+        "freshSize": {
+          "width": 187.853759765625,
+          "height": 23.703750610351562
+        },
+        "tooltipRect": {
+          "top": 75.05437469482422,
+          "left": 362.3231201171875,
+          "bottom": 98.75812530517578,
+          "right": 550.1768798828125,
+          "width": 187.853759765625,
+          "height": 23.703750610351562
+        },
+        "anchorRect": {
+          "top": 115,
+          "left": 446.76092529296875,
+          "bottom": 162,
+          "right": 465.7234191894531,
+          "width": 18.962493896484375,
+          "height": 47
+        }
+      }
+    },
+    {
+      "timestamp": 1764276861091,
+      "anchorId": "--nogzdluku9",
+      "stage": "calculateFixedPosition",
+      "data": {
+        "position": "top",
+        "anchorRect": {
+          "top": 115,
+          "left": 446.76092529296875,
+          "bottom": 162,
+          "right": 465.7234191894531,
+          "width": 18.962493896484375,
+          "height": 47
+        },
+        "viewport": {
+          "width": 779,
+          "height": 1031,
+          "scrollX": 0,
+          "scrollY": 0
+        },
+        "boundary": {
+          "rect": {
+            "x": 70.453125,
+            "y": 12,
+            "width": 622.078125,
+            "height": 914,
+            "top": 12,
+            "right": 692.53125,
+            "bottom": 926,
+            "left": 70.453125
+          },
+          "scrollTop": 0,
+          "scrollLeft": 0
+        }
+      }
+    },
+    {
+      "timestamp": 1764276861091,
+      "anchorId": "--nogzdluku9",
+      "stage": "positionCalculated",
+      "data": {
+        "position": "top",
+        "calculatedTop": 75.29624938964844,
+        "calculatedLeft": 362.31529235839844,
+        "tooltipSize": {
+          "width": 187.853759765625,
+          "height": 23.703750610351562
+        },
+        "clearance": 16
+      }
+    },
+    {
+      "timestamp": 1764276861092,
+      "anchorId": "--nogzdluku9",
+      "stage": "applyingBoundaryOffsets",
+      "data": {
+        "currentTop": 75.2962,
+        "currentLeft": 362.315,
+        "horizontalShift": -106.8018798828125,
+        "verticalShift": 0,
+        "newTop": 75.2962,
+        "newLeft": 255.5131201171875,
+        "tooltipRect": {
+          "top": 75.05437469482422,
+          "left": 543.4793701171875,
+          "bottom": 98.75812530517578,
+          "right": 731.3331298828125,
+          "width": 187.853759765625,
+          "height": 23.703750610351562
+        },
+        "boundaryRect": {
+          "top": 12,
+          "left": 70.453125,
+          "bottom": 926,
+          "right": 692.53125,
+          "width": 622.078125,
+          "height": 914
+        },
+        "overflows": {
+          "left": false,
+          "right": true,
+          "top": false,
+          "bottom": false
+        }
+      }
+    },
+    {
+      "timestamp": 1764276861092,
+      "anchorId": "--nogzdluku9",
+      "stage": "finalPosition",
+      "data": {
+        "finalTop": "75.2962px",
+        "finalLeft": "255.513px",
+        "tooltipRect": {
+          "top": 75.05437469482422,
+          "left": 490.0731201171875,
+          "bottom": 98.75812530517578,
+          "right": 677.9268798828125,
+          "width": 187.853759765625,
+          "height": 23.703750610351562
+        },
+        "anchorRect": {
+          "top": 115,
+          "left": 446.76092529296875,
+          "bottom": 162,
+          "right": 465.7234191894531,
+          "width": 18.962493896484375,
+          "height": 47
+        }
+      }
+    },
+    {
+      "timestamp": 1764276861126,
+      "anchorId": "nogzdluku9",
+      "stage": "beforeRecalculation",
+      "data": {
+        "anchorCurrentRect": {
+          "top": 115,
+          "left": 446.76092529296875,
+          "bottom": 162,
+          "right": 465.7234191894531,
+          "width": 18.962493896484375,
+          "height": 47
+        },
+        "tooltipCurrentStyle": {
+          "top": "75.2962px",
+          "left": "255.513px",
+          "position": "fixed"
+        }
+      }
+    },
+    {
+      "timestamp": 1764276861126,
+      "anchorId": "nogzdluku9",
+      "stage": "freshMeasurements",
+      "data": {
+        "freshSize": {
+          "width": 187.853759765625,
+          "height": 23.703750610351562
+        },
+        "tooltipRect": {
+          "top": 75.05437469482422,
+          "left": 490.0731201171875,
+          "bottom": 98.75812530517578,
+          "right": 677.9268798828125,
+          "width": 187.853759765625,
+          "height": 23.703750610351562
+        },
+        "anchorRect": {
+          "top": 115,
+          "left": 446.76092529296875,
+          "bottom": 162,
+          "right": 465.7234191894531,
+          "width": 18.962493896484375,
+          "height": 47
+        }
+      }
+    },
+    {
+      "timestamp": 1764276861126,
+      "anchorId": "nogzdluku9",
+      "stage": "calculateFixedPosition",
+      "data": {
+        "position": "top",
+        "anchorRect": {
+          "top": 115,
+          "left": 446.76092529296875,
+          "bottom": 162,
+          "right": 465.7234191894531,
+          "width": 18.962493896484375,
+          "height": 47
+        },
+        "viewport": {
+          "width": 779,
+          "height": 1031,
+          "scrollX": 0,
+          "scrollY": 0
+        },
+        "boundary": {
+          "rect": {
+            "x": 70.453125,
+            "y": 12,
+            "width": 622.078125,
+            "height": 914,
+            "top": 12,
+            "right": 692.53125,
+            "bottom": 926,
+            "left": 70.453125
+          },
+          "scrollTop": 0,
+          "scrollLeft": 0
+        }
+      }
+    },
+    {
+      "timestamp": 1764276861126,
+      "anchorId": "nogzdluku9",
+      "stage": "positionCalculated",
+      "data": {
+        "position": "top",
+        "calculatedTop": 75.29624938964844,
+        "calculatedLeft": 362.31529235839844,
+        "tooltipSize": {
+          "width": 187.853759765625,
+          "height": 23.703750610351562
+        },
+        "clearance": 16
+      }
+    },
+    {
+      "timestamp": 1764276861126,
+      "anchorId": "nogzdluku9",
+      "stage": "applyingBoundaryOffsets",
+      "data": {
+        "currentTop": 75.2962,
+        "currentLeft": 362.315,
+        "horizontalShift": -106.8018798828125,
+        "verticalShift": 0,
+        "newTop": 75.2962,
+        "newLeft": 255.5131201171875,
+        "tooltipRect": {
+          "top": 75.05437469482422,
+          "left": 543.4793701171875,
+          "bottom": 98.75812530517578,
+          "right": 731.3331298828125,
+          "width": 187.853759765625,
+          "height": 23.703750610351562
+        },
+        "boundaryRect": {
+          "top": 12,
+          "left": 70.453125,
+          "bottom": 926,
+          "right": 692.53125,
+          "width": 622.078125,
+          "height": 914
+        },
+        "overflows": {
+          "left": false,
+          "right": true,
+          "top": false,
+          "bottom": false
+        }
+      }
+    },
+    {
+      "timestamp": 1764276861126,
+      "anchorId": "nogzdluku9",
+      "stage": "finalPosition",
+      "data": {
+        "finalTop": "75.2962px",
+        "finalLeft": "255.513px",
+        "tooltipRect": {
+          "top": 75.05437469482422,
+          "left": 490.0731201171875,
+          "bottom": 98.75812530517578,
+          "right": 677.9268798828125,
+          "width": 187.853759765625,
+          "height": 23.703750610351562
+        },
+        "anchorRect": {
+          "top": 115,
+          "left": 446.76092529296875,
+          "bottom": 162,
+          "right": 465.7234191894531,
+          "width": 18.962493896484375,
+          "height": 47
+        }
+      }
+    }
+  ]
+}

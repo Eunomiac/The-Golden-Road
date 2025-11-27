@@ -26,11 +26,10 @@
 }
 
 .tooltip {
+  // Initially use absolute positioning to remove from layout flow
+  // JavaScript will change to position: fixed when tooltip is moved to container
   position: absolute;
-  position-area: top center;
   display: inline-block;
-  --tooltip-shift-x: 0px;
-  --tooltip-shift-y: 0px;
 
   background: url("../assets/images/backgrounds/ink-block.webp") no-repeat center center;
   background-size: 100% 100%;
@@ -43,52 +42,31 @@
   // aspect-ratio: 16/9;
   white-space: normal;
   pointer-events: none;
-  z-index: 10;
+  // Very high z-index to ensure tooltips appear above all other content
+  // This prevents stacking context issues where tooltips appear behind anchors or other elements
+  z-index: 9999;
 
   margin-bottom: 16px;
   margin-top: 0;
   padding: 24px 40px;
 
   color: $color-parchment;
+  font-family: "Typewriter";
 
   filter: drop-shadow(8px 8px 4px rgba(0, 0, 0, 1));
 
-  // Initial hidden state - GSAP will control visibility, opacity, scale, and transform
+  // Initial hidden state - GSAP will control visibility, opacity, and scale only
+  // Position is handled entirely by JavaScript using position: fixed
   visibility: hidden;
   opacity: 0;
-  // Transform is controlled by GSAP (x, y, scale)
   pointer-events: none;
   user-select: none;
   font-size: 16px;
   font-weight: normal;
 
-  // No CSS transitions - GSAP handles all animations
+  // No CSS transitions - GSAP handles visibility animations
   // This allows positioning to happen before visibility changes
-
-  // When forced to render beneath the anchor, invert the margin + anchor area.
-  &.tooltip--below {
-    position-area: bottom center;
-    margin-bottom: 0;
-    margin-top: 16px;
-  }
-
-  // When forced to render to the right of the anchor
-  &.tooltip--right {
-    position-area: right center;
-    margin-bottom: 0;
-    margin-top: 0;
-    margin-left: 16px;
-    margin-right: 0;
-  }
-
-  // When forced to render to the left of the anchor
-  &.tooltip--left {
-    position-area: left center;
-    margin-bottom: 0;
-    margin-top: 0;
-    margin-left: 0;
-    margin-right: 16px;
-  }
+  // All positioning is handled by JavaScript - no CSS position classes needed
 
   img {
     width: 100%;
@@ -98,6 +76,8 @@
   // Keep tooltip visible when hovering it directly (GSAP maintains state)
 
   &.tiny-tooltip {
+    background: url("../assets/images/backgrounds/black-header.webp") no-repeat center center;
+    background-size: 100% 130%;
     padding: 2px 32px;
     min-height: unset;
     min-width: unset;
@@ -106,6 +86,19 @@
     .tooltip-block {
       white-space: nowrap;
     }
+  }
+
+  &.red-tooltip {
+    background: url("../assets/images/backgrounds/red-header.webp") no-repeat center center;
+    background-size: 100% 130%;
+    filter: brightness(1.5) drop-shadow(0px 0px 4px rgba(0, 0, 0, 1));
+    padding: 12px 20px;
+    text-shadow:
+    0 0 2px black,
+    0 0 2px black,
+    0 0 2px black,
+    0 0 2px black;
+
   }
 
   .tooltip-title,
@@ -188,6 +181,7 @@
     border-radius: 20px;
     /* outline: 2px solid magenta; */
     overflow: hidden;
+    text-transform: none;
 
     &.big-rules-card {
       width: 600px;

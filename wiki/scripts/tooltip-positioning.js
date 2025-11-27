@@ -3,22 +3,147 @@
  * anchors when there is not enough space above the trigger element.
  */
 import { gsap } from "gsap";
+class TooltipLogger {
+    /**
+     * Logs tooltip debugging information.
+     */
+    static log(anchorId, stage, data) {
+        const entry = {
+            timestamp: Date.now(),
+            anchorId,
+            stage,
+            data: this.serializeData(data)
+        };
+        this.logs.push(entry);
+        // Keep only the most recent logs
+        if (this.logs.length > TooltipLogger.MAX_LOGS) {
+            this.logs.shift();
+        }
+        // Also log to console for immediate feedback
+        console.log(`[Tooltip Debug] ${stage} (${anchorId}):`, data);
+    }
+    /**
+     * Serializes data for logging, handling circular references and complex objects.
+     */
+    static serializeData(data) {
+        const serialized = {};
+        for (const [key, value] of Object.entries(data)) {
+            try {
+                if (value === null || value === undefined) {
+                    serialized[key] = value;
+                }
+                else if (typeof value === "object") {
+                    if (value instanceof DOMRect) {
+                        serialized[key] = {
+                            top: value.top,
+                            left: value.left,
+                            bottom: value.bottom,
+                            right: value.right,
+                            width: value.width,
+                            height: value.height
+                        };
+                    }
+                    else if (Array.isArray(value)) {
+                        serialized[key] = value.map(item => this.serializeValue(item));
+                    }
+                    else {
+                        serialized[key] = this.serializeValue(value);
+                    }
+                }
+                else {
+                    serialized[key] = value;
+                }
+            }
+            catch (error) {
+                serialized[key] = `[Error serializing: ${String(error)}]`;
+            }
+        }
+        return serialized;
+    }
+    /**
+     * Serializes a single value.
+     */
+    static serializeValue(value) {
+        if (value === null || value === undefined) {
+            return value;
+        }
+        if (typeof value === "object") {
+            if (value instanceof DOMRect) {
+                return {
+                    top: value.top,
+                    left: value.left,
+                    bottom: value.bottom,
+                    right: value.right,
+                    width: value.width,
+                    height: value.height
+                };
+            }
+            try {
+                return JSON.parse(JSON.stringify(value));
+            }
+            catch {
+                return String(value);
+            }
+        }
+        return value;
+    }
+    /**
+     * Downloads logs as a JSON file.
+     */
+    static downloadLogs() {
+        const logData = {
+            timestamp: new Date().toISOString(),
+            totalLogs: this.logs.length,
+            logs: this.logs
+        };
+        const jsonString = JSON.stringify(logData, null, 2);
+        const blob = new Blob([jsonString], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `tooltip-debug-${Date.now()}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+    /**
+     * Clears all logs.
+     */
+    static clearLogs() {
+        this.logs = [];
+    }
+    /**
+     * Gets the current log count.
+     */
+    static getLogCount() {
+        return this.logs.length;
+    }
+}
+TooltipLogger.logs = [];
+TooltipLogger.MAX_LOGS = 1000;
+// Expose download function globally for easy access
+if (typeof window !== "undefined") {
+    window.downloadTooltipLogs = () => {
+        TooltipLogger.downloadLogs();
+    };
+}
 class TooltipFallbackController {
     constructor() {
-        this.reevaluateActivePairs = () => {
-            if (this.activePairs.size === 0) {
-                return;
-            }
-            // Update placement for every tooltip that is currently visible or focused.
-            this.activePairs.forEach((pair) => {
-                this.updatePlacement(pair);
-            });
-        };
         this.pairs = [];
         this.activePairs = new Set();
-        this.boundaryElement = document.querySelector(".paper-stack");
-        this.positionCheckIntervals = new Map();
+        // Use the scrollable container as boundary, not the outer paper-stack
+        // This ensures boundaries account for scrolling correctly
+        this.boundaryElement = document.querySelector(".paper-stack-scroll") ??
+            document.querySelector(".paper-stack");
         this.hoverDelayTimeouts = new Map();
+        this.tooltipOriginalParents = new Map();
+        this.queueAnimateOut = new Map();
+        // Create a dedicated container for tooltips at body level to escape stacking contexts
+        this.tooltipContainer = document.createElement("div");
+        this.tooltipContainer.id = "tooltip-container";
+        this.tooltipContainer.style.cssText = "position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99999;";
+        document.body.appendChild(this.tooltipContainer);
         // Initial discovery
         this.refreshPairs();
         // Watch for dynamically added tooltips
@@ -31,8 +156,6 @@ class TooltipFallbackController {
             attributes: true,
             attributeFilter: ["style", "class"]
         });
-        window.addEventListener("scroll", this.reevaluateActivePairs, { passive: true });
-        window.addEventListener("resize", this.reevaluateActivePairs);
     }
     /**
      * Refreshes the tooltip pairs list and rebinds listeners for newly discovered tooltips.
@@ -156,10 +279,18 @@ class TooltipFallbackController {
      */
     bindPair(pair) {
         const activate = () => {
+            // If tooltip is already active/visible, don't reposition
+            if (this.activePairs.has(pair) || pair.tooltip.classList.contains("tooltip--active")) {
+                return;
+            }
             // Clear any existing timeout
             this.clearHoverDelay(pair);
             // Set a delay before showing the tooltip
             const timeoutId = window.setTimeout(() => {
+                // Double-check tooltip isn't already active (might have been activated by another event)
+                if (this.activePairs.has(pair) || pair.tooltip.classList.contains("tooltip--active")) {
+                    return;
+                }
                 this.activePairs.add(pair);
                 // Position tooltip first (while hidden), then show it
                 this.positionAndShowTooltip(pair);
@@ -170,26 +301,18 @@ class TooltipFallbackController {
         const deactivate = () => {
             // Clear any pending hover delay
             this.clearHoverDelay(pair);
-            // Stop aggressive positioning checks
-            this.stopAggressivePositioning(pair);
             // Remove from active pairs immediately
             this.activePairs.delete(pair);
-            // Get current shift values to maintain position during hide animation
-            const shiftX = pair.tooltip.style.getPropertyValue("--tooltip-shift-x") || "0px";
-            const shiftY = pair.tooltip.style.getPropertyValue("--tooltip-shift-y") || "0px";
-            // Hide tooltip with GSAP animation
-            gsap.to(pair.tooltip, {
-                opacity: 0,
-                scale: 0.98,
-                x: shiftX,
-                y: `calc(${shiftY} + 8px)`,
-                duration: 0.15,
-                ease: "power2.in",
-                onComplete: () => {
-                    gsap.set(pair.tooltip, { visibility: "hidden" });
-                    pair.tooltip.classList.remove("tooltip--active");
-                }
-            });
+            // Check if tooltip is currently animating in (has active class but might still be animating)
+            const isAnimatingIn = pair.tooltip.classList.contains("tooltip--active") &&
+                parseFloat(window.getComputedStyle(pair.tooltip).opacity) < 1;
+            if (isAnimatingIn) {
+                // Tooltip is still animating in, queue the hide animation for when it completes
+                this.queueAnimateOut.set(pair, true);
+                return;
+            }
+            // Tooltip is fully visible or not active, hide it immediately
+            this.animateOutTooltip(pair);
         };
         pair.anchor.addEventListener("pointerenter", activate);
         pair.anchor.addEventListener("pointerdown", activate);
@@ -212,87 +335,228 @@ class TooltipFallbackController {
         }
     }
     /**
+     * Animates the tooltip out (hides it).
+     * This is a separate method so it can be called from animation callbacks.
+     */
+    animateOutTooltip(pair) {
+        // Clear the queue flag if it was set
+        this.queueAnimateOut.delete(pair);
+        // If tooltip is in the container, ensure it stays there during hide animation
+        const isInContainer = pair.tooltip.parentElement === this.tooltipContainer;
+        // Hide tooltip with GSAP animation (opacity and scale only, no position transforms)
+        gsap.to(pair.tooltip, {
+            opacity: 0,
+            scale: 0.98,
+            duration: 0.15,
+            ease: "power2.in",
+            onComplete: () => {
+                gsap.set(pair.tooltip, { visibility: "hidden" });
+                pair.tooltip.classList.remove("tooltip--active");
+                // Only restore tooltip to original position if it's not in the container
+                // If it's in the container, it should stay there until next activation
+                if (!isInContainer) {
+                    this.restoreTooltipPosition(pair.tooltip);
+                }
+            }
+        });
+    }
+    /**
+     * Moves a tooltip to the dedicated container to escape parent stacking contexts.
+     */
+    moveTooltipToContainer(tooltip) {
+        // Only move if not already in the container
+        if (tooltip.parentElement === this.tooltipContainer) {
+            return;
+        }
+        // Store original parent and next sibling for restoration
+        if (!this.tooltipOriginalParents.has(tooltip)) {
+            this.tooltipOriginalParents.set(tooltip, {
+                parent: tooltip.parentNode,
+                nextSibling: tooltip.nextSibling
+            });
+        }
+        // Move to container
+        this.tooltipContainer.appendChild(tooltip);
+    }
+    /**
+     * Restores a tooltip to its original position in the DOM.
+     */
+    restoreTooltipPosition(tooltip) {
+        const original = this.tooltipOriginalParents.get(tooltip);
+        if (original && original.parent) {
+            if (original.nextSibling) {
+                original.parent.insertBefore(tooltip, original.nextSibling);
+            }
+            else {
+                original.parent.appendChild(tooltip);
+            }
+            // Restore transform for anchor positioning (removed when using fixed positioning)
+            tooltip.style.removeProperty("position");
+            tooltip.style.removeProperty("transform");
+            this.tooltipOriginalParents.delete(tooltip);
+        }
+    }
+    /**
      * Positions the tooltip while hidden, then shows it with GSAP animation.
+     * Positioning is calculated once before showing - no repositioning while visible.
      */
     positionAndShowTooltip(pair) {
+        // If tooltip is already active, don't reposition (prevents repositioning during animation)
+        if (pair.tooltip.classList.contains("tooltip--active")) {
+            return;
+        }
         // Ensure tooltip is hidden initially
         pair.tooltip.classList.remove("tooltip--active");
-        // Position the tooltip while it's hidden (this sets --tooltip-shift-x and --tooltip-shift-y)
-        this.updatePlacement(pair);
-        // Get the computed shift values after positioning
-        const shiftX = pair.tooltip.style.getPropertyValue("--tooltip-shift-x") || "0px";
-        const shiftY = pair.tooltip.style.getPropertyValue("--tooltip-shift-y") || "0px";
-        // Set initial hidden state for GSAP animation
-        // Use transform with the shift values
+        // Move tooltip to dedicated container IMMEDIATELY to escape parent stacking contexts
+        // This must happen before any async operations to prevent restoration during animation
+        this.moveTooltipToContainer(pair.tooltip);
+        // Verify tooltip is actually in the container - if not, something went wrong
+        if (pair.tooltip.parentElement !== this.tooltipContainer) {
+            console.warn("Tooltip was not moved to container properly, retrying...");
+            // Force move again
+            this.moveTooltipToContainer(pair.tooltip);
+            if (pair.tooltip.parentElement !== this.tooltipContainer) {
+                console.error("Failed to move tooltip to container");
+                return;
+            }
+        }
+        // Mark as active IMMEDIATELY after moving to container to prevent deactivate from restoring position
+        // This must happen before any async operations (requestAnimationFrame) to prevent race conditions
+        pair.tooltip.classList.add("tooltip--active");
+        // Force a reflow to ensure tooltip is in the container before positioning
+        void pair.tooltip.offsetHeight;
+        void pair.anchor.offsetHeight;
+        // Position the tooltip while it's hidden (sets position classes and boundary offsets)
+        // This returns the selected position and size for later use
+        const placementResult = this.updatePlacement(pair);
+        // Set initial hidden state for GSAP animation (opacity and scale only, no position)
+        // We've already set top/left for fixed positioning, so GSAP should only animate scale
         gsap.set(pair.tooltip, {
             visibility: "hidden",
             opacity: 0,
             scale: 0.98,
-            x: shiftX,
-            y: `calc(${shiftY} + 8px)`, // Start slightly below
+            // Set x/y to 0 so GSAP doesn't interfere with our top/left positioning
+            x: 0,
+            y: 0,
             immediateRender: true
         });
-        // Use requestAnimationFrame to ensure positioning is complete before showing
+        // Use double requestAnimationFrame to ensure layout is complete before positioning
         requestAnimationFrame(() => {
-            // Double-check positioning one more time (in case shift values changed)
-            this.updatePlacement(pair);
-            // Get updated shift values
-            const updatedShiftX = pair.tooltip.style.getPropertyValue("--tooltip-shift-x") || "0px";
-            const updatedShiftY = pair.tooltip.style.getPropertyValue("--tooltip-shift-y") || "0px";
-            // Now animate the tooltip in with GSAP
-            gsap.to(pair.tooltip, {
-                visibility: "visible",
-                opacity: 1,
-                scale: 1,
-                x: updatedShiftX,
-                y: updatedShiftY,
-                duration: 0.2,
-                ease: "power2.out",
-                onComplete: () => {
-                    // Set up interval to refine positioning once tooltip becomes visible
-                    this.startAggressivePositioning(pair);
+            requestAnimationFrame(() => {
+                // Recalculate position right before showing
+                // This ensures we have the most current anchor position (accounts for any scrolling)
+                if (placementResult) {
+                    // DEBUG: Log before recalculation
+                    TooltipLogger.log(pair.anchorId, "beforeRecalculation", {
+                        anchorCurrentRect: pair.anchor.getBoundingClientRect(),
+                        tooltipCurrentStyle: {
+                            top: pair.tooltip.style.top,
+                            left: pair.tooltip.style.left,
+                            position: pair.tooltip.style.position
+                        }
+                    });
+                    // Make tooltip temporarily visible to get accurate measurements
+                    const originalVisibility = pair.tooltip.style.visibility;
+                    const originalOpacity = pair.tooltip.style.opacity;
+                    pair.tooltip.style.visibility = "visible";
+                    pair.tooltip.style.opacity = "1";
+                    // Force a reflow to ensure tooltip is measured and anchor position is current
+                    void pair.tooltip.offsetHeight;
+                    void pair.anchor.offsetHeight;
+                    // Get fresh measurements with current layout
+                    const tooltipRect = pair.tooltip.getBoundingClientRect();
+                    const freshSize = {
+                        width: tooltipRect.width > 0 ? tooltipRect.width : pair.tooltip.scrollWidth,
+                        height: tooltipRect.height > 0 ? tooltipRect.height : pair.tooltip.scrollHeight
+                    };
+                    // DEBUG: Log fresh measurements
+                    TooltipLogger.log(pair.anchorId, "freshMeasurements", {
+                        freshSize,
+                        tooltipRect,
+                        anchorRect: pair.anchor.getBoundingClientRect()
+                    });
+                    // Recalculate position with current anchor position (getBoundingClientRect is viewport-relative)
+                    // This ensures we account for any scrolling that happened
+                    this.calculateFixedPosition(pair, placementResult.position, freshSize);
+                    // Recalculate boundary offsets with updated position
+                    this.updateBoundaryOffsets(pair, freshSize, placementResult.position);
+                    // Get final tooltip position after all calculations
+                    const finalTooltipRect = pair.tooltip.getBoundingClientRect();
+                    const anchorRect = pair.anchor.getBoundingClientRect();
+                    // Calculate the offset from anchor center to tooltip center for slide animation
+                    const anchorCenterX = anchorRect.left + (anchorRect.width / 2);
+                    const anchorCenterY = anchorRect.top + (anchorRect.height / 2);
+                    const tooltipCenterX = finalTooltipRect.left + (finalTooltipRect.width / 2);
+                    const tooltipCenterY = finalTooltipRect.top + (finalTooltipRect.height / 2);
+                    const slideOffsetX = anchorCenterX - tooltipCenterX;
+                    const slideOffsetY = anchorCenterY - tooltipCenterY;
+                    // DEBUG: Log final position
+                    TooltipLogger.log(pair.anchorId, "finalPosition", {
+                        finalTop: pair.tooltip.style.top,
+                        finalLeft: pair.tooltip.style.left,
+                        tooltipRect: finalTooltipRect,
+                        anchorRect: anchorRect,
+                        slideOffset: { x: slideOffsetX, y: slideOffsetY }
+                    });
+                    // Restore hidden state before animation
+                    pair.tooltip.style.visibility = originalVisibility;
+                    pair.tooltip.style.opacity = originalOpacity;
+                    // Mark tooltip as active before animation starts to prevent repositioning
+                    pair.tooltip.classList.add("tooltip--active");
+                    // Animate the tooltip sliding and expanding from anchor to final position
+                    // Start from anchor position (using transform offset) and animate to final position
+                    gsap.fromTo(pair.tooltip, {
+                        visibility: "visible",
+                        opacity: 0,
+                        scale: 0.3,
+                        x: slideOffsetX,
+                        y: slideOffsetY
+                    }, {
+                        visibility: "visible",
+                        opacity: 1,
+                        scale: 1,
+                        x: 0,
+                        y: 0,
+                        duration: 0.3,
+                        ease: "back.out(1.2)", // Slight bounce for a more dynamic feel
+                        onStart: () => {
+                            // Ensure tooltip is in container when animation starts
+                            if (pair.tooltip.parentElement !== this.tooltipContainer) {
+                                this.moveTooltipToContainer(pair.tooltip);
+                            }
+                        },
+                        onComplete: () => {
+                            // Check if we need to animate out (mouse moved off during animation)
+                            if (this.queueAnimateOut.get(pair)) {
+                                this.animateOutTooltip(pair);
+                            }
+                        }
+                    });
+                }
+                else {
+                    // Ensure tooltip is still in container before starting animation
+                    if (pair.tooltip.parentElement !== this.tooltipContainer) {
+                        this.moveTooltipToContainer(pair.tooltip);
+                    }
+                    // Fallback if no placement result - simple fade in
+                    gsap.to(pair.tooltip, {
+                        visibility: "visible",
+                        opacity: 1,
+                        scale: 1,
+                        x: 0,
+                        y: 0,
+                        duration: 0.2,
+                        ease: "power2.out",
+                        onComplete: () => {
+                            // Check if we need to animate out (mouse moved off during animation)
+                            if (this.queueAnimateOut.get(pair)) {
+                                this.animateOutTooltip(pair);
+                            }
+                        }
+                    });
                 }
             });
         });
-    }
-    /**
-     * Starts aggressive positioning checks that run repeatedly until the tooltip is properly positioned.
-     * This refines positioning after the tooltip becomes visible.
-     */
-    startAggressivePositioning(pair) {
-        // Clear any existing interval for this pair
-        this.stopAggressivePositioning(pair);
-        // Set up interval to refine positioning once tooltip becomes visible
-        // This handles edge cases where the tooltip size might change slightly when fully rendered
-        let checkCount = 0;
-        const intervalId = window.setInterval(() => {
-            checkCount++;
-            // Check if tooltip is actually visible now
-            const isVisible = this.isTooltipVisible(pair.tooltip);
-            if (isVisible) {
-                // Tooltip is visible, do a final refinement check
-                this.updatePlacement(pair);
-                // Stop checking after a few refinements once visible
-                if (checkCount >= 2) {
-                    this.stopAggressivePositioning(pair);
-                }
-            }
-            else if (checkCount >= TooltipFallbackController.MAX_POSITION_CHECKS) {
-                // Stop checking after max attempts even if not visible
-                this.stopAggressivePositioning(pair);
-            }
-        }, TooltipFallbackController.POSITION_CHECK_INTERVAL_MS);
-        this.positionCheckIntervals.set(pair, intervalId);
-    }
-    /**
-     * Stops aggressive positioning checks for a tooltip pair.
-     */
-    stopAggressivePositioning(pair) {
-        const intervalId = this.positionCheckIntervals.get(pair);
-        if (intervalId !== undefined) {
-            window.clearInterval(intervalId);
-            this.positionCheckIntervals.delete(pair);
-        }
     }
     /**
      * Checks if a tooltip is actually visible (not just in the DOM).
@@ -308,20 +572,9 @@ class TooltipFallbackController {
         return isVisible;
     }
     /**
-     * Checks whether the anchor or tooltip is hovered/focused, which keeps the pair "active".
-     */
-    isPairInteractive(pair) {
-        const activeElement = document.activeElement;
-        const anchorHovered = pair.anchor.matches(":hover");
-        const tooltipHovered = pair.tooltip.matches(":hover");
-        const anchorFocused = activeElement instanceof HTMLElement &&
-            (pair.anchor === activeElement || pair.anchor.contains(activeElement));
-        const tooltipFocused = activeElement instanceof HTMLElement && pair.tooltip.contains(activeElement);
-        return anchorHovered || tooltipHovered || anchorFocused || tooltipFocused;
-    }
-    /**
      * Measures available space around the anchor and selects the best position for the tooltip.
      * This works even when the tooltip is hidden by temporarily making it visible for measurement.
+     * Returns the selected position and size for later use.
      */
     updatePlacement(pair) {
         const { tooltip } = pair;
@@ -332,15 +585,13 @@ class TooltipFallbackController {
         const originalVisibility = tooltip.style.visibility;
         const originalOpacity = tooltip.style.opacity;
         const originalDisplay = tooltip.style.display;
-        const originalTransform = tooltip.style.transform;
         const originalTransition = tooltip.style.transition;
         if (!isAlreadyVisible) {
             // Make tooltip temporarily visible for measurement
-            // This allows us to measure and position it before the CSS transition delay
+            // This allows us to measure and position it before showing
             tooltip.style.visibility = "visible";
             tooltip.style.opacity = "1";
             tooltip.style.display = "";
-            tooltip.style.transform = "translate(0, 0) scale(1)"; // Reset transform for accurate measurement
             tooltip.style.transition = "none"; // Disable transitions during measurement
             // Force a reflow to ensure the browser applies the styles
             void tooltip.offsetHeight;
@@ -352,117 +603,270 @@ class TooltipFallbackController {
                 tooltip.style.visibility = originalVisibility;
                 tooltip.style.opacity = originalOpacity;
                 tooltip.style.display = originalDisplay;
-                tooltip.style.transform = originalTransform;
                 tooltip.style.transition = originalTransition;
             }
-            return;
+            return null;
         }
         const bestPosition = this.selectBestPosition(pair, size);
         this.applyPosition(pair, bestPosition);
-        // Force a reflow to ensure position classes are applied
+        // Force a reflow to ensure position is set
         void tooltip.offsetHeight;
-        // Apply boundary offsets immediately while tooltip is still visible for measurement
-        // This ensures offsets are calculated and applied before the tooltip becomes visible
-        this.updateBoundaryOffsets(pair, size, bestPosition);
+        // Boundary offsets will be calculated in requestAnimationFrame with fresh anchor position
         if (!isAlreadyVisible) {
             // Restore original styles (positioning classes and offsets are already applied)
             tooltip.style.visibility = originalVisibility;
             tooltip.style.opacity = originalOpacity;
             tooltip.style.display = originalDisplay;
-            tooltip.style.transform = originalTransform;
             tooltip.style.transition = originalTransition;
         }
+        return { position: bestPosition, size };
     }
     /**
-     * Selects the best position for the tooltip by trying each position and picking the one with the most space.
+     * Selects the best position for the tooltip by checking all 8 positions (4 cardinal + 4 diagonal).
+     * Returns the first position that fits perfectly, or the position with the most available space if none fit.
      */
     selectBestPosition(pair, size) {
         const { anchor } = pair;
         const anchorRect = anchor.getBoundingClientRect();
         const clearance = TooltipFallbackController.ANCHOR_GAP_PX;
-        const padding = TooltipFallbackController.VIEWPORT_PADDING_PX;
         const boundary = this.boundaryElement;
-        // Calculate available space for each position
-        const spaces = {
-            top: Math.max(anchorRect.top - clearance - padding, 0),
-            bottom: Math.max(window.innerHeight - anchorRect.bottom - clearance - padding, 0),
-            right: Math.max(window.innerWidth - anchorRect.right - clearance - padding, 0),
-            left: Math.max(anchorRect.left - clearance - padding, 0)
+        // Calculate available space for each position relative to the boundary
+        const calculateSpace = (direction) => {
+            if (boundary === null) {
+                // No boundary, use viewport
+                switch (direction) {
+                    case "top":
+                        return Math.max(anchorRect.top - clearance, 0);
+                    case "bottom":
+                        return Math.max(window.innerHeight - anchorRect.bottom - clearance, 0);
+                    case "right":
+                        return Math.max(window.innerWidth - anchorRect.right - clearance, 0);
+                    case "left":
+                        return Math.max(anchorRect.left - clearance, 0);
+                }
+            }
+            else {
+                // Check against boundary
+                const bounds = boundary.getBoundingClientRect();
+                const boundaryPadding = TooltipFallbackController.BOUNDARY_PADDING_PX;
+                switch (direction) {
+                    case "top":
+                        return Math.max(anchorRect.top - bounds.top - clearance - boundaryPadding, 0);
+                    case "bottom":
+                        return Math.max(bounds.bottom - anchorRect.bottom - clearance - boundaryPadding, 0);
+                    case "right":
+                        return Math.max(bounds.right - anchorRect.right - clearance - boundaryPadding, 0);
+                    case "left":
+                        return Math.max(anchorRect.left - bounds.left - clearance - boundaryPadding, 0);
+                }
+            }
         };
-        // If we have a boundary, also check against it
-        if (boundary) {
-            const bounds = boundary.getBoundingClientRect();
-            const boundaryPadding = TooltipFallbackController.BOUNDARY_PADDING_PX;
-            spaces.top = Math.min(spaces.top, Math.max(anchorRect.top - bounds.top - clearance - boundaryPadding, 0));
-            spaces.bottom = Math.min(spaces.bottom, Math.max(bounds.bottom - anchorRect.bottom - clearance - boundaryPadding, 0));
-            spaces.right = Math.min(spaces.right, Math.max(bounds.right - anchorRect.right - clearance - boundaryPadding, 0));
-            spaces.left = Math.min(spaces.left, Math.max(anchorRect.left - bounds.left - clearance - boundaryPadding, 0));
-        }
-        // Determine which positions can fit the tooltip
-        const canFitTop = size.height <= spaces.top;
-        const canFitBottom = size.height <= spaces.bottom;
-        const canFitRight = size.width <= spaces.right;
-        const canFitLeft = size.width <= spaces.left;
-        // Prefer top if it fits, otherwise try right, then bottom, then left
+        // Calculate space for each cardinal direction
+        const topSpace = calculateSpace("top");
+        const bottomSpace = calculateSpace("bottom");
+        const rightSpace = calculateSpace("right");
+        const leftSpace = calculateSpace("left");
+        // For diagonal positions, use the minimum of the two cardinal directions
+        const topRightSpace = Math.min(topSpace, rightSpace);
+        const bottomRightSpace = Math.min(bottomSpace, rightSpace);
+        const bottomLeftSpace = Math.min(bottomSpace, leftSpace);
+        const topLeftSpace = Math.min(topSpace, leftSpace);
+        // Check which positions can fit the tooltip
+        // For vertical positions (top/bottom), check height; for horizontal (left/right), check width
+        // For diagonals, need to check both dimensions fit
+        const canFitTop = size.height <= topSpace;
+        const canFitTopRight = size.height <= topSpace && size.width <= rightSpace;
+        const canFitRight = size.width <= rightSpace;
+        const canFitBottomRight = size.height <= bottomSpace && size.width <= rightSpace;
+        const canFitBottom = size.height <= bottomSpace;
+        const canFitBottomLeft = size.height <= bottomSpace && size.width <= leftSpace;
+        const canFitLeft = size.width <= leftSpace;
+        const canFitTopLeft = size.height <= topSpace && size.width <= leftSpace;
+        // Prefer positions in order: top, top-right, right, bottom-right, bottom, bottom-left, left, top-left
         if (canFitTop) {
             return "top";
+        }
+        if (canFitTopRight) {
+            return "top-right";
         }
         if (canFitRight) {
             return "right";
         }
+        if (canFitBottomRight) {
+            return "bottom-right";
+        }
         if (canFitBottom) {
             return "bottom";
+        }
+        if (canFitBottomLeft) {
+            return "bottom-left";
         }
         if (canFitLeft) {
             return "left";
         }
-        // If none fit perfectly, pick the position with the most space
-        const positions = ["top", "right", "bottom", "left"];
+        if (canFitTopLeft) {
+            return "top-left";
+        }
+        // If none fit perfectly, pick the position with the most available space
+        // For vertical positions, use height space; for horizontal, use width space
+        // For diagonals, use the minimum of the two dimensions
+        const positions = [
+            "top", "top-right", "right", "bottom-right",
+            "bottom", "bottom-left", "left", "top-left"
+        ];
+        const spaceForPosition = (pos) => {
+            switch (pos) {
+                case "top":
+                    return topSpace;
+                case "top-right":
+                    return topRightSpace;
+                case "right":
+                    return rightSpace;
+                case "bottom-right":
+                    return bottomRightSpace;
+                case "bottom":
+                    return bottomSpace;
+                case "bottom-left":
+                    return bottomLeftSpace;
+                case "left":
+                    return leftSpace;
+                case "top-left":
+                    return topLeftSpace;
+            }
+        };
         return positions.reduce((best, pos) => {
-            const space = pos === "top" || pos === "bottom" ? spaces[pos] : spaces[pos];
-            const bestSpace = best === "top" || best === "bottom" ? spaces[best] : spaces[best];
-            return space > bestSpace ? pos : best;
+            return spaceForPosition(pos) > spaceForPosition(best) ? pos : best;
         }, "top");
     }
     /**
-     * Applies the selected position class to the tooltip.
+     * Prepares the tooltip for fixed positioning by clearing any conflicting CSS properties.
+     * All tooltips use position: fixed with manual calculations.
      */
     applyPosition(pair, position) {
         const { tooltip } = pair;
-        this.resetPositionClasses(tooltip);
+        // Always use position: fixed with manual positioning calculations
+        tooltip.style.position = "fixed";
+        tooltip.style.removeProperty("position-area");
+        // Clear CSS custom properties - we don't use them anymore
+        tooltip.style.removeProperty("--tooltip-shift-x");
+        tooltip.style.removeProperty("--tooltip-shift-y");
+        // Remove the CSS transform - GSAP will handle scale via its own transform
+        tooltip.style.transform = "none";
+    }
+    /**
+     * Calculates and applies fixed positioning for tooltips in the dedicated container.
+     * Uses getBoundingClientRect() which returns viewport-relative coordinates, perfect for position: fixed.
+     */
+    calculateFixedPosition(pair, position, size) {
+        const { tooltip, anchor } = pair;
+        // getBoundingClientRect() returns position relative to viewport, which is what we need for position: fixed
+        // This automatically accounts for any scrolling
+        const anchorRect = anchor.getBoundingClientRect();
+        const clearance = TooltipFallbackController.ANCHOR_GAP_PX;
+        // DEBUG: Log anchor and viewport information
+        TooltipLogger.log(pair.anchorId, "calculateFixedPosition", {
+            position,
+            anchorRect: anchorRect,
+            viewport: {
+                width: window.innerWidth,
+                height: window.innerHeight,
+                scrollX: window.scrollX,
+                scrollY: window.scrollY
+            },
+            boundary: this.boundaryElement ? {
+                rect: this.boundaryElement.getBoundingClientRect(),
+                scrollTop: this.boundaryElement.scrollTop,
+                scrollLeft: this.boundaryElement.scrollLeft
+            } : null
+        });
+        // Get tooltip size - use provided size if available, otherwise measure
+        let tooltipWidth;
+        let tooltipHeight;
+        if (size) {
+            tooltipWidth = size.width;
+            tooltipHeight = size.height;
+        }
+        else {
+            const tooltipRect = tooltip.getBoundingClientRect();
+            tooltipWidth = tooltipRect.width > 0 ? tooltipRect.width : tooltip.scrollWidth;
+            tooltipHeight = tooltipRect.height > 0 ? tooltipRect.height : tooltip.scrollHeight;
+        }
+        // Reset positioning
+        tooltip.style.top = "";
+        tooltip.style.bottom = "";
+        tooltip.style.left = "";
+        tooltip.style.right = "";
+        // Don't clear transform here - GSAP needs it for scale animation
+        // We'll ensure x/y are 0 so GSAP doesn't interfere with positioning
+        let top = 0;
+        let left = 0;
         switch (position) {
-            case "bottom":
-                tooltip.classList.add(TooltipFallbackController.BELOW_CLASS);
+            case "top":
+                top = anchorRect.top - tooltipHeight - clearance;
+                left = anchorRect.left + (anchorRect.width / 2) - (tooltipWidth / 2);
+                break;
+            case "top-right":
+                top = anchorRect.top - tooltipHeight - clearance;
+                left = anchorRect.right - tooltipWidth;
                 break;
             case "right":
-                tooltip.classList.add(TooltipFallbackController.RIGHT_CLASS);
+                top = anchorRect.top + (anchorRect.height / 2) - (tooltipHeight / 2);
+                left = anchorRect.right + clearance;
+                break;
+            case "bottom-right":
+                top = anchorRect.bottom + clearance;
+                left = anchorRect.right - tooltipWidth;
+                break;
+            case "bottom":
+                top = anchorRect.bottom + clearance;
+                left = anchorRect.left + (anchorRect.width / 2) - (tooltipWidth / 2);
+                break;
+            case "bottom-left":
+                top = anchorRect.bottom + clearance;
+                left = anchorRect.left;
                 break;
             case "left":
-                tooltip.classList.add(TooltipFallbackController.LEFT_CLASS);
+                top = anchorRect.top + (anchorRect.height / 2) - (tooltipHeight / 2);
+                left = anchorRect.left - tooltipWidth - clearance;
                 break;
-            case "top":
-            default:
-                // Top is the default, no class needed
+            case "top-left":
+                top = anchorRect.top - tooltipHeight - clearance;
+                left = anchorRect.left;
                 break;
         }
+        // When using fixed positioning, boundary offsets are applied directly to top/left
+        // (not via CSS transform). The offsets will be applied by updateBoundaryOffsets.
+        tooltip.style.top = `${top}px`;
+        tooltip.style.left = `${left}px`;
+        // Ensure transform is set to none so CSS transform doesn't interfere
+        // GSAP will handle scale animation via its own transform property
+        tooltip.style.transform = "none";
+        // Force a reflow to ensure the position is applied before we measure
+        void tooltip.offsetHeight;
+        // DEBUG: Log calculated position
+        TooltipLogger.log(pair.anchorId, "positionCalculated", {
+            position,
+            calculatedTop: top,
+            calculatedLeft: left,
+            tooltipSize: {
+                width: tooltipWidth,
+                height: tooltipHeight
+            },
+            clearance,
+            actualTooltipRect: tooltip.getBoundingClientRect() // Verify position was applied
+        });
     }
     /**
-     * Removes all position classes from the tooltip.
-     */
-    resetPositionClasses(tooltip) {
-        tooltip.classList.remove(TooltipFallbackController.BELOW_CLASS, TooltipFallbackController.RIGHT_CLASS, TooltipFallbackController.LEFT_CLASS);
-    }
-    /**
-     * Applies minimal offset adjustments to keep the tooltip within the boundary.
-     * Since we're using CSS anchor positioning, we check the actual rendered position
-     * and only apply shifts when the tooltip actually overflows the boundary.
+     * Applies offset adjustments to keep the tooltip within the boundary.
+     * Checks the actual rendered position and applies offsets directly to top/left.
      */
     updateBoundaryOffsets(pair, size, position) {
         const boundary = this.boundaryElement;
         if (boundary === null) {
-            this.resetShiftProperties(pair.tooltip);
             return;
         }
+        // Force a reflow to ensure the browser has laid out the tooltip with its new position
+        void pair.tooltip.offsetHeight;
         const bounds = boundary.getBoundingClientRect();
         const padding = TooltipFallbackController.BOUNDARY_PADDING_PX;
         const safeLeft = bounds.left + padding;
@@ -470,10 +874,9 @@ class TooltipFallbackController {
         const safeTop = bounds.top + padding;
         const safeBottom = bounds.bottom - padding;
         if (safeRight <= safeLeft || safeBottom <= safeTop) {
-            this.resetShiftProperties(pair.tooltip);
             return;
         }
-        // Get the tooltip's actual rendered position (CSS anchor positioning has already positioned it)
+        // Get the tooltip's actual rendered position (after reflow for fixed positioning)
         const tooltipRect = pair.tooltip.getBoundingClientRect();
         // Use a small tolerance to avoid micro-adjustments that cause jitter
         const tolerance = 2;
@@ -501,33 +904,37 @@ class TooltipFallbackController {
             // Tooltip extends past bottom edge, shift it up
             verticalShift = safeBottom - tooltipRect.bottom;
         }
-        // Only apply shifts if there's actual overflow, otherwise reset
-        if (Math.abs(horizontalShift) < tolerance && Math.abs(verticalShift) < tolerance) {
-            this.resetShiftProperties(pair.tooltip);
+        // Only apply shifts if there's actual overflow
+        if (Math.abs(horizontalShift) >= tolerance || Math.abs(verticalShift) >= tolerance) {
+            // Apply offsets directly to top/left for fixed positioning
+            const currentTop = parseFloat(pair.tooltip.style.top) || 0;
+            const currentLeft = parseFloat(pair.tooltip.style.left) || 0;
+            const newTop = currentTop + verticalShift;
+            const newLeft = currentLeft + horizontalShift;
+            pair.tooltip.style.top = `${newTop}px`;
+            pair.tooltip.style.left = `${newLeft}px`;
+            // Force another reflow to ensure the new position is applied
+            void pair.tooltip.offsetHeight;
+            // Get the updated tooltip rect after applying offsets
+            const updatedTooltipRect = pair.tooltip.getBoundingClientRect();
+            // DEBUG: Log boundary offset application
+            TooltipLogger.log(pair.anchorId, "applyingBoundaryOffsets", {
+                currentTop,
+                currentLeft,
+                horizontalShift,
+                verticalShift,
+                newTop,
+                newLeft,
+                tooltipRect: updatedTooltipRect,
+                boundaryRect: bounds,
+                overflows: {
+                    left: overflowsLeft,
+                    right: overflowsRight,
+                    top: overflowsTop,
+                    bottom: overflowsBottom
+                }
+            });
         }
-        else {
-            this.applyShiftProperties(pair.tooltip, horizontalShift, verticalShift);
-        }
-    }
-    applyShiftProperties(tooltip, x, y) {
-        const normalizedX = Math.abs(x) < 0.5 ? 0 : x;
-        const normalizedY = Math.abs(y) < 0.5 ? 0 : y;
-        if (normalizedX === 0) {
-            tooltip.style.removeProperty("--tooltip-shift-x");
-        }
-        else {
-            tooltip.style.setProperty("--tooltip-shift-x", `${normalizedX}px`);
-        }
-        if (normalizedY === 0) {
-            tooltip.style.removeProperty("--tooltip-shift-y");
-        }
-        else {
-            tooltip.style.setProperty("--tooltip-shift-y", `${normalizedY}px`);
-        }
-    }
-    resetShiftProperties(tooltip) {
-        tooltip.style.removeProperty("--tooltip-shift-x");
-        tooltip.style.removeProperty("--tooltip-shift-y");
     }
     /**
      * Retrieves the tooltip's visual size even while it is hidden.
@@ -539,17 +946,10 @@ class TooltipFallbackController {
         return { width, height };
     }
 }
-TooltipFallbackController.BELOW_CLASS = "tooltip--below";
-TooltipFallbackController.RIGHT_CLASS = "tooltip--right";
-TooltipFallbackController.LEFT_CLASS = "tooltip--left";
 TooltipFallbackController.ANCHOR_GAP_PX = 16;
-TooltipFallbackController.VIEWPORT_PADDING_PX = 8;
 TooltipFallbackController.BOUNDARY_PADDING_PX = 48;
 TooltipFallbackController.RIGHT_EDGE_OFFSET_PX = 20;
-TooltipFallbackController.DEACTIVATE_DELAY_MS = 80;
-TooltipFallbackController.POSITION_CHECK_INTERVAL_MS = 50;
-TooltipFallbackController.MAX_POSITION_CHECKS = 30; // 30 * 50ms = 1.5s max
-TooltipFallbackController.HOVER_DELAY_MS = 500; // 1 second delay before showing tooltip
+TooltipFallbackController.HOVER_DELAY_MS = 500;
 /**
  * Bootstraps the tooltip fallback logic once the DOM is ready.
  */

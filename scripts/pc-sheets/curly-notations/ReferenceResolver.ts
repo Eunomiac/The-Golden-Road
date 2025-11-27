@@ -6,7 +6,8 @@ import { ShorthandResolver } from "./ShorthandResolver";
 import { NotationError } from "./NotationError";
 
 type ScarType = "physical" | "mental" | "social";
-type ScarStatName = "scarPower" | "scarFinesse" | "scarResistance" | "scarResistanceAttribute";
+type ScarStatName = "scarPower" | "scarFinesse" | "scarResistance";
+type ScarAttributeName = "scarPowerAttribute" | "scarFinesseAttribute" | "scarResistanceAttribute";
 type AttributeKey = AttributeMental | AttributePhysical | AttributeSocial;
 
 const SCAR_STAT_METADATA: Record<ScarStatName, {
@@ -36,14 +37,20 @@ const SCAR_STAT_METADATA: Record<ScarStatName, {
       mental: AttributeMental.res,
       social: AttributeSocial.com
     }
+  }
+};
+
+const SCAR_ATTRIBUTE_METADATA: Record<ScarAttributeName, {
+  attributeMap: Record<ScarType, AttributeKey>;
+}> = {
+  scarPowerAttribute: {
+    attributeMap: SCAR_STAT_METADATA.scarPower.attributeMap
+  },
+  scarFinesseAttribute: {
+    attributeMap: SCAR_STAT_METADATA.scarFinesse.attributeMap
   },
   scarResistanceAttribute: {
-    display: "Scar Resistance Attribute",
-    attributeMap: {
-      physical: AttributePhysical.sta,
-      mental: AttributeMental.res,
-      social: AttributeSocial.com
-    }
+    attributeMap: SCAR_STAT_METADATA.scarResistance.attributeMap
   }
 };
 
@@ -77,7 +84,8 @@ const BASE_ATTRIBUTE_REFERENCES: Record<string, AttributeKey> = {
 export class ReferenceResolver {
   private systemDataLoader: SystemDataLoader;
   private shorthandResolver: ShorthandResolver;
-  private readonly scarStatNames = new Set<ScarStatName>(["scarPower", "scarFinesse", "scarResistance", "scarResistanceAttribute"]);
+  private readonly scarStatNames = new Set<ScarStatName>(["scarPower", "scarFinesse", "scarResistance"]);
+  private readonly scarAttributeNames = new Set<ScarAttributeName>(["scarPowerAttribute", "scarFinesseAttribute", "scarResistanceAttribute"]);
   private readonly mentalAttributes = new Set<AttributeMental>(Object.values(AttributeMental) as AttributeMental[]);
   private readonly physicalAttributes = new Set<AttributePhysical>(Object.values(AttributePhysical) as AttributePhysical[]);
   private readonly socialAttributes = new Set<AttributeSocial>(Object.values(AttributeSocial) as AttributeSocial[]);
@@ -98,6 +106,11 @@ export class ReferenceResolver {
     const scarStatResult = this.tryResolveScarStat(reference, context);
     if (scarStatResult.handled) {
       return scarStatResult.value;
+    }
+
+    const scarAttributeResult = this.tryResolveScarAttribute(reference, context);
+    if (scarAttributeResult.handled) {
+      return scarAttributeResult.value;
     }
 
     const baseAttributeResult = this.tryResolveBaseAttribute(reference, context);
@@ -245,14 +258,29 @@ export class ReferenceResolver {
       );
     }
 
-    // scarResistanceAttribute returns the attribute key string directly, not an entity
-    if (reference === "scarResistanceAttribute") {
-      const attributeKey = this.computeScarResistanceAttributeKey(context);
-      return { handled: true, value: attributeKey };
-    }
-
     const value = this.computeScarStat(reference as ScarStatName, context);
     return { handled: true, value };
+  }
+
+  private tryResolveScarAttribute(
+    reference: string,
+    context: ProcessingContext
+  ): { handled: boolean; value?: unknown } {
+    if (!this.scarAttributeNames.has(reference as ScarAttributeName)) {
+      return { handled: false };
+    }
+
+    if (!context.thisEntity) {
+      throw new NotationError(
+        `Cannot resolve '${reference}' without an entity context.`,
+        reference,
+        context.filePath,
+        context.lineNumber
+      );
+    }
+
+    const attributeEntity = this.computeScarAttribute(reference as ScarAttributeName, context);
+    return { handled: true, value: attributeEntity };
   }
 
   private tryResolveBaseAttribute(
@@ -298,35 +326,25 @@ export class ReferenceResolver {
     return this.buildScarStatEntity(statName, baseValue);
   }
 
-  /**
-   * Computes the attribute key string for scarResistanceAttribute.
-   * Returns "sta", "res", or "com" based on the scar type.
-   */
-  private computeScarResistanceAttributeKey(context: ProcessingContext): string {
-    if (!context.thisEntity) {
-      throw new NotationError(
-        "Cannot resolve 'scarResistanceAttribute' without an entity context.",
-        "scarResistanceAttribute",
-        context.filePath,
-        context.lineNumber
-      );
-    }
-
+  private computeScarAttribute(
+    attributeName: ScarAttributeName,
+    context: ProcessingContext
+  ): Record<string, unknown> {
     const scarType = this.resolveScarType(
       context.thisEntity as Record<string, unknown>,
       context,
-      "scarResistanceAttribute"
+      attributeName
     );
-    const attributeKey = SCAR_STAT_METADATA.scarResistanceAttribute.attributeMap[scarType];
-
-    // Return the attribute key as a string
-    return attributeKey;
+    const metadata = SCAR_ATTRIBUTE_METADATA[attributeName];
+    const attributeKey = metadata.attributeMap[scarType];
+    const baseValue = this.getAttributeBaseValue(attributeKey, context.context, attributeName, context);
+    return this.buildScarAttributeEntity(attributeName, attributeKey, baseValue);
   }
 
   private resolveScarType(
     entity: Record<string, unknown>,
     context: ProcessingContext,
-    reference: ScarStatName
+    reference: ScarStatName | ScarAttributeName
   ): ScarType {
     const directType = this.normalizeScarType(entity.type);
     if (directType) {
@@ -406,7 +424,7 @@ export class ReferenceResolver {
   private getAttributeBaseValue(
     attributeKey: AttributeKey,
     pcData: PCSheetData,
-    reference: ScarStatName,
+    reference: ScarStatName | ScarAttributeName,
     context: ProcessingContext
   ): number {
     const trait = this.getAttributeRecord(attributeKey, pcData);
@@ -504,6 +522,23 @@ export class ReferenceResolver {
       key: statName,
       name: metadata.display,
       display: metadata.display,
+      value: {
+        base: value,
+        total: value
+      }
+    };
+  }
+
+  private buildScarAttributeEntity(
+    reference: ScarAttributeName,
+    attributeKey: AttributeKey,
+    value: number
+  ): Record<string, unknown> {
+    const displayName = ATTRIBUTE_DISPLAY_NAMES[attributeKey] ?? attributeKey.toUpperCase();
+    return {
+      key: reference,
+      name: displayName,
+      display: displayName,
       value: {
         base: value,
         total: value

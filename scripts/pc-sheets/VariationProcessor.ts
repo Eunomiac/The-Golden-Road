@@ -1,7 +1,9 @@
+import Handlebars = require("handlebars");
 import type { PCSheetData } from "./types";
 import type { ProcessingContext } from "./curly-notations/ProcessingContext";
 import { buildAdvantageDotline, hasDotlineStructure, variationPurchaseStrategy } from "./shared/advantage/helpers";
 import type {
+  AdvantageDeviationDefinition,
   ProcessedVariation,
   VariationJSON
 } from "./shared/advantage/types";
@@ -98,6 +100,20 @@ export class VariationProcessor extends BaseAdvantageProcessor<VariationJSON> {
       ...(valueDots ? { valueDots } : {}),
       ...this.copyOtherProperties(mergedVariation, variationJson)
     };
+
+    const keywordBadges = this.buildKeywordBadges(mergedVariation.keywords, effectContext);
+    if (keywordBadges) {
+      processed.keywordBadges = keywordBadges;
+    }
+
+    const deviationBadges = this.buildDeviationBadges(
+      mergedVariation,
+      selectedDeviationKeys,
+      effectContext
+    );
+    if (deviationBadges) {
+      processed.deviationBadges = deviationBadges;
+    }
 
     if (entangledScarKey) {
       processed.entangledScar = entangledScarKey;
@@ -303,5 +319,93 @@ export class VariationProcessor extends BaseAdvantageProcessor<VariationJSON> {
       return normalized as "physical" | "mental" | "social";
     }
     return undefined;
+  }
+
+  private buildDeviationBadges(
+    variationEntity: Record<string, unknown>,
+    selectedDeviationKeys: string[],
+    processingContext: ProcessingContext
+  ): Array<{ key: string; html: string; magMod: number }> | undefined {
+    if (!Array.isArray(selectedDeviationKeys) || selectedDeviationKeys.length === 0) {
+      return undefined;
+    }
+
+    const deviations = variationEntity.deviations as Record<string, AdvantageDeviationDefinition> | undefined;
+    if (!deviations) {
+      return undefined;
+    }
+
+    const DEVIATION_TOOLTIP_PROPERTY = "__deviationBadgeTooltips";
+    const tooltipRegistry: Record<string, string> = {};
+    (variationEntity as Record<string, unknown>)[DEVIATION_TOOLTIP_PROPERTY] = tooltipRegistry;
+    const badges: Array<{ key: string; html: string; magMod: number }> = [];
+
+    selectedDeviationKeys.forEach((deviationKey, index) => {
+      const definition = deviations[deviationKey];
+      if (!definition) {
+        return;
+      }
+
+      const displayName =
+        typeof definition.name === "string" && definition.name.trim().length > 0
+          ? definition.name.trim()
+          : deviationKey;
+      const magMod = this.coerceModifier(definition.magMod);
+      const tooltipSource =
+        typeof definition.tooltip === "string" && definition.tooltip.trim().length > 0
+          ? definition.tooltip
+          : displayName;
+
+      const processedTooltip =
+        this.textRenderer.process(tooltipSource, processingContext, { wrap: false }) ??
+        tooltipSource;
+      const registryKey = `${DEVIATION_TOOLTIP_PROPERTY}_${index}`;
+      tooltipRegistry[registryKey] = processedTooltip;
+
+      const anchorLabel = [
+        "<span class='variation-deviation-badge-background'></span>",
+        "<span class='variation-deviation-badge-header'>Deviation:</span>",
+        `<span class="variation-deviation-badge-name">${Handlebars.escapeExpression(displayName)}</span>`,
+        `<span class="variation-deviation-badge-mag">${Handlebars.escapeExpression(this.formatSignedModifier(magMod))}</span>`
+      ].join("");
+
+      const tooltipNotation = `{{TOOLTIP:tiny-tooltip red-tooltip,${anchorLabel},this.${DEVIATION_TOOLTIP_PROPERTY}.${registryKey}}}`;
+      const badgeHtml =
+        this.textRenderer.process(tooltipNotation, processingContext, { wrap: false }) ??
+        anchorLabel;
+
+      badges.push({
+        key: deviationKey,
+        html: badgeHtml,
+        magMod
+      });
+    });
+
+    delete (variationEntity as Record<string, unknown>)[DEVIATION_TOOLTIP_PROPERTY];
+
+    return badges.length > 0 ? badges : undefined;
+  }
+
+  private formatSignedModifier(value: number): string {
+    if (value > 0) {
+      return `+${value}`;
+    }
+    if (value < 0) {
+      return `−${Math.abs(value)}`;
+    }
+    return "+0";
+  }
+
+  private coerceModifier(value: unknown): number {
+    if (typeof value === "number" && Number.isFinite(value)) {
+      return Math.trunc(value);
+    }
+    if (typeof value === "string") {
+      const parsed = Number(value);
+      if (!Number.isNaN(parsed)) {
+        return Math.trunc(parsed);
+      }
+    }
+    return 0;
   }
 }

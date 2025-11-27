@@ -1,4 +1,10 @@
-import type { AdvantageJSON, AdvantageValueRange, ScarValue, VariationValue } from "./types";
+import type {
+  AdvantageJSON,
+  AdvantageKeywordBadge,
+  AdvantageValueRange,
+  ScarValue,
+  VariationValue
+} from "./types";
 import { SystemDataLoader } from "../../curly-notations/SystemDataLoader";
 import type { ProcessingContext } from "../../curly-notations/ProcessingContext";
 import type { PurchaseLevelStrategy } from "./helpers";
@@ -127,5 +133,102 @@ export abstract class BaseAdvantageProcessor<
     }
 
     return updated;
+  }
+
+  protected buildKeywordBadges(
+    rawKeywords: unknown,
+    processingContext: ProcessingContext
+  ): AdvantageKeywordBadge[] | undefined {
+    if (!Array.isArray(rawKeywords)) {
+      return undefined;
+    }
+
+    const keywords = rawKeywords
+      .map((entry) => (typeof entry === "string" ? entry.trim() : ""))
+      .filter((entry) => entry.length > 0);
+
+    if (keywords.length === 0) {
+      return undefined;
+    }
+
+    const badges: AdvantageKeywordBadge[] = [];
+
+    for (const keyword of keywords) {
+      const definition = this.systemDataLoader.getSystemData("rules", keyword);
+      const displayName = this.getKeywordDisplayName(keyword, definition);
+      const className = this.buildKeywordClassName(keyword);
+      const hasTooltip = this.hasTooltipContent(definition);
+      let html = displayName;
+
+      if (hasTooltip) {
+        const tooltipNotation = `{{TOOLTIP:${displayName},json.rules.${keyword}}}`;
+        html = this.textRenderer.process(tooltipNotation, processingContext, { wrap: false }) ?? displayName;
+      }
+
+      badges.push({
+        key: keyword,
+        className,
+        html
+      });
+    }
+
+    return badges.length > 0 ? badges : undefined;
+  }
+
+  private getKeywordDisplayName(
+    keyword: string,
+    definition: Record<string, unknown> | null
+  ): string {
+    if (definition && typeof definition.title === "string") {
+      const trimmed = definition.title.trim();
+      if (trimmed.length > 0) {
+        return trimmed;
+      }
+    }
+    return this.startCase(keyword);
+  }
+
+  private buildKeywordClassName(keyword: string): string {
+    const normalized = keyword
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+    return normalized.length > 0 ? `keyword-${normalized}` : "keyword";
+  }
+
+  private hasTooltipContent(definition: Record<string, unknown> | null): boolean {
+    if (!definition) {
+      return false;
+    }
+    if (typeof definition.title === "string" && definition.title.trim().length > 0) {
+      return true;
+    }
+    if (typeof definition.subtitle === "string" && definition.subtitle.trim().length > 0) {
+      return true;
+    }
+    if (Array.isArray(definition.blocks) && definition.blocks.length > 0) {
+      return true;
+    }
+    if (typeof definition.format === "string" && definition.format.trim().length > 0) {
+      return true;
+    }
+    if (definition.source && typeof definition.source === "object") {
+      return true;
+    }
+    return false;
+  }
+
+  private startCase(value: string): string {
+    if (!value) {
+      return "";
+    }
+    return value
+      .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+      .replace(/[_-]+/g, " ")
+      .split(" ")
+      .filter((part) => part.length > 0)
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join(" ");
   }
 }

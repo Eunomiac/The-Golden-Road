@@ -86,7 +86,18 @@
       "{{NAMEVALUE:scarResistance}} + {{NAMEVALUE:acclimation}} &minus; <strong>Instability Penalty</strong>",
     ]
   },
-  "directed": {},
+  "directed": {
+    "format": "rules-card",
+    "title": "Directed",
+    "subtitle": "Variation Keyword",
+    "blocks": [
+      "(Temporary Filler)"
+    ],
+    "source": {
+      "book": "DtR",
+      "page": 110
+    }
+  },
   "discrete": {
     "format": "rules-card",
     "title": "Discrete",

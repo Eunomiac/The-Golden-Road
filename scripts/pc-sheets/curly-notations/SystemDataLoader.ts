@@ -16,7 +16,8 @@ const DATA_FILE_MAP: Record<string, string> = {
   tilts: "_tilts.json5",
   rules: "_rules.json5",
   techniques: "_techniques.json5",
-  deviations: "_deviations.json5"
+  deviations: "_deviations.json5",
+  traitTags: "_trait-tags.json5"
 
 };
 

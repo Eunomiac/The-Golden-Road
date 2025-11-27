@@ -94,6 +94,18 @@ export interface VariationJSONAdditionalFields extends Record<string, unknown> {
 
 export type VariationJSON = AdvantageJSON<VariationValue, VariationJSONAdditionalFields>;
 
+export interface AdvantageKeywordBadge {
+  key: string;
+  className: string;
+  html: string;
+}
+
+export interface VariationDeviationBadge {
+  key: string;
+  html: string;
+  magMod: number;
+}
+
 export interface ProcessedVariation extends ProcessedAdvantage {
   effect: string;
   purchaseLevel: number;
@@ -102,6 +114,8 @@ export interface ProcessedVariation extends ProcessedAdvantage {
   parentMeritKey?: string;
   secondaryVariations?: ProcessedVariation[];
   valueDots?: string[];
+  keywordBadges?: AdvantageKeywordBadge[];
+  deviationBadges?: VariationDeviationBadge[];
 }
 
 export interface ScarValueObject extends AdvantageValueRange {
@@ -119,6 +133,25 @@ export interface ScarJSONAdditionalFields extends Record<string, unknown> {
 
 export type ScarJSON = AdvantageJSON<ScarValue, ScarJSONAdditionalFields>;
 
+export interface ScarDeviationBadge {
+  key: string;
+  html: string;
+  magMod: number;
+}
+
+export interface ScarStatDisplay {
+  key: "scarPower" | "scarFinesse" | "scarResistance";
+  label: string;
+  value: number;
+  valueHtml: string;
+}
+
+export interface ScarInfoLine {
+  activationHtml?: string;
+  typeLabel: string;
+  stats: ScarStatDisplay[];
+}
+
 export interface ProcessedScar extends ProcessedAdvantage {
   type: "physical" | "mental" | "social";
   effect: string;
@@ -127,6 +160,9 @@ export interface ProcessedScar extends ProcessedAdvantage {
   activation?: string;
   activationTags?: string[];
   valueDots?: string[];
+  deviationBadges?: ScarDeviationBadge[];
+  infoLine?: ScarInfoLine;
+  keywordBadges?: AdvantageKeywordBadge[];
 }
 
 export interface MeritLevelDefinition {

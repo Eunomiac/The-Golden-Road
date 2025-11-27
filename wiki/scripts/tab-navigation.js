@@ -74,6 +74,14 @@ function initTabNavigation() {
                 polaroidContainer.setAttribute("aria-hidden", "true");
             }
         }
+        // Scroll to top of the scrollable container when switching tabs
+        const scrollContainer = document.querySelector(".paper-stack-scroll");
+        if (scrollContainer) {
+            scrollContainer.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
     }
     // Set up click handlers for tab buttons
     tabButtons.forEach((button) => {

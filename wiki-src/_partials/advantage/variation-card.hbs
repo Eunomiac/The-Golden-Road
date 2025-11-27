@@ -1,5 +1,12 @@
 {{#with variation as |variant|}}
 <article class="variation-entry{{#if ../isSub}} sub-advantage{{/if}}" data-variation-key="{{variant.key}}">
+  {{#if variant.deviationBadges}}
+    <div class="variation-deviation-badge-row" aria-hidden="true">
+      {{#each variant.deviationBadges}}
+        <span class="variation-deviation-badge">{{{html}}}</span>
+      {{/each}}
+    </div>
+  {{/if}}
   <div class="variation-header" role="button" tabindex="0" aria-expanded="false">
     <div class="variation-name-row">
       <span class="variation-name">{{variant.display}}</span>
@@ -18,13 +25,20 @@
         {{/if}}
       </span>
     </div>
-    {{#if variant.narrative}}
-      <div class="variation-narrative">
-        {{{variant.narrative}}}
+  </div>
+  {{#if variant.narrative}}
+    <div class="variation-narrative">
+      {{{variant.narrative}}}
+    </div>
+  {{/if}}
+  <div class="variation-content">
+    {{#if variant.keywordBadges}}
+      <div class="adv-keyword-row">
+        {{#each variant.keywordBadges}}
+          <span class="adv-keyword-pill {{className}}">{{{html}}}</span>
+        {{/each}}
       </div>
     {{/if}}
-  </div>
-  <div class="variation-content" style="display: none;">
     <div class="variation-effect">
       {{{variant.effect}}}
     </div>

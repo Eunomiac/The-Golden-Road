@@ -1,0 +1,322 @@
+{
+  "timestamp": "2025-11-27T20:56:38.992Z",
+  "totalLogs": 12,
+  "logs": [
+    {
+      "timestamp": 1764276994093,
+      "anchorId": "--ri4jdqpzf7q",
+      "stage": "beforeRecalculation",
+      "data": {
+        "anchorCurrentRect": {
+          "top": 144,
+          "left": 376.953125,
+          "bottom": 156,
+          "right": 410.765625,
+          "width": 33.8125,
+          "height": 12
+        },
+        "tooltipCurrentStyle": {
+          "top": "",
+          "left": "",
+          "position": "fixed"
+        }
+      }
+    },
+    {
+      "timestamp": 1764276994093,
+      "anchorId": "--ri4jdqpzf7q",
+      "stage": "freshMeasurements",
+      "data": {
+        "freshSize": {
+          "width": 392,
+          "height": 159.525634765625
+        },
+        "tooltipRect": {
+          "top": -33.1534423828125,
+          "left": 197.859375,
+          "bottom": 126.3721923828125,
+          "right": 589.859375,
+          "width": 392,
+          "height": 159.525634765625
+        },
+        "anchorRect": {
+          "top": 144,
+          "left": 376.953125,
+          "bottom": 156,
+          "right": 410.765625,
+          "width": 33.8125,
+          "height": 12
+        }
+      }
+    },
+    {
+      "timestamp": 1764276994093,
+      "anchorId": "--ri4jdqpzf7q",
+      "stage": "calculateFixedPosition",
+      "data": {
+        "position": "right",
+        "anchorRect": {
+          "top": 144,
+          "left": 376.953125,
+          "bottom": 156,
+          "right": 410.765625,
+          "width": 33.8125,
+          "height": 12
+        },
+        "viewport": {
+          "width": 1392,
+          "height": 1031,
+          "scrollX": 0,
+          "scrollY": 0
+        },
+        "boundary": {
+          "rect": {
+            "x": 376.953125,
+            "y": 12,
+            "width": 622.078125,
+            "height": 914,
+            "top": 12,
+            "right": 999.03125,
+            "bottom": 926,
+            "left": 376.953125
+          },
+          "scrollTop": 0,
+          "scrollLeft": 0
+        }
+      }
+    },
+    {
+      "timestamp": 1764276994094,
+      "anchorId": "--ri4jdqpzf7q",
+      "stage": "positionCalculated",
+      "data": {
+        "position": "right",
+        "calculatedTop": 70.2371826171875,
+        "calculatedLeft": 426.765625,
+        "tooltipSize": {
+          "width": 392,
+          "height": 159.525634765625
+        },
+        "clearance": 16
+      }
+    },
+    {
+      "timestamp": 1764276994094,
+      "anchorId": "--ri4jdqpzf7q",
+      "stage": "applyingBoundaryOffsets",
+      "data": {
+        "currentTop": 70.2372,
+        "currentLeft": 426.766,
+        "horizontalShift": 13.703125,
+        "verticalShift": 93.1534423828125,
+        "newTop": 163.3906423828125,
+        "newLeft": 440.469125,
+        "tooltipRect": {
+          "top": -33.1534423828125,
+          "left": 411.25,
+          "bottom": 126.3721923828125,
+          "right": 803.25,
+          "width": 392,
+          "height": 159.525634765625
+        },
+        "boundaryRect": {
+          "top": 12,
+          "left": 376.953125,
+          "bottom": 926,
+          "right": 999.03125,
+          "width": 622.078125,
+          "height": 914
+        },
+        "overflows": {
+          "left": true,
+          "right": false,
+          "top": true,
+          "bottom": false
+        }
+      }
+    },
+    {
+      "timestamp": 1764276994094,
+      "anchorId": "--ri4jdqpzf7q",
+      "stage": "finalPosition",
+      "data": {
+        "finalTop": "163.391px",
+        "finalLeft": "440.469px",
+        "tooltipRect": {
+          "top": -33.1534423828125,
+          "left": 418.09375,
+          "bottom": 126.3721923828125,
+          "right": 810.09375,
+          "width": 392,
+          "height": 159.525634765625
+        },
+        "anchorRect": {
+          "top": 144,
+          "left": 376.953125,
+          "bottom": 156,
+          "right": 410.765625,
+          "width": 33.8125,
+          "height": 12
+        }
+      }
+    },
+    {
+      "timestamp": 1764276994130,
+      "anchorId": "ri4jdqpzf7q",
+      "stage": "beforeRecalculation",
+      "data": {
+        "anchorCurrentRect": {
+          "top": 144,
+          "left": 376.953125,
+          "bottom": 156,
+          "right": 410.765625,
+          "width": 33.8125,
+          "height": 12
+        },
+        "tooltipCurrentStyle": {
+          "top": "163.391px",
+          "left": "440.469px",
+          "position": "fixed"
+        }
+      }
+    },
+    {
+      "timestamp": 1764276994130,
+      "anchorId": "ri4jdqpzf7q",
+      "stage": "freshMeasurements",
+      "data": {
+        "freshSize": {
+          "width": 392,
+          "height": 159.525634765625
+        },
+        "tooltipRect": {
+          "top": -33.1534423828125,
+          "left": 418.09375,
+          "bottom": 126.3721923828125,
+          "right": 810.09375,
+          "width": 392,
+          "height": 159.525634765625
+        },
+        "anchorRect": {
+          "top": 144,
+          "left": 376.953125,
+          "bottom": 156,
+          "right": 410.765625,
+          "width": 33.8125,
+          "height": 12
+        }
+      }
+    },
+    {
+      "timestamp": 1764276994130,
+      "anchorId": "ri4jdqpzf7q",
+      "stage": "calculateFixedPosition",
+      "data": {
+        "position": "right",
+        "anchorRect": {
+          "top": 144,
+          "left": 376.953125,
+          "bottom": 156,
+          "right": 410.765625,
+          "width": 33.8125,
+          "height": 12
+        },
+        "viewport": {
+          "width": 1392,
+          "height": 1031,
+          "scrollX": 0,
+          "scrollY": 0
+        },
+        "boundary": {
+          "rect": {
+            "x": 376.953125,
+            "y": 12,
+            "width": 622.078125,
+            "height": 914,
+            "top": 12,
+            "right": 999.03125,
+            "bottom": 926,
+            "left": 376.953125
+          },
+          "scrollTop": 0,
+          "scrollLeft": 0
+        }
+      }
+    },
+    {
+      "timestamp": 1764276994130,
+      "anchorId": "ri4jdqpzf7q",
+      "stage": "positionCalculated",
+      "data": {
+        "position": "right",
+        "calculatedTop": 70.2371826171875,
+        "calculatedLeft": 426.765625,
+        "tooltipSize": {
+          "width": 392,
+          "height": 159.525634765625
+        },
+        "clearance": 16
+      }
+    },
+    {
+      "timestamp": 1764276994130,
+      "anchorId": "ri4jdqpzf7q",
+      "stage": "applyingBoundaryOffsets",
+      "data": {
+        "currentTop": 70.2372,
+        "currentLeft": 426.766,
+        "horizontalShift": 13.703125,
+        "verticalShift": 93.1534423828125,
+        "newTop": 163.3906423828125,
+        "newLeft": 440.469125,
+        "tooltipRect": {
+          "top": -33.1534423828125,
+          "left": 411.25,
+          "bottom": 126.3721923828125,
+          "right": 803.25,
+          "width": 392,
+          "height": 159.525634765625
+        },
+        "boundaryRect": {
+          "top": 12,
+          "left": 376.953125,
+          "bottom": 926,
+          "right": 999.03125,
+          "width": 622.078125,
+          "height": 914
+        },
+        "overflows": {
+          "left": true,
+          "right": false,
+          "top": true,
+          "bottom": false
+        }
+      }
+    },
+    {
+      "timestamp": 1764276994131,
+      "anchorId": "ri4jdqpzf7q",
+      "stage": "finalPosition",
+      "data": {
+        "finalTop": "163.391px",
+        "finalLeft": "440.469px",
+        "tooltipRect": {
+          "top": -33.1534423828125,
+          "left": 418.09375,
+          "bottom": 126.3721923828125,
+          "right": 810.09375,
+          "width": 392,
+          "height": 159.525634765625
+        },
+        "anchorRect": {
+          "top": 144,
+          "left": 376.953125,
+          "bottom": 156,
+          "right": 410.765625,
+          "width": 33.8125,
+          "height": 12
+        }
+      }
+    }
+  ]
+}
