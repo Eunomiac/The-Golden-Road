@@ -7,7 +7,7 @@
     <div class="merit-item{{#if isSub}} sub-merit{{/if}}{{#if entry.cssClasses}} {{entry.cssClasses}}{{/if}}" data-merit-key="{{entry.key}}">
       <div class="merit-header" role="button" tabindex="0" aria-expanded="false">
         <div class="merit-name-row">
-          <span class="merit-name">{{entry.name}}</span>
+          <span class="merit-name">{{{entry.name}}}</span>
           {{#if entry.value}}
             <span class="merit-value dotline">
               {{#each (range 1 entry.value)}}
@@ -17,7 +17,7 @@
           {{/if}}
         </div>
         {{#if entry.narrative}}
-          <div class="merit-narrative">
+          <div class="merit-narrative{{#if entry.narrativeClass}} {{entry.narrativeClass}}{{/if}}">
             {{{entry.narrative}}}
           </div>
         {{/if}}

@@ -103,7 +103,108 @@
   font-display: swap;
 }
 
-/* Misc DIsplay Fonts */
+/* IBMPlexMono - IBM Plex Mono */
+
+@font-face {
+  font-family: "IBMPlexMono";
+  src: url("../assets/fonts/IBMPlexMono - Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBMPlexMono";
+  src: url("../assets/fonts/IBMPlexMono - Bold Italic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBMPlexMono";
+  src: url("../assets/fonts/IBMPlexMono - ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBMPlexMono";
+  src: url("../assets/fonts/IBMPlexMono - ExtraLight Italic.ttf") format("truetype");
+  font-weight: 200;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBMPlexMono";
+  src: url("../assets/fonts/IBMPlexMono - Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBMPlexMono";
+  src: url("../assets/fonts/IBMPlexMono - Light Italic.ttf") format("truetype");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBMPlexMono";
+  src: url("../assets/fonts/IBMPlexMono - Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBMPlexMono";
+  src: url("../assets/fonts/IBMPlexMono - Medium Italic.ttf") format("truetype");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBMPlexMono";
+  src: url("../assets/fonts/IBMPlexMono - Reg.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBMPlexMono";
+  src: url("../assets/fonts/IBMPlexMono - Reg Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBMPlexMono";
+  src: url("../assets/fonts/IBMPlexMono - SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBMPlexMono";
+  src: url("../assets/fonts/IBMPlexMono - SemiBold Italic.ttf") format("truetype");
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBMPlexMono";
+  src: url("../assets/fonts/IBMPlexMono - Thin.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBMPlexMono";
+  src: url("../assets/fonts/IBMPlexMono - Thin Italic.ttf") format("truetype");
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Misc Display Fonts */
 
 @font-face {
   font-family: "BebasNeue";
@@ -130,6 +231,48 @@
   font-family: "Scribble";
   src: url("../assets/fonts/Scribble Bold.ttf") format("truetype");
   font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Dekko";
+  src: url("../assets/fonts/Dekko Regular.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SaltyKitten";
+  src: url("../assets/fonts/SaltyKitten Regular.otf") format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ShortStack";
+  src: url("../assets/fonts/ShortStack Regular.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Monster Eye";
+  src: url("../assets/fonts/Monster Eye Regular.otf") format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "KGSevenSixteen";
+  src: url("../assets/fonts/KGSevenSixteen Regular.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GiveYouGlory";
+  src: url("../assets/fonts/GiveYouGlory Regular.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Youth Touch";
+  src: url("../assets/fonts/Youth Touch Regular.ttf") format("truetype");
   font-display: swap;
 }
 

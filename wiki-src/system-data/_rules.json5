@@ -25,6 +25,18 @@
       "page": 188
     }
   },
+  "10again": {
+    "format": "rules-card",
+    "title": "10-Again",
+    "subtitle": "Roll Quality",
+    "blocks": [
+      "Any die that shows a 10 is counted as a success, then rerolled. Rerolled dice count successes as normal. Continue counting successes and rerolling as long as you keep rolling 10s."
+    ],
+    "source": {
+      "book": "DtR",
+      "page": 188
+    }
+  },
   "meditation": {
     "format": "rules-card",
     "title": "Meditation",
@@ -33,8 +45,8 @@
       "Meditation is an <strong>extended action</strong>.",
       "<span class='tooltip-list-item'><strong>Dice Pool:</strong> {{NAMEVALUE:com}} + {{NAMEVALUE:wit}}</span>",
       "<span class='tooltip-list-item'><strong>Target Successes:</strong> 4</span>",
-      "<span class='tooltip-list-item'><strong>Interval:</strong> 30 minutes</span>",
       "After successfully meditating, {{NAME}} gains a +1 bonus to {{his}} next breaking point roll.",
+      "<span class='tooltip-list-item'><strong>Interval:</strong> 30 minutes</span>",
       "Once this bonus is used or {{NAME}} sleeps, the benefits of meditation end and must be regained by meditating again.",
       "Soothing music or relaxation tapes can provide a <strong>+1</strong> to <strong>+2</strong> equipment bonus. A dedicated meditation room provides <strong>+3</strong>. Loud noises, an uncomfortable environment, or lack of sleep inflict a <strong>&minus;1</strong> penalty each. Lack of food inflicts a <strong>&minus;1</strong> to <strong>&minus;3</strong> penalty."
     ],
@@ -87,11 +99,18 @@
     ]
   },
   "directed": {
-    "format": "rules-card",
+    "format": "rules-card very-big-rules-card",
     "title": "Directed",
     "subtitle": "Variation Keyword",
     "blocks": [
-      "(Temporary Filler)"
+      "Directed Variations (or Directed effects of certain Tiered Variations), follow special rules:",
+      "<span class='tooltip-list-item'>Once activated (or if it is Persistent and Perpetual), {{NAME}} may direct the power of the Variation each turn as an instant action.</span>",
+      "<span class='tooltip-list-item'>Directing the Variation can (and usually does) target a character or object other than {{NAME}} {{himself}}. The initial target may be chosen as part of a Controlled Variation's activation roll. If the Variation is Persistent and Perpetual, it always requires an instant action to choose a target. If the Variation is Involuntary (or Persistent and Toggled), and {{NAME}} used an instant action to activate it, the target may be chosen as part of that action; if the power triggered as a result of events outside {{NAME}}'s control, it requires an instant action to choose a target.</span>",
+      "<span class='tooltip-list-item'>{{NAME}} may choose one new target each turn, as an instant action, which always requires a successful Scar Finesse roll. The maximum number of targets {{NAME}} may have under the influence of a Directed Variation at a time cannot exceed Scar Power. If {{he}} would exceed this target limit, the Variation's effects end on enough previous targets to bring {{him}} back within this limit.</span>",
+      "<span class='tooltip-list-item'>A Directed Variation has a range of <strong>10/20/40</strong> meters. {{NAME}} suffers a penalty on the Scar Finesse roll if the target is at medium or long range or is obscured by concealment. Directed Variations cannot ordinarily penetrate cover.</span>",
+      "<span class='tooltip-list-item'>Unless targeting a willing and aware target, the victim may make a reflexive Resistance + Supernatural Tolerance roll to contest the Variation's effects. Variations that are instead resisted by a target's Defense are not usually contested, too.</span>",
+      "<span class='tooltip-list-item'>{{NAME}} may choose to target a Directed Variation while grappled, acting on {{his}} normal Initiative (instead of the highest Initiative among grappling parties). However, doing so forces {{him}} to automatically lose (achieve no successes on) the next contested grapple check; the Variation may only target participants in the grapple; and the Scar Finesse roll to direct the Variation suffers a &minus;2 penalty.</span>",
+      "<span class='tooltip-list-item'>Certain Directed Variations have an Aura Deviation. In these cases, the Variation potentially affects all viable targets within short range other than {{NAME}} (whether friend or foe) and is not limited to a number of victims equal to Scar Power. {{NAME}} makes a single Scar Finesse roll, and each potential target makes a separate reflexive Resistance + Supernatural Tolerance roll to contest its effects. If successful, the victim cannot be affected by the aura during the current scene. The effects of the aura end immediately if the target is no longer within long range of {{NAME}} or moves behind cover, but moving within short range again triggers a fresh Scar Resistance roll to reapply the aura's effect. Concealment works in one of two ways, chosen at the time {{NAME}} develops the aura: Either concealment affords no protection at all, or it grants a bonus to all potential targets' Resistance + Supernatural Tolerance roll equal to the penalty the concealment would ordinarily impose on an attack roll (+1 for barely concealed, +2 for partially concealed, etc.).</span>"
     ],
     "source": {
       "book": "DtR",
@@ -430,9 +449,24 @@
       "book": "DtR",
       "page": 199
     }
+  },
+  "retainer": {
+    "format": "rules-card",
+    "title": "Retainer",
+    "subtitle": "Social Merit",
+    "blocks": [
+      "You have an assistant, sycophant, servant, or follower on whom you can rely. Establish who this companion is, and how he was acquired. It may be as simple as a paycheck. He might owe you his life. However it happened, you have a hold on him.",
+      "A Retainer is more reliable than a Mentor, and more loyal than an Ally. On the other hand, a Retainer is a lone person, less capable and influential than the broader Merits.",
+      "The Merit's dot rating determines the relative competency of the Retainer:",
+      "<span class='tooltip-list-item'>A one-dot Retainer is barely able to do anything of use, such as a pet that knows one useful trick, or a homeless old man that does minor errands for food.</span>",
+      "<span class='tooltip-list-item'>A three-dot Retainer is a professional in their field, someone capable in his line of work.</span>",
+      "<span class='tooltip-list-item'>A five-dot is one of the best in her class.</span>",
+      "If a Retainer needs to make a roll, and it's within her area of expertise, double the dot rating and use it as a dice pool. For anything else, use the dot rating as a dice pool.",
+      "This Merit can be purchased multiple times to represent multiple Retainers.",
+      "<strong>Restrictions:</strong> Renegades rarely have this Merit, and very few of them have a Retainer rated at more than three dots."
+    ]
   }
 }
-
 /** Excample of final HTML for the tooltip content element for above 'mediumBurst' tooltip:
 
     <span class="tooltip rules-card">

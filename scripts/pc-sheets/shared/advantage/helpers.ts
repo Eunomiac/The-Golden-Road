@@ -90,11 +90,11 @@ export const variationPurchaseStrategy: PurchaseLevelStrategy<VariationValue | u
     return value;
   }
   const obj = value as VariationValueObject | undefined;
-  if (obj && typeof obj.total === "number") {
-    return obj.total;
-  }
   if (obj && typeof obj.base === "number") {
     return obj.base;
+  }
+  if (obj && typeof obj.total === "number") {
+    return obj.total;
   }
   return 1;
 };

@@ -148,14 +148,16 @@
         "deviation": 1,
         "total": 2
       },
-      "display": "Vein's Voice (Alternate Persona)",
-      "narrative": "Micah shares his head with a parasitic alien entity designated <strong class='red-strong'>VEIN</strong>. It offers clear, tactical advice—how to move, how to survive—in exchange for more agency. <strong class='red-strong'>VEIN</strong> is constantly pushing for “just a little more” freedom; there have even been brief incidents where <strong class='red-strong'>VEIN</strong> took full control over their shared body.",
+      "narrativeName": "Vein's Voice",
+      "narrativeClass": "vein-quote",
+      "narrative": "&quot;Indulge me on this one matter, my boy. May I guide your wrist and moderate your breath for a spell? Nothing drastic, I assure you. You really would be amazed how often the world yields to those who learn to set aside their pride and accept an open hand when it is offered.&quot;",
       "entangledVariations": [
         "predatorsCunning",
         "hyper-competence"
       ],
       "vars": {
-        "alterEgoName": "Vein"
+        "alterEgoName": "Vein",
+        "alterEgoPersonality": "Vein presents as a courteous, almost courtly presence in Micah's mind: a self-styled 'gentleman monster' who speaks politely, expresses genuine fondness for Micah's warmth and life, and earnestly believes in their “splendid partnership.” It is curious, attentive, and protective, constantly watching their surroundings for threats or opportunities. Beneath that refined surface, however, Vein is an instinctive predator, keyed to blood; when Micah bleeds, Vein's hunger and exultant violence surge forward, seizing control with surgical, ambush-predator brutality. It does not fully understand why its methods horrify Micah, regarding terror, gore, and the ruin of enemies as natural—and even delightful—extensions of their shared potential."
       },
       "selectedDeviations": [
         "blackouts"
@@ -165,8 +167,9 @@
       "key": "thinSkin",
       "type": "physical",
       "value": 1,
-      "display": "Autohemophobia (Thin Skin)",
-      "narrative": "Micah knows his “blood” isn't blood anymore—every drop in his body has been replaced by <strong class='red-strong'>VEIN</strong>, who paces within Micah's circulatory system as if it were a prison. As long as Micah's skin holds, <strong class='red-strong'>VEIN</strong> stays contained. But any cut, scrape, or bullet hole is a direct leak in that prison and a chance for <strong class='red-strong'>VEIN</strong> to get out. Because of this, Micah shows a strong fear of being hurt and shedding blood: Keeping <strong class='red-strong'>VEIN</strong> contained comes first, even if it means freezing or backing down.",
+      "narrativeName": "Autohemophobia",
+      "narrativeClass": "vein-quote",
+      "narrative": "&quot;Really now, Micah, you flinch as though a paper cut were the end of days! I am already in every inch of you; a stray bead at the surface does not make us strangers. I quite understand and even support your desire to keep me 'contained,' of course—but if you insist on treating every sharp corner as a potential prison break, we shall never go anywhere interesting!&quot;",
       "entangledVariations": [
         "carapace"
       ]
@@ -179,8 +182,9 @@
         "total": 4
       },
       "type": "physical",
-      "display": "Containment Bleed (Involuntary Stimulus)",
-      "narrative": "<strong class='red-strong'>VEIN</strong> has fully replaced all five liters of Micah's blood: the host body is all that keeps the alien symbiote contained. Any bleeding—whether self-inflicted or accidental—creates a gap in that container. Once exposed, the blood begins to move on its own and push toward full transformation. Micah's intent matters less than the simple fact that his blood is now outside his skin.",
+      "narrativeName": "Containment Bleed",
+      "narrativeClass": "vein-experimental-notes",
+      "narrative": "Subject <strong>VEIN-01</strong> has fully displaced Host-Prime's native blood volume (~5.0 L ± 0.3). Any dermal breach ≥ 0.1 ml produces immediate extranormal motility of expelled medium, trending toward full-body restructuring. Host intent non-correlative; sole reliable trigger remains extravascular exposure of <strong>VEIN-01</strong> blood-analog.",
       "entangledVariations": [
         "monstrousTransformation"
       ],
@@ -201,18 +205,20 @@
         "free": 1,
         "total": 5
       },
-      "display": "Vein Unleashed (Monstrous Transformation)",
-      "narrative": "A full breach replaces Micah’s human shape with a mobile shell of living clot. Every drop of blood in Micah's body flood out in a crimson torrent, consuming him entirely. Micah claims he retains full control during such losses of containment, raising the question of what <strong class='red-strong'>VEIN</strong> hopes to achieve by seeking such hollow freedom.",
+      "narrativeName": "Vein Unleashed",
+      "narrativeClass": "vein-experimental-notes",
+      "narrative": "Under major breach conditions, <strong>VEIN-01</strong> exits vascular channels en masse, encasing and permeating Host-Prime in a mobile clot shell. Gross morphology remains “humanoid,” but internal anatomy becomes non-differentiable. Host reports retained executive function during events; telemetry suggests at least partial dissociation. <strong>VEIN-01</strong>'s end-state objective remains <strong class='strong-redacted'>[REDACTED]</strong>.",
       "entangledScar": "involuntaryStimulus",
       "secondaryVariations": [
         {
           "key": "brachiation",
           "value": 3,
-          "display": "Liquid Motion (Brachiation)",
-          "narrative": "When unleashed, <strong class='red-strong'>VEIN</strong> treats the environment as a climbing frame. It stretches along beams, ceilings, and walls, anchoring itself with thin strands and hauling the body after them. Gravity becomes just another factor to work around. The resulting movement pattern is fast, quiet, and designed for closing distance without warning.",
+          "narrativeName": "Liquid Motion",
+          "narrativeClass": "vein-experimental-notes",
+          "narrative": "When uncontained, <strong>VEIN-01</strong> treats available architecture as a suspension lattice. Blood-mass extrudes along ceilings, beams, and walls, forming transient anchor points and tensile strands. Resultant locomotion displays near-frictionless redirection of momentum and markedly reduced acoustic profile (< 18 dB at 3 m).",
           "tags": ["secondary"],
           "vars": {
-            "options": ["leaper", "spider"]
+            "options": ["leaper", "spider", "ninja"]
           },
           "cssClasses": ["sub-advantage"]
         },
@@ -223,8 +229,9 @@
             "deviation": 1,
             "total": 3
           },
-          "display": "Septic Lash (Cutting Lash)",
-          "narrative": "<strong class='red-strong'>VEIN</strong> can extend parts of itself into narrow blood-whips under high tension. These tendrils strike quickly, slice flesh, and inject alien pathogens anathema to human biology. Victims often mistake the first hit for a minor cut. Symptoms escalate only after <strong class='red-strong'>VEIN</strong> has already taken hold inside their tissues.",
+          "narrativeName": "Septic Lash",
+          "narrativeClass": "vein-experimental-notes",
+          "narrative": "Localized extensions of <strong>VEIN-01</strong> can be extruded into filamentous whips under high tension (see Fig. V-3). Initial contact typically presents as a superficial laceration; secondary systemic effects (complex V-<strong class='strong-redacted'>[REDACTED]</strong>) manifest after 1–3 minutes, including disorientation, hypotonia, and progressive loss of voluntary motor control.",
           "tags": ["secondary"],
           "selectedDeviations": [
             "burst"
@@ -239,8 +246,9 @@
         {
           "key": "telekinesis",
           "value": 3,
-          "display": "Crimson Vice (Telekinesis)",
-          "narrative": "Any surface marked with <strong class='red-strong'>VEIN</strong>'s blood is no longer neutral ground. Whether with cable-thick red tendrils or intricate webs of thin filaments, the symbiote can tighten, pull, or lift anything it touches by its mastery over the viscosity of its own blood.",
+          "narrativeName": "Crimson Vice",
+          "narrativeClass": "vein-experimental-notes",
+          "narrative": "Any surface contaminated with <strong>VEIN-01</strong> medium becomes subject to remote actuation. Observed phenomena include constriction, traction, and localized lift consistent with Type-IV telekinetic output, mediated via microfilament networks invisible to unaided human vision. Operational range and mass limits remain poorly defined; testing beyond 45 kg halted per Incident Log <strong class='strong-redacted'>[REDACTED-12]</strong>.",
           "tags": ["secondary"],
           "vars": {
             "options": ["throw"]
@@ -251,8 +259,9 @@
     {
       "key": "carapace",
       "value": 1,
-      "display": "Hemorrhagic Hemostasis (Carapace)",
-      "narrative": "When Micah is injured, <strong class='red-strong'>VEIN</strong> reacts immediately. Alien blood surges to the wound, seals it, and stabilizes Micah far faster than normal medicine could. The process is effective, but does nothing to dampen the pain of injury, nor prevent the bloodletting that <strong class='red-strong'>VEIN</strong> will seize as a means of escape.",
+      "narrativeName": "Hemorrhagic Hemostasis",
+      "narrativeClass": "vein-quote",
+      "narrative": "&quot;Oh, absolutely not. Stay with me, my boy, stay STILL. There—pressure here, a clot there—yes, it burns, I'm aware, but I refuse to let some uncultured brute riddle you like a colander. Hush now, let me close the holes before too much of me gets out and we both do something... regrettable to this hideous upholstery.&quot;",
       "entangledScar": "thinSkin",
       "activation": "persistent",
       "vars": {
@@ -262,8 +271,9 @@
     {
       "key": "predatorsCunning",
       "value": 1,
-      "display": "Vein's Vision (Predator's Cunning)",
-      "narrative": "<strong class='red-strong'>VEIN</strong>'s constant presence augments Micah's instincts. Threats, escape routes, and ambush angles stand out to him as if highlighted. The guidance usually comes as quiet, accurate whispers that are hard to ignore. Over time, Micah has learned that trusting the voice keeps him alive—even as he grows increasingly wary of ceding too much control to the alien.",
+      "narrativeName": "Vein's Vision",
+      "narrativeClass": "vein-quote",
+      "narrative": "&quot;If I may offer a suggestion? Two steps slower, three paces wider. The beleaguered gentleman ahead carries the scent of fresh filings and a soupçon of falsity, and the floor to your right is... tense. Walk, if you please, where the world and its inhabitants are not lying to you.&quot;",
       "entangledScar": "alternatePersona",
       "activation": "perpetual",
       "vars": {
@@ -273,8 +283,9 @@
     {
       "key": "hyper-competence",
       "value": 1,
-      "display": "Vein's Velocity (Hyper-Competence -- Athletics)",
-      "narrative": "In addition to perceptive enhancements, the symbiote has tuned Micah's body for motion. He runs, jumps, and climbs with precision well beyond human limits, treating risky stunts like routine maneuvers. To observers, Micah looks like a scared kid moving with impossible grace. To <strong class='red-strong'>VEIN</strong>, he is a mobile platform performing as designed.",
+      "narrativeName": "Vein's Velocity",
+      "narrativeClass": "vein-quote",
+      "narrative": "&quot;Easy now, my boy, and remember I'm right here with you. Feel how your knees whisper back to you... oh, what's the word? Proprioception, that's the one. Let them tell you how far to—yes, that's it. A lighter kiss on the wall, then one more, and... properly done! I told you gravity was just a myth.&quot;",
       "entangledScar": "alternatePersona",
       "activation": "perpetual",
       "vars": {

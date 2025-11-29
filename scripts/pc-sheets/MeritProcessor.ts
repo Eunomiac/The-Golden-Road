@@ -1,3 +1,4 @@
+import Handlebars = require("handlebars");
 import type { PCSheetData } from "./types";
 import type { ProcessingContext } from "./curly-notations/ProcessingContext";
 import { meritPurchaseStrategy } from "./shared/advantage/helpers";
@@ -47,6 +48,9 @@ export class MeritProcessor extends BaseAdvantageProcessor<MeritJSON> {
     }
     narrative = this.applyRegexpReplacements(narrative, replacements, processingContext);
 
+    // Get narrativeClass from JSON if provided
+    const narrativeClass = (meritJson as { narrativeClass?: string }).narrativeClass;
+
     // Step 5: Process levels for style-type merits
     let levels: Record<number, MeritLevelDefinition> | undefined;
     if (mergedMerit.levels && typeof mergedMerit.levels === "object" && !Array.isArray(mergedMerit.levels)) {
@@ -78,12 +82,35 @@ export class MeritProcessor extends BaseAdvantageProcessor<MeritJSON> {
     }
 
     // Step 6: Process name and drawback through curly notation processor
+    // Build display: check for narrativeName (new format) or display (legacy format)
+    const narrativeName = (meritJson as { narrativeName?: string }).narrativeName;
+    const systemName = typeof mergedMerit.name === "string" ? mergedMerit.name : undefined;
+
     let processedName: string;
-    const nameSource = meritJson.display ??
-      (typeof mergedMerit.name === "string" ? mergedMerit.name : meritJson.key);
-    processedName = typeof nameSource === "string"
-      ? this.textRenderer.process(nameSource, processingContext, { wrap: false }) ?? meritJson.key
-      : meritJson.key;
+    if (typeof narrativeName === "string" && narrativeName.trim().length > 0) {
+      // New format: narrativeName + system name in spans
+      const processedNarrativeName = this.textRenderer.process(
+        narrativeName.trim(),
+        processingContext,
+        { wrap: false }
+      ) ?? narrativeName.trim();
+
+      if (systemName && systemName.trim().length > 0) {
+        const escapedNarrativeName = Handlebars.escapeExpression(processedNarrativeName);
+        const escapedSystemName = Handlebars.escapeExpression(systemName.trim());
+        processedName = `<span class='narrative-name'>${escapedNarrativeName}</span><span class='system-name'>(${escapedSystemName})</span>`;
+      } else {
+        // Fallback if no system name available
+        processedName = processedNarrativeName;
+      }
+    } else {
+      // Legacy format: use display or fallback to system name
+      const nameSource = meritJson.display ??
+        (typeof mergedMerit.name === "string" ? mergedMerit.name : meritJson.key);
+      processedName = typeof nameSource === "string"
+        ? this.textRenderer.process(nameSource, processingContext, { wrap: false }) ?? meritJson.key
+        : meritJson.key;
+    }
 
     let processedDrawback: string | undefined;
     const meritDrawback = (meritJson as { drawback?: unknown }).drawback;
@@ -104,6 +131,7 @@ export class MeritProcessor extends BaseAdvantageProcessor<MeritJSON> {
       display: processedName,
       value: purchaseLevel > 0 ? purchaseLevel : undefined,
       narrative,
+      ...(narrativeClass ? { narrativeClass } : {}),
       effect,
       levels,
       tags: Array.isArray(mergedMerit.tags) ? mergedMerit.tags as string[] : undefined,

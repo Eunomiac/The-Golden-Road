@@ -9,7 +9,7 @@
   {{/if}}
   <div class="variation-header" role="button" tabindex="0" aria-expanded="false">
     <div class="variation-name-row">
-      <span class="variation-name">{{variant.display}}</span>
+      <span class="variation-name">{{{variant.display}}}</span>
       <span class="variation-meta">
         {{#if variant.valueDots}}
           <span class="variation-value dotline">
@@ -27,7 +27,7 @@
     </div>
   </div>
   {{#if variant.narrative}}
-    <div class="variation-narrative">
+    <div class="variation-narrative{{#if variant.narrativeClass}} {{variant.narrativeClass}}{{/if}}">
       {{{variant.narrative}}}
     </div>
   {{/if}}

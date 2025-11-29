@@ -81,7 +81,7 @@
       "vars": {
         "manticoreName": "Raúl",
         "manticoreSpecies": "pigeon",
-        "manticoreVariations": "<div class='sub-block'> <h3>Variation: Camouflage ••••</h3> <h4><strong>Keywords:</strong> Subtle, Tiered, Toggled</h4> <p>Raúl can hide from the human eye, becoming invisible. His invisibility extends to the full electromagnetic spectrum, including infrared, ultraviolet, and radar.</p> <ul> <li>Casual observers are reduced to a chance die on Perception rolls to detect him.</li> <li>Even those who suspect an unseen presence suffer a <strong>–5</strong> penalty to all rolls that rely on being able to see Raúl.</li> <li>If it’s possible to locate Raúl by indirect means, this penalty is instead <strong>–3</strong>, <strong>–2</strong> (if engaged in close combat or making a lot of noise), or <strong>–1</strong> (when “outlined” by a fire extinguisher, sprinkler system, or similar).</li> <li>This affords no protection against alternate means of detection: He can still be tracked by scent, and enjoys no special protection from supernatural senses. He can also run afoul of low-tech physical security like trip wires or covered pit traps.{{SOURCE:DtR/115}}</li> </ul> </div> <div class='sub-block'> <h3>Variation: Out of Phase ••••</h3> <h4><strong>Keywords:</strong> Overt, Tiered, Toggled</h4> <p> Raúl's body does not interact with matter in the ordinary way. Raúl may render his body insubstantial, in part or as a whole, including any clothing or equipment, as long as they consist entirely of materials whose Durability is less than <strong>3</strong>. His insubstantial body parts can pass through material up to a Durability of <strong>3</strong>: Only rare, super-hard or mystical substances are beyond his ability to penetrate.</p> <ul> <li>This can likewise afford him the benefits of partial concealment against weapons of a Durability low enough to not interact with his body.</li> <li>His entire body remains insubstantial until the end of the scene or until he ends the Variation as an instant action. He therefore can’t reach into an enemy’s chest and crush her heart in a fist, for example. However, by limiting his insubstantiality to a lesser Durability, he could reach through a wooden door to unlock it from the other side using the metal doorknob, since it would still be solid to his hand.</li> <li>He must decide how insubstantial to make himself at the time he activates the Variation (i.e. whether <strong>1</strong>, <strong>2</strong>, or <strong>3</strong>), but he can change this density as an instant action during its duration.</li> <li>He can leave behind immaterial objects, which become material again when he does.</li> <li>Insubstantial items that intersect with other objects when the Variation ends are ejected from them into the nearest empty space large enough to accommodate them, inflicting a minor Instability on Raúl.</li><li>If this Variation ends while Raúl still intersects a solid object, he is ejected from it and suffers a medium Instability.{{SOURCE:DtR/126}}</li> </ul> </div>"
+        "manticoreVariations": "<div class='sub-block'> <h3>Variation: Camouflage ••••</h3> <h4><strong>Keywords:</strong> Subtle, Tiered, Toggled</h4> <p>Raúl can hide from the human eye, becoming invisible. His invisibility extends to the full electromagnetic spectrum, including infrared, ultraviolet, and radar.</p> <ul> <li>Casual observers are reduced to a chance die on Perception rolls to detect him.</li> <li>Even those who suspect an unseen presence suffer a <strong>–5</strong> penalty to all rolls that rely on being able to see Raúl.</li> <li>If it's possible to locate Raúl by indirect means, this penalty is instead <strong>–3</strong>, <strong>–2</strong> (if engaged in close combat or making a lot of noise), or <strong>–1</strong> (when “outlined” by a fire extinguisher, sprinkler system, or similar).</li> <li>This affords no protection against alternate means of detection: He can still be tracked by scent, and enjoys no special protection from supernatural senses. He can also run afoul of low-tech physical security like trip wires or covered pit traps.{{SOURCE:DtR/115}}</li> </ul> </div> <div class='sub-block'> <h3>Variation: Out of Phase ••••</h3> <h4><strong>Keywords:</strong> Overt, Tiered, Toggled</h4> <p> Raúl's body does not interact with matter in the ordinary way. Raúl may render his body insubstantial, in part or as a whole, including any clothing or equipment, as long as they consist entirely of materials whose Durability is less than <strong>3</strong>. His insubstantial body parts can pass through material up to a Durability of <strong>3</strong>: Only rare, super-hard or mystical substances are beyond his ability to penetrate.</p> <ul> <li>This can likewise afford him the benefits of partial concealment against weapons of a Durability low enough to not interact with his body.</li> <li>His entire body remains insubstantial until the end of the scene or until he ends the Variation as an instant action. He therefore can't reach into an enemy's chest and crush her heart in a fist, for example. However, by limiting his insubstantiality to a lesser Durability, he could reach through a wooden door to unlock it from the other side using the metal doorknob, since it would still be solid to his hand.</li> <li>He must decide how insubstantial to make himself at the time he activates the Variation (i.e. whether <strong>1</strong>, <strong>2</strong>, or <strong>3</strong>), but he can change this density as an instant action during its duration.</li> <li>He can leave behind immaterial objects, which become material again when he does.</li> <li>Insubstantial items that intersect with other objects when the Variation ends are ejected from them into the nearest empty space large enough to accommodate them, inflicting a minor Instability on Raúl.</li><li>If this Variation ends while Raúl still intersects a solid object, he is ejected from it and suffers a medium Instability.{{SOURCE:DtR/126}}</li> </ul> </div>"
       }
     },
     {
@@ -90,8 +90,66 @@
       "narrative": ""
     }
   ],
-  "scars": {},
-  "variations": {},
+  "scars": [
+    {
+      "key": "persistentMisfortune",
+      "type": "social",
+      "value": {
+        "base": 3,
+        "deviation": 1,
+        "total": 4
+      },
+      "narrativeName": "Witchmarked",
+      "narrativeClass": "raul-quote",
+      "narrative": "&quot;Dude, being near you is like living in XCOM. <em>Impossible Ironman</em> XCOM. Every time you poke an exploit and bend the map, the universe rolls a 95% success and still whiffs - but the bullet ricochets into someone else's face. I, uh, suppose that's kind of an upside? Not for them though.&quot;",
+      "entangledVariations": ["holographicProjection"],
+      "vars": {
+        options: []
+      },
+      "selectedDeviations": ["association"]
+    },
+    {
+      "key": "persistentConspicuousAppearance",
+      "type": "social",
+      "value": {
+        "base": 2,
+        "deviation": 1,
+        "total": 3
+      },
+      "narrativeName": "Wretched Disfigurement",
+      "narrativeClass": "raul-quote",
+      "narrative": "&quot;Okay, so, your face says &quot;totally normal Josh, do not be alarmed,&quot; but I've seen the debug model, dude. You look like someone rage-quit character creation, taped three builds together, and painted runes over the seams. Uh, no offense, it mostly works!  Well, right up until the light hits wrong and I remember you're basically DLC made out of other people.&quot;",
+      "entangledVariations": ["faceThief"],
+      "vars": {
+        "appearance": "Underneath his Azothic &quot;normal boy&quot; mask, {{NAME}} is a stitched-together corpse construct. His body is made of mismatched, stolen parts joined along surgical seams that were reinforced with ritual glyphs during his creation. The Azothic glamour smooths over the worst of it so casual observers see a single, coherent human shape, but it can't fully hide the work: faint, luminous lines and symbols show under the skin like scars or unsettling tattoos that never quite sit flat, especially around joints and along old incision paths. Anyone who looks closely gets the sense that he's been made, not born—those glowing sigils are the watermark on the forgery, proof that the body and the soul inside it don't really belong together.",
+        "options": []
+      },
+      "selectedDeviations": ["continual"]
+    }
+  ],
+  "variations": [
+    {
+      "key": "holographicProjection",
+      "value": {
+        "base": 3,
+        "deviation": 1,
+        "total": 4
+      },
+      "narrativeName": "Witchweaving",
+      "narrativeClass": "raul-quote",
+      "narrative": "&quot;Bro, you just modded the whole map in real time. Drag-and-drop walls, exit signs over the real ones and suddenly everyone's playing a totally different level. Do you ever forget which parts are real and which are yours? What if you overwrite something important?&quot;",
+      "entangledScar": "persistentMisfortune",
+      "selectedDeviations": ["aura"]
+    },
+    {
+      "key": "faceThief",
+      "value": 2,
+      "narrativeName": "Azothic Veil",
+      "narrativeClass": "raul-quote",
+      "narrative": "&quot;Watching you swap skins in real life is messed up, man. Like, Josh one second then, bam, Random NPC #4. You hit shuffle on the character select screen and everyone just accepts it like it's a new cosmetic drop - guess I'm the only one who still remembers what the default skin looked like.&quot;",
+      "entangledScar": "persistentConspicuousAppearance"
+    }
+  ],
   "touchstones": {},
   "ambitions": {},
   "bio": "<p>HTML content with <strong>formatting</strong> and 🎭 emojis</p>"

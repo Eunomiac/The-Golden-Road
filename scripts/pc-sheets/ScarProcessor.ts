@@ -115,13 +115,40 @@ export class ScarProcessor extends BaseAdvantageProcessor<ScarJSON> {
       : undefined;
     narrative = this.applyRegexpReplacements(narrative, replacements, processingContext);
 
-    const displaySource = this.pickString(
-      scarJson.display,
-      mergedScar.display ?? mergedScar.name
-    );
-    const display = displaySource
-      ? this.textRenderer.process(displaySource, processingContext, { wrap: false }) ?? scarJson.key
-      : scarJson.key;
+    // Get narrativeClass from JSON if provided
+    const narrativeClass = (scarJson as { narrativeClass?: string }).narrativeClass;
+
+    // Build display: check for narrativeName (new format) or display (legacy format)
+    const narrativeName = (scarJson as { narrativeName?: string }).narrativeName;
+    const systemName = typeof mergedScar.name === "string" ? mergedScar.name : undefined;
+
+    let display: string;
+    if (typeof narrativeName === "string" && narrativeName.trim().length > 0) {
+      // New format: narrativeName + system name in spans
+      const processedNarrativeName = this.textRenderer.process(
+        narrativeName.trim(),
+        processingContext,
+        { wrap: false }
+      ) ?? narrativeName.trim();
+
+      if (systemName && systemName.trim().length > 0) {
+        const escapedNarrativeName = Handlebars.escapeExpression(processedNarrativeName);
+        const escapedSystemName = Handlebars.escapeExpression(systemName.trim());
+        display = `<span class='narrative-name'>${escapedNarrativeName}</span><span class='system-name'>(${escapedSystemName})</span>`;
+      } else {
+        // Fallback if no system name available
+        display = processedNarrativeName;
+      }
+    } else {
+      // Legacy format: use display or fallback to system name
+      const displaySource = this.pickString(
+        scarJson.display,
+        mergedScar.display ?? mergedScar.name
+      );
+      display = displaySource
+        ? this.textRenderer.process(displaySource, processingContext, { wrap: false }) ?? scarJson.key
+        : scarJson.key;
+    }
 
     const scarType: ScarType = (
       (scarJson as { type?: ScarType }).type ??
@@ -156,6 +183,7 @@ export class ScarProcessor extends BaseAdvantageProcessor<ScarJSON> {
       display,
       type: scarType,
       narrative,
+      ...(narrativeClass ? { narrativeClass } : {}),
       effect,
       purchaseLevel: finalLevel,
       ...(valueDots ? { valueDots } : {}),

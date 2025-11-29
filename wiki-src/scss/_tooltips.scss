@@ -81,10 +81,11 @@
     padding: 2px 32px;
     min-height: unset;
     min-width: unset;
-    white-space: nowrap;
+    white-space: normal;
+    max-width: 600px;
 
     .tooltip-block {
-      white-space: nowrap;
+      white-space: normal;
     }
   }
 
@@ -185,6 +186,10 @@
 
     &.big-rules-card {
       width: 600px;
+    }
+
+    &.very-big-rules-card {
+      width: 800px;
     }
 
     .tooltip-title {

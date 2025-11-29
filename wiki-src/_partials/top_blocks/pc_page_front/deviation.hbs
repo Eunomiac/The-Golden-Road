@@ -30,7 +30,7 @@
               <div class="scar-title-row">
                 <span class="scar-name">
                   {{#tagged tags=activationTags}}
-                    {{display}}
+                    {{{display}}}
                   {{/tagged}}
                 </span>
                 <span class="scar-meta">
@@ -47,7 +47,7 @@
               </div>
             </div>
             {{#if narrative}}
-              <div class="scar-narrative">
+              <div class="scar-narrative{{#if narrativeClass}} {{narrativeClass}}{{/if}}">
                 {{{narrative}}}
               </div>
             {{/if}}

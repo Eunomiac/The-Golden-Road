@@ -29,7 +29,8 @@ import {
   OptionListHandler,
   InlineOptionHandler,
   TooltipHandler,
-  UseHandler
+  UseHandler,
+  CountHandler
 } from "./handlers";
 
 /**
@@ -471,6 +472,7 @@ export class CurlyNotationProcessor {
     this.registerNotation("INLINEOPTION", new InlineOptionHandler(this.referenceResolver));
     this.registerNotation("TOOLTIP", new TooltipHandler(this.referenceResolver));
     this.registerNotation("USE", new UseHandler(this.referenceResolver));
+    this.registerNotation("COUNT", new CountHandler(this.referenceResolver));
   }
 
   private assertHtmlValidity(html: string, context?: ProcessingContext): void {

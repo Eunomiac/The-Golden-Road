@@ -74,16 +74,42 @@ export class VariationProcessor extends BaseAdvantageProcessor<VariationJSON> {
       : undefined;
     narrative = this.applyRegexpReplacements(narrative, replacements, effectContext);
 
-    const displaySource = this.pickFirstString(
-      variationJson.display,
-      mergedVariation.display,
-      mergedVariation.name,
-      variationJson.key
-    );
+    // Get narrativeClass from JSON if provided
+    const narrativeClass = (variationJson as { narrativeClass?: string }).narrativeClass;
 
-    const processedDisplay = displaySource
-      ? this.processTextField(displaySource, effectContext, false)
-      : undefined;
+    // Build display: check for narrativeName (new format) or display (legacy format)
+    const narrativeName = (variationJson as { narrativeName?: string }).narrativeName;
+    const systemName = typeof mergedVariation.name === "string" ? mergedVariation.name : undefined;
+
+    let processedDisplay: string | undefined;
+    if (typeof narrativeName === "string" && narrativeName.trim().length > 0) {
+      // New format: narrativeName + system name in spans
+      const processedNarrativeName = this.processTextField(
+        narrativeName.trim(),
+        effectContext,
+        false
+      ) ?? narrativeName.trim();
+
+      if (systemName && systemName.trim().length > 0) {
+        const escapedNarrativeName = Handlebars.escapeExpression(processedNarrativeName);
+        const escapedSystemName = Handlebars.escapeExpression(systemName.trim());
+        processedDisplay = `<span class='narrative-name'>${escapedNarrativeName}</span><span class='system-name'>(${escapedSystemName})</span>`;
+      } else {
+        // Fallback if no system name available
+        processedDisplay = processedNarrativeName;
+      }
+    } else {
+      // Legacy format: use display or fallback to system name
+      const displaySource = this.pickFirstString(
+        variationJson.display,
+        mergedVariation.display,
+        mergedVariation.name,
+        variationJson.key
+      );
+      processedDisplay = displaySource
+        ? this.processTextField(displaySource, effectContext, false)
+        : undefined;
+    }
 
     const dotlineSource = typeof variationJson.value !== "undefined"
       ? variationJson.value
@@ -94,6 +120,7 @@ export class VariationProcessor extends BaseAdvantageProcessor<VariationJSON> {
       key: variationJson.key,
       display: processedDisplay ?? variationJson.key,
       narrative,
+      ...(narrativeClass ? { narrativeClass } : {}),
       effect,
       purchaseLevel,
       finalMagnitude,

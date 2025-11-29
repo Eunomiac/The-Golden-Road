@@ -20,3 +20,4 @@ export { OptionListHandler } from "./OptionListHandler";
 export { InlineOptionHandler } from "./InlineOptionHandler";
 export { TooltipHandler } from "./TooltipHandler";
 export { UseHandler } from "./UseHandler";
+export { CountHandler } from "./CountHandler";

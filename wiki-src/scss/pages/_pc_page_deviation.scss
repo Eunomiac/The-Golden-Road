@@ -153,10 +153,56 @@
               display: flex;
               align-items: center;
               min-width: 0;
+              gap: 5px;
+
+              * {
+                gap: 5px;
+              }
+
+              .system-name {
+                font-family: "BebasNeue",sans-serif;
+                font-size: 20px;
+                color: $color-pale-red;
+                letter-spacing: 0.5px;
+              }
 
               .trait-tagged-block {
                 --trait-tag-parent-height: 20px;
-              }
+
+                  display: inline-flex;
+                  align-items: center;
+                  column-gap: var(--trait-tag-gap, 4px);
+                  vertical-align: middle;
+
+                  .trait-tag-icon-row {
+                    display: inline-flex;
+                    align-items: center;
+                    column-gap: var(--trait-tag-gap, 4px);
+                    margin-top: calc(-0.5 * (var(--trait-tag-icon-max) - var(--trait-tag-parent-height)));
+                    position: relative;
+                    top: 3px;
+
+                    .trait-tag-icon {
+                      display: inline-flex;
+                      align-items: center;
+                      justify-content: center;
+                      flex: 0 0 auto;
+
+                      img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: contain;
+                        pointer-events: none;
+                        user-select: none;
+                      }
+                    }
+                  }
+
+                  .tagged-trait {
+                    display: inline-flex;
+                    align-items: center;
+                  }
+                }
             }
 
             .scar-meta,
@@ -187,8 +233,6 @@
           }
         }
 
-
-
         .scar-narrative,
         .variation-narrative {
           @include body-text-general;
@@ -209,7 +253,7 @@
           transition: opacity 0.2s ease;
           padding-top: 12px;
 
-          strong {
+          strong.strong-redacted {
             background: $color-parchment;
             color: $color-ink;
             padding: 0 4px;
@@ -221,6 +265,30 @@
 
           p:last-child {
             margin-bottom: 0;
+          }
+
+          &.vein-quote {
+            background: transparent;
+            font-family: "SaltyKitten";
+            font-style: italic;
+            color: $color-red;
+            font-size: 16px;
+            hyphens: none;
+          }
+
+          &.vein-experimental-notes {
+            font-family: "IBMPlexMono", mono;
+            font-style: normal;
+          }
+
+          &.raul-quote {
+            background: transparent;
+            font-family: "KGSevenSixteen";
+            font-weight: bold;
+            color: $color-ink;
+            font-size: 16px;
+            letter-spacing: 2px;
+            hyphens: none;
           }
         }
 
@@ -265,6 +333,10 @@
                 font-weight: normal;
               }
             }
+          }
+
+          &.variation-content .adv-keyword-row {
+            margin-top: 4px;
           }
 
           .scar-info-line {
@@ -344,6 +416,10 @@
           }
         }
 
+        .scar-variations {
+          padding-left: 12px;
+        }
+
         &.scar-entry {
           margin: 12px 0;
 
@@ -356,6 +432,14 @@
           margin: 2px 0;
           border: 0;
           box-shadow: none;
+
+          .variation-name-row {
+            .variation-name {
+              .system-name {
+                color: $color-parchment;
+              }
+            }
+          }
           // background: rgba($color-parchment, 0.08);
 
           .variation-children {
@@ -382,6 +466,12 @@
                     linear-gradient(45deg, $color-paper-stack 75%, transparent 80%), url("../assets/images/backgrounds/red-header.webp");
                   color: $color-blood;
 
+                  .variation-name {
+                    .system-name {
+                      color: $color-ink;
+                    }
+                  }
+
                   .scar-value.dotline,
                   .variation-value.dotline {
 
@@ -396,11 +486,29 @@
               .variation-narrative {
                 background: transparent;
                 color: $color-ink;
-                font-style: italic;
                 // padding: 0 8px;
                 margin-top: -4px;
+
+                &:not(.vein-experimental-notes) {
+                  font-style: italic;
+                }
+
+                strong.strong-redacted {
+                  background: $color-ink;
+                  color: $color-parchment;
+                  padding: 0 4px;
+                }
               }
             }
+          }
+        }
+      }
+
+      > .scar-entry {
+
+        .scar-header {
+          .scar-title-row {
+          height: 40px;
           }
         }
       }

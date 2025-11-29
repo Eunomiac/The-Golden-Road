@@ -49,10 +49,11 @@
     },
     "effect": "{{NAME}} is capable of incredible athletic feats.{{OPTIONLIST:vars.options}}",
     "options": {
-      "bounding": "{{NAME}} may, as an {{TOOLTIP:instant,json.rules.instantAction}} Athletics action, leap up to {{TOOLTIP:tiny-tooltip,{{CALC:2 * {{VALUE:scarPower}}}} meters,2 × {{NAMEVALUE:scarPower}}}}. Further, when using a {{NAMEVALUE:dex}} + {{NAMEVALUE:athletics}} roll to mitigate damage from falling, {{NAME}} gains one additional success, with each success reducing falling damage by one. This can reduce the lethal damage from a fall at terminal velocity.",
-      "wallCrawling": "{{NAME}} can climb sheer, vertical surfaces as quickly and as easily as {{he}} walks on flat ground — at {{his}} normal {{NAMEVALUE:speed}} and without preventing the use of {{his}} hands. In most cases, such movement is automatic, but especially slippery surfaces may require Athletics rolls to avoid complications that resemble the {{TOOLTIP:Knocked Down Tilt,json.tilts.knockedDown}}, except affecting {{NAME}}'s movement on a vertical surface.",
-      "leaper": "{{NAME}} may, as an {{TOOLTIP:instant,json.rules.instantAction}} Athletics action, leap up to {{TOOLTIP:tiny-tooltip,{{CALC:5 * {{VALUE:scarPower}}}} meters,5 × {{NAMEVALUE:scarPower}} = 15}}. {{He}} suffers no damage from falls unless {{he}} lands on a dangerous surface.",
-      "spider": "{{NAME}} can climb sheer, vertical surfaces and cling to the bottoms of horizontal surfaces, including ceilings - moving at {{his}} full {{NAMEVALUE:speed}} while retaining the use of both {{his}} hands."
+      "bounding": "<strong>Bounding:</strong> {{NAME}} may, as an {{TOOLTIP:instant,json.rules.instantAction}} Athletics action, leap up to {{TOOLTIP:tiny-tooltip,{{CALC:2 * {{VALUE:scarPower}}}} meters,2 × {{NAMEVALUE:scarPower}}}}. Further, when using a {{NAMEVALUE:dex}} + {{NAMEVALUE:athletics}} roll to mitigate damage from falling, {{NAME}} gains one additional success, with each success reducing falling damage by one. This can reduce the lethal damage from a fall at terminal velocity.",
+      "wallCrawling": "<strong>Wall Crawling:</strong> {{NAME}} can climb sheer, vertical surfaces as quickly and as easily as {{he}} walks on flat ground — at {{his}} normal {{NAMEVALUE:speed}} and without preventing the use of {{his}} hands. In most cases, such movement is automatic, but especially slippery surfaces may require Athletics rolls to avoid complications that resemble the {{TOOLTIP:Knocked Down Tilt,json.tilts.knockedDown}}, except affecting {{NAME}}'s movement on a vertical surface.",
+      "leaper": "<strong>Leaper:</strong> {{NAME}} may, as an {{TOOLTIP:instant,json.rules.instantAction}} Athletics action, leap up to {{TOOLTIP:tiny-tooltip,{{CALC:5 * {{VALUE:scarPower}}}} meters,5 × {{NAMEVALUE:scarPower}} = 15}}. {{He}} suffers no damage from falls unless {{he}} lands on a dangerous surface.",
+      "spider": "<strong>Spider:</strong> {{NAME}} can climb sheer, vertical surfaces and cling to the bottoms of horizontal surfaces, including ceilings - moving at {{his}} full {{NAMEVALUE:speed}} while retaining the use of both {{his}} hands.",
+      "ninja": "<strong>Mastered Technique - Ninja:</strong> {{NAME}} is especially stealthy when wielding the impossible maneuverability of Brachiation: {{He}} can maneuver into places where ordinary people could not hide — such as crouching against a ceiling or lurking in a pond — then contort himself into something that is almost invisible, gaining a {{TOOLTIP:tiny-tooltip,+{{MAX:{{VALUE:scarPower}},{{VALUE:this.value}}}},Max of Scar Power ({{VALUE:scarPower}}) or Variation Magnitude ({{VALUE:this.value}}) = <strong>+{{MAX:{{VALUE:scarPower}},{{VALUE:this.value}}}}</strong>}} bonus to all relevant Stealth rolls."
     },
     "source": {
       "book": "DtR",
@@ -95,14 +96,14 @@
       "min": 1,
       "max": 5
     },
-    "effect": "<p>This Variation allows {{NAME}} to attack enemies with an arsenal other than a Baseline's punches and kicks. The manifestations of this Variation are as varied as the Broken themselves, and may be purchased any number of times to represent different means of attack. Although {{TOOLTIP:Discrete,json.rules.discrete}}, effects that increase or decrease a Variation's Magnitude can be used on this Variation.</p><ul><li>The Lash is a {{SWITCH:vars.combatSkill,athletics,<strong>ranged weapon</strong> with a range of {{USE:vars.range}} meters,brawl,<strong>melee weapon</strong>,firearms,<strong>ranged weapon</strong> with a range of {{USE:vars.range}} meters,weaponry,<strong>melee weapon</strong>}}.</li><li>Activating the Lash {{IFIN:quick,vars.options,is a {{TOOLTIP:reflexive action,json.rules.reflexiveAction}}}}{{IFNOTIN:quick,vars.options,requires an {{TOOLTIP:instant action,json.rules.instantAction}}}}. Once activated, the Lash remains active until the end of the scene.</li><li>Attacking with the Lash is a (separate) {{TOOLTIP:instant action,json.rules.instantAction}}, and is resolved with a roll of {{USE:vars.dicePoolFront}} - {{USE:vars.dicePoolBack}}.</li><li>The Lash deals lethal damage with a base damage rating of {{IFIN:deadly,vars.options,{{USE:vars.deadlyDamage}}}}{{IFNOTIN:deadly,vars.options,{{USE:vars.baseDamage}}}}.</li></ul>{{OPTIONLIST:vars.options}}",
+    "effect": "<p>This Variation allows {{NAME}} to attack enemies with an arsenal other than a Baseline's punches and kicks. The manifestations of this Variation are as varied as the Broken themselves, and may be purchased any number of times to represent different means of attack. Although {{TOOLTIP:Discrete,json.rules.discrete}}, effects that increase or decrease a Variation's Magnitude can be used on this Variation.</p><ul><li>The Lash is a {{SWITCH:vars.combatSkill,athletics,<strong>ranged weapon</strong> with a range of {{USE:vars.range}} meters,brawl,<strong>melee weapon</strong>,firearms,<strong>ranged weapon</strong> with a range of {{USE:vars.range}} meters,weaponry,<strong>melee weapon</strong>}}.</li><li>Activating the Lash {{IFIN:quick,vars.options,is a {{TOOLTIP:reflexive action,json.rules.reflexiveAction}}}}{{IFNOTIN:quick,vars.options,requires an {{TOOLTIP:instant action,json.rules.instantAction}}}}. Once activated, the Lash remains active until the end of the scene.</li><li>Attacking with the Lash is a (separate) {{TOOLTIP:instant action,json.rules.instantAction}}, and is resolved with a roll of {{USE:vars.dicePoolFront}} - {{USE:vars.dicePoolBack}}.</li><li>The Lash deals lethal damage with a base damage rating of {{IFIN:deadly,vars.options,{{USE:vars.deadlyDamage}}}}{{IFNOTIN:deadly,vars.options,{{USE:vars.baseDamage}}}}.</li></ul>{{IFTRUE:{{COUNT:{{OPTIONLIST:vars.options}}}} > 40,Additionally,}}{{OPTIONLIST:vars.options}}",
     "options": {
-      "channel": "<strong>Channel:</strong> On a successful attack with the Lash that deals at least one point of lethal damage after armor, {{NAME}} reflexively activates <strong>{{DISPLAY:vars.channelVariation}}</strong> and applies its effect to the target. The victim may contest {{NAME}}'s successes on the attack roll with a <strong>{{DISPLAY:scarResistanceAttribute}}</strong> + <strong>Supernatural Tolerance</strong> roll.{{BR}}This activation of {{DISPLAY:vars.channelVariation}} can only affect the target(s) of the Lash, and even if the Lash can target multiple opponents in a turn, {{DISPLAY:vars.channelVariation}} cannot affect more targets than it normally could.{{BR}}If {{DISPLAY:vars.channelVariation}} is Controlled, the Lash suffers from {{DISPLAY:vars.channelVariation}}'s entangled Scar in addition to its own.",
+      "channel": "<strong>Channel ({{DISPLAY:vars.channelVariation}}):</strong> On a successful attack with the Lash that deals at least one point of lethal damage after {{TOOLTIP:armor,json.rules.armor}}, {{NAME}} {{TOOLTIP:reflexively,json.rules.reflexiveAction}} activates <strong>{{DISPLAY:vars.channelVariation}}</strong> and applies its effect to the target. The victim may {{TOOLTIP:contest,json.rules.contested}} {{NAME}}'s successes on the attack roll with a <strong>{{DISPLAY:scarResistanceAttribute}}</strong> + <strong>Supernatural Tolerance</strong> roll.{{BR}}This activation of {{DISPLAY:vars.channelVariation}} can only affect the target(s) of the Lash, and even if the Lash can target multiple opponents in a turn, {{DISPLAY:vars.channelVariation}} cannot affect more targets than it normally could.{{BR}}If {{DISPLAY:vars.channelVariation}} is Controlled, the Lash suffers from {{DISPLAY:vars.channelVariation}}'s entangled Scar in addition to its own.",
       "conjured": null,
       "deadly": null,
       "insidious": null,
       "quick": null,
-      "soporific": "<strong>Soporific:</strong> On a successful attack with the Lash that deals at least one point of lethal damage after armor, the Lash inflicts the {{TOOLTIP:Drugged Tilt,json.tilts.drugged}}.",
+      "soporific": "<strong>Soporific:</strong> On a successful attack with the Lash that deals at least one point of lethal damage after {{TOOLTIP:armor,json.rules.armor}}, the Lash inflicts the {{TOOLTIP:Drugged Tilt,json.tilts.drugged}}.",
       "burst": "<strong>Deviation - Burst:</strong> The Lash behaves as a {{TOOLTIP:medium burst,json.rules.mediumBurst}}."
     },
     "vars": {
@@ -151,6 +152,68 @@
     "source": {
       "book": "DtR",
       "page": 116
+    }
+  },
+  "faceThief": {
+    "key": "faceThief",
+    "name": "Face Thief",
+    "clade": "universal",
+    "keywords": [
+      "overt",
+      "tiered",
+      "toggled"
+    ],
+    "value": {
+      "min": 1,
+      "max": 5
+    },
+    "effect": {
+      "1": "{{NAME}} can disguise {{himself}} as another person (the target) as a {{TOOLTIP:Directed,json.rules.directed}} effect, although the target does not {{TOOLTIP:contest,json.rules.contested}} this effect, and {{NAME}} can only mimic one person at a time. This disguise lasts until the end of the scene, but {{NAME}} may spend a point of Willpower to extend its effects until the beginning of the next chapter (potentially allowing {{him}} to wear the disguise for several consecutive chapters).{{BR}}{{NAME}} can only mimic a single part of the target's body — such as a face or hand.",
+      "2": "{{NAME}} can disguise {{himself}} as another person (the target) as a {{TOOLTIP:Directed,json.rules.directed}} effect, although the target does not {{TOOLTIP:contest,json.rules.contested}} this effect, and {{NAME}} can only mimic one person at a time. This disguise lasts until the end of the scene, but {{NAME}} may spend a point of Willpower to extend its effects until the beginning of the next chapter (potentially allowing {{him}} to wear the disguise for several consecutive chapters).{{BR}}{{NAME}} can mimic any bodily features that {{he}} can see or has identified during a previous examination of the target. This makes faces and hairstyles easy to match, but {{NAME}}'s disguise may not fool someone who checks {{his}} body for a scar or tattoo that {{NAME}} knows nothing about.{{BR}}{{NAME}} can imitate the target's voice, too, but as with identifying features, {{he}} must already be familiar with the target's dialect and vocal mannerisms.{{BR}}{{NAME}} cannot change {{TOOLTIP:Size,json.rules.size}}, nor can {{he}} adopt the clothing or other trappings of the target. Within these limits, however, the disguise is almost flawless, granting {{NAME}} the {{TOOLTIP:rote quality,json.rules.roteAction}} on Subterfuge rolls to successfully apply a disguise.",
+      "3": "{{DISPLAY:this.name}}'s Magitude ••• effect.",
+      "4": "{{DISPLAY:this.name}}'s Magitude •••• effect.",
+      "5": "{{DISPLAY:this.name}}'s Magitude ••••• effect."
+    },
+    "selectedDeviations": [],
+    "source": {
+      "book": "DtR",
+      "page": 118
+    }
+  },
+  "holographicProjection": {
+    "key": "holographicProjection",
+    "name": "Holographic Projection",
+    "clade": "universal",
+    "keywords": [
+      "overt",
+      "directed",
+      "tiered",
+      "toggled"
+    ],
+    "value": {
+      "min": 1,
+      "max": 5
+    },
+    "effect": {
+      "1": "{{NAME}} can conjure illusions.{{BR}}{{NAME}} may generate holograms of up to {{TOOLTIP:Size 5,json.rules.size}} (or with a one-meter radius). This illusion is static unless directed during the turn and disappears at once if {{NAME}} moves out of range of it. Simple holograms do not require a roll, but especially detailed illusions may demand Skill or {{TOOLTIP:Scar Finesse rolls,json.rules.scarFinesseRollHere}} as the Storyteller deems appropriate.{{BR}}The hologram is obviously unreal. Visual illusions are translucent or occasionally flicker, and the noises they generate are tinny or obvious reproductions — like orchestral music played through the speaker of a cellphone. Detailed illusions — even if flawlessly rendered — suffer from low resolution or visual or audio artifacts.{{OPTIONLIST:this.selectedDeviations}}",
+      "2": "{{NAME}} can conjure illusions.{{BR}}{{NAME}} may generate holograms of up to {{TOOLTIP:Size 5,json.rules.size}} (or with a one-meter radius). This illusion is static unless directed during the turn and disappears at once if {{NAME}} moves out of range of it. Simple holograms do not require a roll, but especially detailed illusions may demand Skill or {{TOOLTIP:Scar Finesse rolls,json.rules.scarFinesseRollHere}} as the Storyteller deems appropriate.{{BR}}{{NAME}} generates convincing audiovisual illusions. Most observers cannot distinguish them from the real thing until they or some other object passes through the hologram. Although the sensory stimulus provided by {{NAME}}'s illusions cannot inflict Tilts, they can illuminate a small room or generate enough white noise to discourage eavesdroppers.{{OPTIONLIST:this.selectedDeviations}}",
+      "3": "{{NAME}} can conjure illusions.{{BR}}{{NAME}} may generate holograms of up to {{TOOLTIP:Size 5,json.rules.size}} (or with a one-meter radius). This illusion is static unless directed during the turn and disappears at once if {{NAME}} moves out of range of it. Simple holograms do not require a roll, but especially detailed illusions may demand Skill or {{TOOLTIP:Scar Finesse rolls,json.rules.scarFinesseRollHere}} as the Storyteller deems appropriate.{{BR}}{{NAME}} generates convincing audiovisual illusions, and can give {{his}} holograms substance. Holographic objects have a {{TOOLTIP:Durability,json.rules.durability}} of 1 and {{TOOLTIP:Structure,json.rules.structure}} equal to {{TOOLTIP:Size,json.rules.size}} + <strong>Durability</strong>. Characters within the affected area can pick up these illusory objects and use them as tools or weapons, although creating complex machines and electronics will require Skill and <strong>Scar Finesse</strong> rolls, often with significant penalties. Holographic characters can take actions as though {{TOOLTIP:Retainers,json.rules.retainer}} with a rating of {{TOOLTIP:tiny-tooltip,{{CALC:1 + {{ROUNDUP:{{CALC:{{VALUE:scarPower}} / 2}}}}}},1 + Half {{NAMEVALUE:scarPower}}}} and no area of expertise, as long as they are directed by {{NAME}}, acting collectively as a single Retainer even if the illusion contains several characters.{{OPTIONLIST:this.selectedDeviations}}"
+    },
+    "options": {
+      "aura": "<strong>Deviation - Aura:</strong> {{NAME}} may generate holograms all around {{himself}} out to short range."
+    },
+    "deviations": {
+      "aura": {
+        "key": "aura",
+        "name": "Aura",
+        "magMod": 1,
+        "tooltip": "{{NAME}} may generate holograms all around {{himself}} out to short range."
+      }
+    },
+    "selectedDeviations": [],
+    "source": {
+      "book": "DtR",
+      "page": 121
     }
   },
   "hyper-competence": {
@@ -308,7 +371,7 @@
     },
     "effect": "{{NAME}} possesses an uncanny situational awareness. {{He}} always manages to stand with some object between {{himself}} and the enemy sniper. Guards searching for {{him}} always seem to arrive moments after {{he}} turns a corner and ducks out of sight. And {{his}} gun clears the holster a split second before the ambush.{{OPTIONLIST:vars.options}}",
     "options": {
-      "elusive": "If a guard or searcher would make a roll to notice, find, or tail {{NAME}}, the roll suffers a -2 penalty.{{BR}}In addition, {{NAME}} enjoys a {{TOOLTIP:tiny-tooltip,+{{ROUNDUP:{{CALC:0.5 * {{VALUE:scarPower}}}}}},Half Scar Power ({{VALUE:scarPower}}) = <strong>+{{ROUNDUP:{{CALC:0.5 * {{VALUE:scarPower}}}}}}</strong>}} bonus to rolls to avoid surprise and identify, avoid, and disarm traps — whether it is a trip wire that sets off a rockslide or an improvised explosive device."
+      "elusive": "<strong>Elusive:</strong> If a guard or searcher would make a roll to notice, find, or tail {{NAME}}, the roll suffers a -2 penalty. In addition, {{NAME}} enjoys a {{TOOLTIP:tiny-tooltip,+{{ROUNDUP:{{CALC:0.5 * {{VALUE:scarPower}}}}}},Half Scar Power ({{VALUE:scarPower}}) = <strong>+{{ROUNDUP:{{CALC:0.5 * {{VALUE:scarPower}}}}}}</strong>}} bonus to rolls to avoid surprise and identify, avoid, and disarm traps — whether it is a trip wire that sets off a rockslide or an improvised explosive device."
     },
     "source": {
       "book": "DtR",

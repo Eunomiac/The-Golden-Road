@@ -183,6 +183,44 @@
     }
   }
 
+
+
+  .trait-tagged-block {
+    --trait-tag-parent-height: 20px;
+
+      display: inline-flex;
+      align-items: center;
+      column-gap: var(--trait-tag-gap, 4px);
+      vertical-align: middle;
+
+      .trait-tag-icon-row {
+        display: inline-flex;
+        align-items: center;
+        column-gap: var(--trait-tag-gap, 4px);
+        margin-top: calc(-0.5 * (var(--trait-tag-icon-max) - var(--trait-tag-parent-height)));
+
+        .trait-tag-icon {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          flex: 0 0 auto;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            pointer-events: none;
+            user-select: none;
+          }
+        }
+      }
+
+      .tagged-trait {
+        display: inline-flex;
+        align-items: center;
+      }
+    }
+
   .top-block.derived-traits-block {
     display: flex;
     flex-direction: row;

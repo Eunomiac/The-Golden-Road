@@ -187,7 +187,7 @@
       "key": "omnicompetence",
       "display": "Azoth Multi-Modality (Omnicompetence)",
       "value": {
-        "base": 0,
+        "base": 1,
         "free": 1,
         "total": 1
       },
